@@ -87,9 +87,17 @@
 
 .footer__newsletter-form {
   display: flex;
-  border-bottom: 1px solid var(--color-border);
-  padding-bottom: var(--space-8);
+  background-color: var(--color-bg-white);
+  border: 2.5px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  padding: var(--space-4) var(--space-12);
   position: relative;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.footer__newsletter-form:focus-within {
+  border-color: var(--color-text-primary);
+  box-shadow: 0 0 0 3px rgba(245, 93, 45, 0.15);
 }
 
 .footer__newsletter-input {
@@ -99,6 +107,7 @@
   color: var(--color-text-primary);
   padding: var(--space-8) 0;
   font-size: 0.9375rem;
+  outline: none;
 }
 
 .footer__newsletter-input::placeholder {

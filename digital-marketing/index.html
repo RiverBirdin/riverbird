@@ -27,103 +27,435 @@
 
   <main id="main-content" class="liquid-wrapper">
 
-    <section class="hero hero--service">
+    <!-- 1. Header (5th Image) -->
+    <section class="hero hero--service marketing-hero">
       <div class="container hero__container">
-        <div class="hero__content reveal">
-          <span class="hero__label hero__label--marketing">Growth</span>
-          <h1 class="display-text hero__title">
-            Acquire users, <span class="text-primary-color">command attention.</span>
-          </h1>
-          <p class="hero__desc">
-            We build high-converting landing pages, scale targeted advertisement campaigns, and produce premium graphic and video assets to multiply your corporate revenue.
-          </p>
+        <div class="grid grid-2" style="align-items: center; gap: 0;">
+          <div class="hero__content reveal" style="position: relative; z-index: 28;">
+            <span class="hero__label hero__label--marketing">Growth</span>
+            <h1 class="display-text hero__title">
+              Accelerate Growth.<br/>
+              <span class="text-primary-color">Strengthen Market Presence.</span>
+            </h1>
+            <p class="hero__desc">
+              We help businesses build a powerful digital presence through strategic marketing, targeted advertising, creative content, and performance-driven campaigns that generate measurable business results.
+            </p>
+          </div>
+          
+          <div class="marketing-hero-visual reveal delay-1" style="margin-left: -60px;">
+            <img src="../assets/img/services/hero-rocket-path.png" alt="Growth rocket path showing Strategy, Creative, Campaigns, Optimization, and Growth milestones" style="width: 100%; height: auto; object-fit: contain; display: block;">
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section-padding bg-white">
+    <!-- 2. Why Choose Us (3rd Image) -->
+    <section class="section-padding bg-light" id="why-choose-us">
+      <div class="container">
+        <div class="grid grid-2 why-choose-grid" style="align-items: center; gap: var(--space-64);">
+          <!-- Left Column: Why Choose Copy & Search Mockup -->
+          <div class="why-choose-content reveal">
+            <span class="label-text">Why Choose Us</span>
+            <h2 class="h2" style="margin-bottom: var(--space-20);">Why Choose RiverBird as your Growth Partner?</h2>
+            <p class="body-text" style="margin-bottom: var(--space-32);">
+              In today's digital-first world, your customers are online and your business should be too. Digital marketing is no longer optional; it's the most powerful way to grow, compete, and scale your brand effectively.
+            </p>
+            
+            <ul class="why-choose-list" style="margin-bottom: var(--space-40);">
+              <li>Strategy-First Approach</li>
+              <li>Creative &amp; Performance Under One Roof</li>
+              <li>Dedicated Project Management</li>
+              <li>Transparent Reporting &amp; Communication</li>
+              <li>Industry-Specific Marketing Solutions</li>
+              <li>Long-Term Growth Partnerships</li>
+            </ul>
+            
+            <!-- Google Search Engine Mockup -->
+            <div class="search-engine-mockup">
+              <div class="browser-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="search-bar">riverbird</span>
+              </div>
+              <div class="search-result">
+                <div class="result-url">https://riverbird.in</div>
+                <h3 class="result-title">Digital Marketing Agency</h3>
+                <p class="result-desc">
+                  RiverBird and his team were professional, efficient, and easy to work with. Highly recommended for web development! Read more, Reviewer Image...
+                </p>
+                <div class="result-sublinks">
+                  <div class="sublink-item">
+                    <span class="sublink-title">About ➔</span>
+                    <p class="sublink-desc">At Riverbird, our philosophy is grounded in purpose, clarity...</p>
+                  </div>
+                  <div class="sublink-item">
+                    <span class="sublink-title">Graphic Design ➔</span>
+                    <p class="sublink-desc">Bespoke vectors, visual corporate guidelines...</p>
+                  </div>
+                  <div class="sublink-item">
+                    <span class="sublink-title">Instagram - @riverbird.in ➔</span>
+                    <p class="sublink-desc">400+ Followers, Digital Marketing Agency, Social...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Right Column: Interactive Dashboard Mockup -->
+          <div class="why-choose-visual reveal delay-1">
+            <div class="dashboard-mockup">
+              <!-- Chat bubbles -->
+              <div class="mockup-chat">
+                <div class="chat-bubble chat-client">
+                  <div class="chat-avatar">👤</div>
+                  <div class="chat-message">
+                    <strong>Client</strong> <span class="chat-time">10:30 AM</span>
+                    <p>Hi, I'd like to discuss our upcoming website and branding project.</p>
+                  </div>
+                </div>
+                
+                <div class="chat-bubble chat-team">
+                  <div class="chat-avatar team-avatar">🦅</div>
+                  <div class="chat-message">
+                    <strong>RiverBird Team</strong> <span class="chat-time">10:32 AM</span>
+                    <p>Sure! Let's understand your goals and create the perfect strategy.</p>
+                  </div>
+                </div>
+                
+                <div class="chat-bubble chat-client">
+                  <div class="chat-avatar">👤</div>
+                  <div class="chat-message">
+                    <strong>Client</strong> <span class="chat-time">10:33 AM</span>
+                    <p>Great! Looking forward to seeing the plan.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Center Hub Connection Visual -->
+              <div class="mockup-center-hub">
+                <div class="hub-circle">
+                  <img src="../assets/img/logo.png" alt="RiverBird Logo" class="hub-logo">
+                  <div class="hub-radar"></div>
+                </div>
+              </div>
+              
+              <!-- Deliverables Checklist -->
+              <div class="mockup-deliverables">
+                <h4>📋 Deliverables <span class="deliv-sub">On Time. On Point.</span></h4>
+                <ul class="deliverable-list">
+                  <li>
+                    <span class="deliv-name">Website Design</span>
+                    <span class="deliv-status status-done">Completed ✓</span>
+                  </li>
+                  <li>
+                    <span class="deliv-name">Brand Identity</span>
+                    <span class="deliv-status status-done">Completed ✓</span>
+                  </li>
+                  <li>
+                    <span class="deliv-name">Content Strategy</span>
+                    <span class="deliv-status status-done">Completed ✓</span>
+                  </li>
+                  <li>
+                    <span class="deliv-name">Monthly Report</span>
+                    <span class="deliv-status status-progress">In Progress ...</span>
+                  </li>
+                  <li>
+                    <span class="deliv-name">Social Media Creatives</span>
+                    <span class="deliv-status status-progress">In Progress ...</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <!-- Social Media Stats Bar -->
+              <div class="mockup-social-stats">
+                <div class="stats-header">
+                  💬 Social Media Interactions <span class="stats-sub">Building connections. Creating impact.</span>
+                </div>
+                <div class="stats-grid-row">
+                  <div class="stat-pill">
+                    <span class="stat-icon">👍</span>
+                    <div class="stat-info">
+                      <span class="stat-val">1.2K</span>
+                      <span class="stat-lbl">Likes <span class="lbl-up">▲ 18%</span></span>
+                    </div>
+                  </div>
+                  <div class="stat-pill">
+                    <span class="stat-icon">💬</span>
+                    <div class="stat-info">
+                      <span class="stat-val">980</span>
+                      <span class="stat-lbl">Comments <span class="lbl-up">▲ 24%</span></span>
+                    </div>
+                  </div>
+                  <div class="stat-pill">
+                    <span class="stat-icon">🔗</span>
+                    <div class="stat-info">
+                      <span class="stat-val">650</span>
+                      <span class="stat-lbl">Shares <span class="lbl-up">▲ 32%</span></span>
+                    </div>
+                  </div>
+                  <div class="stat-pill">
+                    <span class="stat-icon">👥</span>
+                    <div class="stat-info">
+                      <span class="stat-val">420</span>
+                      <span class="stat-lbl">Mentions <span class="lbl-up">▲ 16%</span></span>
+                    </div>
+                  </div>
+                  <div class="stat-pill">
+                    <span class="stat-icon">📺</span>
+                    <div class="stat-info">
+                      <span class="stat-val">310</span>
+                      <span class="stat-lbl">Views <span class="lbl-up">▲ 21%</span></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Grid Section (4th Image) -->
+    <section class="section-padding bg-white" id="services-grid">
       <div class="container">
         <div class="section-header">
-          <span class="label-text">Our Channels</span>
+          <span class="label-text">Our Digital Services</span>
           <h2 class="h2">Corporate Marketing Solutions</h2>
           <p class="body-text">Explore our nine dedicated marketing channels to launch your brand growth.</p>
         </div>
-
-        <div class="grid grid-3">
-          
-          <div class="card reveal">
-            <div class="card__icon">📈</div>
-            <h3 class="card__title">Social Media Marketing</h3>
-            <p class="card__desc">Formulate organic distribution loops, content schedules, and brand engagement plans.</p>
-            <a href="social-media.html" class="btn btn--text">Explore Channel &rarr;</a>
+        
+        <div class="services-masonry">
+          <!-- Card 1: Graphic Design -->
+          <div class="marketing-service-card reveal">
+            <div class="card-thumb" style="background-image: url('../assets/img/services/graphic-design.jpg');"></div>
+            <div class="card-body">
+              <h3>Graphic Design</h3>
+              <a href="graphic-design.html" class="card-arrow-btn">➔</a>
+            </div>
           </div>
 
-          <div class="card reveal delay-1">
-            <div class="card__icon">🎨</div>
-            <h3 class="card__title">Graphic Design</h3>
-            <p class="card__desc">Bespoke vectors, visual corporate guidelines, packaging designs, and digital marketing kits.</p>
-            <a href="graphic-design.html" class="btn btn--text">Explore Channel &rarr;</a>
+          <!-- Card 2: Video Production -->
+          <div class="marketing-service-card reveal delay-1">
+            <div class="card-thumb" style="background-image: url('../assets/img/services/dm.jpg');"></div>
+            <div class="card-body">
+              <h3>Video Production</h3>
+              <a href="video-production.html" class="card-arrow-btn">➔</a>
+            </div>
           </div>
 
-          <div class="card reveal delay-2">
-            <div class="card__icon">🎥</div>
-            <h3 class="card__title">Video Production</h3>
-            <p class="card__desc">Corporate trailers, high-retention product launch explainers, and motion animation assets.</p>
-            <a href="video-production.html" class="btn btn--text">Explore Channel &rarr;</a>
+          <!-- Card 3: Brand Identity -->
+          <div class="marketing-service-card reveal delay-2">
+            <div class="card-thumb" style="background-image: url('../assets/img/services/web-dev-workflow.png');"></div>
+            <div class="card-body">
+              <h3>Brand Identity</h3>
+              <a href="brand-identity.html" class="card-arrow-btn">➔</a>
+            </div>
           </div>
 
-          <div class="card reveal">
-            <div class="card__icon">🏷️</div>
-            <h3 class="card__title">Brand Identity</h3>
-            <p class="card__desc">Complete typography systems, brand guidelines, logo packages, and visual blueprints.</p>
-            <a href="brand-identity.html" class="btn btn--text">Explore Channel &rarr;</a>
+          <!-- Card 4: Personal Branding -->
+          <div class="marketing-service-card reveal">
+            <div class="card-thumb placeholder-thumb"></div>
+            <div class="card-body">
+              <h3>Personal Branding</h3>
+              <a href="personal-branding.html" class="card-arrow-btn">➔</a>
+            </div>
           </div>
 
-          <div class="card reveal delay-1">
-            <div class="card__icon">👤</div>
-            <h3 class="card__title">Personal Branding</h3>
-            <p class="card__desc">Executive positioning articles, speech designs, bio profiles, and public relations support.</p>
-            <a href="personal-branding.html" class="btn btn--text">Explore Channel &rarr;</a>
+          <!-- Card 5: Social Media Marketing -->
+          <div class="marketing-service-card reveal delay-1">
+            <div class="card-thumb placeholder-thumb"></div>
+            <div class="card-body">
+              <h3>Social Media Marketing</h3>
+              <a href="social-media.html" class="card-arrow-btn">➔</a>
+            </div>
           </div>
 
-          <div class="card reveal delay-2">
-            <div class="card__icon">📣</div>
-            <h3 class="card__title">Influencer Marketing</h3>
-            <p class="card__desc">Vetted influencer lists, ROI negotiation frameworks, and complete tracking workflows.</p>
-            <a href="influencer-marketing.html" class="btn btn--text">Explore Channel &rarr;</a>
+          <!-- Card 6: SEO Services -->
+          <div class="marketing-service-card reveal delay-2">
+            <div class="card-thumb placeholder-thumb"></div>
+            <div class="card-body">
+              <h3>SEO Services</h3>
+              <a href="seo.html" class="card-arrow-btn">➔</a>
+            </div>
           </div>
 
-          <div class="card reveal">
-            <div class="card__icon">🔍</div>
-            <h3 class="card__title">SEO</h3>
-            <p class="card__desc">Semantic structuring, schema markups, speed optimizations, and domain ranking blueprints.</p>
-            <a href="seo.html" class="btn btn--text">Explore Channel &rarr;</a>
+          <!-- Card 7: Paid Ads -->
+          <div class="marketing-service-card reveal">
+            <div class="card-thumb placeholder-thumb"></div>
+            <div class="card-body">
+              <h3>Paid Ads (Meta & Google)</h3>
+              <a href="paid-ads.html" class="card-arrow-btn">➔</a>
+            </div>
           </div>
 
-          <div class="card reveal delay-1">
-            <div class="card__icon">💰</div>
-            <h3 class="card__title">Paid Ads</h3>
-            <p class="card__desc">Split A/B landing trials, pixel calibration, target ad copywriting, and ROI tracking.</p>
-            <a href="paid-ads.html" class="btn btn--text">Explore Channel &rarr;</a>
+          <!-- Card 8: Lead Generation -->
+          <div class="marketing-service-card reveal delay-1">
+            <div class="card-thumb placeholder-thumb"></div>
+            <div class="card-body">
+              <h3>Lead Generation System</h3>
+              <a href="lead-generation.html" class="card-arrow-btn">➔</a>
+            </div>
           </div>
 
-          <div class="card reveal delay-2">
-            <div class="card__icon">🎯</div>
-            <h3 class="card__title">Lead Generation</h3>
-            <p class="card__desc">High conversion forms, automated email pathways, and sales CRM software pipelines.</p>
-            <a href="lead-generation.html" class="btn btn--text">Explore Channel &rarr;</a>
+          <!-- Card 9: Influencer Marketing -->
+          <div class="marketing-service-card reveal delay-2">
+            <div class="card-thumb placeholder-thumb"></div>
+            <div class="card-body">
+              <h3>Influencer Marketing</h3>
+              <a href="influencer-marketing.html" class="card-arrow-btn">➔</a>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="cta-section">
-      <div class="container cta__container">
-        <span class="cta__label">Get in Touch</span>
-        <h2 class="display-text cta__title" style="font-size: clamp(2.5rem, 5vw, 4rem);">Scope your marketing campaign.</h2>
-        <p class="cta__desc">Consult with a brand growth specialist to construct an acquisition blueprint and budget structure.</p>
-        <div>
-          <a href="../contact/index.html" class="btn btn--primary magnetic-btn">Consult a Growth Lead &rarr;</a>
+    <!-- 4. Client Experiences (1st Image - with animations) -->
+    <section class="section-padding bg-light" id="testimonials">
+      <div class="container">
+        <div class="section-header">
+          <span class="label-text">Client Experiences</span>
+          <h2 class="h2">Trusted Partnerships. Exceptional Outcomes.</h2>
+          <p class="body-text">
+            We believe great results come from strong partnerships. Our clients trust us to deliver innovative digital strategies that strengthen their brand presence, attract the right audience, and drive sustainable business growth.
+          </p>
+        </div>
+        
+        <div class="testimonials-masonry">
+          <!-- Card 1: Lakshmi -->
+          <div class="testimonial-card">
+            <div class="testimonial-user">
+              <div class="user-avatar" style="background-image: url('../assets/img/icons/profile.jpeg');"></div>
+              <div class="user-meta">
+                <h4>Lakshmi</h4>
+                <span>3 months ago</span>
+              </div>
+            </div>
+            <p class="testimonial-text">
+              Excellent collaboration. They delivered the branding package ahead of schedule and precisely on brief.
+            </p>
+          </div>
+
+          <!-- Card 2: rogerkewin -->
+          <div class="testimonial-card">
+            <div class="testimonial-user">
+              <div class="user-avatar placeholder-avatar">RK</div>
+              <div class="user-meta">
+                <h4>rogerkewin</h4>
+                <span>5 months ago</span>
+              </div>
+            </div>
+            <p class="testimonial-text">
+              Marketing so good it hurts. South India's number one menace to mediocrity. Glad I survived reaching them.
+            </p>
+          </div>
+
+          <!-- Card 3: Abdullah -->
+          <div class="testimonial-card">
+            <div class="testimonial-user">
+              <div class="user-avatar placeholder-avatar">A</div>
+              <div class="user-meta">
+                <h4>Abdullah</h4>
+                <span>3 months ago</span>
+              </div>
+            </div>
+            <p class="testimonial-text">
+              Our organic reach expanded exponentially within weeks of launching the campaigns. Phenomenal service!
+            </p>
+          </div>
+
+          <!-- Card 4: Farhan Siddiqui -->
+          <div class="testimonial-card">
+            <div class="testimonial-user">
+              <div class="user-avatar placeholder-avatar">FS</div>
+              <div class="user-meta">
+                <h4>Farhan Siddiqui</h4>
+                <span>3 months ago</span>
+              </div>
+            </div>
+            <p class="testimonial-text">
+              Implementing this ERP was smooth and quick. The customizable, user-friendly interface made team training effortless.
+            </p>
+          </div>
+
+          <!-- Card 5: Peak Food Court -->
+          <div class="testimonial-card">
+            <div class="testimonial-user">
+              <div class="user-avatar placeholder-avatar">PF</div>
+              <div class="user-meta">
+                <h4>Peak Food Court</h4>
+                <span>9 months ago</span>
+              </div>
+            </div>
+            <p class="testimonial-text">
+              We are having an amazing Online media presence for our food court, All credits to Riverbird media Team. They are doing really a Good job. Thanks to Julius for Associating with us.
+            </p>
+          </div>
+
+          <!-- Card 6: Sana Sheikh -->
+          <div class="testimonial-card">
+            <div class="testimonial-user">
+              <div class="user-avatar placeholder-avatar">SS</div>
+              <div class="user-meta">
+                <h4>Sana Sheikh</h4>
+                <span>5 months ago</span>
+              </div>
+            </div>
+            <p class="testimonial-text">
+              best Marketing agency at affordable service cost! Highly recommended for website development and meta ad services.
+            </p>
+          </div>
+
+          <!-- Card 7: Dr.Khushboo Jain -->
+          <div class="testimonial-card">
+            <div class="testimonial-user">
+              <div class="user-avatar placeholder-avatar">KJ</div>
+              <div class="user-meta">
+                <h4>Dr.Khushboo Jain</h4>
+                <span>3 months ago</span>
+              </div>
+            </div>
+            <p class="testimonial-text">
+              The marketing team was great to work with – clear in their communication, responsive, and got things done on time. Overall, a smooth and positive experience! Special thanks to Edwin !
+            </p>
+          </div>
+
+          <!-- Card 8: Althaf Hussain. K -->
+          <div class="testimonial-card">
+            <div class="testimonial-user">
+              <div class="user-avatar placeholder-avatar">AH</div>
+              <div class="user-meta">
+                <h4>Althaf Hussain. K</h4>
+                <span>5 months ago</span>
+              </div>
+            </div>
+            <p class="testimonial-text">
+              Great experience working with this digital marketing agency! Their social media marketing strategies are creative, effective, and affordable. Highly recommended!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. CTA Section (2nd Image) -->
+    <section class="section-padding bg-white" id="marketing-cta-section">
+      <div class="container">
+        <div class="marketing-cta-card reveal" style="background: url('../assets/img/services/cta-hummingbird-bg.png') center/cover no-repeat; border-radius: var(--radius-lg);">
+          <div class="cta-card-content">
+            <span class="cta-card-label">Get in Touch</span>
+            <h2 class="display-text cta-card-title">
+              Drive Sustainable Growth.<br/>
+              Expand Your Market Reach.
+            </h2>
+            <p class="cta-card-desc">
+              Partner with RiverBird to build high-impact marketing strategies, strengthen brand visibility, and create scalable campaigns that generate measurable business outcomes.
+            </p>
+            <div class="cta-card-action">
+              <a href="../contact/index.html" class="btn btn--marketing-cta magnetic-btn">
+                Consult a Growth Lead &rarr;
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>

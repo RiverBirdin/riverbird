@@ -27,16 +27,24 @@
 
   <main id="main-content" class="liquid-wrapper">
 
-    <section class="hero" style="min-height: 60vh; padding-bottom: var(--space-64);">
+    <section class="hero" style="min-height: 80vh; padding-bottom: var(--space-64);">
       <div class="container hero__container">
-        <div class="hero__content reveal">
+        <div class="hero__content reveal" style="margin-bottom: var(--space-48);">
           <span class="hero__label">About Us</span>
           <h1 class="display-text hero__title">
             Enterprise delivery, <span class="text-primary-color">developer values.</span>
           </h1>
-          <p class="hero__desc">
+          <p class="hero__desc" style="max-width: 800px;">
             Riverbird was established to bridge the gap between complex enterprise operations and efficient software engineering. We construct digital structures that empower growth.
           </p>
+        </div>
+        <div class="about-video reveal delay-1" style="max-width: 100%; margin: 0 auto;">
+          <div class="about-video__embed">
+            <video autoplay loop muted playsinline webkit-playsinline preload="auto" style="position: absolute; inset: 0; width: 100%; height: 100%; border: none; object-fit: cover; transform: translate3d(0,0,0); image-rendering: -webkit-optimize-contrast;">
+              <source src="../assets/img/Videos/about_video.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
         </div>
       </div>
     </section>
