@@ -137,11 +137,16 @@ export function renderProcessSteps(containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
-  container.innerHTML = developmentSolutions.process.map(step => `
-    <div class="process-step reveal">
-      <span class="process-step__num">${step.step}</span>
-      <h3 class="process-step__title h4">${step.title}</h3>
-      <p class="body-text body-small">${step.description}</p>
+  container.innerHTML = developmentSolutions.process.map((step, index) => `
+    <div class="process-step reveal stagger-item">
+     
+      <div class="process-step__header">
+        <span class="process-step__num">${step.step}</span>
+        <h3 class="process-step__title h4">${step.title}</h3>
+      </div>
+      <div class="process-step__body">
+        <p class="body-text body-small">${step.description}</p>
+      </div>
     </div>
   `).join('');
 }

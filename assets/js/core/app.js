@@ -36,10 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initOrbitalSystem();
   } 
   else if (pageName === 'development') {
-    renderDevServices('dev-services-grid');
     renderProcessSteps('dev-process-grid');
-    renderTechStack('dev-tech-grid');
-    renderFaqs('dev-faq-grid');
   }
   else if (pageName === 'company') {
     renderBlogs('company-blog-grid');

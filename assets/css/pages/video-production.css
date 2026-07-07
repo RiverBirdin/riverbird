@@ -779,7 +779,7 @@
     border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.metric-label {
+.tablet-metric-item .metric-label {
     display: block;
     color: rgba(255, 255, 255, 0.4);
     font-size: 0.45rem;
@@ -787,14 +787,14 @@
     margin-bottom: 2px;
 }
 
-.metric-val {
+.tablet-metric-item .metric-val {
     color: white;
     font-size: 0.65rem;
     font-weight: 700;
     font-family: var(--font-secondary);
 }
 
-.metric-val.text-success {
+.tablet-metric-item .metric-val.text-success {
     color: var(--color-success);
 }
 

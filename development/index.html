@@ -27,39 +27,162 @@
 
   <main id="main-content" class="liquid-wrapper">
 
-    <section class="hero hero--service">
+    <!-- ── Hero Section ── -->
+    <section class="hero hero--service development-hero">
       <div class="container hero__container">
-        <div class="hero__content reveal">
-          <span class="hero__label hero__label--staffing">Capabilities</span>
-          <h1 class="display-text hero__title">
-            Enterprise software, <span class="text-primary-color">expertly engineered.</span>
-          </h1>
-          <p class="hero__desc">
-            We build secure databases, high-performance API structures, and premium interfaces using pure vanilla technologies to ensure speed and code control.
-          </p>
-          <div class="hero__actions">
-            <a href="#dev-services-grid" class="btn btn--secondary magnetic-btn">Our Services</a>
-            <a href="../contact/index.html" class="btn btn--outline btn--white magnetic-btn">Start Engineering Project</a>
+        
+        <!-- Boxed Banner Container styled like the first image, layout inspired by the second image -->
+        <div class="dev-hero-banner reveal">
+          <div class="dev-hero-banner__grid">
+            
+            <div class="dev-hero-banner__content">
+              <span class="hero__label">Capabilities</span>
+              <h1 class="display-text hero__title">
+                Enterprise software, <span class="text-primary-color-alt">expertly engineered.</span>
+              </h1>
+              <p class="hero__desc">
+                We build secure databases, high-performance API structures, and premium interfaces using pure vanilla technologies to ensure speed and code control.
+              </p>
+              
+              <!-- Trust Badges row inspired by the 2nd image -->
+              <div class="dev-banner-badges">
+                <div class="dev-banner-badge-item">
+                  <svg class="badge-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                  <span>100% Vanilla Code</span>
+                </div>
+                <div class="dev-banner-badge-item">
+                  <svg class="badge-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  <span>Zero Technical Debt</span>
+                </div>
+                <div class="dev-banner-badge-item">
+                  <svg class="badge-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                  <span>API First Standard</span>
+                </div>
+              </div>
+
+              <div class="hero__actions">
+                <a href="#dev-services-grid" class="btn btn--secondary magnetic-btn">Our Services</a>
+                <a href="../contact/index.html" class="btn btn--outline btn--white magnetic-btn">Start Engineering Project</a>
+              </div>
+            </div>
+            
+            <div class="dev-hero-banner__visual">
+              <div class="dev-hero-orb"></div>
+              <div class="dev-hero-element">
+                <div class="dev-hero-badge">
+                  <span class="sync-ping"></span>
+                  <span>RIVERBIRD // SDE_CORE</span>
+                </div>
+                <img src="../assets/img/services/sde.png" alt="Development Solutions" class="dev-hero-image">
+              </div>
+            </div>
+
           </div>
         </div>
+
       </div>
     </section>
 
-    <section class="section-padding bg-white">
+    <!-- ── Section 1: Bento Grid Services ── -->
+    <section class="section-padding bg-white" id="dev-services-grid">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header center">
           <span class="label-text">Our Services</span>
           <h2 class="h2">Custom Technical Solutions</h2>
           <p class="body-text">We construct scalable applications and backend layouts tailored to corporate operations.</p>
         </div>
 
-        <div class="grid grid-3" id="dev-services-grid"></div>
+        <div class="bento-grid">
+          <!-- Featured Card: Software Development -->
+          <div class="bento-card bento-card--featured reveal">
+            <div>
+              <div class="bento-card__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+              </div>
+              <h3 class="bento-card__title">Software Development</h3>
+              <p class="bento-card__desc">Custom enterprise software solutions architected for high transaction throughput, deep database performance, and robust security integrations.</p>
+              <div class="bento-card__bullets">
+                <div class="bento-card__bullet">
+                  <span class="bento-card__bullet-check">✓</span>
+                  <span>Cloud-native backend architectures</span>
+                </div>
+                <div class="bento-card__bullet">
+                  <span class="bento-card__bullet-check">✓</span>
+                  <span>Legacy system migration & refactoring</span>
+                </div>
+                <div class="bento-card__bullet">
+                  <span class="bento-card__bullet-check">✓</span>
+                  <span>API development and microservices layout</span>
+                </div>
+                <div class="bento-card__bullet">
+                  <span class="bento-card__bullet-check">✓</span>
+                  <span>Database optimization (SQL/NoSQL)</span>
+                </div>
+              </div>
+            </div>
+            <a href="software.html" class="bento-card__link">
+              Explore Software Dev
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </a>
+          </div>
+
+          <!-- Card: Web Development -->
+          <div class="bento-card reveal delay-1">
+            <div>
+              <div class="bento-card__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              </div>
+              <h3 class="bento-card__title">Web Development</h3>
+              <p class="bento-card__desc">Bespoke web applications built with clean vanilla technologies, optimizing speeds and absolute screen responsiveness.</p>
+              <div class="bento-card__bullets">
+                <div class="bento-card__bullet">
+                  <span class="bento-card__bullet-check">✓</span>
+                  <span>Headless CMS setups</span>
+                </div>
+                <div class="bento-card__bullet">
+                  <span class="bento-card__bullet-check">✓</span>
+                  <span>E-Commerce integrations</span>
+                </div>
+              </div>
+            </div>
+            <a href="web.html" class="bento-card__link">
+              Explore Web Dev
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </a>
+          </div>
+
+          <!-- Card: Application Development -->
+          <div class="bento-card reveal delay-2">
+            <div>
+              <div class="bento-card__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+              </div>
+              <h3 class="bento-card__title">Application Development</h3>
+              <p class="bento-card__desc">Premium mobile and desktop applications created for fluid interactions and native system capabilities.</p>
+              <div class="bento-card__bullets">
+                <div class="bento-card__bullet">
+                  <span class="bento-card__bullet-check">✓</span>
+                  <span>iOS & Android cross-platform</span>
+                </div>
+                <div class="bento-card__bullet">
+                  <span class="bento-card__bullet-check">✓</span>
+                  <span>Real-time data sync</span>
+                </div>
+              </div>
+            </div>
+            <a href="app.html" class="bento-card__link">
+              Explore App Dev
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </a>
+          </div>
+        </div>
       </div>
     </section>
 
+    <!-- ── Section 2: Engineering Process ── -->
     <section class="section-padding bg-light">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header center">
           <span class="label-text">Execution Pathway</span>
           <h2 class="h2">The Engineering Process</h2>
           <p class="body-text">A systematic, secure development pipeline that ensures zero technical debt.</p>
@@ -69,30 +192,7 @@
       </div>
     </section>
 
-    <section class="section-padding bg-white">
-      <div class="container">
-        <div class="section-header center">
-          <span class="label-text">Our Core Stack</span>
-          <h2 class="h2">Modern Technologies We Use</h2>
-          <p class="body-text">Bespoke integrations built with industry-standard, performant frameworks and tools.</p>
-        </div>
-
-        <div class="tech-stack-grid" id="dev-tech-grid"></div>
-      </div>
-    </section>
-
-    <section class="section-padding bg-light" id="faqs">
-      <div class="container">
-        <div class="section-header center">
-          <span class="label-text">Questions</span>
-          <h2 class="h2">Frequently Asked Questions</h2>
-          <p class="body-text">General inquiries regarding our development workflows, database systems, and pricing models.</p>
-        </div>
-
-        <div class="faq-list" id="dev-faq-grid"></div>
-      </div>
-    </section>
-
+    <!-- ── CTA Section ── -->
     <section class="cta-section">
       <div class="container cta__container">
         <span class="cta__label">Connect</span>
