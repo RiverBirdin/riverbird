@@ -93,9 +93,47 @@
             <p class="body-text" style="margin-top: var(--space-16); font-size: 0.95rem; color: var(--color-text-secondary);">
               We build backend infrastructures designed to scale. Our development division ensures clear API schemas, optimized queries, and modular services to run your company operations.
             </p>
-            <p class="body-text" style="margin-top: var(--space-16); font-size: 0.95rem; color: var(--color-text-muted);">
+            <p class="body-text" style="margin-top: var(--space-16); font-size: 0.95rem; color: var(--color-text-muted); margin-bottom: var(--space-24);">
               Using modern databases, memory caches, and cloud native environments, we eliminate structural lag and ensure high availability across international nodes.
             </p>
+
+            <!-- Tech Stack & Telemetry Widget -->
+            <div class="tech-telemetry-widget" style="padding: var(--space-24); background: rgba(17, 17, 17, 0.02); border: 1px solid var(--color-border); border-radius: var(--radius-md);">
+              <div class="widget-header" style="display: flex; align-items: center; gap: 8px; margin-bottom: var(--space-16); font-family: monospace; font-size: 0.7rem; color: var(--color-text-muted); letter-spacing: 0.08em;">
+                <span class="hud-ping-dot" style="width: 6px; height: 6px; background: var(--color-success); border-radius: 50%; display: inline-block; animation: hudPulse 2s infinite;"></span>
+                <span>● RVRBRD // CLOUD_TELEMETRY</span>
+              </div>
+              <div class="telemetry-stats-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-16); margin-bottom: var(--space-20);">
+                <div class="telemetry-stat-item">
+                  <div style="font-size: 0.625rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px;">Gateway Cluster</div>
+                  <div style="font-size: 1.25rem; font-weight: 800; color: var(--color-text-primary);">99.99%</div>
+                  <div style="font-size: 0.65rem; color: var(--color-success); display: flex; align-items: center; gap: 4px; margin-top: 2px;">
+                    <span style="display:inline-block; width: 4px; height: 4px; border-radius:50%; background:currentColor;"></span> Active
+                  </div>
+                </div>
+                <div class="telemetry-stat-item">
+                  <div style="font-size: 0.625rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px;">DB Read Latency</div>
+                  <div style="font-size: 1.25rem; font-weight: 800; color: var(--color-text-primary);">&lt; 14ms</div>
+                  <div style="font-size: 0.65rem; color: var(--color-success); display: flex; align-items: center; gap: 4px; margin-top: 2px;">
+                    <span style="display:inline-block; width: 4px; height: 4px; border-radius:50%; background:currentColor;"></span> Optimized
+                  </div>
+                </div>
+                <div class="telemetry-stat-item">
+                  <div style="font-size: 0.625rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px;">Cache Hit Ratio</div>
+                  <div style="font-size: 1.25rem; font-weight: 800; color: var(--color-text-primary);">98.2%</div>
+                  <div style="font-size: 0.65rem; color: var(--color-success); display: flex; align-items: center; gap: 4px; margin-top: 2px;">
+                    <span style="display:inline-block; width: 4px; height: 4px; border-radius:50%; background:currentColor;"></span> In-Memory
+                  </div>
+                </div>
+              </div>
+              <div class="tech-pills-row" style="display: flex; flex-wrap: wrap; gap: 6px; border-top: 1px solid rgba(17,17,17,0.05); padding-top: var(--space-16);">
+                <span style="font-size: 0.6rem; font-family: monospace; font-weight: 700; background: rgba(17,17,17,0.04); color: var(--color-text-secondary); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(17,17,17,0.04);">GO</span>
+                <span style="font-size: 0.6rem; font-family: monospace; font-weight: 700; background: rgba(17,17,17,0.04); color: var(--color-text-secondary); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(17,17,17,0.04);">POSTGRESQL</span>
+                <span style="font-size: 0.6rem; font-family: monospace; font-weight: 700; background: rgba(17,17,17,0.04); color: var(--color-text-secondary); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(17,17,17,0.04);">KUBERNETES</span>
+                <span style="font-size: 0.6rem; font-family: monospace; font-weight: 700; background: rgba(17,17,17,0.04); color: var(--color-text-secondary); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(17,17,17,0.04);">REDIS</span>
+                <span style="font-size: 0.6rem; font-family: monospace; font-weight: 700; background: rgba(17,17,17,0.04); color: var(--color-text-secondary); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(17,17,17,0.04);">DOCKER</span>
+              </div>
+            </div>
           </div>
           
           <div class="reveal delay-1">
