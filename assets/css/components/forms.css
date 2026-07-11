@@ -25,12 +25,13 @@
 .form-input, .form-select, .form-textarea {
   width: 100%;
   padding: 14px var(--space-16);
-  border: 1.5px solid var(--color-border-hover);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: var(--radius-sm);
-  background-color: var(--color-bg-white);
+  background-color: rgba(245, 245, 247, 0.3);
   color: var(--color-text-primary);
   font-family: var(--font-secondary);
   font-size: 0.9375rem;
+  box-shadow: var(--shadow-neumorphic-in);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -48,8 +49,8 @@
 
 /* ── Focus State ── */
 .form-input:focus, .form-select:focus, .form-textarea:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(245, 93, 45, 0.1);
+  border-color: rgba(245, 93, 45, 0.25);
+  box-shadow: var(--shadow-neumorphic-in-hover);
   outline: none;
 }
 
@@ -67,7 +68,7 @@
 
 /* ── File Upload ── */
 .file-upload {
-  border: 2px dashed rgba(17, 17, 17, 0.1);
+  border: var(--border-neumorphic);
   border-radius: var(--radius-md);
   padding: var(--space-32);
   text-align: center;
@@ -77,12 +78,14 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-12);
-  background-color: var(--color-bg-light);
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: var(--shadow-neumorphic-out);
 }
 
 .file-upload:hover {
-  border-color: var(--color-primary);
-  background-color: var(--color-primary-light);
+  border-color: rgba(245, 93, 45, 0.08);
+  background-color: rgba(245, 93, 45, 0.02);
+  box-shadow: var(--shadow-neumorphic-out-hover);
 }
 
 .file-upload:active {

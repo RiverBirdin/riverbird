@@ -14,39 +14,40 @@
   overflow: hidden;
   gap: 8px;
   cursor: pointer;
-  border: none;
+  border: var(--border-neumorphic);
+  box-shadow: var(--shadow-neumorphic-out);
   letter-spacing: 0.01em;
   white-space: nowrap;
 }
 
-/* ── Primary Button ── */
 .btn--primary {
   background: var(--color-primary);
   color: var(--color-text-inverse);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(245, 93, 45, 0.2);
+  box-shadow: 3px 3px 8px rgba(245, 93, 45, 0.15), -3px -3px 8px rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(245, 93, 45, 0.5);
 }
 
 .btn--primary:hover {
   background: #e24e1d;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(245, 93, 45, 0.3);
+  box-shadow: 5px 5px 12px rgba(245, 93, 45, 0.25), -5px -5px 12px rgba(255, 255, 255, 0.9);
   transform: translateY(-1px);
 }
 
 .btn--primary:active {
   transform: translateY(0);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(245, 93, 45, 0.15);
+  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.15), inset -3px -3px 6px rgba(255, 255, 255, 0.2);
 }
 
-/* ── Secondary Button ── */
 .btn--secondary {
   background: var(--color-secondary);
   color: var(--color-text-primary);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(212, 238, 54, 0.2);
+  box-shadow: 3px 3px 8px rgba(212, 238, 54, 0.15), -3px -3px 8px rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(212, 238, 54, 0.5);
 }
 
 .btn--secondary:hover {
   background: #c8e22e;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(212, 238, 54, 0.3);
+  box-shadow: 5px 5px 12px rgba(212, 238, 54, 0.25), -5px -5px 12px rgba(255, 255, 255, 0.9);
   transform: translateY(-1px);
 }
 
@@ -63,18 +64,18 @@
   transform: translateY(-1px);
 }
 
-/* ── Outline Button ── */
 .btn--outline {
-  border: 1.5px solid var(--color-border-hover);
+  border: var(--border-neumorphic);
   background-color: transparent;
   color: var(--color-text-primary);
-  box-shadow: none;
+  box-shadow: var(--shadow-neumorphic-out);
 }
 
 .btn--outline:hover {
-  border-color: var(--color-primary);
+  border-color: rgba(245, 93, 45, 0.12);
   color: var(--color-primary);
-  background-color: var(--color-primary-light);
+  background-color: rgba(245, 93, 45, 0.02);
+  box-shadow: var(--shadow-neumorphic-out-hover);
   transform: translateY(-1px);
 }
 
