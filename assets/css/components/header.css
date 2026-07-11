@@ -154,7 +154,7 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
-  transition-delay: 0.30s;
+  transition-delay: 0.40s;
   padding: var(--space-12);
   z-index: 1001;
   margin-top: -8px;
