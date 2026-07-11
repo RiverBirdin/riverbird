@@ -52,11 +52,11 @@ section {
 
 /* ── Background Variants ── */
 .bg-light {
-  background-color: var(--color-bg-light);
+  background-color: transparent;
 }
 
 .bg-white {
-  background-color: var(--color-bg-white);
+  background-color: transparent;
 }
 
 .bg-dark {

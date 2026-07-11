@@ -846,7 +846,7 @@
    ========================================================== */
 
 .eip-section {
-    background: #f7f7f7;
+    background: transparent;
     padding-top: 88px;
     padding-bottom: 88px;
 }
@@ -1282,7 +1282,7 @@
    ========================================================== */
 
 .gsc-section {
-    background: #fdf8f4;
+    background: transparent;
     padding-top: 88px;
     padding-bottom: 88px;
     overflow: hidden;

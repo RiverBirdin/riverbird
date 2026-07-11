@@ -1048,7 +1048,7 @@ body[data-page="development-sub"] .development-hero::before {
 /* 2. Custom Section Overrides to use soft gradients instead of solid white */
 body[data-page="development"] section.bg-white,
 body[data-page="development-sub"] section.bg-white {
-  background: linear-gradient(180deg, #FFFFFF 0%, #FFFBF9 100%);
+  background: transparent;
   position: relative;
   z-index: 1;
 }
@@ -1068,7 +1068,7 @@ body[data-page="development-sub"] section.bg-white::before {
 /* 3. Section Overrides to use soft gradients instead of solid light grey */
 body[data-page="development"] section.bg-light,
 body[data-page="development-sub"] section.bg-light {
-  background: linear-gradient(180deg, #F5F6FC 0%, #FAF7F2 100%);
+  background: transparent;
   position: relative;
   z-index: 1;
 }
