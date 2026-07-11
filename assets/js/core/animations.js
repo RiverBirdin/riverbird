@@ -43,7 +43,6 @@ const counterObserver = new IntersectionObserver((entries) => {
 
 export function initAnimations() {
   initCursorGlow();
-  initMagneticButtons();
   initCardTilt();
   initScrollProgress();
   initSectionIndicators();
@@ -68,19 +67,7 @@ function initCursorGlow() {
   });
 }
 
-function initMagneticButtons() {
-  // Disabled translation behavior to keep the buttons still, solving the over-interactive jitter.
-  // Standard, smooth hover states are handled via CSS instead.
-  document.body.addEventListener('mousemove', (e) => {
-    const btn = e.target.closest('.magnetic-btn');
-    if (!btn) return;
-  });
 
-  document.body.addEventListener('mouseleave', (e) => {
-    const btn = e.target.closest('.magnetic-btn');
-    if (!btn) return;
-  }, true);
-}
 
 /* Scrambles only text nodes recursively to avoid breaking nested HTML elements */
 function scrambleText(element) {

@@ -7,10 +7,7 @@ import {
   renderTestimonials, 
   renderCaseStudies, 
   renderJobs, 
-  renderDevServices, 
   renderProcessSteps, 
-  renderTechStack, 
-  renderFaqs,
   renderBlogs
 } from '../components/render.js';
 
@@ -83,34 +80,5 @@ function updateFilterButtons(activeDept) {
       btn.classList.remove('careers-filter__btn--active');
     }
   });
-}
-
-
-function initPageLoader() {
-  const loader = document.createElement('div');
-  loader.className = 'page-loader';
-  loader.innerHTML = `
-    <div class="loader-content">
-      <div class="loader-logo">
-        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-primary);">
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-        </svg>
-      </div>
-      <div class="loader-text">Loading</div>
-      <div class="loader-spinner"></div>
-    </div>
-  `;
-  document.body.prepend(loader);
-}
-
-function hidePageLoader() {
-  setTimeout(() => {
-    const loader = document.querySelector('.page-loader');
-    if (loader) {
-      loader.classList.add('hidden');
-      document.body.classList.add('page-loaded');
-      setTimeout(() => loader.remove(), 600);
-    }
-  }, 800);
 }
 
