@@ -137,15 +137,26 @@ export function renderProcessSteps(containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
+  const stepIcons = [
+    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>`,
+    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`,
+    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>`,
+    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>`
+  ];
+
   container.innerHTML = developmentSolutions.process.map((step, index) => `
-    <div class="process-step reveal stagger-item">
-     
-      <div class="process-step__header">
-        <span class="process-step__num">${step.step}</span>
-        <h3 class="process-step__title h4">${step.title}</h3>
-      </div>
-      <div class="process-step__body">
-        <p class="body-text body-small">${step.description}</p>
+    <div class="bento-process-card${index === 0 ? ' bento-process-card--featured' : ''} reveal${index > 0 ? ` delay-${index}` : ''}">
+      <div class="bento-process-card__inner">
+        <div class="bento-process-card__dot-grid"></div>
+        <div class="bento-process-card__header">
+          <div class="bento-process-card__icon">
+            ${stepIcons[index] || stepIcons[0]}
+          </div>
+          <span class="bento-process-card__step">${step.step}</span>
+        </div>
+        <h3 class="bento-process-card__title">${step.title}</h3>
+        <p class="bento-process-card__desc">${step.description}</p>
+        <div class="bento-process-card__glow"></div>
       </div>
     </div>
   `).join('');

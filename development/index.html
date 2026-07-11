@@ -16,6 +16,180 @@
   <link rel="shortcut icon" href="../assets/img/favicon.ico">
   <link rel="manifest" href="../assets/img/site.webmanifest">
   <meta name="theme-color" content="#F55D2D">
+
+  <style>
+    /* Bento Grid Process Steps overrides to avoid layout collisions */
+    #dev-process-grid {
+      display: grid !important;
+      grid-template-columns: 1fr !important;
+      gap: 24px !important;
+      margin-top: 48px !important;
+      flex-direction: unset !important;
+      flex-wrap: unset !important;
+      align-items: unset !important;
+      justify-content: unset !important;
+    }
+
+    @media (min-width: 768px) {
+      #dev-process-grid {
+        grid-template-columns: repeat(6, 1fr) !important;
+      }
+      
+      #dev-process-grid .bento-process-card:nth-child(1) {
+        grid-column: span 4 !important;
+      }
+      #dev-process-grid .bento-process-card:nth-child(2) {
+        grid-column: span 2 !important;
+      }
+      #dev-process-grid .bento-process-card:nth-child(3) {
+        grid-column: span 3 !important;
+      }
+      #dev-process-grid .bento-process-card:nth-child(4) {
+        grid-column: span 3 !important;
+      }
+    }
+
+    .bento-process-card {
+      position: relative;
+      border-radius: 16px !important;
+      background: #ffffff !important;
+      border: 1px solid rgba(0, 0, 0, 0.08) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      overflow: hidden;
+      display: flex !important;
+      flex-direction: column !important;
+      flex: unset !important;
+      min-height: 240px;
+    }
+
+    .bento-process-card__inner {
+      position: relative;
+      padding: 32px 28px !important;
+      height: 100%;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 20px !important;
+      z-index: 2;
+    }
+
+    .bento-process-card__dot-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: radial-gradient(rgba(245, 93, 45, 0.05) 1px, transparent 0) !important;
+      background-size: 16px 16px !important;
+      pointer-events: none;
+      opacity: 0.8 !important;
+      transition: opacity 0.4s ease !important;
+      z-index: 1;
+    }
+
+    .bento-process-card--featured {
+      background: linear-gradient(135deg, #ffffff 0%, rgba(253, 245, 242, 0.4) 100%) !important;
+      border: 1px solid rgba(245, 93, 45, 0.12) !important;
+    }
+
+    .bento-process-card--featured .bento-process-card__dot-grid {
+      background-image: radial-gradient(rgba(245, 93, 45, 0.09) 1px, transparent 0) !important;
+    }
+
+    .bento-process-card__header {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      z-index: 2;
+    }
+
+    .bento-process-card__icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(245, 93, 45, 0.05) !important;
+      border: 1px solid rgba(245, 93, 45, 0.1) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      color: #f55d2d !important;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    .bento-process-card__step {
+      font-family: inherit;
+      font-size: 0.75rem !important;
+      font-weight: 700 !important;
+      color: rgba(245, 93, 45, 0.6) !important;
+      letter-spacing: 0.15em !important;
+      background: rgba(245, 93, 45, 0.04) !important;
+      padding: 4px 10px !important;
+      border-radius: 6px !important;
+      border: 1px solid rgba(245, 93, 45, 0.05) !important;
+    }
+
+    .bento-process-card__title {
+      font-family: inherit;
+      font-size: 1.25rem !important;
+      font-weight: 700 !important;
+      color: #0a0912 !important;
+      margin: 0 !important;
+      line-height: 1.25 !important;
+      z-index: 2;
+    }
+
+    .bento-process-card__desc {
+      font-family: inherit;
+      font-size: 0.875rem !important;
+      color: #666666 !important;
+      line-height: 1.6 !important;
+      margin: 0 !important;
+      z-index: 2;
+    }
+
+    .bento-process-card__glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 150%;
+      height: 150%;
+      transform: translate(-50%, -50%) scale(0.5);
+      background: radial-gradient(circle, rgba(245, 93, 45, 0.06) 0%, transparent 60%) !important;
+      opacity: 0;
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .bento-process-card:hover {
+      transform: translateY(-5px) !important;
+      border-color: rgba(245, 93, 45, 0.3) !important;
+      box-shadow: 0 20px 40px rgba(245, 93, 45, 0.08), inset 0 0 20px rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .bento-process-card:hover .bento-process-card__icon {
+      background: #f55d2d !important;
+      color: #FFFFFF !important;
+      border-color: #f55d2d !important;
+      box-shadow: 0 4px 12px rgba(245, 93, 45, 0.2) !important;
+      transform: scale(1.05) !important;
+    }
+
+    .bento-process-card:hover .bento-process-card__step {
+      color: #f55d2d !important;
+      background: rgba(245, 93, 45, 0.08) !important;
+      border-color: rgba(245, 93, 45, 0.15) !important;
+    }
+
+    .bento-process-card:hover .bento-process-card__glow {
+      transform: translate(-50%, -50%) scale(1) !important;
+      opacity: 1 !important;
+    }
+
+    .bento-process-card:hover .bento-process-card__dot-grid {
+      opacity: 0.4 !important;
+    }
+  </style>
 </head>
 <body data-page="development">
 
