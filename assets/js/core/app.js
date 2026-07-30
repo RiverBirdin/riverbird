@@ -45,13 +45,13 @@ function initLayout() {
 function getNavbarHTML() {
   const logoUrl = resolvePath('assets/img/Logo-with-Text-copy.png');
   const homeUrl = resolvePath('index.html');
-  const companyUrl = resolvePath('company/index.html');
-  const mktUrl = resolvePath('digital-marketing/index.html');
-  const devUrl = resolvePath('development/index.html');
-  const staffingUrl = resolvePath('staffing/index.html');
-  const productUrl = resolvePath('product/index.html');
-  const careersUrl = resolvePath('careers/index.html');
-  const contactUrl = resolvePath('contact/index.html');
+  const companyUrl = resolvePath('company_index.html');
+  const mktUrl = resolvePath('digital_marketing_index.html');
+  const devUrl = resolvePath('development_index.html');
+  const staffingUrl = resolvePath('staffing_index.html');
+  const productUrl = resolvePath('product_index.html');
+  const careersUrl = resolvePath('careers_index.html');
+  const contactUrl = resolvePath('contact_index.html');
 
   return `
     <header class="header" id="main-header">
@@ -104,19 +104,19 @@ function getNavbarHTML() {
               <div class="dropdown-menu">
                 <ul class="dropdown-menu__list">
                   <li>
-                    <a href="${resolvePath('development/software.html')}" class="dropdown-menu__link">
+                    <a href="${resolvePath('software.html')}" class="dropdown-menu__link">
                       <span class="dropdown-menu__item-title">Software Development</span>
                       <span class="dropdown-menu__item-desc">Enterprise database and custom scripting builds.</span>
                     </a>
                   </li>
                   <li>
-                    <a href="${resolvePath('development/web.html')}" class="dropdown-menu__link">
+                    <a href="${resolvePath('web.html')}" class="dropdown-menu__link">
                       <span class="dropdown-menu__item-title">Web Development</span>
                       <span class="dropdown-menu__item-desc">High-performance reactive interfaces and SPAs.</span>
                     </a>
                   </li>
                   <li>
-                    <a href="${resolvePath('development/app.html')}" class="dropdown-menu__link">
+                    <a href="${resolvePath('app.html')}" class="dropdown-menu__link">
                       <span class="dropdown-menu__item-title">Application Development</span>
                       <span class="dropdown-menu__item-desc">Modern iOS, Android, and cross-platform builds.</span>
                     </a>
@@ -138,19 +138,19 @@ function getNavbarHTML() {
                   <h3 class="mega-menu__column-title">Creatives</h3>
                   <ul class="mega-menu__list">
                     <li>
-                      <a href="${resolvePath('digital-marketing/graphic-design.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('graphic-design.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Graphic Design</span>
                         <span class="mega-menu__item-desc">Professional branding and high-end vectors.</span>
                       </a>
                     </li>
                     <li>
-                      <a href="${resolvePath('digital-marketing/video-production.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('video-production.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Video Production</span>
                         <span class="mega-menu__item-desc">High-quality editing and corporate media.</span>
                       </a>
                     </li>
                     <li>
-                      <a href="${resolvePath('digital-marketing/brand-identity.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('brand-identity.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Brand Identity</span>
                         <span class="mega-menu__item-desc">Logo, typography, and voice manuals.</span>
                       </a>
@@ -162,19 +162,19 @@ function getNavbarHTML() {
                   <h3 class="mega-menu__column-title">Organic Growth</h3>
                   <ul class="mega-menu__list">
                     <li>
-                      <a href="${resolvePath('digital-marketing/seo.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('seo.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">SEO (Google Ranking)</span>
                         <span class="mega-menu__item-desc">Technical search rankings & audit pipelines.</span>
                       </a>
                     </li>
                     <li>
-                      <a href="${resolvePath('digital-marketing/personal-branding.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('personal-branding.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Personal Branding</span>
                         <span class="mega-menu__item-desc">Authority design for executives and founders.</span>
                       </a>
                     </li>
                     <li>
-                      <a href="${resolvePath('digital-marketing/social-media.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('social-media.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Social Media Marketing</span>
                         <span class="mega-menu__item-desc">Content and channel strategies that convert.</span>
                       </a>
@@ -186,19 +186,19 @@ function getNavbarHTML() {
                   <h3 class="mega-menu__column-title">Performance</h3>
                   <ul class="mega-menu__list">
                     <li>
-                      <a href="${resolvePath('digital-marketing/paid-ads.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('paid-ads.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Paid Ads (Meta & Google)</span>
                         <span class="mega-menu__item-desc">ROI campaigns across Search and Social.</span>
                       </a>
                     </li>
                     <li>
-                      <a href="${resolvePath('digital-marketing/lead-generation.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('lead-generation.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Lead Generation System</span>
                         <span class="mega-menu__item-desc">Qualified pipelines for sales outreach.</span>
                       </a>
                     </li>
                     <li>
-                      <a href="${resolvePath('digital-marketing/influencer-marketing.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('influencer-marketing.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Influencer Marketing</span>
                         <span class="mega-menu__item-desc">Strategic partnerships with target creators.</span>
                       </a>
@@ -218,19 +218,19 @@ function getNavbarHTML() {
               <div class="dropdown-menu">
                 <ul class="dropdown-menu__list">
                   <li>
-                    <a href="${resolvePath('staffing/talent-management.html')}" class="dropdown-menu__link">
+                    <a href="${resolvePath('talent-management.html')}" class="dropdown-menu__link">
                       <span class="dropdown-menu__item-title">Talent Management</span>
                       <span class="dropdown-menu__item-desc">Corporate HR growth scorecards.</span>
                     </a>
                   </li>
                   <li>
-                    <a href="${resolvePath('staffing/hire-talent.html')}" class="dropdown-menu__link">
+                    <a href="${resolvePath('hire-talent.html')}" class="dropdown-menu__link">
                       <span class="dropdown-menu__item-title">Hire Talents</span>
                       <span class="dropdown-menu__item-desc">Vetted engineering and UI specialists.</span>
                     </a>
                   </li>
                   <li>
-                    <a href="${resolvePath('staffing/manpower.html')}" class="dropdown-menu__link">
+                    <a href="${resolvePath('manpower.html')}" class="dropdown-menu__link">
                       <span class="dropdown-menu__item-title">Manpower Solutions</span>
                       <span class="dropdown-menu__item-desc">High volume operations staffing pools.</span>
                     </a>
@@ -331,9 +331,9 @@ function getNavbarHTML() {
             </svg>
           </div>
           <div class="mobile-menu__submenu" data-submenu="dev">
-            <a href="${resolvePath('development/software.html')}" class="mobile-menu__sublink">Software Development</a>
-            <a href="${resolvePath('development/web.html')}" class="mobile-menu__sublink">Web Development</a>
-            <a href="${resolvePath('development/app.html')}" class="mobile-menu__sublink">Application Development</a>
+            <a href="${resolvePath('software.html')}" class="mobile-menu__sublink">Software Development</a>
+            <a href="${resolvePath('web.html')}" class="mobile-menu__sublink">Web Development</a>
+            <a href="${resolvePath('app.html')}" class="mobile-menu__sublink">Application Development</a>
           </div>
         </div>
 
@@ -345,15 +345,15 @@ function getNavbarHTML() {
             </svg>
           </div>
           <div class="mobile-menu__submenu" data-submenu="marketing">
-            <a href="${resolvePath('digital-marketing/social-media.html')}" class="mobile-menu__sublink">Social Media Marketing</a>
-            <a href="${resolvePath('digital-marketing/graphic-design.html')}" class="mobile-menu__sublink">Graphic Design</a>
-            <a href="${resolvePath('digital-marketing/video-production.html')}" class="mobile-menu__sublink">Video Production</a>
-            <a href="${resolvePath('digital-marketing/brand-identity.html')}" class="mobile-menu__sublink">Brand Identity</a>
-            <a href="${resolvePath('digital-marketing/personal-branding.html')}" class="mobile-menu__sublink">Personal Branding</a>
-            <a href="${resolvePath('digital-marketing/influencer-marketing.html')}" class="mobile-menu__sublink">Influencer Marketing</a>
-            <a href="${resolvePath('digital-marketing/seo.html')}" class="mobile-menu__sublink">SEO (Google Ranking)</a>
-            <a href="${resolvePath('digital-marketing/paid-ads.html')}" class="mobile-menu__sublink">Paid Ads (Meta & Google)</a>
-            <a href="${resolvePath('digital-marketing/lead-generation.html')}" class="mobile-menu__sublink">Lead Generation System</a>
+            <a href="${resolvePath('social-media.html')}" class="mobile-menu__sublink">Social Media Marketing</a>
+            <a href="${resolvePath('graphic-design.html')}" class="mobile-menu__sublink">Graphic Design</a>
+            <a href="${resolvePath('video-production.html')}" class="mobile-menu__sublink">Video Production</a>
+            <a href="${resolvePath('brand-identity.html')}" class="mobile-menu__sublink">Brand Identity</a>
+            <a href="${resolvePath('personal-branding.html')}" class="mobile-menu__sublink">Personal Branding</a>
+            <a href="${resolvePath('influencer-marketing.html')}" class="mobile-menu__sublink">Influencer Marketing</a>
+            <a href="${resolvePath('seo.html')}" class="mobile-menu__sublink">SEO (Google Ranking)</a>
+            <a href="${resolvePath('paid-ads.html')}" class="mobile-menu__sublink">Paid Ads (Meta & Google)</a>
+            <a href="${resolvePath('lead-generation.html')}" class="mobile-menu__sublink">Lead Generation System</a>
           </div>
         </div>
 
@@ -365,9 +365,9 @@ function getNavbarHTML() {
             </svg>
           </div>
           <div class="mobile-menu__submenu" data-submenu="staffing">
-            <a href="${resolvePath('staffing/talent-management.html')}" class="mobile-menu__sublink">Talent Management</a>
-            <a href="${resolvePath('staffing/hire-talent.html')}" class="mobile-menu__sublink">Hire Talents</a>
-            <a href="${resolvePath('staffing/manpower.html')}" class="mobile-menu__sublink">Manpower Solutions</a>
+            <a href="${resolvePath('talent-management.html')}" class="mobile-menu__sublink">Talent Management</a>
+            <a href="${resolvePath('hire-talent.html')}" class="mobile-menu__sublink">Hire Talents</a>
+            <a href="${resolvePath('manpower.html')}" class="mobile-menu__sublink">Manpower Solutions</a>
           </div>
         </div>
 
@@ -406,13 +406,13 @@ function getNavbarHTML() {
 function getFooterHTML() {
   resolvePath('assets/img/logo.png');
   const homeUrl = resolvePath('index.html');
-  const companyUrl = resolvePath('company/index.html');
-  const devUrl = resolvePath('development/index.html');
-  const mktUrl = resolvePath('digital-marketing/index.html');
-  const staffingUrl = resolvePath('staffing/index.html');
-  const productUrl = resolvePath('product/index.html');
-  const careersUrl = resolvePath('careers/index.html');
-  const contactUrl = resolvePath('contact/index.html');
+  const companyUrl = resolvePath('company_index.html');
+  const devUrl = resolvePath('development_index.html');
+  const mktUrl = resolvePath('digital_marketing_index.html');
+  const staffingUrl = resolvePath('staffing_index.html');
+  const productUrl = resolvePath('product_index.html');
+  const careersUrl = resolvePath('careers_index.html');
+  const contactUrl = resolvePath('contact_index.html');
 
   const instagramIcon = resolvePath('assets/img/icons/instagram (1).png');
   const linkedinIcon = resolvePath('assets/img/icons/social.png');
@@ -431,19 +431,44 @@ function getFooterHTML() {
             <a href="${homeUrl}" class="footer__logo">
               <img src="${resolvePath('assets/img/Logo-with-Text-copy.png')}" alt="RiverBird Logo" />
             </a>
-            <p>Empowering global enterprises and startups with custom software, marketing growth, and high-performance staffing.</p>
+            <p>15/1 Karur Bypass Road, Mela Chinthamani, Tiruchirappalli 620002. 
+              <strong>
+              GSTIN: 33AAPCR8973F1ZT</strong>
+            </p>
             <div class="footer__socials">
-              <a href="https://instagram.com/riverbird.in" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <img src="${instagramIcon}" alt="Instagram" width="24" height="24" />
+              <a href="https://instagram.com/riverbird.in" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram"> 
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+	              <path d="M0 0h24v24H0z" fill="none" />
+	              <path fill="currentColor" d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4zm9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8A1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3" />
+              </svg>
+
               </a>
               <a href="https://www.linkedin.com/company/riverbird-in/" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                <img src="${linkedinIcon}" alt="LinkedIn" width="24" height="24" />
+                
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+	                <path d="M0 0h24v24H0z" fill="none" />
+                	<path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37z" />
+                </svg>
               </a>
               <a href="https://www.facebook.com/profile.html?id=61559792591988" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                <img src="${facebookIcon}" alt="Facebook" width="24" height="24" />
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+	                <path d="M0 0h24v24H0z" fill="none" />
+	                <path fill="currentColor" d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z" />
+                </svg>
+
               </a>
               <a href="https://www.youtube.com/@RiverBirddotin" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-                <img src="${youtubeIcon}" alt="YouTube" width="24" height="24" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+	                <path d="M0 0h24v24H0z" fill="none" />
+	                <path fill="none" stroke="currentColor" stroke-dasharray="60" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5c9 0 9 0 9 7c0 7 0 7 -9 7c-9 0 -9 0 -9 -7c0 -7 0 -7 9 -7Z">
+		              <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="60;0" />
+	              </path>
+	              <path fill="currentColor" d="M10 8.5l6 3.5l-6 3.5Z" opacity="0">
+	              	<set fill="freeze" attributeName="opacity" begin="0.6s" to="1" />
+	              	<animate fill="freeze" attributeName="d" begin="0.6s" dur="0.2s" values="M12 11l0 1l0 1Z;M10 8.5l6 3.5l-6 3.5Z" />
+	              </path>
+              </svg>
               </a>
             </div>
           </div>
@@ -469,6 +494,13 @@ function getFooterHTML() {
           </div>
 
           <div>
+          <h4 class="footer__title">Contact Us</h4>
+          <ul class="footer__list">
+              <li><a href="tel:+918610524681" class="footer__link">+91 861-0524681</a></li>
+              <li><a href="mailto:info@riverbird.in" class="footer__link">info@riverbird.in</a></li>
+            </ul>
+            <br>
+
             <h4 class="footer__title">Newsletter</h4>
             <div class="footer__newsletter">
               <p style="color: var(--color-text-muted); font-size: 0.875rem;">Get industry insights and Riverbird growth announcements.</p>
@@ -487,8 +519,9 @@ function getFooterHTML() {
         <div class="footer__bottom">
           <p class="footer__copyright">&copy; ${new Date().getFullYear()} Riverbird. All rights reserved.</p>
           <div class="footer__legal">
-            <a href="#" class="footer__legal-link">Privacy Policy</a>
-            <a href="#" class="footer__legal-link">Terms of Service</a>
+            <a href="${resolvePath('privacy_policy.html')}" class="footer__legal-link">Privacy Policy</a>
+            <a href="${resolvePath('terms_of_service.html')}" class="footer__legal-link">Terms of Service</a>
+            <a href="${resolvePath('refund and_cancellation.html')}" class="footer__legal-link">Refund and Cancellation Policy</a>
           </div>
         </div>
       </div>
