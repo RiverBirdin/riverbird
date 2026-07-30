@@ -1848,8 +1848,8 @@ body.no-scroll {
 }
 
 .footer__bottom {
-  margin-top: var(--space-64);
-  padding-top: var(--space-32);
+  margin-top: var(--space-32);
+  padding-top: var(--space-16);
   border-top: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
