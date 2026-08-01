@@ -496,13 +496,76 @@
 }
 
 @media (max-width: 480px) {
+  .rb-chat-launcher {
+    bottom: 16px;
+    right: 16px;
+    width: 52px;
+    height: 52px;
+    padding: 8px;
+  }
+
   .rb-chat-container {
-    bottom: 0;
-    right: 0;
-    width: 100vw;
-    height: 100vh;
-    max-width: 100vw;
-    max-height: 100vh;
-    border-radius: 0;
+    bottom: 80px;
+    right: 12px;
+    left: 12px;
+    width: calc(100vw - 24px);
+    height: 68vh;
+    max-height: 480px;
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.28);
+  }
+
+  .rb-chat-header {
+    padding: 12px 14px;
+  }
+
+  .rb-chat-avatar-wrapper {
+    width: 36px;
+    height: 36px;
+    padding: 4px;
+  }
+
+  .rb-chat-header-title {
+    font-size: 14px;
+  }
+
+  .rb-chat-header-status {
+    font-size: 10.5px;
+  }
+
+  .rb-chat-body {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .rb-chat-msg-row {
+    max-width: 92%;
+  }
+
+  .rb-chat-msg {
+    font-size: 13px;
+  }
+
+  .rb-chat-footer {
+    padding: 10px 12px;
+  }
+
+  .rb-chat-input {
+    font-size: 14px; /* Prevents auto-zoom on iOS safari */
+    padding: 8px 14px;
+  }
+
+  .rb-chat-send-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .rb-lead-card {
+    padding: 12px;
+  }
+
+  .rb-lead-form input {
+    font-size: 14px;
+    padding: 8px 10px;
   }
 }
