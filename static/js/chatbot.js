@@ -27,7 +27,7 @@
     const chatbotHTML = `
       <!-- Floating Pop-up Greeting Badge -->
       <div id="rb-chat-pop-badge" class="rb-chat-pop-badge">
-        <div class="rb-pop-text">Hi How can i help you</div>
+        <div class="rb-pop-text">Hi, How can i help you?</div>
         <div class="rb-pop-arrow"></div>
       </div>
 
@@ -124,6 +124,13 @@
     launcher.addEventListener('click', toggleChat);
     if (popBadge) {
       popBadge.addEventListener('click', toggleChat);
+      
+      // Trigger springy pop-out animation 2.5s after page refresh / load
+      setTimeout(() => {
+        if (!container.classList.contains('active')) {
+          popBadge.classList.add('popped');
+        }
+      }, 2500);
     }
 
     closeBtn.addEventListener('click', () => {
