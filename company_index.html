@@ -53,144 +53,76 @@
     <section class="section-padding bg-white" id="mission-vision">
       <div class="container">
 
-        <div class="section-header center reveal" style="margin-bottom: var(--space-64);">
-          <span class="label-text"
-            style="color: var(--color-primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.85rem;">Our
-            Mission and Vision</span>
-          <h2 class="h2"
-            style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-top: var(--space-8); margin-bottom: var(--space-16);">
-            Mission , Vision & the values that guide us</h2>
+        <div class="philosophy-intro reveal">
+          <h2 class="philosophy-intro__title">Riverbird:<br><em>Philosophy at Work</em></h2>
+          <p class="philosophy-intro__copy">
+            At Riverbird, our philosophy is grounded in purpose, clarity, and collaboration. We believe that meaningful work starts with understanding the brand, the audience, and the problem to solve. Every idea we develop is intentional, shaped by strategy rather than trends. We value simplicity, honest communication, and creative thinking that drives results. Our goal is to craft solutions that not only look good but deliver real, lasting impact.
+          </p>
+        </div>
 
+        <div class="philosophy-panels">
+          <article class="philosophy-panel philosophy-panel--vision reveal">
+            <img class="philosophy-panel__image" src="assets/img/vision.png" alt="Vision illustration" />
+            <div>
+              <span class="philosophy-panel__eyebrow">Our Vision</span>
+              <h3>Affordable &amp; World Class Marketing Solutions</h3>
+              <p>To deliver world-class and affordable digital marketing solutions tailored to small business owners, enabling them to effectively compete and grow in the digital era.</p>
+            </div>
+          </article>
+          <article class="philosophy-panel philosophy-panel--mission reveal">
+            <img class="philosophy-panel__image" src="assets/img/mission.png" alt="Mission illustration" />
+            <div>
+              <span class="philosophy-panel__eyebrow">Our Mission</span>
+              <h3>Leading Digital Marketing Agency in Trichy</h3>
+              <p>To become the leading digital marketing agency in Trichy, recognized for revolutionizing the growth of small businesses through innovative, impactful, and cost-effective digital strategies.</p>
+            </div>
+          </article>
         </div>
 
         <div class="mission-vision__grid">
-          <!-- Left Column: Interactive Values Wheel -->
-          <div class="card-values-wheel reveal">
-            <!-- SVG Connections & Orbits -->
-            <svg class="values-wheel__connections" viewBox="0 0 500 500">
-              <circle cx="250" cy="240" r="160" class="orbit-line-outer" />
-              <circle cx="250" cy="240" r="100" class="orbit-line-mid" />
-              <circle cx="250" cy="240" r="60" class="orbit-line-inner" />
-              <!-- Pentagon boundary -->
-              <polygon points="250,80 402,191 344,369 156,369 98,191" class="pentagon-line" />
-              <!-- Connectors to nodes -->
-              <line x1="250" y1="240" x2="250" y2="80" class="connector-line line-innovation" />
-              <line x1="250" y1="240" x2="402" y2="191" class="connector-line line-creativity" />
-              <line x1="250" y1="240" x2="344" y2="369" class="connector-line line-growth" />
-              <line x1="250" y1="240" x2="156" y2="369" class="connector-line line-transparency" />
-              <line x1="250" y1="240" x2="98" y2="191" class="connector-line line-strategy" />
-            </svg>
-
-            <!-- Center Logo Circle -->
-            <div class="values-wheel__center">
-              <div class="values-wheel__center-glow"></div>
-              <svg class="values-wheel__logo-svg" viewBox="0 0 160 160">
-                <!-- Stylized Bird Wings -->
-                <g transform="translate(42, 22) scale(0.76)">
-                  <!-- Left Wing (White) -->
-                  <path d="M48 65C34 52 20 45 10 45C6 45 3 47 0 49C5 36 15 20 30 10C38 5 43 7 45 8C43 22 39 38 48 65Z"
-                    fill="#FFFFFF" />
-                  <!-- Right Wing (Orange) -->
-                  <path
-                    d="M52 65C66 52 80 45 90 45C94 45 97 47 100 49C95 36 85 20 70 10C62 5 57 7 55 8C57 22 61 38 52 65Z"
-                    fill="#F55D2D" />
-                </g>
-                <text x="80" y="115" text-anchor="middle" font-family="var(--font-secondary)" font-weight="800"
-                  font-size="14.5" letter-spacing="1">
-                  <tspan fill="#FFFFFF">RIVER</tspan>
-                  <tspan fill="#F55D2D">BIRD</tspan>
-                </text>
-                <text x="80" y="129" fill="#8F8F98" text-anchor="middle" font-family="var(--font-secondary)"
-                  font-weight="600" font-size="6.2" letter-spacing="0.4">
-                  DIGITAL MARKETING SOLUTIONS
-                </text>
-              </svg>
-            </div>
-
-            <!-- Value Nodes -->
-            <!-- Innovation (Top, 12 o'clock) -->
-            <div class="values-node node-innovation" style="left: 50%; top: 16%;">
-              <div class="values-node__circle">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path
-                    d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .6 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5">
-                  </path>
-                  <path d="M9 18h6"></path>
-                  <path d="M10 22h4"></path>
-                </svg>
-              </div>
-              <div class="values-node__content">
-                <h4 class="values-node__title">Innovation</h4>
-                <p class="values-node__desc">We embrace new ideas and smart solutions.</p>
+          <!-- Left Column: Founder Profile -->
+          <article class="founder-profile reveal">
+            <img class="founder-profile__image" src="assets/img/founder.PNG" alt="Juliusteyn, Founder of RiverBird Digital Solutions" />
+            <div class="founder-profile__content">
+              <span class="founder-profile__label">Founder</span>
+              <h3 class="founder-profile__name">Juliusteyn</h3>
+              <p class="founder-profile__bio">
+                Juliusteyn, professionally known as Julius Jerome, is an entrepreneur, digital marketing strategist, and technology leader with over <strong>five years of experience</strong> in digital marketing, web development, and business growth. He is the Founder of <strong>RiverBird Digital Solutions Pvt. Ltd.</strong>
+              </p>
+              <div class="founder-profile__socials" aria-label="Founder social links">
+                <a href="https://www.linkedin.com/company/riverbird-in/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37z" /></svg>
+                </a>
+                <a href="https://instagram.com/riverbird.in" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm10.25 1.5a1.25 1.25 0 1 1 0 2.5a1.25 1.25 0 0 1 0-2.5M12 7a5 5 0 1 1 0 10a5 5 0 0 1 0-10m0 2a3 3 0 1 0 0 6a3 3 0 0 0 0-6" /></svg>
+                </a>
+                <a href="mailto:info@riverbird.in" aria-label="Email RiverBird">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2Zm18 2-10 7L2 6" /></svg>
+                </a>
               </div>
             </div>
-
-            <!-- Strategy (Left, 9:30 o'clock) -->
-            <div class="values-node node-strategy" style="left: 19.6%; top: 38.2%;">
-              <div class="values-node__circle">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <circle cx="12" cy="12" r="6"></circle>
-                  <circle cx="12" cy="12" r="2"></circle>
-                </svg>
+            <section class="founder-profile__cofounder">
+              <img class="founder-profile__image" src="assets/img/co-founder.png" alt="Edwinjoyal, Co-Founder and CEO of RiverBird Digital Solutions" />
+              <div class="founder-profile__content">
+                <span class="founder-profile__label">Co-Founder &amp; CEO</span>
+                <h3 class="founder-profile__name">Edwinjoyal</h3>
+                <p class="founder-profile__bio">
+                  Edwinjoyal is the Co-Founder and CEO of RiverBird Digital Solutions Pvt. Ltd., guiding the company&rsquo;s strategy, operations, and sustainable growth.
+                </p>
+                <div class="founder-profile__socials" aria-label="Co-Founder and CEO social links">
+                  <a href="https://www.linkedin.com/company/riverbird-in/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37z" /></svg>
+                  </a>
+                  <a href="https://instagram.com/riverbird.in" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm10.25 1.5a1.25 1.25 0 1 1 0 2.5a1.25 1.25 0 0 1 0-2.5M12 7a5 5 0 1 1 0 10a5 5 0 0 1 0-10m0 2a3 3 0 1 0 0 6a3 3 0 0 0 0-6" /></svg>
+                  </a>
+                  <a href="mailto:info@riverbird.in" aria-label="Email RiverBird">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2Zm18 2-10 7L2 6" /></svg>
+                  </a>
+                </div>
               </div>
-              <div class="values-node__content">
-                <h4 class="values-node__title">Strategy</h4>
-                <p class="values-node__desc">We plan with purpose and execute with precision.</p>
-              </div>
-            </div>
-
-            <!-- Transparency (Bottom-Left, 7:30 o'clock) -->
-            <div class="values-node node-transparency" style="left: 31.2%; top: 73.8%;">
-              <div class="values-node__circle">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                  <path d="m9 11 2 2 4-4"></path>
-                </svg>
-              </div>
-              <div class="values-node__content">
-                <h4 class="values-node__title">Transparency</h4>
-                <p class="values-node__desc">We value honest communication and build trust.</p>
-              </div>
-            </div>
-
-            <!-- Growth (Bottom-Right, 4:30 o'clock) -->
-            <div class="values-node node-growth" style="left: 68.8%; top: 73.8%;">
-              <div class="values-node__circle">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M3 3v18h18"></path>
-                  <path d="m19 9-5 5-4-4-3 3"></path>
-                </svg>
-              </div>
-              <div class="values-node__content">
-                <h4 class="values-node__title">Growth</h4>
-                <p class="values-node__desc">We drive constant improvement for our clients and team.</p>
-              </div>
-            </div>
-
-            <!-- Creativity (Right, 2:30 o'clock) -->
-            <div class="values-node node-creativity" style="left: 80.4%; top: 38.2%;">
-              <div class="values-node__circle">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
-                  <path d="m15 5 4 4"></path>
-                </svg>
-              </div>
-              <div class="values-node__content">
-                <h4 class="values-node__title">Creativity</h4>
-                <p class="values-node__desc">We design unique experiences that inspire.</p>
-              </div>
-            </div>
-
-
-
-
-          </div>
+            </section>
+          </article>
 
           <!-- Right Column: Stacked Cards -->
           <div class="mission-vision__cards">
@@ -315,109 +247,136 @@
         <div class="section-header">
           <span class="label-text">Our Timeline</span>
           <h2 class="h2">The Riverbird Story</h2>
-          <p class="body-text">A track record of technological execution and team building.</p>
+          <p class="body-text">From a freelance passion project to a growing digital solutions company, Riverbird's journey is built on innovation, entrepreneurship, and creating opportunities for businesses and future professionals.</p>
         </div>
 
         <div class="story-timeline">
-          <div class="story-node reveal">
-            <div class="story-node__year">2022</div>
-            <h3 class="story-node__title h3">Founding & Core Engineering Cell</h3>
-            <p class="body-text">Riverbird was launched in Chennai, India, by a small group of senior software engineers focused on building custom database tools for local manufacturing clients.</p>
-          </div>
-          
-          <div class="story-node reveal">
+          <span class="story-timeline__progress" aria-hidden="true"></span>
+          <article class="story-node reveal">
             <div class="story-node__year">2024</div>
-            <h3 class="story-node__title h3">Expanding to Digital Marketing & Growth</h3>
-            <p class="body-text">We launched our digital marketing division, offering technical SEO, paid campaigns, and corporate graphic identity assets for fast-growing startups.</p>
-          </div>
-          
-          <div class="story-node reveal">
+            <h3 class="story-node__title h3">The Beginning of Riverbird.in</h3>
+            <p class="body-text">Riverbird.in started as a freelance venture by ambitious corporate professionals. Working on client projects after office hours, the team transformed their skills into a successful side business. As the venture grew, it generated greater opportunities than their full-time careers.</p>
+          </article>
+          <article class="story-node reveal">
+            <div class="story-node__year">2025</div>
+            <h3 class="story-node__title h3">Launching as a Digital Marketing Agency</h3>
+            <p class="body-text">Two founders officially established Riverbird as a digital marketing agency in their hometown. With a focus on creativity and measurable business growth, the company began delivering digital marketing, branding, and web development solutions to local businesses.</p>
+          </article>
+          <article class="story-node reveal">
             <div class="story-node__year">2026</div>
-            <h3 class="story-node__title h3">Staffing Operations & Global Integration</h3>
-            <p class="body-text">We established our Recruitment Process Outsourcing (RPO) and staffing pool, deploying pre-screened developers, animators, and managers into active client teams.</p>
-          </div>
+            <h3 class="story-node__title h3">RiverBird Digital Solutions Pvt. Ltd.</h3>
+            <p class="body-text">Riverbird became RiverBird Digital Solutions Pvt. Ltd., expanding into a growing team of 10+ professionals. The company also created 15+ internship opportunities, helping aspiring marketers gain real-world experience while supporting businesses with innovative digital solutions.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <section class="section-padding bg-white" id="company-values">
+    <section class="section-padding bg-light home-faq" id="company-faq">
       <div class="container">
-        <div class="section-header center">
-          <span class="label-text">Our Core Values</span>
-          <h2 class="h2">How We Work</h2>
-          <p class="body-text">Principles that guide our engineering layout and client interactions.</p>
+        <div class="section-header center reveal">
+          <span class="label-text">About Riverbird</span>
+          <h2 class="h2">Frequently Asked Questions</h2>
+          <p class="body-text">Answers about Riverbird.in, our team, and how we help businesses grow.</p>
         </div>
 
-        <div class="values-grid">
-          <div class="value-card reveal">
-            <div class="value-card__num">01</div>
-            <h3 class="value-card__title h4">Technical Precision</h3>
-            <p class="body-text body-small">We write clean, semantic code, optimizing load speeds and eliminating framework bloat entirely.</p>
-          </div>
-          <div class="value-card reveal delay-1">
-            <div class="value-card__num">02</div>
-            <h3 class="value-card__title h4">Absolute Integrity</h3>
-            <p class="body-text body-small">We deliver measurable outcomes. If a campaign or software stack isn't performing, we change it immediately.</p>
-          </div>
-          <div class="value-card reveal delay-2">
-            <div class="value-card__num">03</div>
-            <h3 class="value-card__title h4">Enterprise Safety</h3>
-            <p class="body-text body-small">We build systems with high-security endpoints, encrypted data models, and detailed access controls.</p>
-          </div>
+        <div class="faq-list home-faq__list">
+          <details class="faq-item reveal" open>
+            <summary class="faq-question">What is Riverbird.in?<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+            <div class="faq-answer"><p class="body-text">Riverbird.in is the digital presence of RiverBird Digital Solutions Pvt. Ltd., a growing team that helps businesses build stronger brands, digital experiences, and growth strategies.</p></div>
+          </details>
+          <details class="faq-item reveal delay-1">
+            <summary class="faq-question">What services does RiverBird provide?<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+            <div class="faq-answer"><p class="body-text">We provide digital marketing, branding, web development, and other practical digital solutions designed to help businesses compete and grow.</p></div>
+          </details>
+          <details class="faq-item reveal delay-2">
+            <summary class="faq-question">Who does RiverBird work with?<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+            <div class="faq-answer"><p class="body-text">RiverBird works with businesses seeking clear strategy, creative digital execution, and measurable improvements in their online presence.</p></div>
+          </details>
+          <details class="faq-item reveal delay-3">
+            <summary class="faq-question">Where is RiverBird based?<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+            <div class="faq-answer"><p class="body-text">RiverBird was established in Trichy, Tamil Nadu, and supports businesses with digital solutions built around their goals and market needs.</p></div>
+          </details>
+          <details class="faq-item reveal delay-4">
+            <summary class="faq-question">Does RiverBird offer internship opportunities?<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+            <div class="faq-answer"><p class="body-text">Yes. RiverBird creates internship opportunities that give aspiring marketers practical experience while contributing to real business projects.</p></div>
+          </details>
         </div>
       </div>
     </section>
 
-    <section class="section-padding bg-white" id="blog">
+  <section class="trust-logos py-md" aria-label="Trusted Clients" id="clients">
       <div class="container">
-        <div class="section-header center">
-          <span class="label-text">Editorial Insights</span>
-          <h2 class="h2">The Riverbird Blog</h2>
-          <p class="body-text">Latest insights on technology, optimization, and talent acquisition.</p>
+        <div class="trust-logos__header">
+          <span class="label-text wipe-in">Our clients</span>
+          <h2 class="h2">Trusted by 50+ brands across four countries</h2>
         </div>
 
-        <div class="grid grid-3" id="company-blog-grid"></div>
-      </div>
-    </section>
+        <div class="trust-logos__rows">
+          <div class="trust-logos__row trust-logos__row--ltr">
+            <div class="trust-logos__track">
+              <div class="trust-logos__item"><img src="assets/img/client-logos/agarwal-Restaurant.png" alt="Agarwal Restaurant" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/aha-restaurant.png" alt="Aha Restaurant" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/manjal-couture.png" alt="Manjal Couture" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/shanas-Institute.png" alt="Shanas Institute" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/ssims.png" alt="SSIMS" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/classic-gypsum.png" alt="Classic Gypsum" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/honey-&-beauty.png" alt="Honey & Beauty" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/Sathya-Plywoods.png" alt="Sathya Plywoods" loading="lazy" /></div>
 
-    <section class="section-padding bg-light" id="company-case-studies">
-      <div class="container">
-        <div class="flex-between" style="margin-bottom: var(--space-48);">
-          <div>
-            <span class="label-text">Project Previews</span>
-            <h2 class="h2">Selected Case Studies</h2>
-          </div>
-          <a href="index.html#case-studies" class="btn btn--outline btn--sm">View All Projects</a>
-        </div>
-        
-        <div class="grid grid-2" style="grid-template-columns: repeat(2, 1fr);">
-          <div class="card card-showcase reveal">
-            <div class="card-showcase__bg" style="background: linear-gradient(135deg, var(--color-bg-alt) 0%, rgba(245,93,45,0.15) 100%); position:absolute; width:100%; height:100%; top:0; left:0; z-index:1;"></div>
-            <div class="card-showcase__content">
-              <span class="label-text" style="color: var(--color-primary);">Product Development</span>
-              <h3 class="card-showcase__title h3">Fashyfi E-Commerce Launch</h3>
-              <p class="card-showcase__desc">Engineering high-speed social checkout flows for consumer retail.</p>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/agarwal-Restaurant.png" alt="Agarwal Restaurant" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/aha-restaurant.png" alt="Aha Restaurant" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/manjal-couture.png" alt="Manjal Couture" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/shanas-Institute.png" alt="Shanas Institute" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/ssims.png" alt="SSIMS" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/classic-gypsum.png" alt="Classic Gypsum" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/honey-&-beauty.png" alt="Honey & Beauty" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/Sathya-Plywoods.png" alt="Sathya Plywoods" loading="lazy" /></div>
             </div>
           </div>
-          <div class="card card-showcase reveal delay-1">
-            <div class="card-showcase__bg" style="background: linear-gradient(135deg, var(--color-bg-alt) 0%, rgba(7,0,255,0.15) 100%); position:absolute; width:100%; height:100%; top:0; left:0; z-index:1;"></div>
-            <div class="card-showcase__content">
-              <span class="label-text" style="color: var(--color-primary);">Software Development</span>
-              <h3 class="card-showcase__title h3">Meridian Industries ERP</h3>
-              <p class="card-showcase__desc">Custom logistics microservices dashboard running across five plants.</p>
+
+          <div class="trust-logos__row trust-logos__row--rtl">
+            <div class="trust-logos__track">
+              <div class="trust-logos__item"><img src="assets/img/client-logos/am_briyani.png" alt="AM Briyani" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/martat_chennai_logo.png" alt="Martat Chennai" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/iyx_coin_logo.png" alt="IYX Coin" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/cobra_steel_door.png" alt="Cobra Steel Door" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/olivia_marketers.png" alt="Olivia Marketers" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/halofit-fitness.png" alt="Halofit Fitness" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/gym-nation-fitness.png" alt="Gym Nation Fitness" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/Linen-World.png" alt="Linen World" loading="lazy" /></div>
+
+              <div class="trust-logos__item"><img src="assets/img/client-logos/am_briyani.png" alt="AM Briyani" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/martat_chennai_logo.png" alt="Martat Chennai" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/iyx_coin_logo.png" alt="IYX Coin" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/cobra_steel_door.png" alt="Cobra Steel Door" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/olivia_marketers.png" alt="Olivia Marketers" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/halofit-fitness.png" alt="Halofit Fitness" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/gym-nation-fitness.png" alt="Gym Nation Fitness" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/Linen-World.png" alt="Linen World" loading="lazy" /></div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <section class="cta-section">
-      <div class="container cta__container">
-        <span class="cta__label">Join Riverbird</span>
-        <h2 class="display-text cta__title" style="font-size: clamp(2.5rem, 5vw, 4rem);">We are always sourcing talent.</h2>
-        <p class="cta__desc">Check our active vacancies or send a direct application to our recruiting cell.</p>
-        <div>
-          <a href="careers/index.html" class="btn btn--primary magnetic-btn">View Open Positions</a>
+          <div class="trust-logos__row trust-logos__row--ltr">
+            <div class="trust-logos__track">
+              <div class="trust-logos__item"><img src="assets/img/client-logos/mochroom.png" alt="Mochroom" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/fashyfi.png" alt="Fashyfi" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/manoveka_logo.png" alt="Manoveka" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/muthu_artist.png" alt="Muthu Artist" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/Janani-Motorz.png" alt="Janani Motorz" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/peakfoodcourt.png" alt="Peak Food Court" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/adhisankarar_logo.png" alt="Adhisankarar" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/womens_world.png" alt="Womens World" loading="lazy" /></div>
+
+              <div class="trust-logos__item"><img src="assets/img/client-logos/mochroom.png" alt="Mochroom" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/fashyfi.png" alt="Fashyfi" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/manoveka_logo.png" alt="Manoveka" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/muthu_artist.png" alt="Muthu Artist" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/Janani-Motorz.png" alt="Janani Motorz" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/peakfoodcourt.png" alt="Peak Food Court" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/adhisankarar_logo.png" alt="Adhisankarar" loading="lazy" /></div>
+              <div class="trust-logos__item"><img src="assets/img/client-logos/womens_world.png" alt="Womens World" loading="lazy" /></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
