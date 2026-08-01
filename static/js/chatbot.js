@@ -25,6 +25,12 @@
     const logoUrl = getLogoPath();
 
     const chatbotHTML = `
+      <!-- Floating Pop-up Greeting Badge -->
+      <div id="rb-chat-pop-badge" class="rb-chat-pop-badge">
+        <div class="rb-pop-text">Hi How Can I Help You</div>
+        <div class="rb-pop-arrow"></div>
+      </div>
+
       <!-- Floating Launcher -->
       <button id="rb-chat-launcher" class="rb-chat-launcher" aria-label="Open Chat Support">
         <img src="${logoUrl}" alt="RiverBird Logo" class="rb-launcher-logo" />
@@ -99,22 +105,32 @@
   // Attach Event Listeners
   function attachEvents() {
     const launcher = document.getElementById('rb-chat-launcher');
+    const popBadge = document.getElementById('rb-chat-pop-badge');
     const container = document.getElementById('rb-chat-container');
     const closeBtn = document.getElementById('rb-chat-close');
     const sendBtn = document.getElementById('rb-chat-send');
     const input = document.getElementById('rb-chat-input');
 
-    launcher.addEventListener('click', () => {
+    const toggleChat = () => {
       container.classList.toggle('active');
       launcher.classList.toggle('active');
       if (container.classList.contains('active')) {
+        popBadge.classList.add('hidden');
         input.focus();
+      } else {
+        popBadge.classList.remove('hidden');
       }
-    });
+    };
+
+    launcher.addEventListener('click', toggleChat);
+    if (popBadge) {
+      popBadge.addEventListener('click', toggleChat);
+    }
 
     closeBtn.addEventListener('click', () => {
       container.classList.remove('active');
       launcher.classList.remove('active');
+      popBadge.classList.remove('hidden');
     });
 
     sendBtn.addEventListener('click', handleSend);
