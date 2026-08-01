@@ -40,6 +40,26 @@ function initLayout() {
   
   highlightActiveNav();
   initHUDOverlay();
+  initChatbotAssets();
+}
+
+function initChatbotAssets() {
+  const cssPath = resolvePath('static/css/chatbot.css');
+  const jsPath = resolvePath('static/js/chatbot.js');
+
+  if (!document.querySelector('link[href*="chatbot.css"]')) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = cssPath;
+    document.head.appendChild(link);
+  }
+
+  if (!document.querySelector('script[src*="chatbot.js"]')) {
+    const script = document.createElement('script');
+    script.src = jsPath;
+    script.defer = true;
+    document.body.appendChild(script);
+  }
 }
 
 function getNavbarHTML() {
@@ -79,7 +99,7 @@ function getNavbarHTML() {
                     </a>
                   </li>
                   <li>
-                    <a href="${companyUrl}#blog" class="dropdown-menu__link">
+                    <a href="${homeUrl}#blog" class="dropdown-menu__link">
                       <span class="dropdown-menu__item-title">Blog</span>
                       <span class="dropdown-menu__item-desc">Latest insights on technology and design.</span>
                     </a>
@@ -318,7 +338,7 @@ function getNavbarHTML() {
           </div>
           <div class="mobile-menu__submenu" data-submenu="company">
             <a href="${companyUrl}" class="mobile-menu__sublink">About Us</a>
-            <a href="${companyUrl}#blog" class="mobile-menu__sublink">Blog</a>
+            <a href="${homeUrl}#blog" class="mobile-menu__sublink">Blog</a>
             <a href="${homeUrl}#case-studies" class="mobile-menu__sublink">Case Studies</a>
           </div>
         </div>

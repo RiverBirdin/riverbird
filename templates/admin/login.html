@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — RiverBird</title>
+  <link rel="icon" type="image/png" href="/assets/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-primary: #F55D2D;
+      --color-bg-dark: #0D0D0D;
+      --color-bg-white: #FFFFFF;
+      --color-text-primary: #111111;
+      --color-text-muted: #6B7280;
+      --color-text-inverse: #FFFFFF;
+      --color-border: rgba(17,17,17,0.06);
+      --color-border-hover: rgba(17,17,17,0.12);
+      --color-error: #EF4444;
+      --color-success: #10B981;
+      --color-warning: #F59E0B;
+      --font-primary: 'Bricolage Grotesque', Georgia, serif;
+      --font-secondary: 'Archivo', -apple-system, sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+      --shadow-lg: 0 16px 48px rgba(0,0,0,0.08);
+      --shadow-primary: 0 8px 24px rgba(245,93,45,0.15);
+      --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-secondary);
+      background: var(--color-bg-dark);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background grid effect */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(245,93,45,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245,93,45,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 0;
+    }
+
+    /* Ambient glow */
+    .login-glow {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,93,45,0.12) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      animation: pulseGlow 4s ease-in-out infinite;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    .login-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+      padding: 24px;
+    }
+
+    .login-card {
+      background: var(--color-bg-white);
+      border-radius: var(--radius-lg);
+      padding: 48px 40px;
+      box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,0.05);
+      animation: cardEntry 0.6s var(--ease-premium) forwards;
+    }
+    @keyframes cardEntry {
+      from { opacity: 0; transform: translateY(20px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .login-card__logo {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .login-card__logo img {
+      height: 36px;
+      margin: 0 auto;
+    }
+    .login-card__title {
+      text-align: center;
+      font-family: var(--font-primary);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 4px;
+      margin-top: 20px;
+    }
+    .login-card__subtitle {
+      text-align: center;
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      margin-bottom: 32px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .form-label {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+    .form-forgot-link {
+      font-size: 0.775rem;
+      color: var(--color-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .form-forgot-link:hover {
+      text-decoration: underline;
+    }
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      font-family: var(--font-secondary);
+      font-size: 0.9375rem;
+      border: 1px solid var(--color-border-hover);
+      border-radius: var(--radius-sm);
+      background: var(--color-bg-white);
+      color: var(--color-text-primary);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .form-input:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(245,93,45,0.1);
+    }
+    .form-input::placeholder {
+      color: #c4c4c4;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      font-family: var(--font-secondary);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--color-text-inverse);
+      background: var(--color-primary);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-primary);
+      margin-top: 8px;
+    }
+    .login-btn:hover {
+      background: #e04d1d;
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px rgba(245,93,45,0.25);
+    }
+    .login-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Flash Messages */
+    .flash {
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+      animation: flashIn 0.4s var(--ease-premium) forwards;
+    }
+    @keyframes flashIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .flash--error { background: rgba(239,68,68,0.1); color: #991B1B; border: 1px solid rgba(239,68,68,0.15); }
+    .flash--success { background: rgba(16,185,129,0.1); color: #065F46; border: 1px solid rgba(16,185,129,0.15); }
+    .flash--info { background: rgba(59,130,246,0.1); color: #1E40AF; border: 1px solid rgba(59,130,246,0.15); }
+    .flash--warning { background: rgba(245,158,11,0.1); color: #92400E; border: 1px solid rgba(245,158,11,0.15); }
+
+    .form-errors {
+      list-style: none;
+      padding: 0;
+      margin: 4px 0 12px;
+    }
+    .form-errors li {
+      font-size: 0.8rem;
+      color: var(--color-error);
+      padding: 2px 0;
+    }
+
+    .login-footer {
+      text-align: center;
+      margin-top: 24px;
+    }
+    .login-footer a {
+      color: var(--color-text-muted);
+      font-size: 0.8125rem;
+      transition: color 0.2s;
+    }
+    .login-footer a:hover {
+      color: var(--color-primary);
+    }
+
+    @media (max-width: 480px) {
+      .login-card { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-glow"></div>
+
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="login-card__logo">
+        <img src="/assets/img/Logo-with-Text-copy.png" alt="RiverBird">
+      </div>
+      <h1 class="login-card__title">Admin Login</h1>
+      <p class="login-card__subtitle">Sign in to manage your blog content</p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash flash--{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="{{ url_for('routes.admin_login') }}">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+          <label class="form-label" for="username_or_email">Username or Email</label>
+          {{ form.username_or_email(class="form-input", id="username_or_email", placeholder="Enter username or email", autofocus=true) }}
+          {% if form.username_or_email.errors %}
+          <ul class="form-errors">
+            {% for error in form.username_or_email.errors %}<li>{{ error }}</li>{% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          <div class="form-label-row">
+            <label class="form-label" for="password">Password</label>
+            <a href="{{ url_for('routes.admin_forgot_password') }}" class="form-forgot-link">Forgot Password?</a>
+          </div>
+          {{ form.password(class="form-input", id="password", placeholder="Enter your password") }}
+          {% if form.password.errors %}
+          <ul class="form-errors">
+            {% for error in form.password.errors %}<li>{{ error }}</li>{% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+
+        <button type="submit" class="login-btn">Sign In</button>
+      </form>
+
+      <div class="login-footer">
+        <a href="/">← Back to RiverBird</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -638,6 +638,24 @@
       </div>
     </section --->
 
+    <!-- Dynamic Blog Section -->
+    <section class="section-padding bg-light" id="blog">
+      <div class="container">
+        <div class="section-header center">
+          <span class="label-text wipe-in">Our Blog</span>
+          <h2 class="h1">Latest Insights & Articles</h2>
+          <p class="body-text">Explore our latest articles on technology, marketing, design, and business growth strategies.</p>
+        </div>
+
+        <div class="grid grid-3" id="blog-cards-container" data-stagger>
+          <!-- Blog cards loaded dynamically via JS -->
+        </div>
+        <div id="blog-empty-state" style="display:none; text-align:center; padding: var(--space-40) 0; color: var(--color-text-muted);">
+          <p class="body-text">No blog posts yet. Stay tuned for updates!</p>
+        </div>
+      </div>
+    </section>
+
     <section class="section-padding bg-light home-faq" id="faqs">
       <div class="container">
         <div class="section-header center reveal">
@@ -794,6 +812,54 @@
   <div id="footer-slot"></div>
 
   <script type="module" src="assets/js/core/app.js"></script>
+  <script>
+    // ── Dynamic Blog Loader ──
+    (function loadBlogPosts() {
+      const container = document.getElementById('blog-cards-container');
+      const emptyState = document.getElementById('blog-empty-state');
+      if (!container) return;
+
+      fetch('/api/blogs')
+        .then(res => res.json())
+        .then(blogs => {
+          if (!blogs || blogs.length === 0) {
+            if (emptyState) emptyState.style.display = 'block';
+            // Hide the entire blog section if no posts
+            const blogSection = document.getElementById('blog');
+            if (blogSection) blogSection.style.display = 'none';
+            return;
+          }
+          container.innerHTML = blogs.map((blog, i) => {
+            const date = blog.published_at ? new Date(blog.published_at).toLocaleDateString('en-US', {
+              year: 'numeric', month: 'short', day: 'numeric'
+            }) : '';
+            const delay = i < 6 ? `delay-${i % 3 + 1}` : '';
+            return `
+              <div class="card reveal ${delay} stagger-item">
+                <div class="card__image-wrapper">
+                  ${blog.image
+                    ? `<img src="/${blog.image}" alt="${blog.title}" class="card__image" loading="lazy">`
+                    : `<div class="card__image" style="height:200px;background:var(--color-bg-light);display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);">RiverBird Blog</div>`
+                  }
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                  <span style="background:var(--color-primary-light);color:var(--color-primary);font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;padding:3px 10px;border-radius:var(--radius-full);">${blog.category}</span>
+                  ${date ? `<span style="font-size:0.75rem;color:var(--color-text-muted);">${date}</span>` : ''}
+                </div>
+                <h3 class="card__title">${blog.title}</h3>
+                <p class="card__desc">${blog.description}</p>
+                <a href="/blog/${blog.slug}" class="btn btn--text magnetic-btn">Read More &rarr;</a>
+              </div>
+            `;
+          }).join('');
+        })
+        .catch(() => {
+          // Silently fail — blog section will be empty or hidden
+          const blogSection = document.getElementById('blog');
+          if (blogSection) blogSection.style.display = 'none';
+        });
+    })();
+  </script>
 </body>
 
 </html>
