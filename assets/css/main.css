@@ -27873,3 +27873,100 @@ Rb Video Expand
 }
 
 /* --- End: pages/contact.css --- */
+
+/* ── Global Hover Background Gradient Isolation & Anti-Overlapping Layering ── */
+
+/* 1. Isolate card stacking contexts so hover gradients & radial spotlights do not bleed into neighboring elements */
+.card,
+.card-3d,
+.card-showcase,
+.card-testimonial,
+.card-flip,
+.bento-card,
+.bento-v2-card,
+.stat-card,
+.process-step-card,
+.process-step,
+.value-card,
+.metric-clean-card,
+.perf-card,
+.seo-results__card,
+.infl-process__platform-card,
+.software-core-card,
+.feature-card,
+.service-card,
+.blog-card,
+.pricing-card,
+.service-hero,
+.hero,
+.cta {
+  isolation: isolate;
+  position: relative;
+}
+
+/* 2. Enforce that card hover pseudo-elements (gradients, glows, spotlight backgrounds) stay strictly behind card content */
+.card::before, .card::after,
+.card-3d::before, .card-3d::after,
+.card-showcase::before, .card-showcase::after,
+.card-testimonial::before, .card-testimonial::after,
+.bento-card::before, .bento-card::after,
+.bento-v2-card::before, .bento-v2-card::after,
+.stat-card::before, .stat-card::after,
+.process-step-card::before, .process-step-card::after,
+.process-step::before, .process-step::after,
+.value-card::before, .value-card::after,
+.metric-clean-card::before, .metric-clean-card::after,
+.perf-card::before, .perf-card::after,
+.seo-results__card::before, .seo-results__card::after,
+.infl-process__platform-card::before, .infl-process__platform-card::after,
+.software-core-card::before, .software-core-card::after,
+.feature-card::before, .feature-card::after,
+.service-card::before, .service-card::after,
+.blog-card::before, .blog-card::after {
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 3. Elevate all inner card content (text, icons, images, animations) above background hover gradients */
+.card > *,
+.card-3d > *,
+.card-showcase > *,
+.card-testimonial > *,
+.bento-card > *,
+.bento-v2-card > *,
+.stat-card > *,
+.process-step-card > *,
+.process-step > *,
+.value-card > *,
+.metric-clean-card > *,
+.perf-card > *,
+.seo-results__card > *,
+.infl-process__platform-card > *,
+.software-core-card > *,
+.feature-card > *,
+.service-card > *,
+.blog-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* 4. Prevent background radial glows & mouse spotlight overlays from trapping pointer events or obscuring text */
+.hero__glow,
+.cta__glow,
+.avatar-sphere__glow,
+.orbital-core-glow,
+.orbital-info-panel-glow,
+.cursor-glow,
+.ae-grid-overlay {
+  pointer-events: none !important;
+  z-index: 0;
+}
+
+/* 5. Ensure heading & section decorative corner accents never block mouse hover or cover title text */
+h1::before, h1::after,
+h2::before, h2::after,
+.h1::before, .h1::after,
+.h2::before, .h2::after,
+section::before, section::after {
+  pointer-events: none !important;
+}
