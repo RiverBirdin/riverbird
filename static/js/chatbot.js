@@ -34,7 +34,6 @@
       <!-- Floating Launcher -->
       <button id="rb-chat-launcher" class="rb-chat-launcher" aria-label="Open Chat Support">
         <img src="${logoUrl}" alt="RiverBird Logo" class="rb-launcher-logo" />
-        <span class="rb-launcher-status-dot"></span>
       </button>
 
       <!-- Chat Drawer Overlay -->
