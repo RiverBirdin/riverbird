@@ -10,7 +10,7 @@
   function getLogoPath() {
     const baseAttr = document.documentElement.getAttribute('data-base');
     const base = baseAttr !== null ? baseAttr : '';
-    return `${base}assets/img/RiverBird_Ore_logo.png`;
+    return `${base}assets/img/RiverBird_Ore_logo.jpg`;
   }
 
   function getFormattedTime() {
@@ -27,7 +27,7 @@
     const chatbotHTML = `
       <!-- Floating Pop-up Greeting Badge -->
       <div id="rb-chat-pop-badge" class="rb-chat-pop-badge">
-        <div class="rb-pop-text">Hi How Can I Help You</div>
+        <div class="rb-pop-text">Hi How can i help you</div>
         <div class="rb-pop-arrow"></div>
       </div>
 
