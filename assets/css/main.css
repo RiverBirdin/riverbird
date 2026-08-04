@@ -27970,3 +27970,418 @@ h2::before, h2::after,
 section::before, section::after {
   pointer-events: none !important;
 }
+
+
+/* ---------------------------------------------------------------------------------------------------------------
+  Index page CTA Section v2
+   --------------------------------------------------------------------------------------------------------------- */
+
+/* Outer section â€” just adds vertical rhythm */
+.leadgen-cta {
+  position: relative;
+  overflow: hidden;
+  padding: 60px 0 72px;
+  background: var(--color-bg-light);
+}
+
+/* The rounded gradient card that wraps everything */
+.leadgen-cta__container {
+  position: relative;
+  background: linear-gradient(120deg, #F55D2D 0%, #FF8C42 38%, #FFB97A 65%, #FFE3C8 100%);
+  padding: 52px 52px 52px 52px;
+  border-radius: 28px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 44px;
+  overflow: hidden;
+  min-height: 380px;
+}
+
+/* Subtle wave / arc decoration on the left */
+.leadgen-cta__container::before {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  left: -60px;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  border: 48px solid rgba(255, 255, 255, 0.10);
+  pointer-events: none;
+}
+
+
+
+/* Dot pattern on the right-hand side only */
+.leadgen-cta__dots {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 55%;
+  height: 100%;
+  background-image: radial-gradient(circle, rgba(255, 120, 40, 0.18) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 0 28px 28px 0;
+}
+
+/* â”€â”€ Left Column â”€â”€ */
+.leadgen-cta__left {
+  flex: 0 0 460px;
+  max-width: 480px;
+  position: relative;
+  z-index: 2;
+}
+
+.leadgen-cta__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 9999px;
+  padding: 6px 14px;
+  font-family: var(--font-secondary);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  backdrop-filter: blur(6px);
+}
+
+.leadgen-cta__title {
+  font-family: var(--font-primary);
+  font-size: clamp(2rem, 3.8vw, 2.85rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.13;
+  margin-bottom: 18px;
+}
+
+.leadgen-cta__title--accent {
+  color: #3D1500;
+}
+
+.leadgen-cta__desc {
+  font-family: var(--font-secondary);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.90);
+  line-height: 1.65;
+  margin-bottom: 30px;
+  max-width: 320px;
+}
+
+/* Buttons row */
+.leadgen-cta__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.leadgen-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 20px;
+  border-radius: 10px;
+  font-family: var(--font-secondary);
+  font-size: 0.855rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 200ms var(--ease-premium), box-shadow 200ms var(--ease-premium);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.leadgen-btn--primary {
+  background: #fff;
+  color: #F55D2D;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.leadgen-btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.leadgen-btn--outline {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.leadgen-btn--outline:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.90);
+  transform: translateY(-2px);
+}
+
+/* â”€â”€ Right Column â”€â”€ */
+.leadgen-cta__right {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+}
+
+/* â”€â”€ Feature icons card â”€â”€ */
+.leadgen-cta__features {
+  display: flex;
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: 18px;
+  padding: 26px 22px;
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.70);
+  box-shadow: 0 4px 24px rgba(180, 60, 0, 0.08);
+}
+
+.leadgen-feature {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 10px;
+}
+
+.leadgen-feature__icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(245, 93, 45, 0.10);
+  border: 1px solid rgba(245, 93, 45, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  color: #F55D2D;
+  transition: background 200ms, transform 200ms;
+}
+
+.leadgen-feature:hover .leadgen-feature__icon {
+  background: rgba(245, 93, 45, 0.18);
+  transform: translateY(-2px);
+}
+
+.leadgen-feature__title {
+  font-family: var(--font-secondary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 5px 0;
+  line-height: 1.2;
+}
+
+.leadgen-feature__desc {
+  font-family: var(--font-secondary);
+  font-size: 0.71rem;
+  color: #6B7280;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.leadgen-feature__divider {
+  width: 1px;
+  height: 60px;
+  background: rgba(17, 17, 17, 0.08);
+  align-self: center;
+  flex: 0 0 auto;
+}
+
+/* â”€â”€ Social proof strip â”€â”€ */
+.leadgen-cta__social-proof {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: 16px;
+  padding: 16px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.70);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 4px 24px rgba(180, 60, 0, 0.08);
+}
+
+/* Flag row */
+.leadgen-avatars {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 0;
+}
+
+.leadgen-flag-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  overflow: hidden;
+  margin-left: -8px;
+  flex: 0 0 36px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  background: #eee;
+}
+
+.leadgen-flag-wrap:first-child {
+  margin-left: 0;
+}
+
+.leadgen-flag {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.leadgen-flag-more {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: #F55D2D;
+  color: #fff;
+  font-family: var(--font-secondary);
+  font-size: 0.6rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -8px;
+  flex: 0 0 36px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  letter-spacing: -0.01em;
+}
+
+/* Text */
+.leadgen-social-proof__text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.leadgen-social-proof__text strong {
+  font-family: var(--font-secondary);
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.leadgen-social-proof__text span {
+  font-family: var(--font-secondary);
+  font-size: 0.74rem;
+  color: #6B7280;
+  line-height: 1.4;
+}
+
+/* Arrow CTA button */
+.leadgen-social-proof__arrow {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #F55D2D;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  text-decoration: none;
+  transition: transform 200ms var(--ease-premium), box-shadow 200ms var(--ease-premium);
+  box-shadow: 0 4px 12px rgba(245, 93, 45, 0.30);
+}
+
+.leadgen-social-proof__arrow:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(245, 93, 45, 0.45);
+}
+
+/* â”€â”€ Responsive â”€â”€ */
+@media (max-width: 1050px) {
+  .leadgen-cta__container {
+    gap: 28px;
+    padding: 40px 36px;
+  }
+
+  .leadgen-cta__left {
+    flex: 0 0 300px;
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 860px) {
+  .leadgen-cta__container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+    min-height: unset;
+  }
+
+  .leadgen-cta__left {
+    flex: none;
+    max-width: 100%;
+  }
+
+  .leadgen-cta__right {
+    width: 100%;
+  }
+
+  .leadgen-cta__dots {
+    width: 100%;
+    border-radius: 0 0 28px 28px;
+    top: 50%;
+    height: 50%;
+  }
+}
+
+@media (max-width: 600px) {
+  .leadgen-cta {
+    padding: 40px 0 56px;
+  }
+
+  .leadgen-cta__container {
+    padding: 32px 24px;
+    border-radius: 20px;
+  }
+
+  .leadgen-cta__title {
+    font-size: 1.85rem;
+  }
+
+  .leadgen-cta__features {
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 20px 16px;
+  }
+
+  .leadgen-feature__divider {
+    display: none;
+  }
+
+  .leadgen-feature {
+    flex: 0 0 calc(50% - 8px);
+  }
+
+  .leadgen-cta__social-proof {
+    display: block;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .leadgen-cta__actions {
+    flex-direction: column;
+  }
+
+  .leadgen-btn {
+    justify-content: center;
+  }
+}
+
+/* --- End: components/cta.css --- */
