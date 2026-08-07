@@ -14,7 +14,7 @@ function resolvePath(path) {
   }
 
   const cleanPath = path.startsWith('/') ? path.substring(1) : path;
-  
+
   return `${base}${cleanPath}`;
 }
 
@@ -27,17 +27,18 @@ function initLayout() {
 
   const headerContainer = document.getElementById('header-slot');
   const footerContainer = document.getElementById('footer-slot');
-  
+
   if (headerContainer) {
     headerContainer.innerHTML = getNavbarHTML();
     bindNavbarEvents();
   }
-  
+
   if (footerContainer) {
     footerContainer.innerHTML = getFooterHTML();
     bindFooterEvents();
+    initReviewWidget();
   }
-  
+
   highlightActiveNav();
   initHUDOverlay();
   initChatbotAssets();
@@ -58,6 +59,16 @@ function initChatbotAssets() {
     const script = document.createElement('script');
     script.src = jsPath;
     script.defer = true;
+    document.body.appendChild(script);
+  }
+}
+
+function initReviewWidget() {
+  if (!document.querySelector('script[src*="grwapi.net"]')) {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://grwapi.net/widget.min.js';
+    script.async = true;
     document.body.appendChild(script);
   }
 }
@@ -457,9 +468,11 @@ function getFooterHTML() {
             <a href="${homeUrl}" class="footer__logo">
               <img src="${resolvePath('assets/img/Logo-with-Text-copy.png')}" alt="RiverBird Logo" />
             </a>
+            <div style="transform: scale(0.85); transform-origin: left center; margin-top: 5px; margin-bottom: 5px; width: 75%;">
+              <div class="review-widget_net" data-uuid="abf64cfa-44ec-4c22-a674-f30f1e372b30" data-template="10" data-lang="en" data-theme="light"></div>
+            </div>
             <p>15/1 Karur Bypass Road, Mela Chinthamani, Tiruchirappalli 620002. 
-              <strong>
-              GSTIN: 33AAPCR8973F1ZT</strong>
+              <span style="font-size: 0.75rem; font-weight: normal; color: var(--color-text-muted); display: block; margin-top: 4px;">GSTIN: 33AAPCR8973F1ZT</span>
             </p>
             <div class="footer__socials">
               <a href="https://instagram.com/riverbird.in" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram"> 
@@ -532,11 +545,7 @@ function getFooterHTML() {
               <p style="color: var(--color-text-muted); font-size: 0.875rem;">Get industry insights and Riverbird growth announcements.</p>
               <form class="footer__newsletter-form" id="newsletter-form">
                 <input type="email" placeholder="Enter your email" class="footer__newsletter-input" required aria-label="Email Address" />
-                <button type="submit" class="footer__newsletter-btn" aria-label="Subscribe">
-                  <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 6H15M15 6L10 1M15 6L10 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </button>
+                <button type="submit" class="footer__newsletter-btn">Subscribe</button>
               </form>
             </div>
           </div>
@@ -559,7 +568,7 @@ function bindNavbarEvents() {
   const header = document.getElementById('main-header');
   const toggleBtn = document.getElementById('mobile-toggle-btn');
   const drawer = document.getElementById('mobile-menu-drawer');
-  
+
   if (!header) return;
 
   const logoImg = header.querySelector('.header__logo img');
@@ -590,7 +599,7 @@ function bindNavbarEvents() {
   // Enhanced menu stability
   const navItems = header.querySelectorAll('.nav__item--has-dropdown');
   let menuTimeout;
-  
+
   navItems.forEach(item => {
     const menu = item.querySelector('.dropdown-menu, .mega-menu');
     if (!menu) return;
@@ -679,32 +688,32 @@ function bindFooterEvents() {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
+
       const xc = x / rect.width - 0.5;
       const yc = y / rect.height - 0.5;
-      
+
       const rotateX = -yc * 22; // 22 degrees max rotation
       const rotateY = xc * 22;
-      
+
       card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
-      
+
       // Dynamic shift of internal element layers to highlight 3D parallax depth
       const tagTop = card.querySelector('.avatar-tag--top');
       const tagBottom = card.querySelector('.avatar-tag--bottom');
       const icon = card.querySelector('.avatar-sphere__icon');
-      
+
       if (tagTop) tagTop.style.transform = `translateZ(45px) translate(${-xc * 12}px, ${-yc * 12}px)`;
       if (tagBottom) tagBottom.style.transform = `translateZ(45px) translate(${-xc * 12}px, ${-yc * 12}px)`;
       if (icon) icon.style.transform = `translateZ(35px) translate(${xc * 8}px, ${yc * 8}px) scale(1.1)`;
     });
-    
+
     card.addEventListener('mouseleave', () => {
       card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-      
+
       const tagTop = card.querySelector('.avatar-tag--top');
       const tagBottom = card.querySelector('.avatar-tag--bottom');
       const icon = card.querySelector('.avatar-sphere__icon');
-      
+
       if (tagTop) tagTop.style.transform = 'translateZ(30px) translate(0, 0)';
       if (tagBottom) tagBottom.style.transform = 'translateZ(30px) translate(0, 0)';
       if (icon) icon.style.transform = 'translateZ(20px) translate(0, 0) scale(1)';
@@ -715,7 +724,7 @@ function bindFooterEvents() {
 function highlightActiveNav() {
   const pageName = document.body.getAttribute('data-page');
   if (!pageName) return;
-  
+
   document.querySelectorAll('[data-nav]').forEach(el => {
     if (el.getAttribute('data-nav') === pageName) {
       if (el.classList.contains('nav__link')) {
@@ -815,11 +824,11 @@ function initMouseCoordinatesHUD() {
   const xText = document.querySelector('.ae-mouse-coords__x');
   const yText = document.querySelector('.ae-mouse-coords__y');
   if (!coords) return;
-  
+
   let mouseX = 0, mouseY = 0;
   let curX = 0, curY = 0;
   let isMouseActive = false;
-  
+
   window.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
@@ -831,15 +840,15 @@ function initMouseCoordinatesHUD() {
     coords.style.opacity = '0';
     isMouseActive = false;
   });
-  
+
   function update() {
     if (isMouseActive) {
       curX += (mouseX - curX) * 0.12;
       curY += (mouseY - curY) * 0.12;
-      
+
       coords.style.left = `${curX + 18}px`;
       coords.style.top = `${curY + 18}px`;
-      
+
       if (xText && yText) {
         xText.textContent = `X: ${Math.round(mouseX)}`;
         yText.textContent = `Y: ${Math.round(mouseY)}`;
@@ -854,11 +863,11 @@ const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('reveal--visible');
-      
+
       // Trigger After Effects style decrypt/scramble on headings in the revealed section
       const headings = entry.target.querySelectorAll('h1, h2, .h1, .h2');
       headings.forEach(h => scrambleText(h));
-      
+
       revealObserver.unobserve(entry.target);
     }
   });
@@ -874,11 +883,11 @@ const counterObserver = new IntersectionObserver((entries) => {
       const target = entry.target;
       const targetNum = parseInt(target.getAttribute('data-target'), 10);
       if (isNaN(targetNum)) return;
-      
+
       const duration = 1500;
       let start = 0;
       const stepTime = Math.max(Math.floor(duration / targetNum), 15);
-      
+
       const timer = setInterval(() => {
         start += 1;
         target.textContent = start;
@@ -887,7 +896,7 @@ const counterObserver = new IntersectionObserver((entries) => {
           clearInterval(timer);
         }
       }, stepTime);
-      
+
       counterObserver.unobserve(target);
     }
   });
@@ -901,7 +910,7 @@ function initAnimations() {
   initParallax();
   initStaggerAnimations();
   initMouseTrail();
-  
+
   scanAndObserve(document.body);
   initMutationObserver();
 }
@@ -913,7 +922,7 @@ function initCursorGlow() {
   window.addEventListener('mousemove', (e) => {
     const x = e.clientX;
     const y = e.clientY;
-    
+
     glow.style.left = `${x}px`;
     glow.style.top = `${y}px`;
   });
@@ -944,7 +953,7 @@ function scrambleText(element) {
   const chars = 'XYZ-+$#@&0123456789%[]{}*?!=';
   let progress = 0;
   const maxLen = Math.max(...originalValues.map(val => val.length), 0);
-  
+
   const interval = setInterval(() => {
     textNodes.forEach((node, nodeIdx) => {
       const orig = originalValues[nodeIdx];
@@ -1004,14 +1013,14 @@ function initCardTilt() {
 
 function scanAndObserve(root) {
   if (!root) return;
-  
+
   if (root.classList && root.classList.contains('reveal')) {
     revealObserver.observe(root);
   }
   root.querySelectorAll('.reveal').forEach(el => {
     revealObserver.observe(el);
   });
-  
+
   if (root.classList && root.classList.contains('counter-val')) {
     counterObserver.observe(root);
   }
@@ -1030,7 +1039,7 @@ function initMutationObserver() {
       });
     });
   });
-  
+
   observer.observe(document.body, { childList: true, subtree: true });
 }
 
@@ -1106,7 +1115,7 @@ function initParallax() {
 
 function initStaggerAnimations() {
   const staggerGroups = document.querySelectorAll('[data-stagger]');
-  
+
   const staggerObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -1132,7 +1141,7 @@ function initMouseTrail() {
   // Create trail elements
   const trailCount = 8;
   const trails = [];
-  
+
   for (let i = 0; i < trailCount; i++) {
     const trail = document.createElement('div');
     trail.className = 'mouse-trail';
@@ -1154,10 +1163,10 @@ function initMouseTrail() {
   window.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-    
+
     isMoving = true;
     trails.forEach(trail => trail.element.classList.add('active'));
-    
+
     clearTimeout(movingTimeout);
     movingTimeout = setTimeout(() => {
       isMoving = false;
@@ -1168,17 +1177,17 @@ function initMouseTrail() {
   function animateTrail() {
     trails.forEach((trail, index) => {
       const delay = index * 0.05;
-      
+
       trail.x += (mouseX - trail.x) * (0.1 - delay);
       trail.y += (mouseY - trail.y) * (0.1 - delay);
-      
+
       trail.element.style.transform = `translate(${trail.x}px, ${trail.y}px) scale(${1 - (index * 0.1)})`;
       trail.element.style.opacity = isMoving ? (0.6 - (index * 0.07)) : 0;
     });
-    
+
     requestAnimationFrame(animateTrail);
   }
-  
+
   animateTrail();
 }
 
@@ -1198,7 +1207,7 @@ function initLiquidBackground() {
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
   }
-  
+
   resize();
   window.addEventListener('resize', resize);
 
@@ -1224,14 +1233,14 @@ function initLiquidBackground() {
       this.morphSpeed = Math.random() * 0.6 + 0.3;
       this.morphAmount = Math.random() * 30 + 15;
       this.seed = Math.random() * 100;
-      
-      this.color = isMouse 
-        ? 'rgba(245, 93, 45, 0.38)' 
+
+      this.color = isMouse
+        ? 'rgba(245, 93, 45, 0.38)'
         : [
-            'rgba(245, 93, 45, 0.22)',
-            'rgba(212, 238, 54, 0.14)',
-            'rgba(7, 0, 255, 0.06)'
-          ][Math.floor(Math.random() * 3)];
+          'rgba(245, 93, 45, 0.22)',
+          'rgba(212, 238, 54, 0.14)',
+          'rgba(7, 0, 255, 0.06)'
+        ][Math.floor(Math.random() * 3)];
     }
 
     update(width, height) {
@@ -1263,21 +1272,21 @@ function initLiquidBackground() {
       context.beginPath();
       const numPoints = 16;
       const time = Date.now() * 0.001 * this.morphSpeed;
-      
+
       for (let i = 0; i <= numPoints; i++) {
         const angle = (i / numPoints) * Math.PI * 2;
         const offset = Math.sin(angle * 3 + time + this.seed) * Math.cos(angle * 2 - time) * this.morphAmount;
         const r = this.radius + offset;
         const x = this.x + Math.cos(angle) * r;
         const y = this.y + Math.sin(angle) * r;
-        
+
         if (i === 0) {
           context.moveTo(x, y);
         } else {
           context.lineTo(x, y);
         }
       }
-      
+
       context.closePath();
       context.fillStyle = this.color;
       context.fill();
@@ -1331,7 +1340,7 @@ function initLiquidBackground() {
 
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+
     blobs.forEach(blob => {
       blob.update(canvas.width, canvas.height);
       blob.draw(ctx);
@@ -1375,7 +1384,7 @@ function bindFormSubmit(formId, successMsg) {
       if (!input.value.trim()) {
         hasError = true;
         input.classList.add('form-input--error');
-        
+
         const err = document.createElement('span');
         err.className = 'form-error-msg';
         err.textContent = 'This field is required.';
@@ -1389,7 +1398,7 @@ function bindFormSubmit(formId, successMsg) {
       if (!emailRegex.test(emailInput.value.trim())) {
         hasError = true;
         emailInput.classList.add('form-input--error');
-        
+
         const err = document.createElement('span');
         err.className = 'form-error-msg';
         err.textContent = 'Please enter a valid email address.';
@@ -1405,7 +1414,7 @@ function bindFormSubmit(formId, successMsg) {
     submitBtn.textContent = 'Processing...';
 
     setTimeout(() => {
-      
+
       form.reset();
       submitBtn.disabled = false;
       submitBtn.textContent = originalText;
@@ -1413,13 +1422,13 @@ function bindFormSubmit(formId, successMsg) {
       const successDiv = document.createElement('div');
       successDiv.className = 'form-success-msg fade-in';
       successDiv.textContent = successMsg;
-      
+
       form.insertBefore(successDiv, form.firstChild);
 
       setTimeout(() => {
         successDiv.remove();
       }, 8000);
-      
+
     }, 1500);
   });
 }
@@ -1601,11 +1610,11 @@ function initOrbitalSystem() {
 
   const keys = Object.keys(TECH_DATA);
   const totalNodes = keys.length;
-  
+
   // Dimensions and layout variables matching the SVG viewBox (540x540)
   const center = 270;
   const radius = 210;
-  
+
   let currentAngle = 0;
   let isPaused = false;
   let selectedNodeKey = null;
@@ -1691,7 +1700,7 @@ function initOrbitalSystem() {
     const data = TECH_DATA[key];
     placeholder.style.display = 'none';
     content.style.display = 'block';
-    
+
     content.querySelector('.info-title').textContent = data.name;
     content.querySelector('.info-category').textContent = data.category;
     content.querySelector('.info-desc').textContent = data.description;
@@ -1724,7 +1733,7 @@ function initOrbitalSystem() {
     if (!activeNode) return;
 
     const activeData = TECH_DATA[selectedNodeKey];
-    
+
     // Core center coords
     const activeX = center + radius * Math.cos(activeNode.baseAngle + currentAngle);
     const activeY = center + radius * Math.sin(activeNode.baseAngle + currentAngle);
@@ -1760,13 +1769,13 @@ function initOrbitalSystem() {
   function tick() {
     if (!isPaused) {
       currentAngle += 0.002; // Very slow rotation: ~20-30 seconds per revolution
-      
+
       // Update node DOM positions
       nodeElements.forEach(item => {
         const angle = item.baseAngle + currentAngle;
         const x = center + radius * Math.cos(angle);
         const y = center + radius * Math.sin(angle);
-        
+
         // Express position in percentages of the 540x540 canvas to support scale responsiveness
         const pctX = (x / 540) * 100;
         const pctY = (y / 540) * 100;
@@ -1976,49 +1985,50 @@ const developmentSolutions = {
       title: "Deploy & Scale",
       description: "Releasing to production environments via continuous integration pipelines with active monitoring."
     }
-  ]};
+  ]
+};
 
 const ICONS = {
   software: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>`,
-  
+
   web: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>`,
-  
+
   app: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>`,
-  
+
   marketing: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>`,
-  
+
   design: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 14.7255 3.09032 17.1962 4.85857 19C5.03345 19.1749 5.099 19.426 5.02194 19.6601C4.78604 20.377 4.66136 21.1402 4.66136 21.9333C4.66136 21.9702 4.69123 22 4.72808 22C6.18342 22 7.52044 21.4646 8.54807 20.58C8.75168 20.4047 9.04354 20.3853 9.26786 20.5099C10.1264 20.9868 11.0331 21.2599 12 21.2599V22Z"></path><circle cx="7.5" cy="10.5" r="1.5"></circle><circle cx="11.5" cy="7.5" r="1.5"></circle><circle cx="16.5" cy="9.5" r="1.5"></circle></svg>`,
-  
+
   video: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>`,
-  
+
   tag: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>`,
-  
+
   user: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`,
-  
+
   megaphone: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>`,
-  
+
   search: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>`,
-  
+
   dollar: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>`,
-  
+
   target: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>`,
-  
+
   handshake: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`,
-  
+
   userPlus: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>`,
-  
+
   manpower: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>`,
-  
+
   settings: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>`,
-  
+
   building: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><rect x="2" y="2" width="20" height="20" rx="2" ry="2"></rect><path d="M9 22V12h6v10"></path><path d="M8 7h.01"></path><path d="M16 7h.01"></path><path d="M8 12h.01"></path><path d="M16 12h.01"></path></svg>`,
-  
+
   zap: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`,
-  
+
   bag: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`,
-  
+
   upload: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>`,
-  
+
   arrowRight: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>`,
 
   chevronDown: `<svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" class="rb-icon"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
@@ -2083,8 +2093,8 @@ function renderJobs(containerId, filterDept = 'all') {
   const container = document.getElementById(containerId);
   if (!container) return;
 
-  const filteredJobs = filterDept === 'all' 
-    ? jobListings 
+  const filteredJobs = filterDept === 'all'
+    ? jobListings
     : jobListings.filter(job => job.department === filterDept);
 
   if (filteredJobs.length === 0) {
@@ -2174,10 +2184,10 @@ function renderProcessSteps(containerId) {
 
 document.addEventListener('DOMContentLoaded', () => {
   document.documentElement.classList.add('js-enabled');
-  
+
   // No loader - instant page load
   document.body.classList.add('page-loaded');
-  
+
   initLayout();
 
   initAnimations();
@@ -2187,12 +2197,12 @@ document.addEventListener('DOMContentLoaded', () => {
   initForms();
 
   const pageName = document.body.getAttribute('data-page');
-  
+
   if (pageName === 'home') {
     renderCaseStudies('home-case-studies', 3);
     renderTestimonials('home-testimonials');
     initOrbitalSystem();
-  } 
+  }
   else if (pageName === 'development') {
     renderProcessSteps('dev-process-grid');
   }
@@ -2203,10 +2213,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash.replace('#', '');
     const validDepts = ['it', 'marketing', 'internship'];
     const initialDept = validDepts.includes(hash) ? hash : 'all';
-    
+
     renderJobs('careers-jobs-grid', initialDept);
     setupCareersFilter(initialDept);
-    
+
     window.addEventListener('hashchange', () => {
       const newHash = window.location.hash.replace('#', '');
       const newDept = validDepts.includes(newHash) ? newHash : 'all';
