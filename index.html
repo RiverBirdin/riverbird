@@ -947,12 +947,16 @@
       const emptyState = document.getElementById('blog-empty-state');
       if (!container) return;
 
-      fetch('/api/blogs')
+      // Automatically determine API base URL (Render backend when hosted on Hostinger)
+      const API_BASE = (window.location.hostname.includes('onrender.com') || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+        ? ''
+        : 'https://riverbird.onrender.com';
+
+      fetch(`${API_BASE}/api/blogs`)
         .then(res => res.json())
         .then(blogs => {
           if (!blogs || blogs.length === 0) {
             if (emptyState) emptyState.style.display = 'block';
-            // Hide the entire blog section if no posts
             const blogSection = document.getElementById('blog');
             if (blogSection) blogSection.style.display = 'none';
             return;
@@ -962,11 +966,16 @@
               year: 'numeric', month: 'short', day: 'numeric'
             }) : '';
             const delay = i < 6 ? `delay-${i % 3 + 1}` : '';
+            const blogImg = blog.image
+              ? (blog.image.startsWith('http') ? blog.image : `${API_BASE}/${blog.image.replace(/^\//, '')}`)
+              : null;
+            const blogUrl = `${API_BASE}/blog/${blog.slug}`;
+
             return `
               <div class="card reveal ${delay} stagger-item">
                 <div class="card__image-wrapper">
-                  ${blog.image
-                    ? `<img src="/${blog.image}" alt="${blog.title}" class="card__image" loading="lazy">`
+                  ${blogImg
+                    ? `<img src="${blogImg}" alt="${blog.title}" class="card__image" loading="lazy">`
                     : `<div class="card__image" style="height:200px;background:var(--color-bg-light);display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);">RiverBird Blog</div>`
                   }
                 </div>
@@ -976,13 +985,12 @@
                 </div>
                 <h3 class="card__title">${blog.title}</h3>
                 <p class="card__desc">${blog.description}</p>
-                <a href="/blog/${blog.slug}" class="btn btn--text magnetic-btn">Read More &rarr;</a>
+                <a href="${blogUrl}" class="btn btn--text magnetic-btn">Read More &rarr;</a>
               </div>
             `;
           }).join('');
         })
         .catch(() => {
-          // Silently fail — blog section will be empty or hidden
           const blogSection = document.getElementById('blog');
           if (blogSection) blogSection.style.display = 'none';
         });

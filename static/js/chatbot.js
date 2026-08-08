@@ -175,7 +175,7 @@
     showTypingIndicator();
 
     try {
-      const response = await fetch('/api/chatbot/message', {
+      const response = await fetch(`${API_BASE}/api/chatbot/message`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: userMsg, history: chatHistory })
@@ -344,7 +344,7 @@
       statusDiv.textContent = 'Submitting details...';
 
       try {
-        const response = await fetch('/api/chatbot/submit-lead', {
+        const response = await fetch(`${API_BASE}/api/chatbot/submit-lead`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
