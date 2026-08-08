@@ -13,6 +13,7 @@ from email_utils import init_mail
 from routes import routes
 
 from flask_wtf.csrf import CSRFProtect
+from flask_cors import CORS
 
 csrf = CSRFProtect()
 
@@ -61,6 +62,7 @@ def create_app():
     login_manager.init_app(app)
     init_mail(app)
     csrf.init_app(app)
+    CORS(app, resources={r"/*": {"origins": "*"}})
 
     # ── Register Blueprints ──
     app.register_blueprint(routes)
@@ -70,13 +72,16 @@ def create_app():
     csrf.exempt(api_chatbot_message)
     csrf.exempt(api_chatbot_submit_lead)
 
-    # ── HTTP Security Headers Middleware ──
+    # ── HTTP Security Headers & CORS Middleware ──
     @app.after_request
     def set_security_headers(response):
         response.headers['X-Frame-Options'] = 'SAMEORIGIN'
         response.headers['X-Content-Type-Options'] = 'nosniff'
         response.headers['X-XSS-Protection'] = '1; mode=block'
         response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
         return response
 
     # ── Database & Initial Admin Setup ──
