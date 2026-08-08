@@ -9,28 +9,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="assets/css/main.css" />
-  <style>
-    body[data-page="company"] .section-padding { padding-top: var(--space-64); padding-bottom: var(--space-64); }
-    #mission-vision .mission-vision__grid { display: none; }
-    .philosophy-intro { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1fr); gap: var(--space-64); margin-bottom: var(--space-64); }
-    .philosophy-intro__title { margin: 0; color: #161616; font-family: var(--font-primary); font-size: clamp(2.25rem, 4vw, 3.4rem); font-weight: 800; line-height: 1.2; }
-    .philosophy-intro__title em { font-weight: 400; }
-    .philosophy-intro__copy { max-width: 720px; margin: 0; color: #3E527A; font-family: var(--font-secondary); font-size: 1rem; line-height: 1.9; }
-    .philosophy-panels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-20); }
-    .philosophy-panel { min-height: 360px; display: grid; grid-template-columns: minmax(150px, .8fr) minmax(0, 1fr); gap: var(--space-24); align-items: center; padding: var(--space-40); overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: #FFF; color: #111; }
-    .philosophy-panel__image { width: 100%; max-width: 220px; max-height: 220px; justify-self: center; object-fit: contain; }
-    .philosophy-panel__eyebrow { display: block; margin-bottom: var(--space-16); font-family: var(--font-secondary); font-size: .9rem; font-weight: 600; }
-    .philosophy-panel h3 { margin: 0 0 var(--space-20); font-family: var(--font-primary); font-size: clamp(1.4rem, 2vw, 2rem); font-weight: 800; line-height: 1.2; }
-    .philosophy-panel p { margin: 0; font-family: var(--font-secondary); font-size: .95rem; line-height: 1.7; }
-    .story-timeline { position: relative; }
-    .story-timeline__progress { position: absolute; top: 0; left: 4px; z-index: 2; width: 2px; height: 100%; background: var(--color-primary); transform: scaleY(var(--story-progress, 0)); transform-origin: top; transition: transform 120ms linear; }
-    .story-node::after { background: var(--color-bg-white); border-color: var(--color-border); box-shadow: 0 0 0 4px rgba(17,17,17,.06); transition: background-color var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal), transform var(--transition-normal); }
-    .story-node.story-node--active::after { background: var(--color-primary); border-color: var(--color-bg-white); box-shadow: 0 0 0 4px rgba(245,93,45,.18); transform: scale(1.15); }
-    .story-node__year { color: var(--color-text-muted); transition: color var(--transition-normal); }
-    .story-node.story-node--active .story-node__year { color: var(--color-primary); }
-    @media (min-width: 768px) { body[data-page="company"] .section-padding { padding-top: var(--space-80); padding-bottom: var(--space-80); } }
-    @media (max-width: 768px) { .philosophy-intro, .philosophy-panels { grid-template-columns: 1fr; } .philosophy-intro { gap: var(--space-24); margin-bottom: var(--space-40); } .philosophy-panel { min-height: 0; grid-template-columns: 92px minmax(0, 1fr); padding: var(--space-28); } .philosophy-panel__image { max-width: 80px; max-height: 80px; } }
-  </style>
 
   <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
@@ -376,6 +354,18 @@
               <div class="trust-logos__item"><img src="assets/img/client-logos/gym-nation-fitness.png" alt="Gym Nation Fitness" loading="lazy" /></div>
               <div class="trust-logos__item"><img src="assets/img/client-logos/Linen-World.png" alt="Linen World" loading="lazy" /></div>
             </div>
+            <div class="leadgen-social-proof__text">
+              <strong>Growing Brands Across 4+ Countries</strong>
+              <span>Partnering with businesses worldwide through strategy, technology, and marketing.</span>
+            </div>
+            <a href="contact_index.html" class="leadgen-social-proof__arrow" aria-label="Get started"
+              id="leadgen-social-proof-cta">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
+            </a>
           </div>
 
           <div class="trust-logos__row trust-logos__row--ltr">
@@ -401,139 +391,6 @@
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- Lead Generation CTA -->
-    <section class="leadgen-cta" id="leadgen-cta">
-      <div class="container leadgen-cta__container">
-
-        <!-- Left Column -->
-        <div class="leadgen-cta__left">
-          <div class="leadgen-cta__badge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-            </svg>
-            <span>LET'S GROW TOGETHER</span>
-          </div>
-          <h2 class="leadgen-cta__title">Building Digital
-            Growth Stories<br><span class="leadgen-cta__title--accent">That Matter.</span></h2>
-          <p class="leadgen-cta__desc">From strategy to execution, we help brands grow online, generate quality leads,
-            and achieve measurable results.</p>
-          <div class="leadgen-cta__actions">
-            <a href="contact_index.html" class="leadgen-btn leadgen-btn--primary" id="leadgen-free-consultation">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13" />
-                <polygon points="22 2 15 22 11 13 2 9 22 2" />
-              </svg>
-              Get Free Consultation
-            </a>
-            <a href="contact_index.html" class="leadgen-btn leadgen-btn--outline" id="leadgen-schedule-call">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                <line x1="16" y1="2" x2="16" y2="6" />
-                <line x1="8" y1="2" x2="8" y2="6" />
-                <line x1="3" y1="10" x2="21" y2="10" />
-              </svg>
-              Schedule a Call
-            </a>
-          </div>
-        </div>
-
-
-        <!-- Right Column -->
-        <div class="leadgen-cta__right">
-          <!-- Feature icons row -->
-          <div class="leadgen-cta__features">
-            <div class="leadgen-feature">
-              <div class="leadgen-feature__icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                </svg>
-              </div>
-              <p class="leadgen-feature__title">Strategy First</p>
-              <p class="leadgen-feature__desc">Custom strategies tailored to your business goals.</p>
-            </div>
-            <div class="leadgen-feature__divider" aria-hidden="true"></div>
-            <div class="leadgen-feature">
-              <div class="leadgen-feature__icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="m9 12 2 2 4-4" />
-                </svg>
-              </div>
-              <p class="leadgen-feature__title">Quality Leads</p>
-              <p class="leadgen-feature__desc">We attract, capture, and deliver leads that convert.</p>
-            </div>
-            <div class="leadgen-feature__divider" aria-hidden="true"></div>
-            <div class="leadgen-feature">
-              <div class="leadgen-feature__icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
-                  <polyline points="16 7 22 7 22 13" />
-                </svg>
-              </div>
-              <p class="leadgen-feature__title">Measurable Results</p>
-              <p class="leadgen-feature__desc">Track, analyze, and optimize for maximum growth.</p>
-            </div>
-            <div class="leadgen-feature__divider" aria-hidden="true"></div>
-            <div class="leadgen-feature">
-              <div class="leadgen-feature__icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 6 12 12 16 14" />
-                </svg>
-              </div>
-              <p class="leadgen-feature__title">24/7 Support</p>
-              <p class="leadgen-feature__desc">We're here anytime to support your growth journey.</p>
-            </div>
-          </div>
-
-          <!-- Social proof strip -->
-          <div class="leadgen-cta__social-proof">
-            <div class="leadgen-avatars">
-              <div class="leadgen-flag-wrap">
-                <img src="assets/img/Flags/unitedstates.png" alt="United States" class="leadgen-flag" width="36"
-                  height="36" loading="lazy" />
-              </div>
-              <div class="leadgen-flag-wrap">
-                <img src="assets/img/Flags/canada.png" alt="Canada" class="leadgen-flag" width="36" height="36"
-                  loading="lazy" />
-              </div>
-              <div class="leadgen-flag-wrap">
-                <img src="assets/img/Flags/unitedarabemirates.png" alt="United Arab Emirates" class="leadgen-flag"
-                  width="36" height="36" loading="lazy" />
-              </div>
-              <div class="leadgen-flag-wrap">
-                <img src="assets/img/Flags/malaysia.png" alt="Malaysia" class="leadgen-flag" width="36" height="36"
-                  loading="lazy" />
-              </div>
-              <div class="leadgen-flag-more">+ More</div>
-            </div>
-            <div class="leadgen-social-proof__text">
-              <strong>Growing Brands Across 4+ Countries</strong>
-              <span>Partnering with businesses worldwide through strategy, technology, and marketing.</span>
-            </div>
-            <a href="contact_index.html" class="leadgen-social-proof__arrow" aria-label="Get started"
-              id="leadgen-social-proof-cta">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <line x1="7" y1="17" x2="17" y2="7" />
-                <polyline points="7 7 17 7 17 17" />
-              </svg>
-            </a>
-          </div>
-        </div>
-
-      </div>
       <!-- Dotted pattern overlay -->
       <div class="leadgen-cta__dots" aria-hidden="true"></div>
     </section>
@@ -541,28 +398,6 @@
   </main>
 
   <div id="footer-slot"></div>
-  <script>
-    (() => {
-      const timeline = document.querySelector('.story-timeline');
-      if (!timeline) return;
-
-      const nodes = Array.from(timeline.querySelectorAll('.story-node'));
-      const updateTimeline = () => {
-        const bounds = timeline.getBoundingClientRect();
-        const marker = window.innerHeight * 0.68;
-        const progress = Math.min(1, Math.max(0, (marker - bounds.top) / bounds.height));
-
-        timeline.style.setProperty('--story-progress', progress);
-        nodes.forEach((node) => {
-          node.classList.toggle('story-node--active', node.getBoundingClientRect().top <= marker);
-        });
-      };
-
-      window.addEventListener('scroll', updateTimeline, { passive: true });
-      window.addEventListener('resize', updateTimeline);
-      updateTimeline();
-    })();
-  </script>
   <script type="module" src="assets/js/core/app.js"></script>
 </body>
 </html>

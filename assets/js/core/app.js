@@ -1135,6 +1135,28 @@ function initStaggerAnimations() {
   });
 }
 
+function initStoryTimeline() {
+  const timeline = document.querySelector('.story-timeline');
+  if (!timeline) return;
+
+  const nodes = Array.from(timeline.querySelectorAll('.story-node'));
+
+  const updateProgress = () => {
+    const timelineRect = timeline.getBoundingClientRect();
+    const progressPoint = window.innerHeight * 0.68;
+    const progress = Math.min(1, Math.max(0, (progressPoint - timelineRect.top) / timelineRect.height));
+
+    timeline.style.setProperty('--story-progress', progress);
+    nodes.forEach((node) => {
+      node.classList.toggle('story-node--active', node.getBoundingClientRect().top <= progressPoint);
+    });
+  };
+
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress);
+  updateProgress();
+}
+
 
 
 function initMouseTrail() {
@@ -2208,6 +2230,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   else if (pageName === 'company') {
     renderBlogs('company-blog-grid');
+    initStoryTimeline();
   }
   else if (pageName === 'careers') {
     const hash = window.location.hash.replace('#', '');
