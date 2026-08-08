@@ -1,0 +1,426 @@
+{% extends "base_admin.html" %}
+
+{% block title %}{% if editing %}Edit Blog{% else %}Create Blog{% endif %}{% endblock %}
+
+{% block extra_css %}
+<!-- Quill Rich Text Editor -->
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<style>
+  .form-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .form-header__title {
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  .form-header__back {
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+  .form-header__back:hover { color: var(--color-primary); }
+
+  .blog-form-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .form-group {
+    margin-bottom: 24px;
+  }
+  .form-label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 6px;
+  }
+  .form-label-hint {
+    font-weight: 400;
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    margin-left: 4px;
+  }
+  .form-input,
+  .form-textarea,
+  .form-select {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: var(--font-secondary);
+    font-size: 0.9375rem;
+    border: 1px solid var(--color-border-hover);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-white);
+    color: var(--color-text-primary);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .form-input:focus,
+  .form-textarea:focus,
+  .form-select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(245,93,45,0.1);
+  }
+  .form-textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  .form-select {
+    cursor: pointer;
+    appearance: auto;
+  }
+
+  .form-errors {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0;
+  }
+  .form-errors li {
+    font-size: 0.8rem;
+    color: var(--color-error);
+    padding: 2px 0;
+  }
+
+  /* ── Image Upload ── */
+  .image-upload {
+    border: 2px dashed var(--color-border-hover);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  .image-upload:hover {
+    border-color: var(--color-primary);
+    background: var(--color-primary-light);
+  }
+  .image-upload input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .image-upload__icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    opacity: 0.5;
+  }
+  .image-upload__text {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+  }
+  .image-upload__formats {
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    margin-top: 4px;
+    opacity: 0.7;
+  }
+  .image-preview {
+    margin-top: 12px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    max-height: 200px;
+  }
+  .image-preview img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  /* ── Toggle Switch ── */
+  .toggle-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .toggle-switch {
+    position: relative;
+    width: 48px;
+    height: 26px;
+  }
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: #e0e0e0;
+    border-radius: 26px;
+    transition: 0.3s;
+  }
+  .toggle-slider::before {
+    content: '';
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .toggle-switch input:checked + .toggle-slider {
+    background: var(--color-success);
+  }
+  .toggle-switch input:checked + .toggle-slider::before {
+    transform: translateX(22px);
+  }
+  .toggle-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  /* ── Quill Editor ── */
+  .editor-wrapper {
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--color-border-hover);
+  }
+  .editor-wrapper:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(245,93,45,0.1);
+  }
+  #editor-container {
+    min-height: 350px;
+    font-family: var(--font-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  .ql-toolbar.ql-snow {
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-light);
+  }
+  .ql-container.ql-snow {
+    border: none;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .sidebar-card {
+    background: var(--color-bg-white);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .sidebar-card__title {
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  @media (max-width: 900px) {
+    .blog-form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+  <!-- Form Header -->
+  <div class="form-header">
+    <div>
+      <h1 class="form-header__title">{% if editing %}Edit Blog Post{% else %}Create New Blog{% endif %}</h1>
+    </div>
+    <a href="{{ url_for('routes.admin_dashboard') }}" class="form-header__back">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back to Dashboard
+    </a>
+  </div>
+
+  <form method="POST" enctype="multipart/form-data" id="blogForm">
+    {{ form.hidden_tag() }}
+    {{ form.content(id="content-hidden") }}
+
+    <div class="blog-form-grid">
+      <!-- Main Column -->
+      <div>
+        <div class="admin-card">
+          <div class="form-group">
+            <label class="form-label" for="title">Title</label>
+            {{ form.title(class="form-input", id="title", placeholder="Enter blog title...", autocomplete="off") }}
+            {% if form.title.errors %}
+            <ul class="form-errors">{% for e in form.title.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="slug">
+              Slug
+              <span class="form-label-hint">(auto-generated if left empty)</span>
+            </label>
+            {{ form.slug(class="form-input", id="slug", placeholder="blog-post-url-slug", autocomplete="off") }}
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="description">Short Description</label>
+            {{ form.description(class="form-textarea", id="description", placeholder="Brief summary of the blog post...", rows=3) }}
+            {% if form.description.errors %}
+            <ul class="form-errors">{% for e in form.description.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Content</label>
+            {% if form.content.errors %}
+            <ul class="form-errors">{% for e in form.content.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+            {% endif %}
+            <div class="editor-wrapper">
+              <div id="editor-container"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-admin btn-admin--primary" id="submitBtn">
+            {% if editing %}Update Blog{% else %}Create Blog{% endif %}
+          </button>
+          <a href="{{ url_for('routes.admin_dashboard') }}" class="btn-admin btn-admin--outline">Cancel</a>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <!-- Publish Settings -->
+        <div class="sidebar-card">
+          <h3 class="sidebar-card__title">Publish Settings</h3>
+
+          <div class="form-group">
+            <label class="form-label" for="category">Category</label>
+            {{ form.category(class="form-select", id="category") }}
+          </div>
+
+          <div class="form-group">
+            <div class="toggle-group">
+              <label class="toggle-switch">
+                {{ form.published(id="published") }}
+                <span class="toggle-slider"></span>
+              </label>
+              <span class="toggle-label">Publish immediately</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured Image -->
+        <div class="sidebar-card">
+          <h3 class="sidebar-card__title">Featured Image</h3>
+          <div class="image-upload" id="imageUpload">
+            <div class="image-upload__icon">🖼</div>
+            <div class="image-upload__text">Click or drag to upload</div>
+            <div class="image-upload__formats">JPG, JPEG, PNG, WEBP only</div>
+            {{ form.image(id="imageInput") }}
+          </div>
+          <div class="image-preview" id="imagePreview">
+            {% if editing and blog and blog.featured_image %}
+            <img src="/{{ blog.featured_image }}" alt="Current image">
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+<script>
+  // ── Initialize Quill Editor ──
+  const quill = new Quill('#editor-container', {
+    theme: 'snow',
+    placeholder: 'Write your blog content here...',
+    modules: {
+      toolbar: [
+        [{ 'header': [1, 2, 3, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        ['blockquote', 'code-block'],
+        ['link', 'image'],
+        [{ 'align': [] }],
+        ['clean']
+      ]
+    }
+  });
+
+  // Load existing content (for editing)
+  const existingContent = document.getElementById('content-hidden').value;
+  if (existingContent) {
+    quill.root.innerHTML = existingContent;
+  }
+
+  // ── Sync Quill content to hidden field on submit ──
+  document.getElementById('blogForm').addEventListener('submit', function(e) {
+    const html = quill.root.innerHTML;
+    if (html === '<p><br></p>' || html.trim() === '') {
+      document.getElementById('content-hidden').value = '';
+    } else {
+      document.getElementById('content-hidden').value = html;
+    }
+  });
+
+  // ── Auto-generate slug from title ──
+  const titleInput = document.getElementById('title');
+  const slugInput = document.getElementById('slug');
+  let userEditedSlug = slugInput.value.trim() !== '';
+
+  slugInput.addEventListener('input', function() {
+    userEditedSlug = this.value.trim() !== '';
+  });
+
+  titleInput.addEventListener('input', function() {
+    if (!userEditedSlug) {
+      const slug = this.value
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/[-\s]+/g, '-')
+        .replace(/^-|-$/g, '');
+      slugInput.value = slug;
+    }
+  });
+
+  // ── Image Preview ──
+  const imageInput = document.getElementById('imageInput');
+  const imagePreview = document.getElementById('imagePreview');
+
+  imageInput.addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        imagePreview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+</script>
+{% endblock %}

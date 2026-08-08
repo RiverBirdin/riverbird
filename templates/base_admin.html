@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Admin{% endblock %} — RiverBird</title>
+  <link rel="icon" type="image/png" href="/assets/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Admin Design System — Reuses RiverBird tokens ── */
+    :root {
+      --color-primary: #F55D2D;
+      --color-primary-light: rgba(245, 93, 45, 0.08);
+      --color-primary-medium: rgba(245, 93, 45, 0.15);
+      --color-secondary: #D4EE36;
+      --color-accent: #0700FF;
+      --color-bg-light: #FAFAFA;
+      --color-bg-white: #FFFFFF;
+      --color-bg-dark: #0D0D0D;
+      --color-bg-elevated: #FFFFFF;
+      --color-text-primary: #111111;
+      --color-text-secondary: #1C1921;
+      --color-text-muted: #6B7280;
+      --color-text-inverse: #FFFFFF;
+      --color-border: rgba(17, 17, 17, 0.06);
+      --color-border-hover: rgba(17, 17, 17, 0.12);
+      --color-success: #10B981;
+      --color-error: #EF4444;
+      --color-warning: #F59E0B;
+      --font-primary: 'Bricolage Grotesque', Georgia, serif;
+      --font-secondary: 'Archivo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+      --shadow-lg: 0 16px 48px rgba(0,0,0,0.08);
+      --shadow-primary: 0 8px 24px rgba(245, 93, 45, 0.15);
+      --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-fast: 150ms var(--ease-premium);
+      --transition-normal: 300ms var(--ease-premium);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-secondary);
+      background: var(--color-bg-light);
+      color: var(--color-text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1,h2,h3,h4,h5,h6 { font-family: var(--font-primary); font-weight: 700; line-height: 1.2; }
+    a { color: inherit; text-decoration: none; transition: color var(--transition-fast); }
+    ul { list-style: none; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    /* ── Admin Topbar ── */
+    .admin-topbar {
+      background: var(--color-bg-dark);
+      padding: 0 32px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .admin-topbar__brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .admin-topbar__brand img {
+      height: 32px;
+      width: auto;
+    }
+    .admin-topbar__brand-text {
+      color: var(--color-text-inverse);
+      font-family: var(--font-primary);
+      font-weight: 600;
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    .admin-topbar__badge {
+      background: var(--color-primary);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .admin-topbar__actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .admin-topbar__user {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.875rem;
+    }
+    .admin-topbar__logout {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.8125rem;
+      padding: 6px 16px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-sm);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+      display: inline-block;
+    }
+    .admin-topbar__logout:hover {
+      color: #fff;
+      border-color: var(--color-primary);
+      background: rgba(245, 93, 45, 0.1);
+    }
+    .admin-topbar__home {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.8125rem;
+      padding: 6px 16px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-sm);
+      transition: all var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .admin-topbar__home:hover {
+      color: #fff;
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    /* ── Admin Container ── */
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    /* ── Flash Messages ── */
+    .flash-messages {
+      max-width: 1200px;
+      margin: 16px auto 0;
+      padding: 0 24px;
+    }
+    .flash {
+      padding: 14px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: flashIn 0.4s var(--ease-premium) forwards;
+    }
+    @keyframes flashIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .flash--success { background: rgba(16,185,129,0.1); color: #065F46; border: 1px solid rgba(16,185,129,0.2); }
+    .flash--error { background: rgba(239,68,68,0.1); color: #991B1B; border: 1px solid rgba(239,68,68,0.2); }
+    .flash--info { background: rgba(59,130,246,0.1); color: #1E40AF; border: 1px solid rgba(59,130,246,0.2); }
+    .flash--warning { background: rgba(245,158,11,0.1); color: #92400E; border: 1px solid rgba(245,158,11,0.2); }
+
+    /* ── Buttons ── */
+    .btn-admin {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      font-family: var(--font-secondary);
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-decoration: none;
+    }
+    .btn-admin--primary {
+      background: var(--color-primary);
+      color: #fff;
+      box-shadow: var(--shadow-primary);
+    }
+    .btn-admin--primary:hover {
+      background: #e04d1d;
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px rgba(245,93,45,0.25);
+    }
+    .btn-admin--outline {
+      background: transparent;
+      color: var(--color-text-primary);
+      border: 1px solid var(--color-border-hover);
+    }
+    .btn-admin--outline:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+    .btn-admin--danger {
+      background: rgba(239,68,68,0.1);
+      color: var(--color-error);
+      border: 1px solid rgba(239,68,68,0.15);
+    }
+    .btn-admin--danger:hover {
+      background: var(--color-error);
+      color: #fff;
+    }
+    .btn-admin--sm {
+      padding: 6px 14px;
+      font-size: 0.8125rem;
+    }
+
+    /* ── Cards ── */
+    .admin-card {
+      background: var(--color-bg-white);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+      padding: 24px;
+      transition: all var(--transition-normal);
+    }
+    .admin-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--color-border-hover);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .admin-topbar { padding: 0 16px; }
+      .admin-topbar__brand-text { display: none; }
+      .admin-container { padding: 20px 16px; }
+    }
+  </style>
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <!-- Admin Topbar -->
+  <div class="admin-topbar">
+    <div class="admin-topbar__brand">
+      <img src="/assets/img/Logo-with-Text-copy.png" alt="RiverBird">
+      <span class="admin-topbar__brand-text">Admin Panel</span>
+      <span class="admin-topbar__badge">CMS</span>
+    </div>
+    <div class="admin-topbar__actions">
+      <a href="/" class="admin-topbar__home">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Site
+      </a>
+      {% if current_user.is_authenticated %}
+      <span class="admin-topbar__user">{{ current_user.username }}</span>
+      <a href="{{ url_for('routes.admin_change_password') }}" class="admin-topbar__home">Password</a>
+      <a href="{{ url_for('routes.admin_logout') }}" class="admin-topbar__logout">Logout</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+      {% for category, message in messages %}
+      <div class="flash flash--{{ category }}">
+        {% if category == 'success' %}✓{% elif category == 'error' %}✕{% elif category == 'info' %}ℹ{% else %}⚠{% endif %}
+        {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

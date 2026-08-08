@@ -40,6 +40,26 @@ function initLayout() {
   
   highlightActiveNav();
   initHUDOverlay();
+  initChatbotAssets();
+}
+
+function initChatbotAssets() {
+  const cssPath = resolvePath('static/css/chatbot.css');
+  const jsPath = resolvePath('static/js/chatbot.js');
+
+  if (!document.querySelector('link[href*="chatbot.css"]')) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = cssPath;
+    document.head.appendChild(link);
+  }
+
+  if (!document.querySelector('script[src*="chatbot.js"]')) {
+    const script = document.createElement('script');
+    script.src = jsPath;
+    script.defer = true;
+    document.body.appendChild(script);
+  }
 }
 
 function getNavbarHTML() {
@@ -79,7 +99,7 @@ function getNavbarHTML() {
                     </a>
                   </li>
                   <li>
-                    <a href="${companyUrl}#blog" class="dropdown-menu__link">
+                    <a href="${homeUrl}#blog" class="dropdown-menu__link">
                       <span class="dropdown-menu__item-title">Blog</span>
                       <span class="dropdown-menu__item-desc">Latest insights on technology and design.</span>
                     </a>
@@ -135,50 +155,28 @@ function getNavbarHTML() {
               <div class="mega-menu">
                 
                 <div>
-                  <h3 class="mega-menu__column-title">Creatives</h3>
-                  <ul class="mega-menu__list">
-                    <li>
-                      <a href="${resolvePath('graphic-design.html')}" class="mega-menu__link">
-                        <span class="mega-menu__item-title">Graphic Design</span>
-                        <span class="mega-menu__item-desc">Professional branding and high-end vectors.</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="${resolvePath('video-production.html')}" class="mega-menu__link">
-                        <span class="mega-menu__item-title">Video Production</span>
-                        <span class="mega-menu__item-desc">High-quality editing and corporate media.</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="${resolvePath('brand-identity.html')}" class="mega-menu__link">
-                        <span class="mega-menu__item-title">Brand Identity</span>
-                        <span class="mega-menu__item-desc">Logo, typography, and voice manuals.</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
- 
-                <div>
                   <h3 class="mega-menu__column-title">Organic Growth</h3>
                   <ul class="mega-menu__list">
-                    <li>
-                      <a href="${resolvePath('seo.html')}" class="mega-menu__link">
-                        <span class="mega-menu__item-title">SEO (Google Ranking)</span>
-                        <span class="mega-menu__item-desc">Technical search rankings & audit pipelines.</span>
+                  <li>
+                      <a href="${resolvePath('social-media.html')}" class="mega-menu__link">
+                        <span class="mega-menu__item-title">Social Media Marketing</span>
+                        <span class="mega-menu__item-desc">Content and channel strategies that convert.</span>
                       </a>
-                    </li>
-                    <li>
+                    </li>  
+                  
+                  <li>
                       <a href="${resolvePath('personal-branding.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Personal Branding</span>
                         <span class="mega-menu__item-desc">Authority design for executives and founders.</span>
                       </a>
                     </li>
                     <li>
-                      <a href="${resolvePath('social-media.html')}" class="mega-menu__link">
-                        <span class="mega-menu__item-title">Social Media Marketing</span>
-                        <span class="mega-menu__item-desc">Content and channel strategies that convert.</span>
+                      <a href="${resolvePath('influencer-marketing.html')}" class="mega-menu__link">
+                        <span class="mega-menu__item-title">Influencer Marketing</span>
+                        <span class="mega-menu__item-desc">Strategic partnerships with target creators.</span>
                       </a>
                     </li>
+                    
                   </ul>
                 </div>
  
@@ -186,9 +184,9 @@ function getNavbarHTML() {
                   <h3 class="mega-menu__column-title">Performance</h3>
                   <ul class="mega-menu__list">
                     <li>
-                      <a href="${resolvePath('paid-ads.html')}" class="mega-menu__link">
-                        <span class="mega-menu__item-title">Paid Ads (Meta & Google)</span>
-                        <span class="mega-menu__item-desc">ROI campaigns across Search and Social.</span>
+                      <a href="${resolvePath('seo.html')}" class="mega-menu__link">
+                        <span class="mega-menu__item-title">SEO (Google Ranking)</span>
+                        <span class="mega-menu__item-desc">Technical search rankings & audit pipelines.</span>
                       </a>
                     </li>
                     <li>
@@ -198,11 +196,38 @@ function getNavbarHTML() {
                       </a>
                     </li>
                     <li>
-                      <a href="${resolvePath('influencer-marketing.html')}" class="mega-menu__link">
-                        <span class="mega-menu__item-title">Influencer Marketing</span>
-                        <span class="mega-menu__item-desc">Strategic partnerships with target creators.</span>
+                      <a href="${resolvePath('paid-ads.html')}" class="mega-menu__link">
+                        <span class="mega-menu__item-title">Paid Ads (Meta & Google)</span>
+                        <span class="mega-menu__item-desc">ROI campaigns across Search and Social.</span>
                       </a>
                     </li>
+                    
+                  </ul>
+                </div>
+ 
+                <div>
+                  <h3 class="mega-menu__column-title">Creatives</h3>
+                  <ul class="mega-menu__list">
+                    <li>
+                      <a href="${resolvePath('video-production.html')}" class="mega-menu__link">
+                        <span class="mega-menu__item-title">Video Production</span>
+                        <span class="mega-menu__item-desc">High-quality editing and corporate media.</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="${resolvePath('graphic-design.html')}" class="mega-menu__link">
+                        <span class="mega-menu__item-title">Graphic Design</span>
+                        <span class="mega-menu__item-desc">Professional branding and high-end vectors.</span>
+                      </a>
+                    </li>
+                    
+                    <li>
+                      <a href="${resolvePath('brand-identity.html')}" class="mega-menu__link">
+                        <span class="mega-menu__item-title">Brand Identity</span>
+                        <span class="mega-menu__item-desc">Logo, typography, and voice manuals.</span>
+                      </a>
+                    </li>
+                    
                   </ul>
                 </div>
               </div>
@@ -318,7 +343,7 @@ function getNavbarHTML() {
           </div>
           <div class="mobile-menu__submenu" data-submenu="company">
             <a href="${companyUrl}" class="mobile-menu__sublink">About Us</a>
-            <a href="${companyUrl}#blog" class="mobile-menu__sublink">Blog</a>
+            <a href="${homeUrl}#blog" class="mobile-menu__sublink">Blog</a>
             <a href="${homeUrl}#case-studies" class="mobile-menu__sublink">Case Studies</a>
           </div>
         </div>
@@ -346,14 +371,15 @@ function getNavbarHTML() {
           </div>
           <div class="mobile-menu__submenu" data-submenu="marketing">
             <a href="${resolvePath('social-media.html')}" class="mobile-menu__sublink">Social Media Marketing</a>
-            <a href="${resolvePath('graphic-design.html')}" class="mobile-menu__sublink">Graphic Design</a>
-            <a href="${resolvePath('video-production.html')}" class="mobile-menu__sublink">Video Production</a>
-            <a href="${resolvePath('brand-identity.html')}" class="mobile-menu__sublink">Brand Identity</a>
             <a href="${resolvePath('personal-branding.html')}" class="mobile-menu__sublink">Personal Branding</a>
             <a href="${resolvePath('influencer-marketing.html')}" class="mobile-menu__sublink">Influencer Marketing</a>
             <a href="${resolvePath('seo.html')}" class="mobile-menu__sublink">SEO (Google Ranking)</a>
-            <a href="${resolvePath('paid-ads.html')}" class="mobile-menu__sublink">Paid Ads (Meta & Google)</a>
             <a href="${resolvePath('lead-generation.html')}" class="mobile-menu__sublink">Lead Generation System</a>
+            <a href="${resolvePath('paid-ads.html')}" class="mobile-menu__sublink">Paid Ads (Meta & Google)</a>
+            <a href="${resolvePath('video-production.html')}" class="mobile-menu__sublink">Video Production</a>
+            <a href="${resolvePath('graphic-design.html')}" class="mobile-menu__sublink">Graphic Design</a>
+            <a href="${resolvePath('brand-identity.html')}" class="mobile-menu__sublink">Brand Identity</a>
+            
           </div>
         </div>
 
