@@ -14,7 +14,7 @@ from werkzeug.utils import secure_filename
 from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify, send_from_directory, current_app, Response
 from flask_login import login_user, logout_user, login_required, current_user
 
-from models import db, Admin, Blog, PasswordResetToken, ChatbotLead
+from models import db, Admin, Blog, PasswordResetToken, ChatbotLead, utc_now
 from forms import LoginForm, BlogForm, ForgotPasswordForm, ResetPasswordForm, ChangePasswordForm, ALLOWED_EXTENSIONS
 from auth import admin_required
 from email_utils import send_password_reset_email
@@ -76,7 +76,7 @@ def admin_login():
 
         if admin and admin.check_password(password):
             login_user(admin, remember=form.remember_me.data)
-            admin.last_login = datetime.utcnow()
+            admin.last_login = utc_now()
             db.session.commit()
             flash('Logged in successfully.', 'success')
             next_page = request.args.get('next')
@@ -114,7 +114,7 @@ def admin_forgot_password():
             # Generate unguessable token
             raw_token = uuid.uuid4().hex + uuid.uuid4().hex
             token_hash = hashlib.sha256(raw_token.encode('utf-8')).hexdigest()
-            expires_at = datetime.utcnow() + timedelta(hours=1)
+            expires_at = utc_now() + timedelta(hours=1)
 
             # Invalidate any old tokens for this admin
             PasswordResetToken.query.filter_by(admin_id=admin.id, used=False).update({'used': True})
@@ -239,7 +239,7 @@ def admin_leads_export_csv():
         ])
         
     output.seek(0)
-    filename = f"riverbird_leads_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.csv"
+    filename = f"riverbird_leads_{utc_now().strftime('%Y%m%d_%H%M%S')}.csv"
     
     return Response(
         output.getvalue(),
@@ -253,7 +253,7 @@ def admin_leads_export_csv():
 @routes.route('/admin/leads/delete/<int:lead_id>', methods=['POST'])
 @admin_required
 def admin_lead_delete(lead_id):
-    lead = ChatbotLead.query.get_or_404(lead_id)
+    lead = db.get_or_404(ChatbotLead, lead_id)
     db.session.delete(lead)
     db.session.commit()
     flash('Lead record removed successfully.', 'info')
@@ -313,6 +313,79 @@ def api_chatbot_submit_lead():
 
 
 
+# ── Public Blog & Image API Endpoints ──
+
+@routes.route('/api/blogs')
+def api_blogs():
+    """Public JSON API returning published blogs ordered by publication date descending."""
+    published_blogs = Blog.query.filter_by(published=True).order_by(
+        Blog.published_at.desc(), Blog.created_at.desc()
+    ).all()
+    return jsonify([blog.to_dict() for blog in published_blogs])
+
+
+@routes.route('/api/blogs/<int:blog_id>/image')
+@routes.route('/api/blogs/<int:blog_id>/image/<path:filename>')
+def api_blog_image(blog_id, filename=None):
+    """
+    Delivers a blog post's featured image seamlessly across production deployments.
+    Guarantees image availability even when local filesystem is reset.
+    """
+    blog = db.session.get(Blog, blog_id)
+    if not blog:
+        return _serve_fallback_image("Blog Not Found")
+
+    # 1. External URL
+    if blog.featured_image:
+        img_str = blog.featured_image.strip()
+        if img_str.startswith(('http://', 'https://')):
+            return redirect(img_str, code=302)
+
+    # 2. Database Persistent Image Data
+    if blog.image_data:
+        mimetype = blog.image_mimetype or 'image/jpeg'
+        etag = f'"{hashlib.md5(blog.image_data).hexdigest()}"'
+        if request.headers.get('If-None-Match') == etag:
+            return Response(status=304)
+        response = Response(blog.image_data, mimetype=mimetype)
+        response.headers['ETag'] = etag
+        response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response
+
+    # 3. Disk Storage Fallback
+    if blog.featured_image:
+        img_rel = blog.featured_image.lstrip('/')
+        local_path = os.path.join(current_app.root_path, img_rel)
+        if os.path.exists(local_path) and os.path.isfile(local_path):
+            directory, name = os.path.split(local_path)
+            return send_from_directory(directory, name)
+
+    # 4. Branded SVG Fallback
+    return _serve_fallback_image(blog.title if blog else "RiverBird Blog")
+
+
+def _serve_fallback_image(title_text="RiverBird Blog"):
+    clean_title = (title_text[:32] + '...') if len(title_text) > 32 else title_text
+    svg_content = f'''<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <circle cx="400" cy="190" r="44" fill="#f55d2d" opacity="0.25"/>
+  <path d="M400 162 L422 208 L378 208 Z" fill="#f55d2d"/>
+  <text x="400" y="265" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="600" fill="#f8fafc" text-anchor="middle">{clean_title}</text>
+  <text x="400" y="300" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" letter-spacing="2" fill="#94a3b8" text-anchor="middle">RIVERBIRD INSIGHTS</text>
+</svg>'''
+    res = Response(svg_content, mimetype='image/svg+xml')
+    res.headers['Cache-Control'] = 'public, max-age=86400'
+    res.headers['Access-Control-Allow-Origin'] = '*'
+    return res
+
+
 @routes.route('/admin/blog/create', methods=['GET', 'POST'])
 @admin_required
 def admin_blog_create():
@@ -326,15 +399,33 @@ def admin_blog_create():
 
         # Handle Featured Image Upload
         image_path = None
+        image_bytes = None
+        image_mimetype = None
+
         if form.image.data:
             file = form.image.data
             if file and allowed_file(file.filename):
-                ext = file.filename.rsplit('.', 1)[1].lower()
-                filename = f"{uuid.uuid4().hex}.{ext}"
-                upload_folder = os.path.join(current_app.root_path, 'static', 'uploads')
-                os.makedirs(upload_folder, exist_ok=True)
-                file.save(os.path.join(upload_folder, filename))
-                image_path = f"static/uploads/{filename}"
+                try:
+                    file_data = file.read()
+                    if len(file_data) > 10 * 1024 * 1024:
+                        flash('File size exceeds maximum allowed 10 MB limit.', 'error')
+                        return render_template('admin/blog_form.html', form=form, editing=False)
+
+                    ext = file.filename.rsplit('.', 1)[1].lower()
+                    filename = f"blog_{uuid.uuid4().hex[:12]}.{ext}"
+                    upload_folder = os.path.join(current_app.root_path, 'static', 'uploads')
+                    os.makedirs(upload_folder, exist_ok=True)
+                    
+                    with open(os.path.join(upload_folder, filename), 'wb') as f:
+                        f.write(file_data)
+
+                    image_path = f"static/uploads/{filename}"
+                    image_bytes = file_data
+                    image_mimetype = file.mimetype or f"image/{ext}"
+                except Exception as e:
+                    current_app.logger.error(f"Upload error: {e}")
+                    flash(f"Image upload failed: {e}", 'error')
+                    return render_template('admin/blog_form.html', form=form, editing=False)
 
         published = form.published.data
         new_blog = Blog(
@@ -343,10 +434,12 @@ def admin_blog_create():
             short_description=form.description.data.strip(),
             content=form.content.data,
             featured_image=image_path,
+            image_data=image_bytes,
+            image_mimetype=image_mimetype,
             category=form.category.data,
             author=current_user.username,
             published=published,
-            published_at=datetime.utcnow() if published else None
+            published_at=utc_now() if published else None
         )
 
         db.session.add(new_blog)
@@ -361,7 +454,7 @@ def admin_blog_create():
 @routes.route('/admin/blog/edit/<int:blog_id>', methods=['GET', 'POST'])
 @admin_required
 def admin_blog_edit(blog_id):
-    blog = Blog.query.get_or_404(blog_id)
+    blog = db.get_or_404(Blog, blog_id)
     form = BlogForm(obj=blog)
 
     if form.validate_on_submit():
@@ -381,30 +474,44 @@ def admin_blog_edit(blog_id):
         blog.published = form.published.data
 
         if blog.published and not was_published:
-            blog.published_at = datetime.utcnow()
+            blog.published_at = utc_now()
 
         # Handle image update if new file uploaded
         if form.image.data:
             file = form.image.data
             if file and allowed_file(file.filename):
-                ext = file.filename.rsplit('.', 1)[1].lower()
-                filename = f"{uuid.uuid4().hex}.{ext}"
-                upload_folder = os.path.join(current_app.root_path, 'static', 'uploads')
-                os.makedirs(upload_folder, exist_ok=True)
-                
-                # Clean up old image if present
-                if blog.featured_image:
-                    old_path = os.path.join(current_app.root_path, blog.featured_image)
-                    if os.path.exists(old_path):
-                        try:
-                            os.remove(old_path)
-                        except OSError:
-                            pass
+                try:
+                    file_data = file.read()
+                    if len(file_data) > 10 * 1024 * 1024:
+                        flash('File size exceeds maximum allowed 10 MB limit.', 'error')
+                        return render_template('admin/blog_form.html', form=form, editing=True, blog=blog)
 
-                file.save(os.path.join(upload_folder, filename))
-                blog.featured_image = f"static/uploads/{filename}"
+                    ext = file.filename.rsplit('.', 1)[1].lower()
+                    filename = f"blog_{uuid.uuid4().hex[:12]}.{ext}"
+                    upload_folder = os.path.join(current_app.root_path, 'static', 'uploads')
+                    os.makedirs(upload_folder, exist_ok=True)
+                    
+                    # Clean up old local image file if present
+                    if blog.featured_image and blog.featured_image.startswith('static/uploads/'):
+                        old_path = os.path.join(current_app.root_path, blog.featured_image)
+                        if os.path.exists(old_path):
+                            try:
+                                os.remove(old_path)
+                            except OSError:
+                                pass
 
-        blog.updated_at = datetime.utcnow()
+                    with open(os.path.join(upload_folder, filename), 'wb') as f:
+                        f.write(file_data)
+
+                    blog.featured_image = f"static/uploads/{filename}"
+                    blog.image_data = file_data
+                    blog.image_mimetype = file.mimetype or f"image/{ext}"
+                except Exception as e:
+                    current_app.logger.error(f"Image update error: {e}")
+                    flash(f"Failed to update image: {e}", 'error')
+                    return render_template('admin/blog_form.html', form=form, editing=True, blog=blog)
+
+        blog.updated_at = utc_now()
         db.session.commit()
 
         flash('Blog post updated successfully!', 'success')
@@ -421,10 +528,10 @@ def admin_blog_edit(blog_id):
 @routes.route('/admin/blog/delete/<int:blog_id>', methods=['POST'])
 @admin_required
 def admin_blog_delete(blog_id):
-    blog = Blog.query.get_or_404(blog_id)
+    blog = db.get_or_404(Blog, blog_id)
     
     # Remove image file from static/uploads if exists
-    if blog.featured_image:
+    if blog.featured_image and blog.featured_image.startswith('static/uploads/'):
         filepath = os.path.join(current_app.root_path, blog.featured_image)
         if os.path.exists(filepath):
             try:
@@ -437,17 +544,6 @@ def admin_blog_delete(blog_id):
 
     flash(f'Blog post "{blog.title}" deleted.', 'info')
     return redirect(url_for('routes.admin_dashboard'))
-
-
-# ── Public Blog Endpoints ──
-
-@routes.route('/api/blogs')
-def api_blogs():
-    """Public JSON API returning published blogs ordered by publication date descending."""
-    published_blogs = Blog.query.filter_by(published=True).order_by(
-        Blog.published_at.desc(), Blog.created_at.desc()
-    ).all()
-    return jsonify([blog.to_dict() for blog in published_blogs])
 
 
 @routes.route('/blog/<slug>')
@@ -468,27 +564,58 @@ def public_blog_detail(slug):
 
 @routes.route('/')
 def serve_index():
-    return send_from_directory('.', 'index.html')
+    safe_root = os.path.abspath(current_app.root_path)
+    return send_from_directory(safe_root, 'index.html')
 
 
 @routes.route('/<path:path>')
 def serve_static_page(path):
     """
     Serves static HTML files or static assets from root directory securely.
-    Maintains compatibility with existing static structure.
+    Supports directory routing aliases and path normalizations.
     """
     safe_root = os.path.abspath(current_app.root_path)
     target_path = os.path.abspath(os.path.join(safe_root, path))
     
     # Prevent Directory Traversal outside application root
     if not target_path.startswith(safe_root):
-        return send_from_directory('.', 'index.html')
+        return send_from_directory(safe_root, 'index.html')
 
+    # Direct match for actual existing files
     if os.path.exists(target_path) and os.path.isfile(target_path):
-        return send_from_directory('.', path)
-    
-    # If path ends in .html or represents an HTML file
-    if not path.endswith('.html') and os.path.exists(target_path + '.html'):
-        return send_from_directory('.', path + '.html')
+        return send_from_directory(safe_root, path)
 
-    return send_from_directory('.', 'index.html')
+    clean_path = path.strip('/')
+
+    # Alias mapping for section directories to root HTML files
+    alias_map = {
+        'company/index.html': 'company_index.html',
+        'company': 'company_index.html',
+        'digital-marketing/index.html': 'digital_marketing_index.html',
+        'digital-marketing': 'digital_marketing_index.html',
+        'staffing/index.html': 'staffing_index.html',
+        'staffing': 'staffing_index.html',
+        'contact/index.html': 'contact_index.html',
+        'contact': 'contact_index.html',
+        'product/index.html': 'product_index.html',
+        'product': 'product_index.html',
+        'careers/index.html': 'careers_index.html',
+        'careers': 'careers_index.html',
+    }
+    if clean_path in alias_map:
+        mapped_file = alias_map[clean_path]
+        if os.path.exists(os.path.join(safe_root, mapped_file)):
+            return send_from_directory(safe_root, mapped_file)
+
+    # Check sub-page file name resolution (e.g. digital-marketing/video-production.html -> video-production.html)
+    if '/' in clean_path:
+        filename_only = clean_path.rsplit('/', 1)[1]
+        file_candidate = os.path.join(safe_root, filename_only)
+        if os.path.exists(file_candidate) and os.path.isfile(file_candidate):
+            return send_from_directory(safe_root, filename_only)
+
+    # Check appending .html extension
+    if not path.endswith('.html') and os.path.exists(target_path + '.html'):
+        return send_from_directory(safe_root, path + '.html')
+
+    return send_from_directory(safe_root, 'index.html')

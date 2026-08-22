@@ -23,8 +23,7 @@ load_dotenv()
 def create_app():
     app = Flask(
         __name__,
-        static_folder='.',
-        static_url_path='',
+        static_folder=None,
         template_folder='templates'
     )
 
@@ -87,6 +86,24 @@ def create_app():
     # ── Database & Initial Admin Setup ──
     with app.app_context():
         db.create_all()
+
+        # Dynamic Schema Migration for blogs table
+        try:
+            engine = db.engine
+            with engine.connect() as conn:
+                if engine.name == 'sqlite':
+                    res = conn.execute(db.text("PRAGMA table_info(blogs)")).fetchall()
+                    cols = [r[1] for r in res]
+                    if 'image_data' not in cols:
+                        conn.execute(db.text("ALTER TABLE blogs ADD COLUMN image_data BLOB"))
+                    if 'image_mimetype' not in cols:
+                        conn.execute(db.text("ALTER TABLE blogs ADD COLUMN image_mimetype VARCHAR(50)"))
+                elif engine.name in ('postgresql', 'postgres'):
+                    conn.execute(db.text("ALTER TABLE blogs ADD COLUMN IF NOT EXISTS image_data BYTEA"))
+                    conn.execute(db.text("ALTER TABLE blogs ADD COLUMN IF NOT EXISTS image_mimetype VARCHAR(50)"))
+                conn.commit()
+        except Exception as e:
+            print(f"[DB MIGRATION NOTICE] {e}")
 
         # Ensure default Admin account exists securely
         admin_username = os.environ.get('ADMIN_USERNAME', 'riverbird_admin')
