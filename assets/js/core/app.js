@@ -1406,11 +1406,6 @@ function initLiquidBackground() {
   };
 }
 
-  return () => {
-    cancelAnimationFrame(animationFrameId);
-    window.removeEventListener('resize', resize);
-  };
-
 
 function initForms() {
   bindFormSubmit('contact-form', 'Contact inquiry successfully submitted! We will reach out to you within 24 hours.');
