@@ -340,10 +340,11 @@
             {{ form.image(id="imageInput") }}
           </div>
           <div class="image-preview" id="imagePreview">
-            {% if editing and blog and blog.featured_image %}
-            <img src="/{{ blog.featured_image }}" alt="Current image">
+            {% if editing and blog and (blog.featured_image or blog.image_data) %}
+            <img src="{{ blog.get_image_url() }}" alt="Current featured image" onerror="this.onerror=null; this.src='/static/img/placeholder.svg';">
             {% endif %}
           </div>
+          <div id="imageUploadError" style="color: var(--color-error); font-size: 0.8rem; margin-top: 8px; display: none;"></div>
         </div>
       </div>
     </div>
@@ -377,14 +378,20 @@
     quill.root.innerHTML = existingContent;
   }
 
-  // ── Sync Quill content to hidden field on submit ──
-  document.getElementById('blogForm').addEventListener('submit', function(e) {
+  // ── Sync Quill content to hidden field on submit & Loading state ──
+  const blogForm = document.getElementById('blogForm');
+  const submitBtn = document.getElementById('submitBtn');
+
+  blogForm.addEventListener('submit', function(e) {
     const html = quill.root.innerHTML;
     if (html === '<p><br></p>' || html.trim() === '') {
       document.getElementById('content-hidden').value = '';
     } else {
       document.getElementById('content-hidden').value = html;
     }
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '{% if editing %}Saving...{% else %}Creating...{% endif %}';
   });
 
   // ── Auto-generate slug from title ──
@@ -408,19 +415,36 @@
     }
   });
 
-  // ── Image Preview ──
+  // ── Image Selection & Live Validation ──
   const imageInput = document.getElementById('imageInput');
   const imagePreview = document.getElementById('imagePreview');
+  const uploadError = document.getElementById('imageUploadError');
 
   imageInput.addEventListener('change', function() {
+    uploadError.style.display = 'none';
+    uploadError.textContent = '';
     const file = this.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        imagePreview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    // Validate size (10MB max)
+    if (file.size > 10 * 1024 * 1024) {
+      uploadError.textContent = 'File size exceeds 10 MB limit. Please select a smaller image.';
+      uploadError.style.display = 'block';
+      this.value = '';
+      return;
     }
+
+    // Validate type
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
+    if (!validTypes.includes(file.type.toLowerCase())) {
+      uploadError.textContent = 'Invalid file format. Please upload JPG, PNG, WEBP, GIF, or SVG.';
+      uploadError.style.display = 'block';
+      this.value = '';
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(file);
+    imagePreview.innerHTML = `<img src="${objectUrl}" alt="Preview" style="max-height: 200px; width: 100%; object-fit: cover; border-radius: 6px;">`;
   });
 </script>
 {% endblock %}

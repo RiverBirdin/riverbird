@@ -283,9 +283,9 @@
     </section>
 
     <!-- Featured Image -->
-    {% if blog.featured_image %}
+    {% if blog.featured_image or blog.image_data %}
     <div class="blog-detail__image-wrapper">
-      <img src="/{{ blog.featured_image }}" alt="{{ blog.title }}" class="blog-detail__image" loading="lazy">
+      <img src="{{ blog.get_image_url() }}" alt="{{ blog.title }}" class="blog-detail__image" loading="lazy" onerror="this.onerror=null; this.parentElement.style.display='none';">
     </div>
     {% endif %}
 
@@ -309,10 +309,10 @@
         <div class="related-grid">
           {% for post in related %}
           <a href="/blog/{{ post.slug }}" class="related-card">
-            {% if post.featured_image %}
-            <img src="/{{ post.featured_image }}" alt="{{ post.title }}" class="related-card__img" loading="lazy">
+            {% if post.featured_image or post.image_data %}
+            <img src="{{ post.get_image_url() }}" alt="{{ post.title }}" class="related-card__img" loading="lazy" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'related-card__img\' style=\'background:linear-gradient(135deg, #0f172a 0%, #1e293b 100%);display:flex;align-items:center;justify-content:center;color:#e2e8f0;font-size:0.8rem;font-weight:600;\'>RIVERBIRD</div>';">
             {% else %}
-            <div class="related-card__img" style="background:var(--color-bg-light);display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);font-size:0.85rem;">RiverBird Blog</div>
+            <div class="related-card__img" style="background:linear-gradient(135deg, #0f172a 0%, #1e293b 100%);display:flex;align-items:center;justify-content:center;color:#e2e8f0;font-size:0.8rem;font-weight:600;">RIVERBIRD</div>
             {% endif %}
             <div class="related-card__body">
               <span class="related-card__category">{{ post.category }}</span>

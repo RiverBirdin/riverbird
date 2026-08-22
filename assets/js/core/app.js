@@ -556,7 +556,7 @@ function getFooterHTML() {
           <div class="footer__legal">
             <a href="${resolvePath('privacy_policy.html')}" class="footer__legal-link">Privacy Policy</a>
             <a href="${resolvePath('terms_of_service.html')}" class="footer__legal-link">Terms of Service</a>
-            <a href="${resolvePath('refund and_cancellation.html')}" class="footer__legal-link">Refund and Cancellation Policy</a>
+            <a href="${resolvePath('refund_and_cancellation.html')}" class="footer__legal-link">Refund and Cancellation Policy</a>
           </div>
         </div>
       </div>
@@ -919,13 +919,31 @@ function initCursorGlow() {
   const glow = document.querySelector('.cursor-glow');
   if (!glow) return;
 
-  window.addEventListener('mousemove', (e) => {
-    const x = e.clientX;
-    const y = e.clientY;
+  let targetX = -1000, targetY = -1000;
+  let currentX = -1000, currentY = -1000;
+  let isTicking = false;
 
-    glow.style.left = `${x}px`;
-    glow.style.top = `${y}px`;
-  });
+  window.addEventListener('mousemove', (e) => {
+    targetX = e.clientX;
+    targetY = e.clientY;
+    if (!isTicking) {
+      isTicking = true;
+      requestAnimationFrame(updateGlowPosition);
+    }
+  }, { passive: true });
+
+  function updateGlowPosition() {
+    currentX += (targetX - currentX) * 0.18;
+    currentY += (targetY - currentY) * 0.18;
+
+    glow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
+
+    if (Math.abs(targetX - currentX) > 0.1 || Math.abs(targetY - currentY) > 0.1) {
+      requestAnimationFrame(updateGlowPosition);
+    } else {
+      isTicking = false;
+    }
+  }
 }
 
 
@@ -1231,13 +1249,13 @@ function initLiquidBackground() {
   }
 
   resize();
-  window.addEventListener('resize', resize);
+  window.addEventListener('resize', resize, { passive: true });
 
   window.addEventListener('mousemove', (e) => {
     const rect = canvas.getBoundingClientRect();
     targetMouseX = e.clientX - rect.left;
     targetMouseY = e.clientY - rect.top;
-  });
+  }, { passive: true });
 
   document.addEventListener('mouseleave', () => {
     targetMouseX = -1e3;
@@ -1247,29 +1265,35 @@ function initLiquidBackground() {
   class Blob {
     constructor(width, height, isMouse = false) {
       this.isMouse = isMouse;
-      this.radius = isMouse ? 130 : Math.random() * 140 + 110;
+      this.radius = isMouse ? 170 : Math.random() * 160 + 130;
       this.x = Math.random() * (width - this.radius * 2) + this.radius;
       this.y = Math.random() * (height - this.radius * 2) + this.radius;
-      this.vx = isMouse ? 0 : (Math.random() - 0.5) * 0.7;
-      this.vy = isMouse ? 0 : (Math.random() - 0.5) * 0.7;
-      this.morphSpeed = Math.random() * 0.6 + 0.3;
-      this.morphAmount = Math.random() * 30 + 15;
-      this.seed = Math.random() * 100;
+      this.vx = isMouse ? 0 : (Math.random() - 0.5) * 0.4;
+      this.vy = isMouse ? 0 : (Math.random() - 0.5) * 0.4;
 
-      this.color = isMouse
-        ? 'rgba(245, 93, 45, 0.38)'
-        : [
-          'rgba(245, 93, 45, 0.22)',
-          'rgba(212, 238, 54, 0.14)',
-          'rgba(7, 0, 255, 0.06)'
-        ][Math.floor(Math.random() * 3)];
+      if (isMouse) {
+        this.colorInner = 'rgba(245, 93, 45, 0.22)';
+        this.colorMid = 'rgba(245, 93, 45, 0.07)';
+      } else {
+        const type = Math.floor(Math.random() * 3);
+        if (type === 0) {
+          this.colorInner = 'rgba(245, 93, 45, 0.12)';
+          this.colorMid = 'rgba(245, 93, 45, 0.04)';
+        } else if (type === 1) {
+          this.colorInner = 'rgba(255, 140, 56, 0.10)';
+          this.colorMid = 'rgba(255, 140, 56, 0.03)';
+        } else {
+          this.colorInner = 'rgba(245, 93, 45, 0.08)';
+          this.colorMid = 'rgba(245, 93, 45, 0.02)';
+        }
+      }
     }
 
     update(width, height) {
       if (this.isMouse) {
         if (targetMouseX > -500) {
-          currentMouseX += (targetMouseX - currentMouseX) * 0.07;
-          currentMouseY += (targetMouseY - currentMouseY) * 0.07;
+          currentMouseX += (targetMouseX - currentMouseX) * 0.08;
+          currentMouseY += (targetMouseY - currentMouseY) * 0.08;
           this.x = currentMouseX;
           this.y = currentMouseY;
         } else {
@@ -1291,26 +1315,14 @@ function initLiquidBackground() {
     draw(context) {
       if (this.isMouse && this.x < -500) return;
 
+      const grad = context.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+      grad.addColorStop(0, this.colorInner);
+      grad.addColorStop(0.5, this.colorMid);
+      grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
       context.beginPath();
-      const numPoints = 16;
-      const time = Date.now() * 0.001 * this.morphSpeed;
-
-      for (let i = 0; i <= numPoints; i++) {
-        const angle = (i / numPoints) * Math.PI * 2;
-        const offset = Math.sin(angle * 3 + time + this.seed) * Math.cos(angle * 2 - time) * this.morphAmount;
-        const r = this.radius + offset;
-        const x = this.x + Math.cos(angle) * r;
-        const y = this.y + Math.sin(angle) * r;
-
-        if (i === 0) {
-          context.moveTo(x, y);
-        } else {
-          context.lineTo(x, y);
-        }
-      }
-
-      context.closePath();
-      context.fillStyle = this.color;
+      context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      context.fillStyle = grad;
       context.fill();
     }
   }
@@ -1319,11 +1331,10 @@ function initLiquidBackground() {
     constructor(width, height) {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
-      this.radius = Math.random() * 40 + 30;
-      this.color = 'rgba(245, 93, 45, 0.12)';
-      this.speed = Math.random() * 0.2 + 0.08;
+      this.radius = Math.random() * 45 + 30;
+      this.speed = Math.random() * 0.15 + 0.05;
       this.angle = Math.random() * Math.PI * 2;
-      this.spin = (Math.random() - 0.5) * 0.008;
+      this.spin = (Math.random() - 0.5) * 0.006;
     }
 
     update(width, height) {
@@ -1338,15 +1349,18 @@ function initLiquidBackground() {
     }
 
     draw(context) {
+      const grad = context.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+      grad.addColorStop(0, 'rgba(245, 93, 45, 0.07)');
+      grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
       context.beginPath();
       context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      context.fillStyle = this.color;
+      context.fillStyle = grad;
       context.fill();
     }
   }
 
   const blobs = [];
-  const blobCount = 6;
+  const blobCount = 5;
   for (let i = 0; i < blobCount; i++) {
     blobs.push(new Blob(canvas.width, canvas.height));
   }
@@ -1355,7 +1369,7 @@ function initLiquidBackground() {
   blobs.push(mouseBlob);
 
   const energyNodes = [];
-  const nodeCount = 10;
+  const nodeCount = 6;
   for (let i = 0; i < nodeCount; i++) {
     energyNodes.push(new EnergyNode(canvas.width, canvas.height));
   }
@@ -1378,11 +1392,20 @@ function initLiquidBackground() {
 
   animate();
 
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      cancelAnimationFrame(animationFrameId);
+    } else {
+      animate();
+    }
+  });
+
   return () => {
     cancelAnimationFrame(animationFrameId);
     window.removeEventListener('resize', resize);
   };
 }
+
 
 function initForms() {
   bindFormSubmit('contact-form', 'Contact inquiry successfully submitted! We will reach out to you within 24 hours.');

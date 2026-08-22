@@ -5,7 +5,7 @@ Flask-Login user loader and admin protection decorator.
 from functools import wraps
 from flask import redirect, url_for, flash
 from flask_login import LoginManager, current_user
-from models import Admin
+from models import db, Admin
 
 login_manager = LoginManager()
 login_manager.login_view = 'routes.admin_login'
@@ -18,7 +18,7 @@ def load_user(user_id):
 
 def db_get_admin(user_id):
     try:
-        return Admin.query.get(int(user_id))
+        return db.session.get(Admin, int(user_id))
     except Exception:
         return None
 
