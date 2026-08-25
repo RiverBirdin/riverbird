@@ -19,12 +19,6 @@ function resolvePath(path) {
 }
 
 function initLayout() {
-  // Hard bypass browser stylesheet cache
-  const link = document.querySelector('link[rel="stylesheet"]');
-  if (link && !link.href.includes('?v=')) {
-    link.href = link.href.split('?')[0] + '?v=1.0.1';
-  }
-
   const headerContainer = document.getElementById('header-slot');
   const footerContainer = document.getElementById('footer-slot');
 
@@ -40,7 +34,6 @@ function initLayout() {
   }
 
   highlightActiveNav();
-  initHUDOverlay();
   initChatbotAssets();
 }
 
@@ -738,59 +731,8 @@ function highlightActiveNav() {
 
 /* === Adobe After Effects HUD Injector & Controller === */
 function initHUDOverlay() {
-  if (document.querySelector('.ae-hud-overlay')) return;
-
-  // 1. Grid background overlay
-  const gridOverlay = document.createElement('div');
-  gridOverlay.className = 'ae-grid-overlay';
-  document.body.prepend(gridOverlay);
-
-  // 2. Camera Viewfinder overlay
-  const hudOverlay = document.createElement('div');
-  hudOverlay.className = 'ae-hud-overlay';
-  hudOverlay.innerHTML = `
-    <div class="ae-corner ae-corner--tl"></div>
-    <div class="ae-corner ae-corner--tr"></div>
-    <div class="ae-corner ae-corner--bl"></div>
-    <div class="ae-corner ae-corner--br"></div>
-
-    <div class="ae-hud-ticker ae-hud-ticker--top-left">
-      <span class="ae-rec-dot"></span>
-      <span>[● REC] 24.00 FPS</span>
-    </div>
-    <div class="ae-hud-ticker ae-hud-ticker--top-right">
-      <span>COMP: RVRBRD_MKT_PROD</span>
-    </div>
-    <div class="ae-hud-ticker ae-hud-ticker--bottom-left">
-      <span class="ae-hud-timecode">TC: 00:00:00:00</span>
-    </div>
-    <div class="ae-hud-ticker ae-hud-ticker--bottom-right">
-      <span>SHUTTER: 180° | ISO 800</span>
-    </div>
-  `;
-  document.body.appendChild(hudOverlay);
-
-  // 3. Mouse coords overlay
-  const mouseCoords = document.createElement('div');
-  mouseCoords.className = 'ae-mouse-coords';
-  mouseCoords.innerHTML = `
-    <span class="ae-mouse-coords__x">X: 0</span>
-    <span class="ae-mouse-coords__y">Y: 0</span>
-  `;
-  document.body.appendChild(mouseCoords);
-
-  // Start tickers
-  initTimecodeCounter();
-  initMouseCoordinatesHUD();
-
-  // Scroll fade overlay logic
-  window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-    const maxScroll = 200;
-    const opacity = Math.max(0.05, 1 - (scrollY / maxScroll));
-    hudOverlay.style.opacity = opacity;
-    gridOverlay.style.opacity = opacity * 0.8;
-  }, { passive: true });
+  // Disabled square box corners and grid HUD overlay elements for clean UI
+  return;
 }
 
 function initTimecodeCounter() {
