@@ -30829,3 +30829,16 @@ section::after {
   box-shadow: 0 6px 20px rgba(245, 93, 45, 0.35);
   transform: translateY(-2px);
 }
+
+/* --- Fix: Remove square boxed HUD corner & grid overlay effects --- */
+.hud-corners,
+.hud-corner,
+.ae-grid-overlay,
+.ae-hud-overlay,
+.ae-corner,
+.ae-mouse-coords {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
