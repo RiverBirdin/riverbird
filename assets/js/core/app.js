@@ -69,13 +69,14 @@ function initReviewWidget() {
 function getNavbarHTML() {
   const logoUrl = resolvePath('assets/img/Logo-with-Text-copy.png');
   const homeUrl = resolvePath('index.html');
-  const companyUrl = resolvePath('company_index.html');
+  const companyUrl = resolvePath('about.html');
   const mktUrl = resolvePath('digital_marketing_index.html');
   const devUrl = resolvePath('development_index.html');
   const staffingUrl = resolvePath('staffing_index.html');
   const productUrl = resolvePath('product_index.html');
   const careersUrl = resolvePath('careers_index.html');
   const contactUrl = resolvePath('contact_index.html');
+  const blogUrl = resolvePath('blog/');
 
   return `
     <header class="header" id="main-header">
@@ -103,15 +104,9 @@ function getNavbarHTML() {
                     </a>
                   </li>
                   <li>
-                    <a href="${homeUrl}#blog" class="dropdown-menu__link">
+                    <a href="${blogUrl}" class="dropdown-menu__link">
                       <span class="dropdown-menu__item-title">Blog</span>
                       <span class="dropdown-menu__item-desc">Latest insights on technology and design.</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="${homeUrl}#case-studies" class="dropdown-menu__link">
-                      <span class="dropdown-menu__item-title">Case Studies</span>
-                      <span class="dropdown-menu__item-desc">Real delivery projects scaled by us.</span>
                     </a>
                   </li>
                 </ul>
@@ -347,8 +342,7 @@ function getNavbarHTML() {
           </div>
           <div class="mobile-menu__submenu" data-submenu="company">
             <a href="${companyUrl}" class="mobile-menu__sublink">About Us</a>
-            <a href="${homeUrl}#blog" class="mobile-menu__sublink">Blog</a>
-            <a href="${homeUrl}#case-studies" class="mobile-menu__sublink">Case Studies</a>
+            <a href="${blogUrl}" class="mobile-menu__sublink">Blog</a>
           </div>
         </div>
 
@@ -436,7 +430,7 @@ function getNavbarHTML() {
 function getFooterHTML() {
   resolvePath('assets/img/logo.png');
   const homeUrl = resolvePath('index.html');
-  const companyUrl = resolvePath('company_index.html');
+  const companyUrl = resolvePath('about.html');
   const devUrl = resolvePath('development_index.html');
   const mktUrl = resolvePath('digital_marketing_index.html');
   const staffingUrl = resolvePath('staffing_index.html');
@@ -589,36 +583,23 @@ function bindNavbarEvents() {
     }
   });
 
-  // Enhanced menu stability
+  // Keep desktop dropdowns open while the cursor moves from the label or arrow into the submenu.
   const navItems = header.querySelectorAll('.nav__item--has-dropdown');
-  let menuTimeout;
 
   navItems.forEach(item => {
     const menu = item.querySelector('.dropdown-menu, .mega-menu');
     if (!menu) return;
+    let closeTimeout;
 
     item.addEventListener('mouseenter', () => {
-      clearTimeout(menuTimeout);
-      menu.style.pointerEvents = 'auto';
+      clearTimeout(closeTimeout);
+      item.classList.add('is-menu-open');
     });
 
     item.addEventListener('mouseleave', () => {
-      menuTimeout = setTimeout(() => {
-        if (!menu.matches(':hover')) {
-          menu.style.pointerEvents = 'none';
-        }
-      }, 300); // Longer delay before closing
-    });
-
-    menu.addEventListener('mouseenter', () => {
-      clearTimeout(menuTimeout);
-      menu.style.pointerEvents = 'auto';
-    });
-
-    menu.addEventListener('mouseleave', () => {
-      menuTimeout = setTimeout(() => {
-        menu.style.pointerEvents = 'none';
-      }, 200);
+      closeTimeout = setTimeout(() => {
+        item.classList.remove('is-menu-open');
+      }, 220);
     });
   });
 

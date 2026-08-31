@@ -1498,7 +1498,6 @@ section {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
-  transition-delay: 0.40s;
   padding: var(--space-12);
   z-index: 1001;
   margin-top: -8px;
@@ -1506,11 +1505,12 @@ section {
 }
 
 .nav__item:hover .dropdown-menu,
+.nav__item:focus-within .dropdown-menu,
+.nav__item--has-dropdown.is-menu-open .dropdown-menu,
 .dropdown-menu:hover {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(8px);
-  transition-delay: 0s;
 }
 
 .dropdown-menu__list {
@@ -1566,7 +1566,6 @@ section {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
-  transition-delay: 0.45s;
   padding: var(--space-24) var(--space-24);
   z-index: 1001;
   display: grid;
@@ -1583,11 +1582,12 @@ section {
 }
 
 .nav__item:hover .mega-menu,
+.nav__item:focus-within .mega-menu,
+.nav__item--has-dropdown.is-menu-open .mega-menu,
 .mega-menu:hover {
   opacity: 1;
   pointer-events: auto;
   transform: translateX(-50%) translateY(8px);
-  transition-delay: 0s;
 }
 
 /* Hoverable bridge for dropdown */
@@ -4976,6 +4976,17 @@ section::before {
   overflow: visible;
 }
 
+/* Keep the capabilities stack visually connected to the solutions section above it. */
+#expertised-services {
+  padding-top: var(--space-32);
+}
+
+@media (min-width: 768px) {
+  #expertised-services {
+    padding-top: var(--space-48);
+  }
+}
+
 .stack-card-list {
   display: flex;
   flex-direction: column;
@@ -5144,6 +5155,16 @@ section::before {
 }
 
 /* Home FAQ */
+
+.home-faq {
+  padding-top: var(--space-32);
+}
+
+@media (min-width: 768px) {
+  .home-faq {
+    padding-top: var(--space-48);
+  }
+}
 
 
 .home-faq__list {
