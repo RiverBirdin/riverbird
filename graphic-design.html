@@ -30,53 +30,33 @@
 
   <main id="main-content" class="liquid-wrapper">
 
-    <section class="hero hero--service hero--graphic-design">
-      <div class="container hero__container hero__container--split">
-
-        <!-- LEFT: existing text content (unchanged) -->
-        <div class="hero__content reveal">
-          <span class="hero__label hero__label--marketing">Marketing Channel</span>
-          <h1 class="display-text hero__title">
-            Design Beyond Aesthetics. <span class="text-primary-color">Built For Impact.</span>
-          </h1>
-          <p class="hero__desc">
-            Develop corporate graphics, layout guides, typography systems, and web illustrations that reflect elegance
-            and corporate quality.
-          </p>
-          <div class="hero__actions">
-            <a href="contact_index.html" class="btn btn--primary magnetic-btn">Start Designing</a>
-            <a href="index.html" class="btn btn--outline btn--white magnetic-btn">All Channels</a>
-          </div>
+    <section class="design-workflow-hero" aria-labelledby="design-workflow-title">
+      <div class="container">
+        <div class="design-workflow-hero__intro reveal">
+          <span class="design-workflow-hero__eyebrow">Riverbird Creative Studio</span>
+          <h1 id="design-workflow-title">Design That Gives Your<br><span>Brand a Clearer Voice.</span></h1>
+          <p>Purposeful identities, campaigns, and design systems that help ambitious businesses look consistent, distinctive, and ready to grow.</p>
+          <a href="contact_index.html" class="design-workflow-hero__cta magnetic-btn">Start a design project <span aria-hidden="true">&#8594;</span></a>
         </div>
 
-        <!-- RIGHT: Before/After images -->
-        <div class="hero__visual reveal delay-2">
-
-          <!-- BEFORE image -->
-          <div class="ba-img-panel">
-            <span class="ba-label ba-label--before">BEFORE</span>
-            <img src="assets/img/graphic-designs/hero_before.jpeg" alt="Before: plain generic design"
-              class="ba-card-img" />
-          </div>
-
-          <!-- Arrow -->
-          <div class="ba-arrow">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </div>
-
-          <!-- AFTER image -->
-          <div class="ba-img-panel">
-            <span class="ba-label ba-label--after">AFTER</span>
-            <img src="assets/img/graphic-designs/hero_after.jpeg" alt="After: Riverbird premium branded design"
-              class="ba-card-img ba-card-img--after" />
-          </div>
-
-        </div><!-- /hero__visual -->
-
-      </div><!-- /container -->
+        <div class="design-workflow-hero__gallery reveal delay-1" aria-label="A selection of Riverbird graphic design work">
+          <figure class="design-workflow-hero__panel design-workflow-hero__panel--edge">
+            <img src="assets/img/graphic-designs/collateral_menu_card.png" alt="Restaurant menu design" loading="eager">
+          </figure>
+          <figure class="design-workflow-hero__panel">
+            <img src="assets/img/graphic-designs/mochroom_cover.jpeg" alt="Mochroom campaign design" loading="eager">
+          </figure>
+          <figure class="design-workflow-hero__panel design-workflow-hero__panel--raised">
+            <img src="assets/img/graphic-designs/fashyfi_cover.jpeg" alt="Fashyfi graphic design" loading="eager">
+          </figure>
+          <figure class="design-workflow-hero__panel">
+            <img src="assets/img/graphic-designs/cobra_Steel_Doors_cover.jpeg" alt="Cobra Steel Doors campaign design" loading="eager">
+          </figure>
+          <figure class="design-workflow-hero__panel design-workflow-hero__panel--edge">
+            <img src="assets/img/graphic-designs/eip_design_mockup.png" alt="Brand mockup design" loading="eager">
+          </figure>
+        </div>
+      </div>
     </section>
 
     <!-- PROCESS STEPS BAR -->
@@ -173,40 +153,25 @@
 
 
 
-    <section class="portfolio-showcase">
+    <section class="design-workflow-features portfolio-showcase" aria-label="Graphic design capabilities">
 
       <div class="container">
-
-        <div class="portfolio-showcase__header">
-          <span class="label-text">Featured Work</span>
-          <h2 class="h1">Where Ideas Turn Into Impact</h2>
-        </div>
-
-        <div class="portfolio-grid">
-
-          <article class="portfolio-card">
-            <img src="assets/img/graphic-designs/mochroom_cover.jpeg" alt="">
-            <h3>Mochroom</h3>
-            <p>Social Media Posters</p>
+        <div class="design-workflow-features__grid reveal">
+          <article class="design-workflow-feature">
+            <span class="design-workflow-feature__number">01</span>
+            <h2>Brand Direction</h2>
+            <p>Build a visual foundation that makes every customer touchpoint instantly recognisable.</p>
           </article>
-
-          <article class="portfolio-card">
-            <img src="assets/img/graphic-designs/cobra_Steel_Doors_cover.jpeg" alt="">
-            <h3>Cobra Steel Doors</h3>
-            <p>Social Media Marketing</p>
+          <article class="design-workflow-feature">
+            <span class="design-workflow-feature__number">02</span>
+            <h2>Campaign Creative</h2>
+            <p>Turn product launches and marketing moments into polished, scroll-stopping stories.</p>
           </article>
-
-          <article class="portfolio-card">
-            <img src="assets/img/graphic-designs/fashyfi_cover.jpeg" alt="">
-            <h3>Fashyfi</h3>
-            <p>Social Media Posters, App Banners</p>
+          <article class="design-workflow-feature">
+            <span class="design-workflow-feature__number">03</span>
+            <h2>Design Systems</h2>
+            <p>Give your team the reusable templates and guidelines needed to move quickly with confidence.</p>
           </article>
-
-        </div>
-        <div class="portfolio-btn-wrap">
-          <button class="btn btn--outline magnetic-btn" id="openPortfolioModal">
-            View More
-          </button>
         </div>
       </div>
 

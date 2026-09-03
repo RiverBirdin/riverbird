@@ -13950,6 +13950,204 @@ body[data-page="development-sub"] .hero--service {
   }
 }
 
+/* ── Graphic Design: editorial workflow hero ── */
+.design-workflow-hero {
+  background: #fbf3e7;
+  color: #15120e;
+  overflow: hidden;
+  padding: clamp(128px, 13vw, 184px) 0 0;
+}
+
+.design-workflow-hero__intro {
+  max-width: 780px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.design-workflow-hero__eyebrow {
+  display: block;
+  color: #74695e;
+  font-family: var(--font-secondary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.design-workflow-hero h1 {
+  color: #17130f;
+  font-family: var(--font-primary);
+  font-size: clamp(2.5rem, 5.4vw, 5.5rem);
+  font-weight: 600;
+  letter-spacing: -0.075em;
+  line-height: 0.93;
+  margin: 0;
+}
+
+.design-workflow-hero h1 span {
+  color: #ab4c2b;
+}
+
+.design-workflow-hero__intro p {
+  color: #71685e;
+  font-family: var(--font-secondary);
+  font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+  line-height: 1.55;
+  margin: 22px auto 26px;
+  max-width: 610px;
+}
+
+.design-workflow-hero__cta {
+  align-items: center;
+  background: #17130f;
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  font-family: var(--font-secondary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  gap: 12px;
+  padding: 13px 19px;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.design-workflow-hero__cta:hover {
+  background: #ab4c2b;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.design-workflow-hero__cta span {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.design-workflow-hero__gallery {
+  align-items: end;
+  display: flex;
+  gap: clamp(9px, 1.2vw, 18px);
+  justify-content: center;
+  margin: clamp(44px, 6vw, 76px) auto 0;
+  width: min(1190px, calc(100% + 140px));
+}
+
+.design-workflow-hero__panel {
+  background: #e4d2bd;
+  border-radius: 18px 18px 0 0;
+  box-shadow: 0 -2px 16px rgba(52, 35, 18, 0.08);
+  flex: 0 1 188px;
+  height: clamp(180px, 20vw, 286px);
+  margin: 0;
+  overflow: hidden;
+  transform: perspective(900px) rotateY(-5deg) rotateZ(-1deg);
+}
+
+.design-workflow-hero__panel img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.design-workflow-hero__panel--raised {
+  height: clamp(206px, 23vw, 324px);
+  transform: translateY(-13px);
+}
+
+.design-workflow-hero__panel:nth-child(4) {
+  transform: perspective(900px) rotateY(5deg) rotateZ(1deg);
+}
+
+.design-workflow-hero__panel--edge {
+  opacity: 0.58;
+}
+
+.design-workflow-features {
+  background: #fbf3e7;
+  padding: clamp(42px, 5vw, 72px) 0 clamp(70px, 8vw, 120px);
+}
+
+.design-workflow-features__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.design-workflow-feature {
+  padding: 0 clamp(24px, 4vw, 64px);
+  text-align: center;
+}
+
+.design-workflow-feature + .design-workflow-feature {
+  border-left: 1px solid rgba(77, 53, 32, 0.16);
+}
+
+.design-workflow-feature__number {
+  color: #ab4c2b;
+  font-family: var(--font-secondary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.design-workflow-feature h2 {
+  color: #17130f;
+  font-family: var(--font-primary);
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  letter-spacing: -0.045em;
+  margin: 12px 0 10px;
+}
+
+.design-workflow-feature p {
+  color: #756c62;
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  margin: 0 auto;
+  max-width: 270px;
+}
+
+@media (max-width: 700px) {
+  .design-workflow-hero {
+    padding-top: 112px;
+  }
+
+  .design-workflow-hero h1 {
+    font-size: clamp(2.45rem, 12vw, 3.5rem);
+  }
+
+  .design-workflow-hero__gallery {
+    gap: 7px;
+    margin-top: 40px;
+    width: calc(100% + 52px);
+  }
+
+  .design-workflow-hero__panel {
+    border-radius: 11px 11px 0 0;
+    flex-basis: 115px;
+    height: 178px;
+  }
+
+  .design-workflow-hero__panel--raised {
+    height: 202px;
+  }
+
+  .design-workflow-features__grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .design-workflow-feature {
+    padding: 0 16px 30px;
+  }
+
+  .design-workflow-feature + .design-workflow-feature {
+    border-left: 0;
+    border-top: 1px solid rgba(77, 53, 32, 0.16);
+    padding-top: 30px;
+  }
+}
+
 /* --- End: pages/graphic-design.css --- */
 
 /* --- Start: pages/video-production.css --- */
