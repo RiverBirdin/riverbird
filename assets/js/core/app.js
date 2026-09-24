@@ -67,7 +67,7 @@ const GOOGLE_REVIEWS_WIDGET_UUID = 'abf64cfa-44ec-4c22-a674-f30f1e372b30';
 const RIVERBIRD_CONTACT = {
   businessName: 'Riverbird',
   legalName: 'Riverbird Solutions',
-  phoneDisplay: '099949 67655',
+  phoneDisplay: '+91 99949 67655',
   phoneTel: '+919994967655',
   email: 'info@riverbird.in',
   addressLine:
@@ -1762,7 +1762,7 @@ function getAutoFaqsForPage(pageName) {
 
 function ensurePageFaqCoverage() {
   const page = document.body.getAttribute('data-page');
-  if (!page || page === 'legal' || page === 'blog-article') return;
+  if (!page || page === 'home' || page === 'legal' || page === 'blog-article') return;
 
   const existingCount = document.querySelectorAll('.faq-section .faq-item').length;
   const main = document.getElementById('main-content');

@@ -330,7 +330,7 @@
         </div>
         <div class="rb-input-group">
           <label for="rb-lead-phone">Phone / WhatsApp Number *</label>
-          <input type="tel" id="rb-lead-phone" placeholder="e.g. 099949 67655" required autocomplete="tel" />
+          <input type="tel" id="rb-lead-phone" placeholder="e.g. +91 99949 67655" required autocomplete="tel" />
         </div>
         <button type="submit" class="rb-lead-btn">Submit Contact Details ➔</button>
       </form>
