@@ -1,0 +1,5 @@
+Contact: mailto:info@riverbird.in
+Contact: tel:+919994967655
+Preferred-Languages: en, ta
+Canonical: https://riverbird.in/.well-known/security.txt
+Policy: https://riverbird.in/privacy_policy.html

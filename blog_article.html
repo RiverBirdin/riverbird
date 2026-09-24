@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" data-base="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Article | Riverbird Blog</title>
+  <meta name="description" content="Riverbird blog article on technology, marketing, and staffing." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/css/main.css" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+  <link rel="shortcut icon" href="assets/img/favicon.ico">
+  <link rel="manifest" href="assets/img/site.webmanifest">
+  <meta name="theme-color" content="#F55D2D">
+</head>
+<body data-page="blog-article">
+
+  <a href="#main-content" class="skip-link">Skip to Content</a>
+
+  <div class="cursor-glow"></div>
+  <canvas class="liquid-canvas"></canvas>
+  <div id="header-slot"></div>
+
+  <main id="main-content" class="liquid-wrapper">
+
+    <section class="hero" style="min-height: 45vh; padding-bottom: var(--space-32);">
+      <div class="container hero__container">
+        <div class="hero__content reveal">
+          <a href="blog_index.html" class="btn btn--text" style="margin-bottom: var(--space-16);">&larr; Back to Blog</a>
+          <span class="hero__label" id="blog-article-category">Article</span>
+          <h1 class="display-text hero__title" id="blog-article-title" style="font-size: clamp(2rem, 4vw, 3rem);">Loading…</h1>
+          <p class="hero__desc" id="blog-article-meta"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-padding bg-white" id="blog-article-content">
+      <div class="container" style="max-width: 760px;">
+        <div class="reveal" id="blog-article-body"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="footer-slot"></div>
+  <script type="module" src="assets/js/core/app.js"></script>
+</body>
+</html>

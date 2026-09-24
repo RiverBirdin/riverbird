@@ -1852,22 +1852,70 @@ body.no-scroll {
   border-top: 1px solid var(--color-border);
 }
 
-.footer__top {
+.rb-careers-anchor {
+  display: block;
+  position: relative;
+  top: -96px;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.footer__grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-16);
+  gap: var(--space-40);
+  width: 100%;
 }
 
 @media (min-width: 768px) {
-  .footer__top {
-    grid-template-columns: 2fr 1fr 1fr 2fr;
+  .footer__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-32);
+    row-gap: var(--space-40);
+  }
+
+  .footer__col--brand {
+    grid-column: 1 / -1;
+    max-width: 320px;
   }
 }
 
-.footer__brand {
+@media (min-width: 1024px) {
+  .footer__grid {
+    grid-template-columns: minmax(200px, 1.2fr) minmax(0, 1fr) minmax(0, 1fr) minmax(200px, 1.05fr);
+    gap: var(--space-32) var(--space-28);
+    align-items: start;
+  }
+
+  .footer__col--brand {
+    grid-column: auto;
+    max-width: none;
+  }
+}
+
+.footer__col--stack {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-32);
+}
+
+.footer__col--meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-28);
+}
+
+.footer__block {
+  min-width: 0;
+}
+
+.footer__col--brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  align-items: flex-start;
 }
 
 .footer__logo img {
@@ -1875,13 +1923,61 @@ body.no-scroll {
   width: auto;
 }
 
-.footer__brand p {
+.footer__address {
+  margin: 0;
   color: var(--color-text-muted);
-  max-width: 280px;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  max-width: 260px;
+}
+
+.footer__gstin {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.footer__social-label {
+  margin: var(--space-8) 0 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.footer-google-reviews {
+  width: 100%;
+  max-width: 240px;
+}
+
+.footer__section-title {
+  margin: 0 0 var(--space-16);
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid var(--color-border);
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--color-text-primary);
+}
+
+.footer__section-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer__section-title a:hover {
+  color: var(--color-primary);
+}
+
+.footer__newsletter-desc {
+  margin: 0 0 var(--space-12);
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  line-height: 1.5;
 }
 
 .footer__socials {
-  margin-top: 10px;
   display: flex;
   gap: var(--space-12);
 }
@@ -31202,4 +31298,113 @@ section::after {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
+}
+
+/* Google Reviews — live footer widget (review-widget.net / GBP) */
+.footer-google-reviews,
+.footer-google-reviews .review-widget_net {
+  font-family: var(--font-secondary);
+}
+
+.rb-gbp-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  padding: var(--space-12) var(--space-16);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-white);
+  text-decoration: none;
+  color: inherit;
+  max-width: 280px;
+}
+
+.rb-gbp-badge:hover {
+  border-color: rgba(245, 93, 45, 0.35);
+  box-shadow: 0 8px 24px rgba(15, 12, 16, 0.06);
+}
+
+.rb-gbp-badge__logo {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+.rb-gbp-badge__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rb-gbp-badge__title {
+  font-family: var(--font-secondary);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.rb-gbp-badge__rating-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rb-gbp-badge__rating {
+  font-family: var(--font-primary);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.rb-gbp-badge__stars {
+  color: #F59E0B;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+}
+
+.rb-gbp-badge__count {
+  font-family: var(--font-secondary);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.legal-prose {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.legal-prose .h1 {
+  margin-bottom: var(--space-16);
+}
+
+.legal-prose .h3 {
+  margin-top: var(--space-32);
+  margin-bottom: var(--space-12);
+}
+
+.legal-prose ul {
+  margin: 0 0 var(--space-16);
+  padding-left: 1.25rem;
+}
+
+.legal-prose li {
+  margin-bottom: var(--space-8);
+}
+
+.blog-categories__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-24);
+}
+
+@media (max-width: 768px) {
+  .blog-categories__grid {
+    grid-template-columns: 1fr;
+  }
 }

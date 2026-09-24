@@ -7,6 +7,19 @@
   let chatHistory = [];
   let currentServiceInterest = 'General Inquiry';
 
+  function getApiBase() {
+    const host = window.location.hostname;
+    if (host === 'localhost' || host === '127.0.0.1') {
+      return window.location.origin;
+    }
+    if (host === 'riverbird.in' || host.endsWith('.riverbird.in')) {
+      return 'https://riverbird.in';
+    }
+    return window.location.origin;
+  }
+
+  const API_BASE = getApiBase();
+
   function getLogoPath() {
     const baseAttr = document.documentElement.getAttribute('data-base');
     const base = baseAttr !== null ? baseAttr : '';
@@ -70,13 +83,13 @@
             </div>
             <div class="rb-msg-content-box">
               <div class="rb-chat-msg rb-chat-msg-bot">
-                Hello there! 👋 Welcome to RiverBird Support. I'm here to assist you with <strong>Web Engineering</strong>, <strong>Digital Marketing</strong>, <strong>SEO</strong>, <strong>Staffing</strong>, or <strong>Career Opportunities</strong>!
+                Hello there!  Welcome to RiverBird Support. I'm here to assist you with <strong>Web Engineering</strong>, <strong>Digital Marketing</strong>, <strong>SEO</strong>, <strong>Staffing</strong>, or <strong>Career Opportunities</strong>!
                 <div class="rb-chat-pills" id="initial-pills">
-                  <button class="rb-chat-pill" onclick="window.sendChatPill('Tell me about Web Development')">💻 Web Engineering</button>
-                  <button class="rb-chat-pill" onclick="window.sendChatPill('How can SEO help my site?')">📈 SEO Ranking</button>
-                  <button class="rb-chat-pill" onclick="window.sendChatPill('Digital Marketing Solutions')">🚀 Marketing</button>
-                  <button class="rb-chat-pill" onclick="window.sendChatPill('Tell me about Career Opportunities')">💼 Careers</button>
-                  <button class="rb-chat-pill" onclick="window.sendChatPill('Get a Custom Quote')">📞 Get a Quote</button>
+                  <button class="rb-chat-pill" onclick="window.sendChatPill('Tell me about Web Development')"> Web Engineering</button>
+                  <button class="rb-chat-pill" onclick="window.sendChatPill('How can SEO help my site?')"> SEO Ranking</button>
+                  <button class="rb-chat-pill" onclick="window.sendChatPill('Digital Marketing Solutions')">Marketing</button>
+                  <button class="rb-chat-pill" onclick="window.sendChatPill('Tell me about Career Opportunities')"> Careers</button>
+                  <button class="rb-chat-pill" onclick="window.sendChatPill('Get a Custom Quote')"> Get a Quote</button>
                 </div>
               </div>
               <div class="rb-msg-timestamp">${getFormattedTime()}</div>
@@ -317,7 +330,7 @@
         </div>
         <div class="rb-input-group">
           <label for="rb-lead-phone">Phone / WhatsApp Number *</label>
-          <input type="tel" id="rb-lead-phone" placeholder="+1 (555) 000-0000" required autocomplete="tel" />
+          <input type="tel" id="rb-lead-phone" placeholder="e.g. 099949 67655" required autocomplete="tel" />
         </div>
         <button type="submit" class="rb-lead-btn">Submit Contact Details ➔</button>
       </form>

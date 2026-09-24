@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" data-base="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog | Riverbird</title>
+  <meta name="description" content="Insights on software engineering, digital marketing, SEO, and staffing from the Riverbird team." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/css/main.css" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+  <link rel="shortcut icon" href="assets/img/favicon.ico">
+  <link rel="manifest" href="assets/img/site.webmanifest">
+  <meta name="theme-color" content="#F55D2D">
+</head>
+<body data-page="blog">
+
+  <a href="#main-content" class="skip-link">Skip to Content</a>
+
+  <div class="cursor-glow"></div>
+  <canvas class="liquid-canvas"></canvas>
+  <div id="header-slot"></div>
+
+  <main id="main-content" class="liquid-wrapper">
+
+    <section class="hero" style="min-height: 55vh; padding-bottom: var(--space-48);">
+      <div class="container hero__container">
+        <div class="hero__content reveal">
+          <span class="hero__label">Riverbird Insights</span>
+          <h1 class="display-text hero__title">
+            Ideas for <span class="text-primary-color">growth & engineering.</span>
+          </h1>
+          <p class="hero__desc">
+            Practical articles on building software, scaling marketing, and hiring teams — written by the people delivering the work.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-padding bg-white" id="blog-categories">
+      <div class="container">
+        <div class="section-header center reveal">
+          <span class="label-text">Topics</span>
+          <h2 class="h2">Explore by discipline</h2>
+          <p class="body-text">Browse perspectives across development, marketing, and staffing.</p>
+        </div>
+        <div class="blog-categories__grid" data-stagger>
+          <div class="card reveal stagger-item">
+            <h3 class="card__title h4">Engineering</h3>
+            <p class="card__desc">Architecture, performance, and delivery practices for reliable software.</p>
+          </div>
+          <div class="card reveal delay-1 stagger-item">
+            <h3 class="card__title h4">Digital Marketing</h3>
+            <p class="card__desc">SEO, paid media, content, and brand systems that convert.</p>
+          </div>
+          <div class="card reveal delay-2 stagger-item">
+            <h3 class="card__title h4">Staffing</h3>
+            <p class="card__desc">Hiring pipelines, RPO playbooks, and team scaling in India.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-padding bg-light" id="blog-posts">
+      <div class="container">
+        <div class="section-header center reveal">
+          <span class="label-text">Latest</span>
+          <h2 class="h2">Articles & updates</h2>
+          <p class="body-text">Fresh thinking from our delivery teams.</p>
+        </div>
+        <div class="grid grid-3" id="blog-posts-grid" data-stagger></div>
+      </div>
+    </section>
+
+    <section class="section-padding bg-light" id="blog-cta">
+      <div class="container">
+        <div class="cta reveal" style="text-align: center; max-width: 720px; margin: 0 auto;">
+          <span class="label-text">Work with us</span>
+          <h2 class="h2" style="margin-bottom: var(--space-16);">Ready to apply these ideas to your business?</h2>
+          <p class="body-text" style="margin-bottom: var(--space-24);">Tell us your goals — we will recommend a practical roadmap for software, marketing, or hiring.</p>
+          <a href="contact_index.html" class="btn btn--primary magnetic-btn">Start a conversation</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="footer-slot"></div>
+  <script type="module" src="assets/js/core/app.js"></script>
+</body>
+</html>

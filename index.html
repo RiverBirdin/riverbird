@@ -9,6 +9,8 @@
   <link rel="icon" type="image/png" href="assets/img/logo.png">
   <meta name="description"
     content="Riverbird is a premium corporate technology and growth company providing bespoke software engineering, digital marketing pipelines, and staffing solutions." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://riverbird.in/" />
 
   <meta property="og:title" content="Riverbird | Enterprise Software, Marketing & Staffing Solutions" />
   <meta property="og:description"
@@ -32,11 +34,25 @@
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Riverbird",
+      "alternateName": "RiverBird.in",
+      "legalName": "Riverbird Solutions",
       "url": "https://riverbird.in",
       "logo": "https://riverbird.in/assets/img/logo.png",
+      "telephone": "+91-99949-67655",
+      "email": "info@riverbird.in",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "15/1, Pasupatheswar kovil 1st Main Road, Karur Bypass Rd, opp. to Kalaingar Arivalayam, Melachinthamani",
+        "addressLocality": "Tiruchirappalli",
+        "addressRegion": "Tamil Nadu",
+        "postalCode": "620002",
+        "addressCountry": "IN"
+      },
       "sameAs": [
-        "https://linkedin.com",
-        "https://twitter.com"
+        "https://www.linkedin.com/company/riverbird-in/",
+        "https://instagram.com/riverbird.in",
+        "https://www.youtube.com/@RiverBirddotin",
+        "https://www.facebook.com/profile.php?id=61559792591988"
       ]
     }
   </script>
@@ -647,6 +663,9 @@
         <div id="blog-empty-state" style="display:none; text-align:center; padding: var(--space-40) 0; color: var(--color-text-muted);">
           <p class="body-text">No blog posts yet. Stay tuned for updates!</p>
         </div>
+        <div style="text-align: center; margin-top: var(--space-32);">
+          <a href="blog_index.html" class="btn btn--outline magnetic-btn">View all articles</a>
+        </div>
       </div>
     </section>
 
@@ -726,7 +745,7 @@
             </p>
             <div class="home-contact__actions">
               <a class="home-contact__whatsapp"
-                href="https://wa.me/?text=Hi%20RiverBird%2C%20I%20would%20like%20a%20quick%20response%20from%20your%20team."
+                href="https://wa.me/919994967655?text=Hi%20RiverBird%2C%20I%20would%20like%20a%20quick%20response%20from%20your%20team."
                 target="_blank" rel="noopener">
                 <img src="assets/img/icons/whatsapp.png" alt="" width="28" height="28" loading="lazy" />
                 <span>Get a Quick Response from our team</span>
@@ -950,13 +969,38 @@
         return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
       }
 
+      function renderStaticBlogCards() {
+        const staticPosts = [
+          { slug: 'vanilla-js-performance', title: 'Why We Choose Vanilla JS for Enterprise Scaling', category: 'Engineering', description: 'Exploring latency, asset size, and long-term maintenance advantages without heavy framework dependencies.', published_at: '2026-06-10' },
+          { slug: 'seo-lighthouse-metrics', title: 'Cracking the Google PageRank: A 100/100 Lighthouse Story', category: 'Marketing', description: 'How we structured HTML, lazy-loaded assets, and streamlined scripts for stronger SEO indexing.', published_at: '2026-06-05' },
+          { slug: 'talent-acquisition-pipeline', title: 'RPO Blueprint: Sourcing Senior Engineers in Under 14 Days', category: 'Staffing', description: 'The operational checklist our recruitment cell uses to find top-tier talent quickly.', published_at: '2026-05-28' }
+        ];
+        container.innerHTML = staticPosts.map((blog, i) => {
+          const date = new Date(blog.published_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
+          const delay = i < 6 ? `delay-${i % 3 + 1}` : '';
+          const blogUrl = `blog_article.html?slug=${encodeURIComponent(blog.slug)}`;
+          return `
+              <div class="card reveal ${delay} stagger-item">
+                <div class="card__image-wrapper" style="position:relative;overflow:hidden;border-radius:var(--radius-md);margin-bottom:16px;height:200px;background:linear-gradient(135deg, #0f172a 0%, #1e293b 100%);display:flex;align-items:center;justify-content:center;">
+                  <span style="font-size:0.75rem;font-weight:600;color:#e2e8f0;letter-spacing:0.08em;text-transform:uppercase;">RIVERBIRD INSIGHTS</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                  <span style="background:var(--color-primary-light);color:var(--color-primary);font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;padding:3px 10px;border-radius:var(--radius-full);">${blog.category}</span>
+                  <span style="font-size:0.75rem;color:var(--color-text-muted);">${date}</span>
+                </div>
+                <h3 class="card__title">${blog.title}</h3>
+                <p class="card__desc">${blog.description}</p>
+                <a href="${blogUrl}" class="btn btn--text magnetic-btn">Read More &rarr;</a>
+              </div>
+            `;
+        }).join('');
+      }
+
       fetch(`${API_BASE}/api/blogs`)
-        .then(res => res.json())
+        .then(res => (res.ok ? res.json() : Promise.reject(new Error('Blog API unavailable'))))
         .then(blogs => {
           if (!blogs || blogs.length === 0) {
-            if (emptyState) emptyState.style.display = 'block';
-            const blogSection = document.getElementById('blog');
-            if (blogSection) blogSection.style.display = 'none';
+            renderStaticBlogCards();
             return;
           }
 
@@ -977,7 +1021,7 @@
               }
             }
 
-            const blogUrl = `${API_BASE}/blog/${blog.slug}`;
+            const blogUrl = `blog_article.html?slug=${encodeURIComponent(blog.slug)}`;
             const safeTitle = escapeHtml(blog.title);
             const safeDesc = escapeHtml(blog.description);
 
@@ -1002,8 +1046,7 @@
         })
         .catch(err => {
           console.warn("Blog load error:", err);
-          const blogSection = document.getElementById('blog');
-          if (blogSection) blogSection.style.display = 'none';
+          renderStaticBlogCards();
         });
     })();
   </script>

@@ -55,7 +55,16 @@
                 </span>
                 <div>
                   <h4 style="font-family: var(--font-primary);">General Inquiries</h4>
-                  <p class="body-text body-small"><a href="mailto:info@riverbird.in">info@riverbird.in</a></p>
+                  <p class="body-text body-small"><a href="mailto:info@riverbird.in" data-rb-contact="email">info@riverbird.in</a></p>
+                </div>
+              </div>
+              <div style="display: flex; gap: var(--space-16); align-items: center;">
+                <span style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--radius-sm); background-color: rgba(245, 93, 45, 0.1); color: var(--color-primary); flex-shrink: 0;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                </span>
+                <div>
+                  <h4 style="font-family: var(--font-primary);">Phone</h4>
+                  <p class="body-text body-small"><a href="tel:+919994967655" data-rb-contact="phone">099949 67655</a></p>
                 </div>
               </div>
               <div style="display: flex; gap: var(--space-16); align-items: center;">
@@ -64,10 +73,11 @@
                 </span>
                 <div>
                   <h4 style="font-family: var(--font-primary);">Office Location</h4>
-                  <p class="body-text body-small">
+                  <p class="body-text body-small" data-rb-contact="address">
                     Riverbird Solutions,<br />
-                    Teynampet, Anna Salai,<br />
-                    Chennai, Tamil Nadu 600018
+                    15/1, Pasupatheswar kovil 1st Main Road,<br />
+                    Karur Bypass Rd, opp. to Kalaingar Arivalayam,<br />
+                    Melachinthamani, Tiruchirappalli, Tamil Nadu 620002
                   </p>
                 </div>
               </div>
@@ -89,20 +99,21 @@
                 <div>SYSTEM STATUS: <span style="color: #10B981; font-weight: bold;">ONLINE</span></div>
                 <div>UPTIME PROFILE: <span id="hud-uptime">99.982%</span></div>
                 <div>NODE TIME (IST): <span id="hud-time">--:--:--</span></div>
-                <div>LOC: TEYNAMPET_CHENNAI_IN</div>
+                <div>LOC: MELACHINTHAMANI_TRICHY_IN</div>
               </div>
             </div>
 
             <div class="map-container" style="border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--color-border); height: 300px;">
               <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.8242475459345!2d80.24350327572777!3d13.046864113251433!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a526644f77c2763%3A0xe107d3536b0c2662!2sAnna%20Salai%2C%20Chennai%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1718180000000!5m2!1sen!2sin" 
+                id="rb-contact-map"
+                src="https://www.google.com/maps?q=15%2F1%2C%20Pasupatheswar%20kovil%201st%20Main%20Road%2C%20Karur%20Bypass%20Rd%2C%20opp.%20to%20Kalaingar%20Arivalayam%2C%20Melachinthamani%2C%20Tiruchirappalli%2C%20Tamil%20Nadu%20620002&hl=en&z=16&output=embed" 
                 width="100%" 
                 height="100%" 
                 style="border:0;" 
                 allowfullscreen="" 
                 loading="lazy" 
                 referrerpolicy="no-referrer-when-downgrade"
-                title="Riverbird Chennai Office Map">
+                title="Riverbird Tiruchirappalli Office Map">
               </iframe>
             </div>
           </div>
@@ -147,32 +158,10 @@
                 </div>
               </div>
 
-              <!-- Cool HUD Budget Slider -->
-              <div class="budget-slider-container">
-                <div class="budget-slider-header">
-                  <span class="budget-slider-title">Estimated Scope</span>
-                  <span class="budget-estimate-badge" id="budget-estimate-badge">Under $5k</span>
-                </div>
-                <input type="range" min="0" max="3" value="0" class="budget-range-input" id="budget-range-input" />
-                <div class="budget-range-labels">
-                  <span>Under $5k</span>
-                  <span>$5k - $20k</span>
-                  <span>$20k - $50k</span>
-                  <span>$50k+</span>
-                </div>
-              </div>
-
-              <!-- Hidden select inputs synced dynamically -->
-              <select id="inq-service" class="form-input" style="display: none;">
+              <select id="inq-service" class="form-input" style="display: none;" aria-hidden="true" tabindex="-1">
                 <option value="software" selected>Software Engineering</option>
                 <option value="marketing">Digital Marketing</option>
                 <option value="staffing">Staffing Solutions</option>
-              </select>
-              <select id="inq-budget" class="form-input" style="display: none;">
-                <option value="under-5k" selected>Under $5,000</option>
-                <option value="5k-20k">$5,000 - $20,000</option>
-                <option value="20k-50k">$20,000 - $50,000</option>
-                <option value="50k-plus">$50,000+</option>
               </select>
 
               <div class="form-group">
@@ -258,26 +247,6 @@
         const val = card.getAttribute('data-service-val');
         selectService.value = val;
       });
-    });
-
-    // ── Interactive budget slider sync ──
-    const rangeInput = document.getElementById('budget-range-input');
-    const badgeEstimate = document.getElementById('budget-estimate-badge');
-    const selectBudget = document.getElementById('inq-budget');
-
-    const budgetSteps = [
-      { text: 'Under $5k', value: 'under-5k' },
-      { text: '$5k - $20k', value: '5k-20k' },
-      { text: '$20k - $50k', value: '20k-50k' },
-      { text: '$50k+', value: '50k-plus' }
-    ];
-
-    rangeInput.addEventListener('input', (e) => {
-      const idx = parseInt(e.target.value);
-      const step = budgetSteps[idx];
-      
-      badgeEstimate.textContent = step.text;
-      selectBudget.value = step.value;
     });
 
     // ── Simulated Node HUD stats ──

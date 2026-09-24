@@ -56,14 +56,233 @@ function initChatbotAssets() {
   }
 }
 
-function initReviewWidget() {
-  if (!document.querySelector('script[src*="grwapi.net"]')) {
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'https://grwapi.net/widget.min.js';
-    script.async = true;
-    document.body.appendChild(script);
+const GOOGLE_REVIEWS_WIDGET_UUID = 'abf64cfa-44ec-4c22-a674-f30f1e372b30';
+
+/**
+ * Live Google Business Profile stats (recommended).
+ * Create a Places API key in Google Cloud Console, restrict it to riverbird.in, and paste below.
+ * Place ID is taken from your connected review-widget business profile.
+ */
+/** Canonical business contact (footer, maps, structured data). */
+const RIVERBIRD_CONTACT = {
+  businessName: 'Riverbird',
+  legalName: 'Riverbird Solutions',
+  phoneDisplay: '099949 67655',
+  phoneTel: '+919994967655',
+  email: 'info@riverbird.in',
+  addressLine:
+    '15/1, Pasupatheswar kovil 1st Main Road, Karur Bypass Rd, opp. to Kalaingar Arivalayam, Melachinthamani, Tiruchirappalli, Tamil Nadu 620002',
+  addressHtml:
+    '15/1, Pasupatheswar kovil 1st Main Road,<br />Karur Bypass Rd, opp. to Kalaingar Arivalayam,<br />Melachinthamani, Tiruchirappalli, Tamil Nadu 620002',
+  hudLocationCode: 'MELACHINTHAMANI_TRICHY_IN',
+  mapsEmbedUrl:
+    'https://www.google.com/maps?q=15%2F1%2C%20Pasupatheswar%20kovil%201st%20Main%20Road%2C%20Karur%20Bypass%20Rd%2C%20opp.%20to%20Kalaingar%20Arivalayam%2C%20Melachinthamani%2C%20Tiruchirappalli%2C%20Tamil%20Nadu%20620002&hl=en&z=16&output=embed',
+  mapsUrl:
+    'https://www.google.com/maps/search/?api=1&query=15%2F1%2C%20Pasupatheswar%20kovil%201st%20Main%20Road%2C%20Karur%20Bypass%20Rd%2C%20opp.%20to%20Kalaingar%20Arivalayam%2C%20Melachinthamani%2C%20Tiruchirappalli%2C%20Tamil%20Nadu%20620002',
+  whatsappUrl:
+    'https://wa.me/919994967655?text=Hi%20RiverBird%2C%20I%20would%20like%20a%20quick%20response%20from%20your%20team.'
+};
+
+const RIVERBIRD_GBP = {
+  placeId: 'ChIJY3knF8_1qjsRNAo55JY6bQs',
+  mapsUrl: RIVERBIRD_CONTACT.mapsUrl,
+  /** Optional: use if review-widget.net lags behind Google until Places API key is set */
+  overrideReviewCount: null,
+  overrideRating: null
+};
+
+const RIVERBIRD_SOCIAL = {
+  facebook: 'https://www.facebook.com/profile.php?id=61559792591988',
+  instagram: 'https://instagram.com/riverbird.in',
+  linkedin: 'https://www.linkedin.com/company/riverbird-in/',
+  youtube: 'https://www.youtube.com/@RiverBirddotin'
+};
+
+const RIVERBIRD_CAREER_DEPTS = ['it', 'marketing', 'internship'];
+
+function clearGrwWidgetLocalCache() {
+  try {
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const key = localStorage.key(i);
+      if (!key) continue;
+      if (key.includes('grw') || key.includes(GOOGLE_REVIEWS_WIDGET_UUID)) {
+        localStorage.removeItem(key);
+      }
+    }
+  } catch (e) {
+    /* ignore private mode */
   }
+}
+
+async function fetchGrwWidgetMarkup() {
+  const params = new URLSearchParams({
+    uuid: GOOGLE_REVIEWS_WIDGET_UUID,
+    template: '10',
+    lang: 'en',
+    theme: 'light',
+    _t: String(Date.now())
+  });
+
+  const response = await fetch(`https://grwapi.net/api/widget?${params.toString()}`, {
+    cache: 'no-store',
+    credentials: 'omit'
+  });
+
+  if (!response.ok) return null;
+
+  const payload = await response.json();
+  if (payload && payload.code === 200 && payload.message) {
+    return payload.message;
+  }
+
+  return null;
+}
+
+let riverbirdSecretsPromise = null;
+
+function ensureRiverbirdSecrets() {
+  if (window.RIVERBIRD_SECRETS) {
+    return Promise.resolve(window.RIVERBIRD_SECRETS);
+  }
+  if (riverbirdSecretsPromise) {
+    return riverbirdSecretsPromise;
+  }
+  riverbirdSecretsPromise = new Promise((resolve) => {
+    const existing = document.querySelector('script[data-riverbird-secrets]');
+    if (existing) {
+      existing.addEventListener('load', () => resolve(window.RIVERBIRD_SECRETS || {}), { once: true });
+      existing.addEventListener('error', () => resolve({}), { once: true });
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = resolvePath('assets/js/config.secrets.js');
+    script.async = true;
+    script.dataset.riverbirdSecrets = 'true';
+    script.onload = () => resolve(window.RIVERBIRD_SECRETS || {});
+    script.onerror = () => resolve({});
+    document.head.appendChild(script);
+  });
+  return riverbirdSecretsPromise;
+}
+
+function getPlacesApiKey() {
+  return (window.RIVERBIRD_SECRETS?.placesApiKey || '').trim();
+}
+
+async function fetchLiveGbpStatsFromGoogle() {
+  await ensureRiverbirdSecrets();
+  const apiKey = getPlacesApiKey();
+  const placeId = (RIVERBIRD_GBP.placeId || '').trim();
+
+  if (!apiKey || !placeId) {
+    return null;
+  }
+
+  try {
+    const response = await fetch(`https://places.googleapis.com/v1/places/${placeId}`, {
+      headers: {
+        'X-Goog-Api-Key': apiKey,
+        'X-Goog-FieldMask': 'rating,userRatingCount,googleMapsUri'
+      }
+    });
+
+    if (!response.ok) return null;
+
+    const data = await response.json();
+    if (typeof data.userRatingCount !== 'number') return null;
+
+    return {
+      rating: typeof data.rating === 'number' ? data.rating : 5,
+      count: data.userRatingCount,
+      url: data.googleMapsUri || RIVERBIRD_GBP.mapsUrl
+    };
+  } catch (e) {
+    return null;
+  }
+}
+
+function resolveGbpDisplayStats(placesStats) {
+  if (placesStats) {
+    return placesStats;
+  }
+
+  const count = RIVERBIRD_GBP.overrideReviewCount;
+  const rating = RIVERBIRD_GBP.overrideRating;
+
+  if (typeof count === 'number' && count >= 0) {
+    return {
+      rating: typeof rating === 'number' ? rating : 5,
+      count,
+      url: RIVERBIRD_GBP.mapsUrl
+    };
+  }
+
+  return null;
+}
+
+function patchGrwWidgetReviewStats(widgetHtml, stats) {
+  if (!widgetHtml || !stats) return widgetHtml;
+
+  let html = widgetHtml;
+  html = html.replace(/Based on\s+\d+\s+reviews/gi, `Based on ${stats.count} reviews`);
+
+  if (typeof stats.rating === 'number') {
+    const ratingText = stats.rating.toFixed(1);
+    html = html.replace(/(<div[^>]*class="[^"]*grw-net-text[^"]*"[^>]*>)\s*\d+\.\d+\s*(<\/div>)/i, `$1${ratingText}$2`);
+    html = html.replace(/(<span[^>]*class="[^"]*grw-net[^"]*rating[^"]*"[^>]*>)\s*\d+\.\d+\s*(<\/span>)/i, `$1${ratingText}$2`);
+  }
+
+  return html;
+}
+
+function buildFallbackGbpBadge(stats) {
+  const ratingText = stats.rating.toFixed(1);
+  const reviewLabel = stats.count === 1 ? '1 review' : `${stats.count} reviews`;
+
+  return `
+    <a class="rb-gbp-badge" href="${stats.url}" target="_blank" rel="noopener noreferrer">
+      <span class="rb-gbp-badge__logo" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+      </span>
+      <span class="rb-gbp-badge__body">
+        <span class="rb-gbp-badge__title">Google Reviews</span>
+        <span class="rb-gbp-badge__rating-row">
+          <strong class="rb-gbp-badge__rating">${ratingText}</strong>
+          <span class="rb-gbp-badge__stars" aria-label="${ratingText} out of 5 stars">★★★★★</span>
+        </span>
+        <span class="rb-gbp-badge__count">Based on ${reviewLabel}</span>
+      </span>
+    </a>
+  `;
+}
+
+async function loadFooterGoogleReviews() {
+  const mount = document.getElementById('google-review-widget-mount');
+  if (!mount) return;
+
+  clearGrwWidgetLocalCache();
+
+  const placesStats = await fetchLiveGbpStatsFromGoogle();
+  const displayStats = resolveGbpDisplayStats(placesStats);
+
+  if (displayStats) {
+    mount.innerHTML = buildFallbackGbpBadge(displayStats);
+    return;
+  }
+
+  const widgetHtml = await fetchGrwWidgetMarkup();
+  if (widgetHtml) {
+    mount.innerHTML = widgetHtml;
+  }
+}
+
+function initReviewWidget() {
+  loadFooterGoogleReviews();
 }
 
 function getNavbarHTML() {
@@ -76,7 +295,7 @@ function getNavbarHTML() {
   const productUrl = resolvePath('product_index.html');
   const careersUrl = resolvePath('careers_index.html');
   const contactUrl = resolvePath('contact_index.html');
-  const blogUrl = resolvePath('blog/');
+  const blogUrl = resolvePath('blog_index.html');
 
   return `
     <header class="header" id="main-header">
@@ -428,55 +647,45 @@ function getNavbarHTML() {
 }
 
 function getFooterHTML() {
-  resolvePath('assets/img/logo.png');
   const homeUrl = resolvePath('index.html');
   const companyUrl = resolvePath('about.html');
+  const blogUrl = resolvePath('blog_index.html');
   const devUrl = resolvePath('development_index.html');
   const mktUrl = resolvePath('digital_marketing_index.html');
   const staffingUrl = resolvePath('staffing_index.html');
-  const productUrl = resolvePath('product_index.html');
   const careersUrl = resolvePath('careers_index.html');
   const contactUrl = resolvePath('contact_index.html');
-
-  const instagramIcon = resolvePath('assets/img/icons/instagram (1).png');
-  const linkedinIcon = resolvePath('assets/img/icons/social.png');
-  const facebookIcon = resolvePath('assets/img/icons/facebook.png');
-  const youtubeIcon = resolvePath('assets/img/icons/play.png');
-
-  document.body.getAttribute('data-page') === 'home';
 
   return `
     <footer class="footer py-2xl">
       <div class="container">
         
-        <div class="footer__top">
+        <div class="footer__grid">
           
-          <div class="footer__brand">
+          <div class="footer__col footer__col--brand">
             <a href="${homeUrl}" class="footer__logo">
               <img src="${resolvePath('assets/img/Logo-with-Text-copy.png')}" alt="RiverBird Logo" />
             </a>
-            <div style="transform: scale(0.85); transform-origin: left center; margin-top: 5px; margin-bottom: 5px; width: 75%;">
-              <div class="review-widget_net" data-uuid="abf64cfa-44ec-4c22-a674-f30f1e372b30" data-template="10" data-lang="en" data-theme="light"></div>
-            </div>
-            <p>15/1 Karur Bypass Road, Mela Chinthamani, Tiruchirappalli 620002. 
-              <span style="font-size: 0.75rem; font-weight: normal; color: var(--color-text-muted); display: block; margin-top: 4px;">GSTIN: 33AAPCR8973F1ZT</span>
-            </p>
+            <div id="google-review-widget-mount" class="footer-google-reviews" aria-label="Google reviews rating"></div>
+            <p class="footer__address">${RIVERBIRD_CONTACT.addressHtml}</p>
+            <p class="footer__gstin">GSTIN: 33AAPCR8973F1ZT</p>
+            <p class="footer__social-label">Social links</p>
             <div class="footer__socials">
-              <a href="https://instagram.com/riverbird.in" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram"> 
+              <a href="${RIVERBIRD_SOCIAL.instagram}" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram"> 
               <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
 	              <path d="M0 0h24v24H0z" fill="none" />
 	              <path fill="currentColor" d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4zm9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8A1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3" />
               </svg>
 
               </a>
-              <a href="https://www.linkedin.com/company/riverbird-in/" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <a href="${RIVERBIRD_SOCIAL.linkedin}" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
 	                <path d="M0 0h24v24H0z" fill="none" />
                 	<path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37z" />
                 </svg>
               </a>
-              <a href="https://www.facebook.com/profile.html?id=61559792591988" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <a href="${getFacebookUrl()}" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
 
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
 	                <path d="M0 0h24v24H0z" fill="none" />
@@ -484,7 +693,7 @@ function getFooterHTML() {
                 </svg>
 
               </a>
-              <a href="https://www.youtube.com/@RiverBirddotin" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+              <a href="${RIVERBIRD_SOCIAL.youtube}" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
 	                <path d="M0 0h24v24H0z" fill="none" />
 	                <path fill="none" stroke="currentColor" stroke-dasharray="60" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5c9 0 9 0 9 7c0 7 0 7 -9 7c-9 0 -9 0 -9 -7c0 -7 0 -7 9 -7Z">
@@ -499,41 +708,73 @@ function getFooterHTML() {
             </div>
           </div>
 
-          <div>
-            <h4 class="footer__title">Solutions</h4>
-            <ul class="footer__list">
-              <li><a href="${devUrl}" class="footer__link">Development Solutions</a></li>
-              <li><a href="${mktUrl}" class="footer__link">Digital Marketing</a></li>
-              <li><a href="${staffingUrl}" class="footer__link">Staffing Solutions</a></li>
-              <li><a href="${productUrl}" class="footer__link">Fashyfi (Quick Commerce)</a></li>
-            </ul>
+          <div class="footer__col footer__col--stack">
+            <div class="footer__block">
+              <h4 class="footer__section-title"><a href="${devUrl}">Development Solutions</a></h4>
+              <ul class="footer__list">
+                <li><a href="${resolvePath('software.html')}" class="footer__link">Software development</a></li>
+                <li><a href="${resolvePath('web.html')}" class="footer__link">Web development</a></li>
+                <li><a href="${resolvePath('app.html')}" class="footer__link">Application Development</a></li>
+              </ul>
+            </div>
+            <div class="footer__block">
+              <h4 class="footer__section-title"><a href="${mktUrl}">Marketing Solutions</a></h4>
+              <ul class="footer__list">
+                <li><a href="${resolvePath('social-media.html')}" class="footer__link">Social media marketing</a></li>
+                <li><a href="${resolvePath('personal-branding.html')}" class="footer__link">Personal branding</a></li>
+                <li><a href="${resolvePath('seo.html')}" class="footer__link">SEO (Search engine optimization)</a></li>
+                <li><a href="${resolvePath('paid-ads.html')}" class="footer__link">Paid Ads (Meta &amp; Google)</a></li>
+                <li><a href="${resolvePath('lead-generation.html')}" class="footer__link">Lead Generation</a></li>
+              </ul>
+            </div>
           </div>
 
-          <div>
-            <h4 class="footer__title">Company</h4>
-            <ul class="footer__list">
-              <li><a href="${companyUrl}" class="footer__link">About Us</a></li>
-              <li><a href="${careersUrl}" class="footer__link">Careers</a></li>
-              <li><a href="${contactUrl}" class="footer__link">Contact</a></li>
-              <li><a href="${homeUrl}#case-studies" class="footer__link">Testimonials</a></li>
-            </ul>
+          <div class="footer__col footer__col--stack">
+            <div class="footer__block">
+              <h4 class="footer__section-title"><a href="${resolvePath('brand-identity.html')}">Branding</a></h4>
+              <ul class="footer__list">
+                <li><a href="${resolvePath('brand-identity.html')}" class="footer__link">Brand identity</a></li>
+                <li><a href="${resolvePath('influencer-marketing.html')}" class="footer__link">Influencer marketing</a></li>
+                <li><a href="${resolvePath('graphic-design.html')}" class="footer__link">Graphic design</a></li>
+                <li><a href="${resolvePath('video-production.html')}" class="footer__link">Video production</a></li>
+              </ul>
+            </div>
+            <div class="footer__block">
+              <h4 class="footer__section-title"><a href="${staffingUrl}">Staffing Solutions</a></h4>
+              <ul class="footer__list">
+                <li><a href="${resolvePath('talent-management.html')}" class="footer__link">Talent Management</a></li>
+                <li><a href="${resolvePath('hire-talent.html')}" class="footer__link">Hire Talents</a></li>
+                <li><a href="${resolvePath('manpower.html')}" class="footer__link">Manpower Solutions</a></li>
+              </ul>
+            </div>
           </div>
 
-          <div>
-          <h4 class="footer__title">Contact Us</h4>
-          <ul class="footer__list">
-              <li><a href="tel:+918610524681" class="footer__link">+91 861-0524681</a></li>
-              <li><a href="mailto:info@riverbird.in" class="footer__link">info@riverbird.in</a></li>
-            </ul>
-            <br>
-
-            <h4 class="footer__title">Newsletter</h4>
-            <div class="footer__newsletter">
-              <p style="color: var(--color-text-muted); font-size: 0.875rem;">Get industry insights and Riverbird growth announcements.</p>
-              <form class="footer__newsletter-form" id="newsletter-form">
-                <input type="email" placeholder="Enter your email" class="footer__newsletter-input" required aria-label="Email Address" />
-                <button type="submit" class="footer__newsletter-btn">Subscribe</button>
-              </form>
+          <div class="footer__col footer__col--meta">
+            <div class="footer__block">
+              <h4 class="footer__section-title">Company</h4>
+              <ul class="footer__list">
+                <li><a href="${companyUrl}" class="footer__link">About</a></li>
+                <li><a href="${careersUrl}" class="footer__link">Career</a></li>
+                <li><a href="${blogUrl}" class="footer__link">Blog</a></li>
+                <li><a href="${resolvePath('testimonials.html')}" class="footer__link">Testimonials</a></li>
+              </ul>
+            </div>
+            <div class="footer__block">
+              <h4 class="footer__section-title">Contact Us</h4>
+              <ul class="footer__list footer__list--plain">
+                <li><a href="tel:${RIVERBIRD_CONTACT.phoneTel}" class="footer__link">${RIVERBIRD_CONTACT.phoneDisplay}</a></li>
+                <li><a href="mailto:${RIVERBIRD_CONTACT.email}" class="footer__link">${RIVERBIRD_CONTACT.email}</a></li>
+              </ul>
+            </div>
+            <div class="footer__block">
+              <h4 class="footer__section-title">News</h4>
+              <div class="footer__newsletter">
+                <p class="footer__newsletter-desc">Industry insights and Riverbird updates.</p>
+                <form class="footer__newsletter-form" id="newsletter-form">
+                  <input type="email" placeholder="Enter your email" class="footer__newsletter-input" required aria-label="Email Address" />
+                  <button type="submit" class="footer__newsletter-btn">Submit</button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -1330,7 +1571,307 @@ function initLiquidBackground() {
 }
 
 
+function initProductionSafety() {
+  if (!document.querySelector('meta[name="referrer"]')) {
+    const referrer = document.createElement('meta');
+    referrer.name = 'referrer';
+    referrer.content = 'strict-origin-when-cross-origin';
+    document.head.appendChild(referrer);
+  }
+
+  attachFormHoneypots();
+}
+
+function getRiverbirdSiteConfig() {
+  return window.RIVERBIRD_SITE || {};
+}
+
+function getFacebookUrl() {
+  const cfg = getRiverbirdSiteConfig();
+  return (cfg.facebookUrl || RIVERBIRD_SOCIAL.facebook).trim();
+}
+
+let riverbirdSiteConfigPromise = null;
+
+function ensureRiverbirdSiteConfig() {
+  if (window.RIVERBIRD_SITE) {
+    return Promise.resolve(window.RIVERBIRD_SITE);
+  }
+  if (riverbirdSiteConfigPromise) {
+    return riverbirdSiteConfigPromise;
+  }
+  riverbirdSiteConfigPromise = new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.src = resolvePath('assets/js/config.site.js');
+    script.async = true;
+    script.onload = () => resolve(window.RIVERBIRD_SITE || {});
+    script.onerror = () => resolve({});
+    document.head.appendChild(script);
+  });
+  return riverbirdSiteConfigPromise;
+}
+
+function initAnalyticsAndVerification() {
+  const cfg = getRiverbirdSiteConfig();
+  const gaId = (cfg.ga4MeasurementId || '').trim();
+  if (gaId && !document.querySelector('script[data-rb-ga4]')) {
+    const gtagScript = document.createElement('script');
+    gtagScript.async = true;
+    gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(gaId)}`;
+    gtagScript.dataset.rbGa4 = 'true';
+    document.head.appendChild(gtagScript);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function gtag() {
+      window.dataLayer.push(arguments);
+    };
+    window.gtag('js', new Date());
+    window.gtag('config', gaId, { anonymize_ip: true });
+  }
+
+  const gsc = (cfg.googleSiteVerification || '').trim();
+  if (gsc && !document.querySelector('meta[name="google-site-verification"]')) {
+    const meta = document.createElement('meta');
+    meta.name = 'google-site-verification';
+    meta.content = gsc;
+    document.head.appendChild(meta);
+  }
+}
+
+const PAGE_KEYWORDS = {
+  home: 'software development Trichy, digital marketing Tiruchirappalli, staffing agency Tamil Nadu, Riverbird',
+  contact: 'contact Riverbird Trichy, software company Tiruchirappalli phone, digital marketing agency contact',
+  blog: 'Riverbird blog, SEO tips Trichy, software engineering insights India',
+  careers: 'IT jobs Trichy, digital marketing jobs Tiruchirappalli, internships Riverbird',
+  development: 'custom software development Trichy, web development Tiruchirappalli, app development Tamil Nadu',
+  'development-sub': 'software engineers Trichy, web developers India, mobile app development services',
+  'digital-marketing': 'digital marketing agency Trichy, SEO services Tiruchirappalli, paid ads Meta Google',
+  'digital-marketing-sub': 'SEO company Trichy, social media marketing Tamil Nadu, brand identity design',
+  staffing: 'staffing solutions Trichy, hire developers India, manpower services Tiruchirappalli',
+  'staffing-sub': 'talent management Trichy, RPO staffing Tamil Nadu, hire IT talent India',
+  product: 'Fashyfi quick commerce, Riverbird product studio',
+  company: 'about Riverbird, technology company Trichy',
+  legal: 'Riverbird privacy terms refund policy'
+};
+
+function initPageKeywords() {
+  const page = document.body.getAttribute('data-page') || 'home';
+  const cfg = getRiverbirdSiteConfig();
+  const keywords = PAGE_KEYWORDS[page] || cfg.primaryKeywords || '';
+  if (!keywords || document.querySelector('meta[name="keywords"]')) return;
+  const meta = document.createElement('meta');
+  meta.name = 'keywords';
+  meta.content = keywords;
+  document.head.appendChild(meta);
+}
+
+function initFaqAccordions(root = document) {
+  root.querySelectorAll('.faq-question').forEach((btn) => {
+    if (btn.dataset.rbFaqBound) return;
+    btn.dataset.rbFaqBound = 'true';
+    btn.addEventListener('click', function onFaqClick() {
+      const item = this.closest('.faq-item');
+      const answer = item?.querySelector('.faq-answer');
+      if (!item || !answer) return;
+      const isOpen = item.classList.contains('is-open');
+      const list = item.closest('.faq-list');
+      if (list) {
+        list.querySelectorAll('.faq-item.is-open').forEach((openItem) => {
+          if (openItem !== item) {
+            openItem.classList.remove('is-open');
+            openItem.querySelector('.faq-question')?.setAttribute('aria-expanded', 'false');
+            const openAnswer = openItem.querySelector('.faq-answer');
+            if (openAnswer) openAnswer.style.maxHeight = '0';
+          }
+        });
+      }
+      if (isOpen) {
+        item.classList.remove('is-open');
+        this.setAttribute('aria-expanded', 'false');
+        answer.style.maxHeight = '0';
+      } else {
+        item.classList.add('is-open');
+        this.setAttribute('aria-expanded', 'true');
+        answer.style.maxHeight = `${answer.scrollHeight}px`;
+      }
+    });
+  });
+}
+
+function buildFaqItem(question, answer, delayClass = '') {
+  return `
+    <div class="faq-item reveal ${delayClass}">
+      <button class="faq-question" type="button" aria-expanded="false">
+        <span>${question}</span>
+        <span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-answer"><p class="body-text">${answer}</p></div>
+    </div>
+  `;
+}
+
+function getAutoFaqsForPage(pageName) {
+  const base = [
+    {
+      q: 'Where is Riverbird located?',
+      a: `${RIVERBIRD_CONTACT.legalName} is based in Tiruchirappalli (Trichy), Tamil Nadu. We serve clients across India and internationally with software, marketing, and staffing services.`
+    },
+    {
+      q: 'How do I request a quote?',
+      a: 'Use our <a href="' + resolvePath('contact_index.html') + '">contact form</a> or call <a href="tel:' + RIVERBIRD_CONTACT.phoneTel + '">' + RIVERBIRD_CONTACT.phoneDisplay + '</a>. We respond within one business day with scope and timelines. Estimates are provided in <strong>Indian Rupees (INR)</strong> unless agreed otherwise in writing.'
+    },
+    {
+      q: 'What industries do you work with?',
+      a: 'We partner with startups, retail, hospitality, manufacturing, education, and professional services — especially brands that need reliable delivery across development, growth marketing, and hiring.'
+    },
+    {
+      q: 'Do you offer monthly retainers and project-based work?',
+      a: 'Yes. Marketing and staffing are often retainer-based; software projects may be fixed-scope or dedicated-team models. We align commercials to your goals and budget in INR.'
+    },
+    {
+      q: 'How do I verify your Google reviews?',
+      a: 'Our live Google Business Profile rating appears in the website footer. You can also read client stories on our <a href="' + resolvePath('testimonials.html') + '">testimonials</a> section.'
+    }
+  ];
+
+  const byPage = {
+    careers: [
+      { q: 'How do I apply for IT vs digital marketing roles?', a: 'Open <a href="' + resolvePath('careers_index.html') + '">Careers</a> and use the Engineering (IT), Digital Marketing, or Internships filters — or apply directly from the job card.' },
+      { q: 'Are roles based in Trichy or remote?', a: 'Each posting lists location (on-site, hybrid, or remote India). Filter jobs by department to see current openings.' },
+      { q: 'Can I submit a general application?', a: 'Yes. Scroll to Apply Now on the careers page, choose your target role, and upload your CV in PDF or DOCX format.' },
+      { q: 'What is the interview process?', a: 'Typically a screening call, skills assessment, and final conversation with the hiring lead. Marketing roles may include a practical review.' },
+      { q: 'Do you hire freshers?', a: 'We run internship tracks and select entry-level roles — watch the Internships filter for active programs.' }
+    ],
+    contact: [
+      { q: 'What is the best number to reach Riverbird?', a: 'Call <a href="tel:' + RIVERBIRD_CONTACT.phoneTel + '">' + RIVERBIRD_CONTACT.phoneDisplay + '</a> or email <a href="mailto:' + RIVERBIRD_CONTACT.email + '">' + RIVERBIRD_CONTACT.email + '</a>.' },
+      { q: 'Can I visit your office?', a: 'Yes, by appointment. Our address and map are on this page: ' + RIVERBIRD_CONTACT.addressLine },
+      { q: 'Do you quote in rupees?', a: 'All standard proposals and retainers are quoted in <strong>INR (₹)</strong> for Indian clients, including GST details where applicable.' },
+      { q: 'How fast do you respond?', a: 'We aim to reply within 24 hours on business days. Urgent staffing requests can be escalated via phone or WhatsApp.' },
+      { q: 'What should I include in a project brief?', a: 'Share goals, timeline, budget range in INR, and any existing assets (brand kit, codebase, ad accounts) so we can route you to the right team.' }
+    ],
+    blog: [
+      { q: 'How often do you publish articles?', a: 'We add practical guides on engineering, SEO, and staffing as our delivery teams publish learnings from client work.' },
+      { q: 'Can I suggest a topic?', a: 'Email ' + RIVERBIRD_CONTACT.email + ' with your idea — we welcome questions from founders and marketing leads.' },
+      { q: 'Are blog posts written by practitioners?', a: 'Yes. Content is produced by engineers, marketers, and recruiters who implement the strategies described.' },
+      { q: 'Do you cover local SEO for Trichy businesses?', a: 'Several articles address local search, Google Business Profile, and performance marketing for Tamil Nadu markets.' },
+      { q: 'Where do I read case studies?', a: 'Visit our <a href="' + resolvePath('digital_marketing_index.html') + '#testimonials">testimonials</a> and service pages for outcomes and client feedback.' }
+    ]
+  };
+
+  return byPage[pageName] || base;
+}
+
+function ensurePageFaqCoverage() {
+  const page = document.body.getAttribute('data-page');
+  if (!page || page === 'legal' || page === 'blog-article') return;
+
+  const existingCount = document.querySelectorAll('.faq-section .faq-item').length;
+  const main = document.getElementById('main-content');
+  const pool = getAutoFaqsForPage(page);
+
+  if (existingCount === 0 && main && !main.querySelector('.rb-auto-faq')) {
+    const listHtml = pool
+      .slice(0, 5)
+      .map((item, i) => buildFaqItem(item.q, item.a, i > 0 ? `delay-${Math.min(i, 3)}` : ''))
+      .join('');
+
+    const section = document.createElement('section');
+    section.className = 'faq-section section-padding bg-light rb-auto-faq';
+    section.id = 'faq';
+    section.innerHTML = `
+      <div class="container">
+        <div class="section-header center reveal">
+          <span class="label-text">FAQ</span>
+          <h2 class="h2">Common questions</h2>
+          <p class="body-text">Quick answers about working with ${RIVERBIRD_CONTACT.businessName}.</p>
+        </div>
+        <div class="faq-list">${listHtml}</div>
+      </div>
+    `;
+    main.appendChild(section);
+    initFaqAccordions(section);
+    return;
+  }
+
+  const list = document.querySelector('.faq-section .faq-list');
+  if (!list) return;
+
+  let added = 0;
+  pool.forEach((item) => {
+    if (list.querySelectorAll('.faq-item').length >= 5) return;
+    const key = item.q.slice(0, 24).toLowerCase();
+    if ((list.textContent || '').toLowerCase().includes(key)) return;
+    list.insertAdjacentHTML('beforeend', buildFaqItem(item.q, item.a));
+    added += 1;
+  });
+
+  if (added) initFaqAccordions(list);
+}
+
+function initContactPageDetails() {
+  if (document.body.getAttribute('data-page') !== 'contact') return;
+
+  document.querySelectorAll('[data-rb-contact="email"]').forEach((el) => {
+    if (el.tagName === 'A') {
+      el.href = `mailto:${RIVERBIRD_CONTACT.email}`;
+      el.textContent = RIVERBIRD_CONTACT.email;
+    }
+  });
+  document.querySelectorAll('[data-rb-contact="phone"]').forEach((el) => {
+    if (el.tagName === 'A') {
+      el.href = `tel:${RIVERBIRD_CONTACT.phoneTel}`;
+      el.textContent = RIVERBIRD_CONTACT.phoneDisplay;
+    }
+  });
+  document.querySelectorAll('[data-rb-contact="address"]').forEach((el) => {
+    el.innerHTML = `${RIVERBIRD_CONTACT.legalName},<br />${RIVERBIRD_CONTACT.addressHtml}`;
+  });
+  const mapFrame = document.getElementById('rb-contact-map');
+  if (mapFrame) {
+    mapFrame.src = RIVERBIRD_CONTACT.mapsEmbedUrl;
+  }
+}
+
+function applyCareersDepartment(dept) {
+  const filterDept = dept === 'all' || !RIVERBIRD_CAREER_DEPTS.includes(dept) ? 'all' : dept;
+  renderJobs('careers-jobs-grid', filterDept);
+  updateFilterButtons(filterDept);
+  const section = document.getElementById('jobs-section');
+  if (section && filterDept !== 'all') {
+    window.setTimeout(() => {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+  }
+}
+
+function readCareersHashDept() {
+  const hash = window.location.hash.replace('#', '').toLowerCase();
+  return RIVERBIRD_CAREER_DEPTS.includes(hash) ? hash : 'all';
+}
+
+function attachFormHoneypots() {
+  document.querySelectorAll('form').forEach((form) => {
+    if (form.querySelector('[data-rb-honeypot]')) return;
+
+    const honeypot = document.createElement('input');
+    honeypot.type = 'text';
+    honeypot.name = 'rb_hp_field';
+    honeypot.setAttribute('data-rb-honeypot', 'true');
+    honeypot.setAttribute('autocomplete', 'off');
+    honeypot.setAttribute('tabindex', '-1');
+    honeypot.setAttribute('aria-hidden', 'true');
+    honeypot.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;';
+    honeypot.placeholder = 'Leave blank';
+    form.appendChild(honeypot);
+  });
+}
+
+function isHoneypotTripped(form) {
+  const honeypot = form.querySelector('[data-rb-honeypot]');
+  return honeypot && honeypot.value.trim().length > 0;
+}
+
 function initForms() {
+  initProductionSafety();
   bindFormSubmit('contact-form', 'Contact inquiry successfully submitted! We will reach out to you within 24 hours.');
   bindFormSubmit('inquiry-form', 'Business inquiry successfully received. A growth architect will contact you shortly.');
   bindFormSubmit('apply-form', 'Your application was successfully uploaded. Our recruitment cell will review it.');
@@ -1342,6 +1883,10 @@ function bindFormSubmit(formId, successMsg) {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    if (isHoneypotTripped(form)) {
+      return;
+    }
 
     let hasError = false;
 
@@ -1905,7 +2450,12 @@ const blogs = [
     excerpt: "Exploring the latency, asset size, and long-term maintenance advantages of building core systems without heavy framework dependencies.",
     date: "June 10, 2026",
     readTime: "5 Min Read",
-    image: "assets/images/blog_vanilla.jpg"
+    image: "assets/images/blog_vanilla.jpg",
+    body: [
+      "Enterprise teams often default to large JavaScript frameworks. At Riverbird, we evaluate whether that complexity is truly required for the business outcome.",
+      "Vanilla ES modules keep payloads small, reduce build overhead, and make long-term maintenance predictable — especially for marketing sites and internal dashboards that must stay fast on mobile networks.",
+      "When we do adopt frameworks, it is because the product roadmap genuinely needs them — not because it is the default template."
+    ]
   },
   {
     id: "seo-lighthouse-metrics",
@@ -1914,7 +2464,12 @@ const blogs = [
     excerpt: "How we structured our HTML tags, lazyloaded assets, and streamlined script payloads to achieve maximum SEO search indexing.",
     date: "June 05, 2026",
     readTime: "7 Min Read",
-    image: "assets/images/blog_seo.jpg"
+    image: "assets/images/blog_seo.jpg",
+    body: [
+      "Technical SEO starts with crawlable HTML, semantic headings, and metadata that matches what users search for.",
+      "We pair on-page structure with performance work: compressed images, deferred scripts, and layout-stable hero sections so Lighthouse and real users both see fast first paints.",
+      "Local businesses benefit when NAP data, schema, and Google Business Profile align with the live website — we treat that as one system, not three separate tasks."
+    ]
   },
   {
     id: "talent-acquisition-pipeline",
@@ -1923,7 +2478,12 @@ const blogs = [
     excerpt: "Vetting developers requires speed and technical accuracy. Here is the operational checklist our recruitment cell uses to find the top 2% talent.",
     date: "May 28, 2026",
     readTime: "6 Min Read",
-    image: "assets/images/blog_talent.jpg"
+    image: "assets/images/blog_talent.jpg",
+    body: [
+      "Hiring velocity only works when screening is technical enough to protect your team from mis-hires.",
+      "Our pipeline combines structured interviews, practical assessments, and reference checks tuned to the stack you run in production.",
+      "For digital marketing and operations roles, we apply the same discipline — clear scorecards, accountable timelines, and transparent feedback to candidates."
+    ]
   }
 ];
 
@@ -2101,6 +2661,60 @@ function renderJobs(containerId, filterDept = 'all') {
   });
 }
 
+function getBlogBySlug(slug) {
+  return blogs.find(post => post.id === slug);
+}
+
+function renderBlogListing(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  container.innerHTML = blogs.map((post, index) => {
+    const articleUrl = resolvePath(`blog_article.html?slug=${encodeURIComponent(post.id)}`);
+    const delay = index < 6 ? `delay-${index % 3 + 1}` : '';
+    return `
+      <div class="card reveal ${delay} stagger-item">
+        <div style="height: 180px; width: 100%; border-radius: var(--radius-sm); background: linear-gradient(135deg, rgba(7,0,255,0.1) 0%, rgba(245,93,45,0.1) 100%); margin-bottom: var(--space-20); display: flex; align-items: center; justify-content: center; font-family: var(--font-primary); font-weight: 700; color: var(--color-primary);">
+          ${post.category}
+        </div>
+        <span class="label-text">${post.category}</span>
+        <h3 class="card__title h4">${post.title}</h3>
+        <p class="card__desc">${post.excerpt}</p>
+        <div class="flex-between" style="border-top: 1px solid var(--color-border); padding-top: var(--space-12); font-size: 0.8125rem; color: var(--color-text-muted); margin-bottom: var(--space-16);">
+          <span>${post.date}</span>
+          <span>${post.readTime}</span>
+        </div>
+        <a href="${articleUrl}" class="btn btn--text magnetic-btn">Read More &rarr;</a>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderBlogArticle() {
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get('slug');
+  const post = slug ? getBlogBySlug(slug) : null;
+
+  const titleEl = document.getElementById('blog-article-title');
+  const metaEl = document.getElementById('blog-article-meta');
+  const bodyEl = document.getElementById('blog-article-body');
+  const categoryEl = document.getElementById('blog-article-category');
+
+  if (!post || !titleEl || !bodyEl) {
+    if (titleEl) titleEl.textContent = 'Article not found';
+    if (bodyEl) {
+      bodyEl.innerHTML = '<p class="body-text">This article may have been moved. <a href="' + resolvePath('blog_index.html') + '">Return to the blog</a>.</p>';
+    }
+    return;
+  }
+
+  document.title = `${post.title} | Riverbird Blog`;
+  if (categoryEl) categoryEl.textContent = post.category;
+  titleEl.textContent = post.title;
+  if (metaEl) metaEl.textContent = `${post.date} · ${post.readTime}`;
+  bodyEl.innerHTML = (post.body || []).map(paragraph => `<p class="body-text">${paragraph}</p>`).join('');
+}
+
 function renderBlogs(containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
@@ -2156,6 +2770,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // No loader - instant page load
   document.body.classList.add('page-loaded');
 
+  ensureRiverbirdSiteConfig().then(() => {
+    initAnalyticsAndVerification();
+    initPageKeywords();
+  });
+
   initLayout();
 
   initAnimations();
@@ -2163,6 +2782,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initLiquidBackground();
 
   initForms();
+
+  initFaqAccordions();
+  ensurePageFaqCoverage();
+  initContactPageDetails();
 
   const pageName = document.body.getAttribute('data-page');
 
@@ -2179,19 +2802,18 @@ document.addEventListener('DOMContentLoaded', () => {
     initStoryTimeline();
   }
   else if (pageName === 'careers') {
-    const hash = window.location.hash.replace('#', '');
-    const validDepts = ['it', 'marketing', 'internship'];
-    const initialDept = validDepts.includes(hash) ? hash : 'all';
-
-    renderJobs('careers-jobs-grid', initialDept);
+    const initialDept = readCareersHashDept();
+    applyCareersDepartment(initialDept);
     setupCareersFilter(initialDept);
-
     window.addEventListener('hashchange', () => {
-      const newHash = window.location.hash.replace('#', '');
-      const newDept = validDepts.includes(newHash) ? newHash : 'all';
-      renderJobs('careers-jobs-grid', newDept);
-      updateFilterButtons(newDept);
+      applyCareersDepartment(readCareersHashDept());
     });
+  }
+  else if (pageName === 'blog') {
+    renderBlogListing('blog-posts-grid');
+  }
+  else if (pageName === 'blog-article') {
+    renderBlogArticle();
   }
 });
 
@@ -2202,9 +2824,15 @@ function setupCareersFilter(activeDept = 'all') {
   updateFilterButtons(activeDept);
 
   filterContainer.querySelectorAll('.careers-filter__btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', () => {
       const dept = btn.getAttribute('data-filter');
-      window.location.hash = dept === 'all' ? '' : dept;
+      const nextDept = dept === 'all' ? 'all' : dept;
+      if (nextDept === 'all') {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      } else {
+        history.replaceState(null, '', `${window.location.pathname}${window.location.search}#${nextDept}`);
+      }
+      applyCareersDepartment(nextDept);
     });
   });
 }
