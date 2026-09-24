@@ -7,27 +7,16 @@
   Header set X-XSS-Protection "1; mode=block"
 </IfModule>
 
+DirectoryIndex index.html
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
-  # Force HTTPS on production host
+  # Plain .html page URLs only (no /contact, /about, or other rewrites).
+
+  # Force HTTPS on production host (optional — enable when SSL is active)
   RewriteCond %{HTTPS} !=on
   RewriteCond %{HTTP_HOST} ^(www\.)?riverbird\.in$ [NC]
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-  # Friendly URLs → existing HTML files
-  RewriteRule ^contact/?$ contact_index.html [L]
-  RewriteRule ^blog/?$ blog_index.html [L]
-  RewriteRule ^careers/?$ careers_index.html [L]
-  RewriteRule ^privacy-policy/?$ privacy_policy.html [L]
-  RewriteRule ^terms-of-service/?$ terms_of_service.html [L]
-  RewriteRule ^refund-policy/?$ refund_and_cancellation.html [L]
-  RewriteRule ^refund-and-cancellation/?$ refund_and_cancellation.html [L]
-  RewriteRule ^testimonials/?$ testimonials.html [L]
-
-  # Legacy / mistaken paths
-  RewriteRule ^privacy_policy/?$ privacy_policy.html [L]
-  RewriteRule ^terms_of_service/?$ terms_of_service.html [L]
-  RewriteRule ^refund_and_cancellation/?$ refund_and_cancellation.html [L]
 </IfModule>

@@ -308,12 +308,12 @@ function getNavbarHTML() {
         <nav class="nav">
           <ul class="nav__list">
             <li class="nav__item nav__item--has-dropdown">
-              <a href="${companyUrl}" class="nav__link" tabindex="0">
+              <span class="nav__link nav__link--label" tabindex="0" role="button" aria-haspopup="true" aria-label="Company menu">
                 Company
                 <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-              </a>
+              </span>
               <div class="dropdown-menu">
                 <ul class="dropdown-menu__list">
                   <li>
