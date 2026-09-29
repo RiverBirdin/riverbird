@@ -261,28 +261,61 @@ function buildFallbackGbpBadge(stats) {
   `;
 }
 
+function mountHtmlWithScripts(container, html) {
+  container.innerHTML = html;
+  container.querySelectorAll('script').forEach((oldScript) => {
+    const script = document.createElement('script');
+    Array.from(oldScript.attributes).forEach((attr) => {
+      script.setAttribute(attr.name, attr.value);
+    });
+    script.textContent = oldScript.textContent;
+    oldScript.replaceWith(script);
+  });
+}
+
 async function loadFooterGoogleReviews() {
   const mount = document.getElementById('google-review-widget-mount');
   if (!mount) return;
 
   clearGrwWidgetLocalCache();
 
-  const placesStats = await fetchLiveGbpStatsFromGoogle();
+  const [placesStats, widgetHtml] = await Promise.all([
+    fetchLiveGbpStatsFromGoogle(),
+    fetchGrwWidgetMarkup()
+  ]);
+
   const displayStats = resolveGbpDisplayStats(placesStats);
 
-  if (displayStats) {
-    mount.innerHTML = buildFallbackGbpBadge(displayStats);
+  if (widgetHtml) {
+    mountHtmlWithScripts(mount, patchGrwWidgetReviewStats(widgetHtml, displayStats));
     return;
   }
 
-  const widgetHtml = await fetchGrwWidgetMarkup();
-  if (widgetHtml) {
-    mount.innerHTML = widgetHtml;
+  if (displayStats) {
+    mount.innerHTML = buildFallbackGbpBadge(displayStats);
   }
 }
 
+let reviewWidgetRefreshTimer = null;
+
 function initReviewWidget() {
   loadFooterGoogleReviews();
+
+  if (reviewWidgetRefreshTimer) {
+    clearInterval(reviewWidgetRefreshTimer);
+  }
+
+  reviewWidgetRefreshTimer = setInterval(() => {
+    if (document.visibilityState === 'visible') {
+      loadFooterGoogleReviews();
+    }
+  }, 15 * 60 * 1000);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      loadFooterGoogleReviews();
+    }
+  });
 }
 
 function getNavbarHTML() {
@@ -1763,6 +1796,7 @@ function getAutoFaqsForPage(pageName) {
 function ensurePageFaqCoverage() {
   const page = document.body.getAttribute('data-page');
   if (!page || page === 'home' || page === 'legal' || page === 'blog-article') return;
+  if (document.getElementById('company-faq') || document.querySelector('.home-faq .faq-item')) return;
 
   const existingCount = document.querySelectorAll('.faq-section .faq-item').length;
   const main = document.getElementById('main-content');
