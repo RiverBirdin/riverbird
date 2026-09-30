@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" data-base="">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Web Development | Riverbird</title>
-  <meta name="description" content="Bespoke web applications built with clean vanilla technologies, optimizing speeds, semantic layouts, and absolute screen responsiveness." />
-  
+  <title>Web Development Services | Riverbird</title>
+  <meta name="description"
+    content="Bespoke web applications built with clean vanilla technologies, optimizing speeds, semantic layouts, and absolute screen responsiveness." />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="assets/css/main.css" />
@@ -17,457 +19,820 @@
   <link rel="manifest" href="assets/img/site.webmanifest">
   <meta name="theme-color" content="#F55D2D">
 </head>
+
 <body data-page="development-sub">
 
   <a href="#main-content" class="skip-link">Skip to Content</a>
-
   <div class="cursor-glow"></div>
   <canvas class="liquid-canvas"></canvas>
   <div id="header-slot"></div>
 
   <main id="main-content" class="liquid-wrapper">
 
-    <!-- ── Hero Section ── -->
-    <section class="hero hero--service development-hero">
-      <div class="container hero__container">
-        <div class="grid grid-2" style="align-items: center;">
-          <div class="hero__content reveal">
-            <div class="hero__label-pill">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+    <!-- ═══ HERO ═══ -->
+    <section class="web-hero" id="web-hero">
+      <div class="container">
+        <div class="web-hero__grid">
+
+          <div class="reveal">
+            <div class="web-hero__eyebrow">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
               Development Division
             </div>
-            <h1 class="display-text hero__title">
-              Web <span class="text-primary-color">Development.</span>
+            <h1 class="web-hero__title">
+              We Build Web<br>
+              <span class="accent">Experiences.</span>
             </h1>
-            <p class="hero__desc">
-              Bespoke web applications built with clean vanilla technologies, optimizing speeds, semantic layouts, and absolute screen responsiveness.
+            <p class="web-hero__desc">
+              Bespoke web applications built with clean vanilla technologies — from corporate business sites to
+              real-time client portals and Shopify stores. Engineered for speed, designed for conversion.
             </p>
-            <div class="hero__actions">
+            <div class="web-hero__actions">
               <a href="contact_index.html" class="btn btn--primary magnetic-btn">Start Web Project &rarr;</a>
-              <a href="index.html" class="btn btn--outline btn--white magnetic-btn">All Solutions &rarr;</a>
+              <a href="#web-portfolio" class="btn btn--outline magnetic-btn">View Our Work</a>
+            </div>
+            <div class="web-hero__stats">
+              <div>
+                <div class="web-hero__stat-num">50<span>+</span></div>
+                <div class="web-hero__stat-label">Websites Delivered</div>
+              </div>
+              <div>
+                <div class="web-hero__stat-num">100<span>/100</span></div>
+                <div class="web-hero__stat-label">Lighthouse Score</div>
+              </div>
+              <div>
+                <div class="web-hero__stat-num">0.3<span>s</span></div>
+                <div class="web-hero__stat-label">Avg. Page Load</div>
+              </div>
             </div>
           </div>
-          
-          <div class="development-hero-visual reveal delay-1">
-            <div class="camera-viewport">
-              <div class="camera-hud-frame">
-                <div class="hud-corner top-left"></div>
-                <div class="hud-corner top-right"></div>
-                <div class="hud-corner bottom-left"></div>
-                <div class="hud-corner bottom-right"></div>
+
+          <div class="web-hero__visual reveal delay-1">
+            <div class="web-hero__tech-badge">
+              <span>// WEB_BUILD_STACK</span><br>
+              HTML5 &nbsp;&#183;&nbsp; CSS3<br>JavaScript &nbsp;&#183;&nbsp; Vanilla
+            </div>
+            <div class="web-hero__img-wrap">
+              <img src="assets/img/web_dev_media.png" alt="Web Development Interface — Riverbird" loading="eager">
+            </div>
+            <div class="web-hero__score-badge">
+              <div class="web-hero__score-ring">
+                <svg viewBox="0 0 36 36" width="52" height="52">
+                  <path class="ring-bg"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
+                    stroke-width="2.5" />
+                  <path class="ring-val"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
+                    stroke-width="2.5" />
+                </svg>
+                <div class="web-hero__score-ring-label">100</div>
               </div>
-              <div class="dev-hero-orb"></div>
-              <div class="dev-hero-element" style="border: none; padding: 0; box-shadow: none; background: transparent;">
-                <img src="assets/img/web_dev_media.png" alt="Web Development Interface" class="dev-hero-image">
+              <div class="web-hero__badge-text">
+                <strong>Lighthouse Score</strong>
+                <p>Performance &middot; Accessibility &middot; SEO</p>
               </div>
-              <!-- <div class="hud-metadata-bar">
-                <div class="hud-metadata-item">
-                  <span class="hud-ping-dot"></span>
-                  <span>[● REC] 24.00 FPS</span>
-                </div>
-                <div class="hud-metadata-item">
-                  <span>COMP: RVRBRD_MKT_PROD</span>
-                </div>
-                <div class="hud-metadata-item">
-                  <span>TC: 00:03:23:23</span>
-                </div>
-                <div class="hud-metadata-item">
-                  <span>SHUTTER: 180° | ISO 800</span>
-                </div>
-              </div>
-            </div> -->
+            </div>
           </div>
+
         </div>
       </div>
     </section>
 
-    <!-- ── Section 1: Capabilities & Deliverables ── -->
-    <section class="section-padding bg-white" id="web-capabilities-section">
-      <div class="container">
-        <div class="grid grid-2" style="gap: var(--space-48); align-items: start;">
-          <div class="reveal">
-            <span class="hero__label-pill" style="margin-bottom: var(--space-16); font-size: 0.65rem; padding: 4px 10px;">Performant Frontends</span>
-            <h2 class="h2" style="font-size: clamp(2rem, 4vw, 2.75rem); line-height: 1.15; margin-bottom: var(--space-20);">
-              Speed Is <br>a Feature.
-            </h2>
-            <p class="body-text" style="margin-top: var(--space-16); font-size: 0.95rem; color: var(--color-text-secondary);">
-              We believe speed is a feature. Our web projects are engineered with lightweight, optimized scripts and vanilla layouts to ensure your pages load instantly and rank highly on search engines.
-            </p>
-            <p class="body-text" style="margin-top: var(--space-16); font-size: 0.95rem; color: var(--color-text-muted);">
-              From custom e-commerce engines to real-time client portals and dashboard interfaces, we deliver modern responsive frontends without bloated build frameworks.
-            </p>
-
-            <!-- Web Audit Scorecard -->
-            <div class="web-scorecard-wrapper">
-              <div class="web-scorecard">
-                <!-- Metric 1: Performance -->
-                <div class="score-circle-item">
-                  <div class="score-circle-inner success">
-                    <svg class="score-circle-svg" viewBox="0 0 36 36">
-                      <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                      <path class="circle-val" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                    </svg>
-                    <span class="score-number">100</span>
-                  </div>
-                  <span class="score-label">Performance</span>
-                </div>
-                <!-- Metric 2: Accessibility -->
-                <div class="score-circle-item">
-                  <div class="score-circle-inner success">
-                    <svg class="score-circle-svg" viewBox="0 0 36 36">
-                      <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                      <path class="circle-val" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                    </svg>
-                    <span class="score-number">100</span>
-                  </div>
-                  <span class="score-label">Accessibility</span>
-                </div>
-                <!-- Metric 3: Best Practices -->
-                <div class="score-circle-item">
-                  <div class="score-circle-inner success">
-                    <svg class="score-circle-svg" viewBox="0 0 36 36">
-                      <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                      <path class="circle-val" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                    </svg>
-                    <span class="score-number">100</span>
-                  </div>
-                  <span class="score-label">Best Practices</span>
-                </div>
-                <!-- Metric 4: SEO -->
-                <div class="score-circle-item">
-                  <div class="score-circle-inner success">
-                    <svg class="score-circle-svg" viewBox="0 0 36 36">
-                      <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                      <path class="circle-val" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                    </svg>
-                    <span class="score-number">100</span>
-                  </div>
-                  <span class="score-label">SEO</span>
-                </div>
-              </div>
-              <div class="scorecard-badge">
-                <span></span>RIVERBIRD // WEB_AUDIT_CONSOLE
-              </div>
-            </div>
-          </div>
-          
-          <div class="reveal delay-1">
-            <h3 class="h3" style="font-size: 1.5rem; margin-bottom: var(--space-24);">Core Deliverables</h3>
-            <div style="display: flex; flex-direction: column; gap: var(--space-16);">
-              <!-- Card 1 -->
-              <div class="cap-card cap-card--full" style="padding: var(--space-20) var(--space-24);">
-                <div class="cap-card__content">
-                  <h4 class="cap-card__title" style="font-size: 1.1rem; margin-bottom: 4px;">Headless CMS Setups</h4>
-                  <p class="cap-card__desc" style="font-size: 0.8125rem;">Decoupled backend editors with fast static frontend builders.</p>
-                </div>
-              </div>
-              
-              <!-- Card 2 -->
-              <div class="cap-card cap-card--full" style="padding: var(--space-20) var(--space-24);">
-                <div class="cap-card__content">
-                  <h4 class="cap-card__title" style="font-size: 1.1rem; margin-bottom: 4px;">E-Commerce Integrations</h4>
-                  <p class="cap-card__desc" style="font-size: 0.8125rem;">Custom shop experiences, secure checkout hubs, and subscription pipelines.</p>
-                </div>
-              </div>
-              
-              <!-- Card 3 -->
-              <div class="cap-card cap-card--full" style="padding: var(--space-20) var(--space-24);">
-                <div class="cap-card__content">
-                  <h4 class="cap-card__title" style="font-size: 1.1rem; margin-bottom: 4px;">Interactive Analytics Dashboards</h4>
-                  <p class="cap-card__desc" style="font-size: 0.8125rem;">Lightweight chart renderings and clean telemetry tables.</p>
-                </div>
-              </div>
-              
-              <!-- Card 4 -->
-              <div class="cap-card cap-card--full" style="padding: var(--space-20) var(--space-24);">
-                <div class="cap-card__content">
-                  <h4 class="cap-card__title" style="font-size: 1.1rem; margin-bottom: 4px;">Vanilla Grid Layouts & Typography</h4>
-                  <p class="cap-card__desc" style="font-size: 0.8125rem;">CSS custom properties, responsive flow, and zero build dependency.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section Footer Strip -->
-        <div class="bottom-features-strip">
-          <div class="feature-strip-item">
-            <div class="feature-strip-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-            </div>
-            <div class="feature-strip-content">
-              <span class="feature-strip-title">Vanilla Code</span>
-              <span class="feature-strip-desc">Clean, library-free DOM logic & CSS.</span>
-            </div>
-          </div>
-          <div class="feature-strip-item">
-            <div class="feature-strip-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            </div>
-            <div class="feature-strip-content">
-              <span class="feature-strip-title">SEO Optimized</span>
-              <span class="feature-strip-desc">Semantic document tags and speed ranks.</span>
-            </div>
-          </div>
-          <div class="feature-strip-item">
-            <div class="feature-strip-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-            </div>
-            <div class="feature-strip-content">
-              <span class="feature-strip-title">Ultra Lightweight</span>
-              <span class="feature-strip-desc">Minimal asset bundle weights, zero bloat.</span>
-            </div>
-          </div>
-          <div class="feature-strip-item">
-            <div class="feature-strip-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line></svg>
-            </div>
-            <div class="feature-strip-content">
-              <span class="feature-strip-title">Zero Bloat</span>
-              <span class="feature-strip-desc">Eliminated external framework code entirely.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── Section 2: Core Web Vitals ── -->
-    <section class="section-padding bg-light" id="web-benchmarks-section" hidden>
+    <!-- ═══ SCROLL STACK SECTION ═══ -->
+    <section class="web-stack-section stack-section section-padding" id="web-services">
       <div class="container">
         <div class="section-header center reveal">
-          <span class="hero__label-pill" style="font-size: 0.65rem; padding: 4px 10px;">Performance Vitals</span>
-          <h2 class="h2" style="font-size: clamp(2rem, 4vw, 2.75rem); line-height: 1.15; margin-bottom: var(--space-12);">
-            Core Web Vitals & Performance.
-          </h2>
-          <p class="body-text" style="max-width: var(--max-width-narrow); margin: 0 auto;">
-            We build interfaces that load instantly and rank highly. Every page is optimized for clean search discovery and swift browser rendering.
+          <span class="label-text wipe-in">Capabilities</span>
+          <h2 class="h1">Web Solutions for<br>Every Business Need</h2>
+          <p class="body-text" style="max-width: var(--max-width-narrow); margin: 0 auto;">From marketing sites to
+            complex web applications, we design and engineer digital products that perform at scale.</p>
+        </div>
+
+        <div class="web-stack-card-list stack-card-list">
+
+          <!-- Card 1 -->
+          <div class="web-stack-card stack-card reveal">
+            <div class="web-stack-card__content stack-card__content">
+              <span class="web-stack-card__tag">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect x="2" y="3" width="20" height="14" rx="2" />
+                  <line x1="8" y1="21" x2="16" y2="21" />
+                  <line x1="12" y1="17" x2="12" y2="21" />
+                </svg>
+                Business Websites
+              </span>
+              <h3 class="web-stack-card__title stack-card__title">Corporate &amp; Business Web Development</h3>
+              <p class="web-stack-card__desc stack-card__desc">We craft SEO-focused, conversion-driven business websites
+                for local and global brands. Every site is built with semantic HTML, lightning-fast load times, and
+                fully responsive layouts — engineered to rank and convert visitors into customers.</p>
+              <div class="web-stack-card__features stack-card__bullets">
+                <div class="web-stack-card__feature">
+                  <div class="web-stack-card__feature-icon">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <span>SEO-optimized semantic structure &amp; Core Web Vitals ranking</span>
+                </div>
+                <div class="web-stack-card__feature">
+                  <div class="web-stack-card__feature-icon">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <span>Fully responsive across mobile, tablet, and all desktop screens</span>
+                </div>
+                <div class="web-stack-card__feature">
+                  <div class="web-stack-card__feature-icon">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <span>Contact forms, WhatsApp CTA, and lead capture integrations</span>
+                </div>
+              </div>
+              <a href="contact_index.html" class="btn btn--primary btn--arrow">Get a Business Website <span
+                  class="arrow">&rarr;</span></a>
+              <div class="tech-pills">
+                <span class="tech-pill primary">HTML5</span>
+                <span class="tech-pill">CSS3</span>
+                <span class="tech-pill">JavaScript</span>
+                <span class="tech-pill">SEO</span>
+              </div>
+            </div>
+            <div class="web-stack-card__image-container stack-card__image-container">
+              <div class="web-stack-card__img-frame">
+                <img src="assets/img/development/Corporate_Business.png" alt="Business Website Development"
+                  loading="lazy">
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="web-stack-card stack-card reverse reveal">
+            <div class="web-stack-card__content stack-card__content">
+              <span class="web-stack-card__tag">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+                E-Commerce
+              </span>
+              <h3 class="web-stack-card__title stack-card__title">E-Commerce &amp; Shopify Store Development</h3>
+              <p class="web-stack-card__desc stack-card__desc">Premium themed Shopify stores and custom-built e-commerce
+                platforms with seamless payment gateway integrations, product catalog systems, and conversion-optimized
+                checkout flows that drive real revenue.</p>
+              <div class="web-stack-card__features stack-card__bullets">
+                <div class="web-stack-card__feature">
+                  <div class="web-stack-card__feature-icon">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <span>Custom Shopify theme development with brand-aligned UI design</span>
+                </div>
+                <div class="web-stack-card__feature">
+                  <div class="web-stack-card__feature-icon">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <span>Secure payment gateways: Razorpay, Stripe &amp; PayPal integrations</span>
+                </div>
+                <div class="web-stack-card__feature">
+                  <div class="web-stack-card__feature-icon">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <span>Inventory management, order tracking &amp; subscription pipelines</span>
+                </div>
+              </div>
+              <a href="contact_index.html" class="btn btn--primary btn--arrow">Launch Your Store <span
+                  class="arrow">&rarr;</span></a>
+              <div class="tech-pills">
+                <span class="tech-pill primary">Shopify</span>
+                <span class="tech-pill">Liquid</span>
+                <span class="tech-pill">Razorpay</span>
+                <span class="tech-pill">Stripe</span>
+              </div>
+            </div>
+            <div class="web-stack-card__image-container stack-card__image-container">
+              <div class="web-stack-card__img-frame">
+                <img src="assets/img/development/E-Commerce_Shopify.png" alt="E-Commerce Store Development"
+                  loading="lazy">
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="web-stack-card stack-card reveal">
+            <div class="web-stack-card__content stack-card__content">
+              <span class="web-stack-card__tag">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                  <line x1="12" y1="18" x2="12.01" y2="18" />
+                </svg>
+                PWA Apps
+              </span>
+              <h3 class="web-stack-card__title stack-card__title">Progressive Web App (PWA) Development</h3>
+              <p class="web-stack-card__desc stack-card__desc">Modern web apps built with progressive enhancement APIs —
+                offline capability, push notifications, and installable experiences from a single codebase. Reliable,
+                integrated, and blazing fast across any device.</p>
+              <div class="web-stack-card__features stack-card__bullets">
+                <div class="web-stack-card__feature">
+                  <div class="web-stack-card__feature-icon">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <span>Service worker caching for lightning offline accessibility</span>
+                </div>
+                <div class="web-stack-card__feature">
+                  <div class="web-stack-card__feature-icon">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <span>Home screen installable app experience on iOS &amp; Android</span>
+                </div>
+                <div class="web-stack-card__feature">
+                  <div class="web-stack-card__feature-icon">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <span>Re-engagement via targeted push notification triggers</span>
+                </div>
+              </div>
+              <a href="contact_index.html" class="btn btn--primary btn--arrow">Build a Web App <span
+                  class="arrow">&rarr;</span></a>
+              <div class="tech-pills">
+                <span class="tech-pill primary">PWA</span>
+                <span class="tech-pill">Service Workers</span>
+                <span class="tech-pill">Web Push</span>
+              </div>
+            </div>
+            <div class="web-stack-card__image-container stack-card__image-container">
+              <div class="web-stack-card__img-frame">
+                <img src="assets/img/development/PWA_Development.png" alt="Progressive Web Application Development"
+                  loading="lazy">
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="web-stack-card stack-card reverse reveal">
+            <div class="web-stack-card__content stack-card__content">
+              <span class="web-stack-card__tag">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                </svg>
+                CMS &amp; Portals
+              </span>
+              <h3 class="web-stack-card__title stack-card__title">Headless CMS &amp; Client Portal Development</h3>
+              <p class="web-stack-card__desc stack-card__desc">Decoupled backend CMS editors with blazing-fast static
+                frontends for NGOs, educational institutions, publishers, and enterprises. Real-time client portals and
+                analytics dashboard interfaces built for scale.</p>
+              <div class="web-stack-card__features stack-card__bullets">
+                <div class="web-stack-card__feature">
+                  <div class="web-stack-card__feature-icon">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <span>Headless CMS with decoupled content delivery architecture</span>
+                </div>
+                <div class="web-stack-card__feature">
+                  <div class="web-stack-card__feature-icon">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <span>Interactive analytics dashboards with lightweight chart renderings</span>
+                </div>
+                <div class="web-stack-card__feature">
+                  <div class="web-stack-card__feature-icon">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <span>Role-based access, admin panels &amp; user management systems</span>
+                </div>
+              </div>
+              <a href="contact_index.html" class="btn btn--primary btn--arrow">Build Your Portal <span
+                  class="arrow">&rarr;</span></a>
+              <div class="tech-pills">
+                <span class="tech-pill primary">Headless CMS</span>
+                <span class="tech-pill">REST API</span>
+                <span class="tech-pill">Dashboards</span>
+              </div>
+            </div>
+            <div class="web-stack-card__image-container stack-card__image-container">
+              <div class="web-stack-card__img-frame">
+                <img src="assets/img/development/Client_Portal_cms_development.png"
+                  alt="CMS and Client Portal Development" loading="lazy">
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ BENTO PORTFOLIO GRID ═══ -->
+    <section class="web-portfolio-section" id="web-portfolio">
+      <div class="container">
+        <div class="portfolio-header-row reveal">
+          <div>
+            <span class="label-text wipe-in">Portfolio</span>
+            <h2 class="h1">Websites We've<br>Designed &amp; Built</h2>
+          </div>
+          <p class="right-text">A curated showcase of our best web deliverables across industries — shown inside
+            authentic device mockups.</p>
+        </div>
+
+        <div class="bento-grid reveal delay-1">
+
+          <!-- Card 1: Mac Monitor – Fashyfi -->
+          <div class="bento-card bento-card--1">
+            <div class="bento-card__mockup mockup-bg-blue">
+              <img src="assets/img/development/mac_monitor_mockup.png" alt="Fashyfi Desktop" loading="lazy">
+              <!--div class="mockup-monitor">
+                <div class="mockup-monitor__shell">
+                  <div class="mockup-monitor__bar">
+                    <div class="mockup-monitor__dot"></div>
+                    <div class="mockup-monitor__dot"></div>
+                    <div class="mockup-monitor__dot"></div>
+                    <div class="mockup-monitor__url"></div>
+                  </div>
+                  <div class="mockup-monitor__screen">
+                    <img src="assets/img/development/iyx_hero.png" alt="Fashyfi Desktop" loading="lazy">
+                  </div>
+                </div>
+                <div class="mockup-monitor__stand"></div>
+                <div class="mockup-monitor__base"></div>
+              </div-->
+            </div>
+            <div class="bento-card__info">
+              <div class="bento-card__tags">
+                <span class="bento-card__tag">E-Commerce</span>
+                <span class="bento-card__tag">Shopify</span>
+                <span class="bento-card__tag green">Live</span>
+              </div>
+              <div class="bento-card__name">Fashyfi &#8212; Fashion Retail Platform</div>
+              <div class="bento-card__desc">A full-featured online fashion store with curated product catalog, smart
+                filters, and seamless Razorpay checkout. Built for conversions with a 100/100 Lighthouse score.</div>
+              <div class="bento-card__footer">
+                <span class="bento-card__industry">Textile &amp; Fashion &#183; India</span>
+                <a href="https://fashyfi.com" class="bento-card__link" target="_blank" rel="noopener">
+                  Visit Site &rarr;
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: iPhone – Aha Restaurant -->
+          <div class="bento-card bento-card--2">
+            <div class="bento-card__mockup mockup-bg-green">
+              <img src="assets/img/development/classic_gypsum_mobile_mockup.png" alt="Aha Restaurant Mobile"
+                loading="lazy">
+              <!--div class="mockup-phone">
+                <div class="mockup-phone__shell">
+                  <div class="mockup-phone__notch"></div>
+                  <div class="mockup-phone__screen">
+                    <img src="assets/img/development/classic_gypsum_mobile_mockup.png" alt="Aha Restaurant Mobile"
+                      loading="lazy">
+                  </div>
+                </div>
+              </div-->
+            </div>
+            <div class="bento-card__info">
+              <div class="bento-card__tags">
+                <span class="bento-card__tag">Restaurant</span>
+                <span class="bento-card__tag">UI/UX</span>
+                <span class="bento-card__tag green">Live</span>
+              </div>
+              <div class="bento-card__name">Aha Restaurant &#8212; Digital Menu &amp; Booking</div>
+              <div class="bento-card__desc">Mobile-first restaurant website featuring interactive digital menu, table
+                reservation system, and location map integration.</div>
+              <div class="bento-card__footer">
+                <span class="bento-card__industry">Hospitality &#183; Chennai</span>
+                <a href="contact_index.html" class="bento-card__link">Details &rarr;</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: iPhone – Olivia Marketers -->
+          <div class="bento-card bento-card--3">
+            <div class="bento-card__mockup mockup-bg-purple">
+              <div class="mockup-phone">
+                <div class="mockup-phone__shell">
+                  <div class="mockup-phone__notch"></div>
+                  <div class="mockup-phone__screen">
+                    <img src="assets/img/seo-olivia.png" alt="Olivia Marketers" loading="lazy">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="bento-card__info">
+              <div class="bento-card__tags">
+                <span class="bento-card__tag">Corporate</span>
+                <span class="bento-card__tag">SEO Ranked</span>
+              </div>
+              <div class="bento-card__name">Olivia Marketers &#8212; Agency Hub</div>
+              <div class="bento-card__desc">High-converting agency website with dynamic service pages, client case study
+                modules, and automated contact funnel.</div>
+              <div class="bento-card__footer">
+                <span class="bento-card__industry">Marketing &amp; Media</span>
+                <a href="contact_index.html" class="bento-card__link">Details &rarr;</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Laptop – SSIMS Education -->
+          <div class="bento-card bento-card--4">
+            <div class="bento-card__mockup mockup-bg-orange">
+              <img src="assets/img/development/iyx_monitor_mockup.png" alt="SSIMS Portal" loading="lazy">
+            </div>
+            <div class="bento-card__info">
+              <div class="bento-card__tags">
+                <span class="bento-card__tag">Education</span>
+                <span class="bento-card__tag">CMS Portal</span>
+              </div>
+              <div class="bento-card__name">SSIMS &#8212; Educational Institute Portal</div>
+              <div class="bento-card__desc">Institutional portal for admissions, department showcases, student notices,
+                and faculty management with headless backend architecture.</div>
+              <div class="bento-card__footer">
+                <span class="bento-card__industry">Education &amp; Research</span>
+                <a href="contact_index.html" class="bento-card__link">Details &rarr;</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: Mobile – Meenakshi Hospital -->
+          <div class="bento-card bento-card--5">
+            <div class="bento-card__mockup mockup-bg-teal">
+              <div class="mockup-phone">
+                <div class="mockup-phone__shell">
+                  <div class="mockup-phone__notch"></div>
+                  <div class="mockup-phone__screen">
+                    <img src="assets/img/seo-meenakshi.png" alt="Meenakshi Hospital" loading="lazy">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="bento-card__info">
+              <div class="bento-card__tags">
+                <span class="bento-card__tag">Healthcare</span>
+                <span class="bento-card__tag green">Live</span>
+              </div>
+              <div class="bento-card__name">Meenakshi Hospital</div>
+              <div class="bento-card__desc">Doctor directory and appointment booking platform built for fast mobile load
+                times.</div>
+              <div class="bento-card__footer">
+                <span class="bento-card__industry">Healthcare</span>
+                <a href="contact_index.html" class="bento-card__link">Details &rarr;</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6: Mac Monitor – FitKits -->
+          <div class="bento-card bento-card--6">
+            <div class="bento-card__mockup mockup-bg-dark">
+              <img src="assets/img/development/dermiiz_monitor_mockup.png" alt="Dermiiz" loading="lazy">
+            </div>
+            <div class="bento-card__info">
+              <div class="bento-card__tags">
+                <span class="bento-card__tag">E-Commerce</span>
+                <span class="bento-card__tag">Fitness</span>
+              </div>
+              <div class="bento-card__name">FitKits Store</div>
+              <div class="bento-card__desc">Supplements &amp; fitness equipment storefront with dynamic product bundles.
+              </div>
+              <div class="bento-card__footer">
+                <span class="bento-card__industry">Retail &amp; Health</span>
+                <a href="contact_index.html" class="bento-card__link">Details &rarr;</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 7: Laptop – Inocyx Web3 Platform -->
+          <div class="bento-card bento-card--7">
+            <div class="bento-card__mockup mockup-bg-blue">
+              <div class="mockup-laptop">
+                <div class="mockup-laptop__shell">
+                  <div class="mockup-laptop__camera"></div>
+                  <div class="mockup-laptop__screen">
+                    <img src="assets/img/software-development.png" alt="Inocyx Web3 Platform" loading="lazy">
+                  </div>
+                </div>
+                <div class="mockup-laptop__base"></div>
+                <div class="mockup-laptop__bottom"></div>
+              </div>
+            </div>
+            <div class="bento-card__info">
+              <div class="bento-card__tags">
+                <span class="bento-card__tag">FinTech</span>
+                <span class="bento-card__tag">Web3</span>
+              </div>
+              <div class="bento-card__name">Inocyx Web3 Platform</div>
+              <div class="bento-card__desc">Decentralized asset trading interface with real-time WebSocket chart feeds.
+              </div>
+              <div class="bento-card__footer">
+                <span class="bento-card__industry">FinTech</span>
+                <a href="contact_index.html" class="bento-card__link">Details &rarr;</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ PROCESS SECTION ("How We Work") ═══ -->
+    <section class="web-process-section" id="how-we-work">
+      <div class="container">
+        <div class="section-header center reveal">
+          <span class="label-text wipe-in" style="color: var(--color-secondary);">Workflow</span>
+          <h2 class="h1" style="color: #ffffff;">Our Web Development Process</h2>
+          <p class="body-text"
+            style="color: rgba(255, 255, 255, 0.7); max-width: var(--max-width-narrow); margin: 0 auto;">
+            A disciplined, 4-stage engineering lifecycle — ensuring every project is delivered on schedule, fully
+            tested, and ready to scale.
           </p>
         </div>
 
-        <div class="benchmarks-grid reveal delay-1">
-          <!-- Benchmark Card 1: 100/100 -->
-          <div class="benchmark-card" id="benchmark-lighthouse">
-            <div class="benchmark-card-content">
-              <div class="benchmark-card-meta">
-                <svg class="benchmark-card-meta-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 22 22 22 12 2"></polygon></svg>
-                <span>LIGHTHOUSE SCORE</span>
-              </div>
-              <div class="benchmark-card-value">100<span>/100</span></div>
-              <p class="benchmark-card-desc">Optimized asset bundles, clean script paths, perfect score marks.</p>
-            </div>
-            <div class="benchmark-card-visual">
-              <!-- Radial score ring -->
-              <svg width="60" height="60" viewBox="0 0 36 36">
-                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="var(--color-primary-light)" stroke-width="2"/>
-                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-dasharray="100, 100"/>
+        <div class="process-steps reveal delay-1">
+
+          <div class="process-step">
+            <span class="process-step__num">STEP 01</span>
+            <div class="process-step__icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
             </div>
+            <h3 class="process-step__title">Discovery &amp; Strategy</h3>
+            <p class="process-step__desc">We analyze your business objectives, map target user journeys, define tech
+              architecture, and establish clear scope milestones.</p>
           </div>
 
-          <!-- Benchmark Card 2: 0.3s -->
-          <div class="benchmark-card" id="benchmark-fcp">
-            <div class="benchmark-card-content">
-              <div class="benchmark-card-meta">
-                <svg class="benchmark-card-meta-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <span>FIRST CONTENTFUL PAINT</span>
-              </div>
-              <div class="benchmark-card-value">0.3<span>s</span></div>
-              <p class="benchmark-card-desc">Instant paint, inline key styles, fast responses.</p>
-            </div>
-            <div class="benchmark-card-visual">
-              <!-- Clock dial speedometer -->
-              <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="30" cy="30" r="22" stroke="var(--color-primary)" stroke-width="1.5" stroke-dasharray="3 3"/>
-                <path d="M30 8 A22 22 0 0 1 52 30" stroke="var(--color-primary)" stroke-width="2.5"/>
-                <line x1="30" y1="30" x2="45" y2="18" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round"/>
-                <circle cx="30" cy="30" r="3" fill="var(--color-secondary)"/>
+          <div class="process-step">
+            <span class="process-step__num">STEP 02</span>
+            <div class="process-step__icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                <polyline points="2 17 12 22 22 17" />
+                <polyline points="2 12 12 17 22 12" />
               </svg>
             </div>
+            <h3 class="process-step__title">UI/UX Wireframing</h3>
+            <p class="process-step__desc">Crafting high-fidelity interactive prototypes, responsive layout grids, and
+              design systems aligned with your brand identity.</p>
           </div>
 
-          <!-- Benchmark Card 3: 0.00 -->
-          <div class="benchmark-card" id="benchmark-cls">
-            <div class="benchmark-card-content">
-              <div class="benchmark-card-meta">
-                <svg class="benchmark-card-meta-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line></svg>
-                <span>CUMULATIVE LAYOUT SHIFT</span>
-              </div>
-              <div class="benchmark-card-value">0.00</div>
-              <p class="benchmark-card-desc">Zero content jumping or layout reflows during load phase.</p>
-            </div>
-            <div class="benchmark-card-visual">
-              <!-- Alignment line grid visual -->
-              <svg width="80" height="50" viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <line x1="10" y1="15" x2="70" y2="15" stroke="var(--color-primary)" stroke-width="1.5"/>
-                <line x1="10" y1="25" x2="70" y2="25" stroke="rgba(17,17,17,0.06)" stroke-dasharray="3 3"/>
-                <line x1="10" y1="35" x2="70" y2="35" stroke="var(--color-primary)" stroke-width="1.5"/>
-                <rect x="25" y="15" width="30" height="20" rx="2" fill="var(--color-primary-light)" stroke="var(--color-primary)" stroke-width="1"/>
+          <div class="process-step">
+            <span class="process-step__num">STEP 03</span>
+            <div class="process-step__icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="16 18 22 12 16 6" />
+                <polyline points="8 6 2 12 8 18" />
               </svg>
             </div>
+            <h3 class="process-step__title">Vanilla Engineering</h3>
+            <p class="process-step__desc">Building performant HTML5, CSS3, and JavaScript code. Integrating APIs,
+              headless CMS backends, and payment gateways.</p>
           </div>
 
-          <!-- Benchmark Card 4: 8.4 KB -->
-          <div class="benchmark-card" id="benchmark-weight">
-            <div class="benchmark-card-content">
-              <div class="benchmark-card-meta">
-                <svg class="benchmark-card-meta-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect></svg>
-                <span>BASE BUNDLE WEIGHT</span>
-              </div>
-              <div class="benchmark-card-value">8.4<span>KB</span></div>
-              <p class="benchmark-card-desc">Ultra lightweight payload index structure, no framework overhead.</p>
-            </div>
-            <div class="benchmark-card-visual">
-              <!-- Nested pack box container visual -->
-              <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="10" y="10" width="40" height="40" rx="3" fill="var(--color-primary-light)" stroke="var(--color-primary)" stroke-width="1"/>
-                <rect x="20" y="20" width="20" height="20" rx="2" fill="none" stroke="var(--color-primary)" stroke-dasharray="3 3"/>
-                <circle cx="30" cy="30" r="3" fill="var(--color-primary)"/>
+          <div class="process-step">
+            <span class="process-step__num">STEP 04</span>
+            <div class="process-step__icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
               </svg>
             </div>
+            <h3 class="process-step__title">QA &amp; Cloud Launch</h3>
+            <p class="process-step__desc">Rigorous cross-device testing, Core Web Vitals optimization, SSL setup, and
+              seamless deployment to global CDN edge servers.</p>
           </div>
-        </div>
 
-        <!-- Section bottom footer strip -->
-        <div style="display: flex; justify-content: center; margin-top: var(--space-48);">
-          <div style="background: var(--color-bg-dark); color: #ffffff; font-family: monospace; font-size: 0.75rem; letter-spacing: 0.08em; padding: var(--space-12) var(--space-28); border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 8px;">
-            <span class="hud-ping-dot" style="animation: hudPulse 1.5s infinite;"></span>
-            <span>● CERTIFIED CORE WEB VITALS PERFORMANCE METRICS</span>
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- ── Section 3: Edge CDN Delivery ── -->
-    <section class="section-padding bg-light" id="web-services-section">
+    <!-- ═══ CAPABILITIES GRID ═══ -->
+    <section class="web-capabilities-section section-padding" id="web-capabilities">
       <div class="container">
         <div class="section-header center reveal">
-          <h2 class="h2" style="font-size: clamp(2rem, 4vw, 2.75rem); line-height: 1.15; margin-bottom: var(--space-12);">What we Develop for your Business</h2>
+          <span class="label-text wipe-in">Engineering</span>
+          <h2 class="h1">What Sets Our Websites Apart</h2>
+          <p class="body-text" style="max-width: var(--max-width-narrow); margin: 0 auto;">Every website we build is
+            crafted around six core pillars of modern web performance.</p>
         </div>
 
-        <div class="web-services-grid reveal delay-1">
-          <article class="web-service-card">
-            <div class="web-service-card__image-wrap"><img src="assets/img/app_dev_media.png" alt="Progressive web app interface" class="web-service-card__image"></div>
-            <div class="web-service-card__content">
-              <h3>Progressive Web App</h3>
-              <p>Web apps built with modern APIs to be reliable, more integrated, and installable on any device from a single codebase.</p>
+        <div class="capabilities-grid reveal delay-1">
+
+          <div class="capability-card">
+            <div class="capability-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+              </svg>
             </div>
-          </article>
-          <article class="web-service-card">
-            <div class="web-service-card__image-wrap"><img src="assets/img/web_dev_media.png" alt="Business website development" class="web-service-card__image"></div>
-            <div class="web-service-card__content">
-              <h3>Business Web Development</h3>
-              <p>SEO-focused websites for local and global ranking, fully responsive with contact-form integration.</p>
+            <h3 class="capability-card__title">Sub-Second Load Speed</h3>
+            <p class="capability-card__desc">Optimized asset bundles, inline critical styles, and minimal DOM trees
+              guarantee instant initial paints.</p>
+          </div>
+
+          <div class="capability-card">
+            <div class="capability-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
             </div>
-          </article>
-          <article class="web-service-card">
-            <div class="web-service-card__image-wrap"><img src="assets/img/services/web-dev-workflow.png" alt="Content management system development" class="web-service-card__image"></div>
-            <div class="web-service-card__content">
-              <h3>Content Management System</h3>
-              <p>CMS development for NGOs, educational institutes, publishers, and journals.</p>
+            <h3 class="capability-card__title">SEO-First Architecture</h3>
+            <p class="capability-card__desc">Clean semantic HTML5 markup, structured JSON-LD schemas, and fast server
+              responses for maximum Google indexation.</p>
+          </div>
+
+          <div class="capability-card">
+            <div class="capability-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+              </svg>
             </div>
-          </article>
-          <article class="web-service-card">
-            <div class="web-service-card__image-wrap"><img src="assets/img/iPhone-mockup-seo.webp" alt="Ecommerce and Shopify store" class="web-service-card__image"></div>
-            <div class="web-service-card__content">
-              <h3>Ecommerce &amp; Shopify Store</h3>
-              <p>Premium themed Shopify stores and custom-built ecommerce stores with seamless payment gateway integrations.</p>
+            <h3 class="capability-card__title">Fluid Pixel Responsiveness</h3>
+            <p class="capability-card__desc">Adaptive grid systems ensuring flawless visual display across mobile
+              screens, tablets, laptops, and 4K displays.</p>
+          </div>
+
+          <div class="capability-card">
+            <div class="capability-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
             </div>
-          </article>
+            <h3 class="capability-card__title">Enterprise Security</h3>
+            <p class="capability-card__desc">Strict Content Security Policies (CSP), HTTPS encryption, sanitized input
+              fields, and zero dependency vulnerability vectors.</p>
+          </div>
+
+          <div class="capability-card">
+            <div class="capability-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+              </svg>
+            </div>
+            <h3 class="capability-card__title">Conversion-Driven UX</h3>
+            <p class="capability-card__desc">Strategic CTA placement, intuitive navigation flows, fast form submits, and
+              direct WhatsApp lead triggers.</p>
+          </div>
+
+          <div class="capability-card">
+            <div class="capability-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path
+                  d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9" />
+              </svg>
+            </div>
+            <h3 class="capability-card__title">Global CDN Delivery</h3>
+            <p class="capability-card__desc">Cached and served globally via edge networks like Cloudflare and Vercel for
+              zero latency worldwide access.</p>
+          </div>
+
         </div>
       </div>
     </section>
 
-    <section class="industries-section" id="web-industries-section">
+    <!-- ═══ CDN & SPEED TECH SECTION ═══ -->
+    <section class="web-tech-section section-padding" id="web-cdn">
       <div class="container">
-        <div class="industries-section__header reveal">
-          <span class="industries-section__eyebrow">Industries We Serve</span>
-          <h2>Tailored expertise for<br>diverse industries</h2>
-        </div>
+        <div class="web-tech-two-col">
 
-        <div class="industries-grid reveal delay-1">
-          <div class="industry-card">FMCG</div>
-          <div class="industry-card">Hotels &amp; Restaurants</div>
-          <div class="industry-card">Textile &amp; Fashion</div>
-          <div class="industry-card">Healthcare &amp; Medical</div>
-          <div class="industry-card">Educational Institutions</div>
-          <div class="industry-card">Real Estate</div>
-          <div class="industry-card">Automobile</div>
-          <div class="industry-card">E-Commerce</div>
-          <div class="industry-card">FinTech</div>
-          <div class="industry-card">Web3 &amp; Blockchain</div>
-          <div class="industry-card">Others</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-padding bg-white" id="web-cdn-section">
-      <div class="container">
-        <div class="grid grid-2" style="gap: var(--space-48); align-items: center;">
           <div class="reveal">
-            <span class="hero__label-pill" style="margin-bottom: var(--space-16); font-size: 0.65rem; padding: 4px 10px;">Global Edge Routing</span>
-            <h2 class="h2" style="font-size: clamp(2rem, 4vw, 2.75rem); line-height: 1.15; margin-bottom: var(--space-20);">
-              Edge CDN & <br>Asset Delivery.
-            </h2>
-            <p class="body-text" style="font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: var(--space-16);">
-              Every millisecond counts. We distribute compiled web assets across a globally redundant CDN (Content Delivery Network) mesh. By positioning resources closer to your customers, we achieve Time-to-First-Byte (TTFB) latencies below 30 milliseconds.
+            <span class="label-text wipe-in">Infrastructure</span>
+            <h2 class="h1">Engineered for Speed,<br>Hosted for Scale</h2>
+            <p class="body-text" style="margin-top: var(--space-16);">
+              Speed isn't an afterthought — it's built into every line of code. We deploy on global edge CDN nodes to
+              ensure sub-100ms response times anywhere on earth.
             </p>
-            <div style="display: flex; flex-direction: column; gap: var(--space-12);">
-              <div style="display: flex; align-items: center; gap: var(--space-12); font-size: 0.8125rem; font-weight: 700; color: var(--color-text-primary);">
-                <span class="pulse-green"></span>
-                <span>Automated compression algorithms (AVIF, WebP, Brotli)</span>
+
+            <div class="web-scorecard">
+              <div class="score-item">
+                <div class="score-item__num">100</div>
+                <div class="score-item__label">Performance</div>
               </div>
-              <div style="display: flex; align-items: center; gap: var(--space-12); font-size: 0.8125rem; font-weight: 700; color: var(--color-text-primary);">
-                <span class="pulse-green"></span>
-                <span>Anycast IP network routes request to closest localized cache</span>
+              <div class="score-item">
+                <div class="score-item__num">100</div>
+                <div class="score-item__label">Accessibility</div>
               </div>
-              <div style="display: flex; align-items: center; gap: var(--space-12); font-size: 0.8125rem; font-weight: 700; color: var(--color-text-primary);">
-                <span class="pulse-green"></span>
-                <span>Dynamic headers to prevent layout re-renders on the client side</span>
+              <div class="score-item">
+                <div class="score-item__num">100</div>
+                <div class="score-item__label">Best Practices</div>
+              </div>
+              <div class="score-item">
+                <div class="score-item__num">100</div>
+                <div class="score-item__label">SEO</div>
               </div>
             </div>
           </div>
+
           <div class="reveal delay-1">
-            <div class="cdn-telemetry-panel">
-              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-12); margin-bottom: var(--space-16);">
-                <span style="font-weight: 800; font-size: 0.7rem; color: var(--color-text-primary); letter-spacing: 0.05em;">// CDN_EDGE_PING_CONSOLE</span>
-                <span style="font-size: 0.65rem; color: var(--color-success); font-weight: 700;">● STATUS: ONLINE</span>
+            <div class="cdn-panel">
+              <div class="cdn-panel__header">
+                <span class="cdn-panel__title">RVRBRD // CDN_EDGE_LATENCY</span>
+                <span class="cdn-panel__status">
+                  <span class="ping-dot"></span> EDGE_ACTIVE
+                </span>
               </div>
-              <div class="ping-list">
-                <div class="ping-item">
-                  <span class="ping-city"><span class="pulse-green"></span>San Francisco (US-West)</span>
-                  <span class="ping-time">12ms</span>
+              <div class="cdn-panel__pings">
+                <div class="cdn-ping-row">
+                  <div class="cdn-ping-row__city">
+                    <span class="ping-dot"></span> Singapore (SIN-01)
+                  </div>
+                  <span class="cdn-ping-row__ms">14 ms</span>
                 </div>
-                <div class="ping-item">
-                  <span class="ping-city"><span class="pulse-green"></span>London (UK-South)</span>
-                  <span class="ping-time">22ms</span>
+                <div class="cdn-ping-row">
+                  <div class="cdn-ping-row__city">
+                    <span class="ping-dot"></span> London (LHR-02)
+                  </div>
+                  <span class="cdn-ping-row__ms">22 ms</span>
                 </div>
-                <div class="ping-item">
-                  <span class="ping-city"><span class="pulse-green"></span>Tokyo (APAC-East)</span>
-                  <span class="ping-time">31ms</span>
+                <div class="cdn-ping-row">
+                  <div class="cdn-ping-row__city">
+                    <span class="ping-dot"></span> New York (JFK-01)
+                  </div>
+                  <span class="cdn-ping-row__ms">28 ms</span>
                 </div>
-                <div class="ping-item">
-                  <span class="ping-city"><span class="pulse-green"></span>Sydney (APAC-South)</span>
-                  <span class="ping-time">38ms</span>
+                <div class="cdn-ping-row">
+                  <div class="cdn-ping-row__city">
+                    <span class="ping-dot"></span> Tokyo (HND-01)
+                  </div>
+                  <span class="cdn-ping-row__ms">18 ms</span>
+                </div>
+                <div class="cdn-ping-row">
+                  <div class="cdn-ping-row__city">
+                    <span class="ping-dot"></span> Frankfurt (FRA-01)
+                  </div>
+                  <span class="cdn-ping-row__ms">19 ms</span>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
 
-    <!-- ── CTA Section ── -->
-    <section class="cta-section">
-      <div class="cta-bg-visual">
-        <div class="cta-orb cta-orb--1"></div>
-        <div class="cta-orb cta-orb--2"></div>
-        <div class="cta-grid-panning"></div>
+    <!-- ═══ INDUSTRIES SECTION ═══ -->
+    <section class="web-industries-section section-padding" id="web-industries">
+      <div class="container">
+        <div class="section-header center reveal">
+          <span class="label-text wipe-in">Versatility</span>
+          <h2 class="h1">Tailored Web Expertise for Diverse Industries</h2>
+          <p class="body-text" style="max-width: var(--max-width-narrow); margin: 0 auto;">We build specialized web
+            platforms engineered around the unique operational needs of each market sector.</p>
+        </div>
+
+        <div class="industries-tags reveal delay-1">
+          <div class="industry-tag">E-Commerce &amp; Retail</div>
+          <div class="industry-tag">Healthcare &amp; Hospitals</div>
+          <div class="industry-tag">Real Estate &amp; Property</div>
+          <div class="industry-tag">Education &amp; E-Learning</div>
+          <div class="industry-tag">FinTech &amp; Web3</div>
+          <div class="industry-tag">Hospitality &amp; Dining</div>
+          <div class="industry-tag">Logistics &amp; Supply Chain</div>
+          <div class="industry-tag">Media &amp; Publishing</div>
+          <div class="industry-tag">Legal &amp; Professional Services</div>
+          <div class="industry-tag">SaaS &amp; Tech Startups</div>
+          <div class="industry-tag">Manufacturing &amp; Export</div>
+          <div class="industry-tag">Automotive &amp; Transport</div>
+        </div>
       </div>
-      <div class="container cta__container">
-        <h2 class="display-text cta__title" style="font-size: clamp(2.5rem, 5vw, 4rem);">Grow your web interface.</h2>
-        <p class="cta__desc">Get in touch with an engineering architect to outline your dashboard or client portal specifications.</p>
-        <div>
-          <a href="contact_index.html" class="btn btn--secondary magnetic-btn">Request Web Consult &rarr;</a>
+    </section>
+
+    <!-- ═══ CTA SECTION ═══ -->
+    <section class="web-cta-section" id="web-cta">
+      <div class="cta-grid-lines"></div>
+      <div class="container reveal">
+        <span class="cta-eyebrow">GET STARTED TODAY</span>
+        <h2 class="cta-big-title">Ready to Launch Your<br><span>Dream Website?</span></h2>
+        <p class="cta-big-desc">Get a high-performing, bespoke web application engineered to scale your business. Fast
+          delivery, transparent pricing, and 100/100 Lighthouse scores guaranteed.</p>
+        <div class="cta-big-actions">
+          <a href="contact_index.html" class="btn btn--primary magnetic-btn">Start Your Web Project &rarr;</a>
+          <a href="https://wa.me/919943111000" class="btn btn--outline btn--white magnetic-btn" target="_blank"
+            rel="noopener">Chat on WhatsApp</a>
         </div>
       </div>
     </section>
@@ -477,4 +842,5 @@
   <div id="footer-slot"></div>
   <script defer src="assets/js/core/app.js"></script>
 </body>
+
 </html>
