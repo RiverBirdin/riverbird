@@ -1078,41 +1078,6 @@
   </script>
 
   <script defer src="assets/js/core/app.js"></script>
-
-  <!-- ── FAQ Accordion ── -->
-  <script>
-    (function () {
-      document.querySelectorAll('.faq-question').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var item = this.closest('.faq-item');
-          var answer = item.querySelector('.faq-answer');
-          var isOpen = item.classList.contains('is-open');
-
-          // Close all siblings in the same list
-          var list = item.closest('.faq-list');
-          if (list) {
-            list.querySelectorAll('.faq-item.is-open').forEach(function (openItem) {
-              if (openItem !== item) {
-                openItem.classList.remove('is-open');
-                openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
-                openItem.querySelector('.faq-answer').style.maxHeight = '0';
-              }
-            });
-          }
-
-          if (isOpen) {
-            item.classList.remove('is-open');
-            this.setAttribute('aria-expanded', 'false');
-            answer.style.maxHeight = '0';
-          } else {
-            item.classList.add('is-open');
-            this.setAttribute('aria-expanded', 'true');
-            answer.style.maxHeight = answer.scrollHeight + 'px';
-          }
-        });
-      });
-    })();
-  </script>
 </body>
 
 </html>

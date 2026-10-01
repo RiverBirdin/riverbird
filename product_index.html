@@ -725,22 +725,6 @@
   <script defer src="assets/js/core/app.js"></script>
   
   <script>
-    // Bind product FAQ accordion manually using classes for smooth transitions
-    document.querySelectorAll('.faq-question').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const item = btn.closest('.faq-item');
-        const isOpen = item.classList.contains('faq-item--open');
-        
-        // Reset all first
-        document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('faq-item--open'));
-        
-        // Toggle this one
-        if (!isOpen) {
-          item.classList.add('faq-item--open');
-        }
-      });
-    });
-
     // Fashyfi Interactive Dashboard logic
     const adminNavItems = [
       { id: 'profile', label: 'Profile', icon: '👤' },
