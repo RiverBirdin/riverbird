@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact | Riverbird</title>
-  <meta name="description" content="Get in touch with Riverbird. Send a project inquiry or message our general team." />
+  <meta name="description" content="Get in touch with Riverbird in Tiruchirappalli — phone, email, map, and enquiry form for software, marketing, and staffing." />
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,8 +21,6 @@
 
   <a href="#main-content" class="skip-link">Skip to Content</a>
 
-  <div class="cursor-glow"></div>
-  <canvas class="liquid-canvas"></canvas>
   <div id="header-slot"></div>
 
   <main id="main-content" class="liquid-wrapper">
@@ -83,118 +81,62 @@
               </div>
             </div>
 
-            <!-- Dynamic Node Status HUD Panel -->
-            <div class="hud-panel reveal">
-              <div class="hud-corners">
-                <span class="hud-corner top-left"></span>
-                <span class="hud-corner top-right"></span>
-                <span class="hud-corner bottom-left"></span>
-                <span class="hud-corner bottom-right"></span>
-              </div>
-              <div style="font-size: 0.6875rem; color: var(--color-primary); margin-bottom: var(--space-8); text-transform: uppercase; letter-spacing: 2px; display: flex; justify-content: space-between; align-items: center;">
-                <span><span class="ae-rec-dot"></span>RVRBRD_NODE_SECURE</span>
-                <span id="hud-ping">PING: 42 ms</span>
-              </div>
-              <div style="font-size: 0.75rem; color: #fff; display: flex; flex-direction: column; gap: 4px; opacity: 0.85; line-height: 1.4;">
-                <div>SYSTEM STATUS: <span style="color: #10B981; font-weight: bold;">ONLINE</span></div>
-                <div>UPTIME PROFILE: <span id="hud-uptime">99.982%</span></div>
-                <div>NODE TIME (IST): <span id="hud-time">--:--:--</span></div>
-                <div>LOC: MELACHINTHAMANI_TRICHY_IN</div>
-              </div>
-            </div>
-
             <div class="contact-map-block">
               <div class="map-container contact-map-container">
                 <iframe
                   id="rb-contact-map"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.678520222997!2d78.68761557504281!3d10.835895589316477!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3baaf5cf17277963%3A0xb6d3a96e4390a34!2sRiverbird.in%20%7C%20Digital%20Marketing%20Agency!5e0!3m2!1sen!2sin!4v1790852215501!5m2!1sen!2sin"
                   width="100%"
                   height="100%"
                   style="border:0;"
                   allowfullscreen=""
                   loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                  title="Riverbird Tiruchirappalli Office Map">
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  title="Riverbird.in | Digital Marketing Agency — Tiruchirappalli">
                 </iframe>
               </div>
               <p class="body-text body-small contact-map-link-wrap">
-                <a id="rb-contact-map-link" href="#" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+                <a id="rb-contact-map-link" href="#" target="_blank" rel="noopener noreferrer">View Riverbird on Google Maps</a>
               </p>
             </div>
           </div>
 
-          <div class="reveal delay-1">
-
-            <div class="form-toggle-btns" style="display: flex; gap: var(--space-8); margin-bottom: var(--space-24); border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-16);">
-              <button class="btn btn--outline btn--sm" id="btn-show-inquiry" style="background-color: var(--color-primary); color: white; border-color: var(--color-primary);">Business Inquiry</button>
-              <button class="btn btn--outline btn--sm" id="btn-show-general">General Contact</button>
-            </div>
-
-            <form class="card" id="inquiry-form" style="border: 1px solid var(--color-border);">
+          <div class="contact-enquiry-column reveal delay-1">
+            <h2 class="h2 contact-enquiry-heading">For enquiry</h2>
+            <form class="card contact-enquiry-form" id="enquiry-form">
               <div class="form-group">
                 <label class="form-label" for="inq-name">Your Name</label>
-                <input type="text" id="inq-name" class="form-input" required placeholder="Enter name" />
+                <input type="text" id="inq-name" name="name" class="form-input" required placeholder="Enter name" autocomplete="name" />
               </div>
               <div class="form-group">
                 <label class="form-label" for="inq-email">Email Address</label>
-                <input type="email" id="inq-email" class="form-input" required placeholder="name@company.com" />
+                <input type="email" id="inq-email" name="email" class="form-input" required placeholder="name@company.com" autocomplete="email" />
               </div>
               <div class="form-group">
                 <label class="form-label" for="inq-company">Company / Org</label>
-                <input type="text" id="inq-company" class="form-input" placeholder="e.g. Meridian Industries" />
+                <input type="text" id="inq-company" name="company" class="form-input" placeholder="e.g. Meridian Industries" autocomplete="organization" />
               </div>
-
-              <!-- Cool Interactive Service Cards -->
-              <div class="form-group">
-                <label class="form-label">Required Division</label>
-                <div class="interactive-services">
-                  <div class="service-card-btn service-card-btn--active" data-service-val="software">
-                    <svg class="service-card-btn__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                    <span class="service-card-btn__label">Software</span>
-                  </div>
-                  <div class="service-card-btn" data-service-val="marketing">
-                    <svg class="service-card-btn__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                    <span class="service-card-btn__label">Marketing</span>
-                  </div>
-                  <div class="service-card-btn" data-service-val="staffing">
-                    <svg class="service-card-btn__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    <span class="service-card-btn__label">Staffing</span>
-                  </div>
+              <div class="contact-enquiry-form__row">
+                <div class="form-group">
+                  <label class="form-label" for="inq-phone">Phone Number</label>
+                  <input type="tel" id="inq-phone" name="phone" class="form-input" required placeholder="+91 99949 67655" autocomplete="tel" inputmode="tel" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="inq-city">City</label>
+                  <input type="text" id="inq-city" name="city" class="form-input" required placeholder="e.g. Tiruchirappalli" autocomplete="address-level2" />
                 </div>
               </div>
-
-              <select id="inq-service" class="form-input" style="display: none;" aria-hidden="true" tabindex="-1">
-                <option value="software" selected>Software Engineering</option>
-                <option value="marketing">Digital Marketing</option>
-                <option value="staffing">Staffing Solutions</option>
-              </select>
-
               <div class="form-group">
-                <label class="form-label" for="inq-message">Brief Project Details</label>
-                <textarea id="inq-message" class="form-textarea" required placeholder="Please outline the requirements, timeline constraints, or staffing roles needed..."></textarea>
+                <label class="form-label" for="inq-service">Service</label>
+                <select id="inq-service" name="service" class="form-select contact-enquiry-select" required>
+                  <option value="" disabled selected>Select a service</option>
+                  <option value="software">Software Engineering</option>
+                  <option value="marketing">Digital Marketing</option>
+                  <option value="staffing">Staffing Solutions</option>
+                </select>
               </div>
-              <button type="submit" class="btn btn--primary" style="width: 100%;">Submit Project Brief</button>
+              <button type="submit" class="btn btn--primary contact-enquiry-submit">Submit enquiry</button>
             </form>
-
-            <form class="card" id="contact-form" style="border: 1px solid var(--color-border); display: none;">
-              <div class="form-group">
-                <label class="form-label" for="con-name">Full Name</label>
-                <input type="text" id="con-name" class="form-input" required placeholder="Enter full name" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="con-email">Email Address</label>
-                <input type="email" id="con-email" class="form-input" required placeholder="name@domain.com" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="con-subject">Subject</label>
-                <input type="text" id="con-subject" class="form-input" required placeholder="Inquiry topic..." />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="con-message">Your Message</label>
-                <textarea id="con-message" class="form-textarea" required placeholder="Type your message details..."></textarea>
-              </div>
-              <button type="submit" class="btn btn--primary" style="width: 100%;">Send Message</button>
-            </form>
-
           </div>
 
         </div>
@@ -205,98 +147,5 @@
 
   <div id="footer-slot"></div>
   <script type="module" src="assets/js/core/app.js"></script>
-
-  <script>
-    // Form toggle action
-    const btnInquiry = document.getElementById('btn-show-inquiry');
-    const btnGeneral = document.getElementById('btn-show-general');
-    const formInquiry = document.getElementById('inquiry-form');
-    const formGeneral = document.getElementById('contact-form');
-
-    btnInquiry.addEventListener('click', () => {
-      formInquiry.style.display = 'block';
-      formGeneral.style.display = 'none';
-      
-      btnInquiry.style.backgroundColor = 'var(--color-primary)';
-      btnInquiry.style.color = 'white';
-      btnInquiry.style.borderColor = 'var(--color-primary)';
-      
-      btnGeneral.style.backgroundColor = 'transparent';
-      btnGeneral.style.color = 'var(--color-text-dark)';
-      btnGeneral.style.borderColor = 'var(--color-border)';
-    });
-
-    btnGeneral.addEventListener('click', () => {
-      formInquiry.style.display = 'none';
-      formGeneral.style.display = 'block';
-
-      btnGeneral.style.backgroundColor = 'var(--color-primary)';
-      btnGeneral.style.color = 'white';
-      btnGeneral.style.borderColor = 'var(--color-primary)';
-
-      btnInquiry.style.backgroundColor = 'transparent';
-      btnInquiry.style.color = 'var(--color-text-dark)';
-      btnInquiry.style.borderColor = 'var(--color-border)';
-    });
-
-    // ── Interactive service cards sync ──
-    const serviceCards = document.querySelectorAll('.service-card-btn');
-    const selectService = document.getElementById('inq-service');
-
-    serviceCards.forEach(card => {
-      card.addEventListener('click', () => {
-        serviceCards.forEach(c => c.classList.remove('service-card-btn--active'));
-        card.classList.add('service-card-btn--active');
-        
-        const val = card.getAttribute('data-service-val');
-        selectService.value = val;
-      });
-    });
-
-    // ── Simulated Node HUD stats ──
-    const hudTime = document.getElementById('hud-time');
-    const hudPing = document.getElementById('hud-ping');
-    const hudUptime = document.getElementById('hud-uptime');
-
-    // 1. Live Node Clock in IST (UTC+5:30)
-    function updateNodeTime() {
-      const now = new Date();
-      // Calculate IST time (UTC+5.5 hours)
-      const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-      const istTime = new Date(utc + (3600000 * 5.5));
-      
-      let hrs = istTime.getHours().toString().padStart(2, '0');
-      let mins = istTime.getMinutes().toString().padStart(2, '0');
-      let secs = istTime.getSeconds().toString().padStart(2, '0');
-      
-      if (hudTime) {
-        hudTime.textContent = `${hrs}:${mins}:${secs}`;
-      }
-    }
-    setInterval(updateNodeTime, 1000);
-    updateNodeTime();
-
-    // 2. Simulated Latency/Ping
-    function updateNodePing() {
-      const ping = Math.floor(Math.random() * (58 - 32 + 1)) + 32;
-      if (hudPing) {
-        hudPing.textContent = `PING: ${ping} ms`;
-      }
-    }
-    setInterval(updateNodePing, 3000);
-    updateNodePing();
-
-    // 3. Dynamic Uptime fraction fluctuation
-    let baseUptime = 99.9824;
-    function updateNodeUptime() {
-      const fluctuation = (Math.random() - 0.5) * 0.0004;
-      baseUptime = Math.min(99.9999, Math.max(99.9500, baseUptime + fluctuation));
-      if (hudUptime) {
-        hudUptime.textContent = baseUptime.toFixed(4) + '%';
-      }
-    }
-    setInterval(updateNodeUptime, 5000);
-    updateNodeUptime();
-  </script>
 </body>
 </html>
