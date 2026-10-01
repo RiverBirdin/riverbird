@@ -2033,6 +2033,106 @@ function initContactPageDetails() {
   if (mapOpenLink) {
     mapOpenLink.href = RIVERBIRD_CONTACT.mapsUrl;
   }
+
+  initContactEnquiryServiceSelect();
+}
+
+function initContactEnquiryServiceSelect() {
+  const wrap = document.querySelector('.contact-enquiry-select-wrap');
+  if (!wrap) return;
+
+  const native = wrap.querySelector('.contact-enquiry-select-native');
+  const trigger = wrap.querySelector('.contact-enquiry-select');
+  const valueEl = wrap.querySelector('.contact-enquiry-select__value');
+  const menu = wrap.querySelector('.contact-enquiry-select__menu');
+  const options = [...wrap.querySelectorAll('.contact-enquiry-select__option[role="option"]')];
+  const formGroup = wrap.closest('.form-group');
+  if (!native || !trigger || !valueEl || !menu || !options.length) return;
+
+  let focusIndex = -1;
+
+  function closeMenu() {
+    menu.hidden = true;
+    trigger.setAttribute('aria-expanded', 'false');
+    formGroup?.classList.remove('is-dropdown-open');
+    focusIndex = -1;
+    options.forEach((opt) => opt.classList.remove('is-focused'));
+  }
+
+  function openMenu() {
+    menu.hidden = false;
+    trigger.setAttribute('aria-expanded', 'true');
+    formGroup?.classList.add('is-dropdown-open');
+  }
+
+  function setValue(value, label) {
+    native.value = value;
+    native.dispatchEvent(new Event('change', { bubbles: true }));
+    valueEl.textContent = label;
+    valueEl.classList.remove('is-placeholder');
+    options.forEach((opt) => {
+      const selected = opt.dataset.value === value;
+      opt.setAttribute('aria-selected', selected ? 'true' : 'false');
+    });
+    closeMenu();
+    trigger.focus();
+  }
+
+  trigger.addEventListener('click', () => {
+    if (menu.hidden) openMenu();
+    else closeMenu();
+  });
+
+  options.forEach((opt, index) => {
+    opt.addEventListener('click', () => {
+      setValue(opt.dataset.value, opt.textContent.trim());
+    });
+    opt.addEventListener('mouseenter', () => {
+      focusIndex = index;
+      options.forEach((o, i) => o.classList.toggle('is-focused', i === index));
+    });
+  });
+
+  trigger.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (menu.hidden) openMenu();
+      if (e.key === 'ArrowDown' && options[0]) {
+        focusIndex = 0;
+        options[0].classList.add('is-focused');
+      }
+    } else if (e.key === 'Escape') {
+      closeMenu();
+    }
+  });
+
+  menu.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      closeMenu();
+      trigger.focus();
+      return;
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      focusIndex = Math.min(focusIndex + 1, options.length - 1);
+      options.forEach((o, i) => o.classList.toggle('is-focused', i === focusIndex));
+      options[focusIndex]?.focus();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      focusIndex = Math.max(focusIndex - 1, 0);
+      options.forEach((o, i) => o.classList.toggle('is-focused', i === focusIndex));
+      options[focusIndex]?.focus();
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      const opt = options[focusIndex];
+      if (opt) setValue(opt.dataset.value, opt.textContent.trim());
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!wrap.contains(e.target)) closeMenu();
+  });
 }
 
 function applyCareersDepartment(dept) {
