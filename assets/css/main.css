@@ -4981,8 +4981,10 @@ section::before {
   align-items: center;
 }
 
-.personal-brand__video video {
+.personal-brand__video video,
+.personal-brand__video .personal-brand__video-el {
   width: 280px;
+  max-width: 100%;
   height: auto;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
