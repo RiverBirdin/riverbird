@@ -105,15 +105,15 @@ const RIVERBIRD_GBP = {
 function getRiverbirdMapsUrls() {
   const placeId = (RIVERBIRD_GBP.placeId || '').trim();
   const label = encodeURIComponent(RIVERBIRD_CONTACT.legalName);
-  const coords = `${RIVERBIRD_MAP.lat},${RIVERBIRD_MAP.lng}`;
-
+  const { lat, lng, zoom } = RIVERBIRD_MAP;
+  const coords = `${lat},${lng}`;
   const mapsUrl = placeId
     ? `https://www.google.com/maps/search/?api=1&query=${label}&query_place_id=${encodeURIComponent(placeId)}`
     : `https://www.google.com/maps/search/?api=1&query=${coords}`;
 
-  const mapsEmbedUrl = placeId
-    ? `https://www.google.com/maps?q=${encodeURIComponent(`place_id:${placeId}`)}&hl=en&z=${RIVERBIRD_MAP.zoom}&output=embed`
-    : `https://www.google.com/maps?q=${coords}(${label})&hl=en&z=${RIVERBIRD_MAP.zoom}&output=embed`;
+  // Lat/lng embed — place_id in ?q= often fails in iframes (world view). Coordinates zoom reliably.
+  const mapsEmbedUrl =
+    `https://www.google.com/maps?q=${lat},${lng}&hl=en&z=${zoom}&output=embed`;
 
   return { mapsEmbedUrl, mapsUrl };
 }
@@ -2005,6 +2005,7 @@ function initContactPageDetails() {
   document.querySelectorAll('[data-rb-contact="address"]').forEach((el) => {
     el.innerHTML = `${RIVERBIRD_CONTACT.legalName},<br />${RIVERBIRD_CONTACT.addressHtml}`;
   });
+
   const mapFrame = document.getElementById('rb-contact-map');
   if (mapFrame) {
     mapFrame.src = RIVERBIRD_CONTACT.mapsEmbedUrl;
