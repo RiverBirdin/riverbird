@@ -18,6 +18,13 @@ function resolvePath(path) {
   return `${base}${cleanPath}`;
 }
 
+/** Desktop-only decorative effects (skip touch / reduced-motion for smoother scrolling). */
+function shouldRunHeavyEffects() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+  if (window.matchMedia('(pointer: coarse)').matches) return false;
+  return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+}
+
 function initLayout() {
   const headerContainer = document.getElementById('header-slot');
   const footerContainer = document.getElementById('footer-slot');
@@ -1114,9 +1121,10 @@ const revealObserver = new IntersectionObserver((entries) => {
     if (entry.isIntersecting) {
       entry.target.classList.add('reveal--visible');
 
-      // Trigger After Effects style decrypt/scramble on headings in the revealed section
-      const headings = entry.target.querySelectorAll('h1, h2, .h1, .h2');
-      headings.forEach(h => scrambleText(h));
+      if (shouldRunHeavyEffects()) {
+        const headings = entry.target.querySelectorAll('h1, h2, .h1, .h2');
+        headings.forEach(h => scrambleText(h));
+      }
 
       revealObserver.unobserve(entry.target);
     }
@@ -1153,13 +1161,16 @@ const counterObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.2 });
 
 function initAnimations() {
-  initCursorGlow();
-  initCardTilt();
+  if (shouldRunHeavyEffects()) {
+    initCursorGlow();
+    initCardTilt();
+    initParallax();
+    initMouseTrail();
+  }
+
   initScrollProgress();
   initSectionIndicators();
-  initParallax();
   initStaggerAnimations();
-  initMouseTrail();
 
   scanAndObserve(document.body);
   initMutationObserver();
@@ -1320,11 +1331,21 @@ function initScrollProgress() {
     document.body.appendChild(progressBar);
   }
 
-  window.addEventListener('scroll', () => {
-    const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (window.scrollY / windowHeight);
-    progressBar.style.transform = `scaleX(${scrolled})`;
-  });
+  let scrollProgressTicking = false;
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (scrollProgressTicking) return;
+      scrollProgressTicking = true;
+      requestAnimationFrame(() => {
+        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = windowHeight > 0 ? window.scrollY / windowHeight : 0;
+        progressBar.style.transform = `scaleX(${scrolled})`;
+        scrollProgressTicking = false;
+      });
+    },
+    { passive: true }
+  );
 }
 
 function initSectionIndicators() {
@@ -1348,37 +1369,57 @@ function initSectionIndicators() {
     indicator.appendChild(dot);
   });
 
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      if (window.scrollY >= sectionTop - 200) {
-        current = section.getAttribute('id');
-      }
-    });
+  let sectionIndicatorTicking = false;
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (sectionIndicatorTicking) return;
+      sectionIndicatorTicking = true;
+      requestAnimationFrame(() => {
+        let current = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          if (window.scrollY >= sectionTop - 200) {
+            current = section.getAttribute('id');
+          }
+        });
 
-    const dots = indicator.querySelectorAll('.section-indicator__dot');
-    dots.forEach((dot, index) => {
-      dot.classList.remove('active');
-      if (sections[index] && sections[index].getAttribute('id') === current) {
-        dot.classList.add('active');
-      }
-    });
-  });
+        const dots = indicator.querySelectorAll('.section-indicator__dot');
+        dots.forEach((dot, index) => {
+          dot.classList.remove('active');
+          if (sections[index] && sections[index].getAttribute('id') === current) {
+            dot.classList.add('active');
+          }
+        });
+        sectionIndicatorTicking = false;
+      });
+    },
+    { passive: true }
+  );
 }
 
 function initParallax() {
   const parallaxElements = document.querySelectorAll('.parallax-layer');
   if (parallaxElements.length === 0) return;
 
-  window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY;
-    parallaxElements.forEach((el, index) => {
-      const speed = el.dataset.speed || (index + 1) * 0.5;
-      const yPos = -(scrolled * speed);
-      el.style.transform = `translateY(${yPos}px)`;
-    });
-  });
+  let parallaxTicking = false;
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (parallaxTicking) return;
+      parallaxTicking = true;
+      requestAnimationFrame(() => {
+        const scrolled = window.scrollY;
+        parallaxElements.forEach((el, index) => {
+          const speed = el.dataset.speed || (index + 1) * 0.5;
+          const yPos = -(scrolled * speed);
+          el.style.transform = `translate3d(0, ${yPos}px, 0)`;
+        });
+        parallaxTicking = false;
+      });
+    },
+    { passive: true }
+  );
 }
 
 function initStaggerAnimations() {
@@ -1484,6 +1525,8 @@ function initMouseTrail() {
 function initLiquidBackground() {
   const canvas = document.querySelector('.liquid-canvas');
   if (!canvas) return;
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const ctx = canvas.getContext('2d');
   let animationFrameId;
@@ -1609,17 +1652,21 @@ function initLiquidBackground() {
     }
   }
 
+  const isLightCanvas =
+    window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
   const blobs = [];
-  const blobCount = 5;
+  const blobCount = isLightCanvas ? 2 : 5;
   for (let i = 0; i < blobCount; i++) {
     blobs.push(new Blob(canvas.width, canvas.height));
   }
 
   const mouseBlob = new Blob(canvas.width, canvas.height, true);
-  blobs.push(mouseBlob);
+  if (!isLightCanvas) {
+    blobs.push(mouseBlob);
+  }
 
   const energyNodes = [];
-  const nodeCount = 6;
+  const nodeCount = isLightCanvas ? 2 : 6;
   for (let i = 0; i < nodeCount; i++) {
     energyNodes.push(new EnergyNode(canvas.width, canvas.height));
   }
