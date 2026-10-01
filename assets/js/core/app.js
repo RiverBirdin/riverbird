@@ -92,11 +92,19 @@ const RIVERBIRD_CONTACT = {
 const RIVERBIRD_MAP = {
   lat: 10.835896,
   lng: 78.690229,
-  zoom: 18
+  zoom: 18,
+  /** Official Maps embed (place card + correct “Open in Maps” target). */
+  embedUrl:
+    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.678520222997!2d78.68761557504281!3d10.835895589316477!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3baaf5cf17277963%3A0xb6d3a96e4390a34!2sRiverbird.in%20%7C%20Digital%20Marketing%20Agency!5e0!3m2!1sen!2sin!4v1790852215501!5m2!1sen!2sin',
+  /** Same listing as embed (hex place reference from GBP). */
+  mapsPlaceUrl:
+    'https://www.google.com/maps/place/Riverbird.in+%7C+Digital+Marketing+Agency/@10.8358956,78.6902292,17z/data=!4m6!3m5!1s0x3baaf5cf17277963:0xb6d3a96e4390a34!8m2!3d10.8358956!4d78.6902292'
 };
 
 const RIVERBIRD_GBP = {
   placeId: 'ChIJY3knF8_1qjsRNAo55JY6bQs',
+  /** Name shown on Google Business Profile (for map links & embed label). */
+  mapsListingName: 'Riverbird.in | Digital Marketing Agency',
   mapsUrl: '',
   /** Footer line under stars, e.g. "15+" → "Based on 15+ reviews" */
   footerReviewCountDisplay: '15+'
@@ -104,16 +112,16 @@ const RIVERBIRD_GBP = {
 
 function getRiverbirdMapsUrls() {
   const placeId = (RIVERBIRD_GBP.placeId || '').trim();
-  const label = encodeURIComponent(RIVERBIRD_CONTACT.legalName);
-  const { lat, lng, zoom } = RIVERBIRD_MAP;
-  const coords = `${lat},${lng}`;
-  const mapsUrl = placeId
-    ? `https://www.google.com/maps/search/?api=1&query=${label}&query_place_id=${encodeURIComponent(placeId)}`
-    : `https://www.google.com/maps/search/?api=1&query=${coords}`;
+  const listingName = encodeURIComponent(RIVERBIRD_GBP.mapsListingName || RIVERBIRD_CONTACT.businessName);
 
-  // Lat/lng embed — place_id in ?q= often fails in iframes (world view). Coordinates zoom reliably.
-  const mapsEmbedUrl =
-    `https://www.google.com/maps?q=${lat},${lng}&hl=en&z=${zoom}&output=embed`;
+  // Full GBP listing (reviews, hours, photos) — matches embed place card.
+  const mapsUrl =
+    RIVERBIRD_MAP.mapsPlaceUrl ||
+    (placeId
+      ? `https://www.google.com/maps/search/?api=1&query=${listingName}&query_place_id=${encodeURIComponent(placeId)}`
+      : `https://www.google.com/maps/search/?api=1&query=${listingName}`);
+
+  const mapsEmbedUrl = RIVERBIRD_MAP.embedUrl;
 
   return { mapsEmbedUrl, mapsUrl };
 }
@@ -1184,8 +1192,13 @@ const counterObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.2 });
 
+function isLightPerformancePage() {
+  const page = document.body.getAttribute('data-page');
+  return page === 'contact' || page === 'legal';
+}
+
 function initAnimations() {
-  if (shouldRunHeavyEffects()) {
+  if (!isLightPerformancePage() && shouldRunHeavyEffects()) {
     initCursorGlow();
     initCardTilt();
     initParallax();
@@ -1193,7 +1206,9 @@ function initAnimations() {
   }
 
   initScrollProgress();
-  initSectionIndicators();
+  if (!isLightPerformancePage()) {
+    initSectionIndicators();
+  }
   initStaggerAnimations();
 
   scanAndObserve(document.body);
@@ -1282,12 +1297,13 @@ function scrambleText(element) {
 
 function initCardTilt() {
   if (window.matchMedia('(pointer: coarse)').matches) return;
+  if (document.body.getAttribute('data-page') === 'contact') return;
 
   document.body.addEventListener('mousemove', (e) => {
     const card = e.target.closest('.card, .value-card, .stat-card');
     if (!card) return;
 
-    if (card.classList.contains('card-showcase')) return;
+    if (card.classList.contains('card-showcase') || card.classList.contains('contact-enquiry-form')) return;
 
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -1550,6 +1566,7 @@ function initLiquidBackground() {
   const canvas = document.querySelector('.liquid-canvas');
   if (!canvas) return;
 
+  if (isLightPerformancePage()) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const ctx = canvas.getContext('2d');
@@ -2059,8 +2076,7 @@ function isHoneypotTripped(form) {
 
 function initForms() {
   initProductionSafety();
-  bindFormSubmit('contact-form', 'Contact inquiry successfully submitted! We will reach out to you within 24 hours.');
-  bindFormSubmit('inquiry-form', 'Business inquiry successfully received. A growth architect will contact you shortly.');
+  bindFormSubmit('enquiry-form', 'Thank you — your enquiry was received. We will contact you within one business day.');
   bindFormSubmit('apply-form', 'Your application was successfully uploaded. Our recruitment cell will review it.');
 }
 
@@ -2103,6 +2119,20 @@ function bindFormSubmit(formId, successMsg) {
         err.className = 'form-error-msg';
         err.textContent = 'Please enter a valid email address.';
         emailInput.parentElement.appendChild(err);
+      }
+    }
+
+    const phoneInput = form.querySelector('input[type="tel"]');
+    if (phoneInput && phoneInput.hasAttribute('required')) {
+      const digits = phoneInput.value.replace(/\D/g, '');
+      if (digits.length < 10 || digits.length > 15) {
+        hasError = true;
+        phoneInput.classList.add('form-input--error');
+
+        const err = document.createElement('span');
+        err.className = 'form-error-msg';
+        err.textContent = 'Please enter a valid phone number (10–15 digits).';
+        phoneInput.parentElement.appendChild(err);
       }
     }
 
