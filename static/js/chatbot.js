@@ -1,95 +1,187 @@
 /**
- * RiverBird Overlay Chatbot Client Script — Humanized Support Interface
+ * RiverBird chat — keyword replies, in-session context only (no stored conversations).
+ * Leads: name → phone → service (pills) → confirm → POST to api/chatbot/submit-lead.php
  */
-
 (function () {
-  let isLeadCaptured = localStorage.getItem('rb_lead_captured') === 'true';
-  let chatHistory = [];
-  let currentServiceInterest = 'General Inquiry';
+  const SERVICE_OPTIONS = [
+    'Web Engineering',
+    'SEO & Ranking',
+    'Digital Marketing',
+    'Staffing Solutions',
+    'Careers',
+    'General Inquiry'
+  ];
+
+  const INTENTS = [
+    {
+      id: 'web',
+      service: 'Web Engineering',
+      keywords: ['web', 'website', 'engineering', 'development', 'software', 'app', 'application'],
+      reply:
+        'We build **websites, web apps, and software** with a focus on performance and maintainability. Would you like our team to reach out with next steps?',
+      pills: ['Yes, share my details', 'Tell me about SEO', 'Get a Quote']
+    },
+    {
+      id: 'seo',
+      service: 'SEO & Ranking',
+      keywords: ['seo', 'google', 'ranking', 'search', 'lighthouse', 'visibility'],
+      reply:
+        'Our **SEO** work covers technical audits, on-page structure, and content strategy to improve rankings in Tiruchirappalli and beyond. Shall I connect you with a strategist?',
+      pills: ['Yes, share my details', 'Digital Marketing', 'Get a Quote']
+    },
+    {
+      id: 'marketing',
+      service: 'Digital Marketing',
+      keywords: ['marketing', 'social', 'ads', 'meta', 'ppc', 'brand', 'campaign'],
+      reply:
+        'We handle **digital marketing** — social media, paid ads, branding, and lead generation. Want a quick callback from our team?',
+      pills: ['Yes, share my details', 'Web Engineering', 'Get a Quote']
+    },
+    {
+      id: 'staffing',
+      service: 'Staffing Solutions',
+      keywords: ['staffing', 'hire', 'talent', 'recruit', 'manpower', 'hr'],
+      reply:
+        'Our **staffing** team helps you hire vetted developers, designers, and operations talent. Should we collect your details for a recruiter to call?',
+      pills: ['Yes, share my details', 'Careers', 'Get a Quote']
+    },
+    {
+      id: 'careers',
+      service: 'Careers',
+      keywords: ['career', 'careers', 'job', 'jobs', 'intern', 'internship', 'hiring', 'vacancy'],
+      reply:
+        'Explore roles on our **Careers** page — IT, digital marketing, and internships in Trichy. I can also pass your details to our HR team.',
+      pills: ['Yes, share my details', 'View careers page', 'General question']
+    },
+    {
+      id: 'quote',
+      service: 'General Inquiry',
+      keywords: ['quote', 'price', 'pricing', 'cost', 'proposal', 'contact', 'call', 'reach'],
+      reply:
+        'Happy to help with a **custom quote**. I’ll ask for your name, phone, and service — then we’ll email our team (no chat history is saved).',
+      pills: ['Continue', 'Speak to team now']
+    }
+  ];
+
+  /** In-memory session only — cleared on refresh. */
+  const session = {
+    step: 'chat',
+    intent: '',
+    service: '',
+    name: '',
+    phone: '',
+    openedAt: Date.now(),
+    leadSubmitted: false
+  };
 
   function getApiBase() {
-    const host = window.location.hostname;
-    if (host === 'localhost' || host === '127.0.0.1') {
-      return window.location.origin;
-    }
-    if (host === 'riverbird.in' || host.endsWith('.riverbird.in')) {
-      return 'https://riverbird.in';
-    }
     return window.location.origin;
   }
 
-  const API_BASE = getApiBase();
+  const LEAD_ENDPOINT = `${getApiBase()}/api/chatbot/submit-lead.php`;
 
-  function getLogoPath() {
+  function resolvePath(path) {
     const baseAttr = document.documentElement.getAttribute('data-base');
     const base = baseAttr !== null ? baseAttr : '';
-    return `${base}assets/img/RiverBird_Ore_logo.jpg`;
+    const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+    return `${base}${cleanPath}`;
+  }
+
+  function getLogoPath() {
+    return resolvePath('assets/img/RiverBird_Ore_logo.jpg');
   }
 
   function getFormattedTime() {
-    const now = new Date();
-    return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 
-  // Inject Chatbot HTML Structure
+  function delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function formatMarkdown(text) {
+    if (!text) return '';
+    return text
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n\n/g, '<br/><br/>')
+      .replace(/\n/g, '<br/>');
+  }
+
+  function normalizeText(text) {
+    return text.toLowerCase().replace(/[^\w\s+&]/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+
+  function matchIntent(text) {
+    const norm = normalizeText(text);
+    for (const intent of INTENTS) {
+      if (intent.keywords.some((kw) => norm.includes(kw))) {
+        return intent;
+      }
+    }
+    return null;
+  }
+
   function initChatbot() {
     if (document.getElementById('rb-chat-launcher')) return;
 
     const logoUrl = getLogoPath();
 
     const chatbotHTML = `
-      <!-- Floating Pop-up Greeting Badge -->
-      <div id="rb-chat-pop-badge" class="rb-chat-pop-badge">
-        <div class="rb-pop-text">Hi, How can i help you?</div>
+      <div id="rb-chat-pop-badge" class="rb-chat-pop-badge" role="status">
+        <div class="rb-pop-text">Hi, how can I help you?</div>
         <div class="rb-pop-arrow"></div>
       </div>
 
-      <!-- Floating Launcher -->
-      <button id="rb-chat-launcher" class="rb-chat-launcher" aria-label="Open Chat Support">
-        <img src="${logoUrl}" alt="RiverBird Logo" class="rb-launcher-logo" />
+      <button id="rb-chat-launcher" class="rb-chat-launcher" type="button" aria-label="Open chat support" aria-controls="rb-chat-container" aria-expanded="false">
+        <img src="${logoUrl}" alt="" class="rb-launcher-logo" />
       </button>
 
-      <!-- Chat Drawer Overlay -->
-      <div id="rb-chat-container" class="rb-chat-container">
-        <!-- Header -->
+      <div id="rb-chat-container" class="rb-chat-container" role="dialog" aria-modal="true" aria-labelledby="rb-chat-title" hidden>
         <div class="rb-chat-header">
           <div class="rb-chat-header-info">
             <div class="rb-chat-avatar-wrapper">
-              <img src="${logoUrl}" alt="RiverBird Support" class="rb-chat-logo-img" />
-              <span class="rb-avatar-online-dot"></span>
+              <img src="${logoUrl}" alt="" class="rb-chat-logo-img" />
+              <span class="rb-avatar-online-dot" aria-hidden="true"></span>
             </div>
             <div>
-              <div class="rb-chat-header-title">RiverBird Client Support</div>
+              <div id="rb-chat-title" class="rb-chat-header-title">RiverBird Client Support</div>
               <div class="rb-chat-header-status">
-                <span class="rb-chat-status-pulse"></span> Active Now • Instant Answers
+                <span class="rb-chat-status-pulse" aria-hidden="true"></span> Active now • Guided answers
               </div>
             </div>
           </div>
-          <button id="rb-chat-close" class="rb-chat-close-btn" aria-label="Close Chat">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <button id="rb-chat-close" class="rb-chat-close-btn" type="button" aria-label="Close chat">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
           </button>
         </div>
 
-        <!-- Chat Body -->
-        <div id="rb-chat-body" class="rb-chat-body">
+        <div id="rb-chat-body" class="rb-chat-body" aria-live="polite" aria-relevant="additions">
           <div class="rb-chat-time-divider">Today</div>
-          
           <div class="rb-chat-msg-row rb-msg-bot">
             <div class="rb-msg-avatar">
-              <img src="${logoUrl}" alt="RiverBird" />
+              <img src="${logoUrl}" alt="" />
             </div>
             <div class="rb-msg-content-box">
               <div class="rb-chat-msg rb-chat-msg-bot">
-                Hello there!  Welcome to RiverBird Support. I'm here to assist you with <strong>Web Engineering</strong>, <strong>Digital Marketing</strong>, <strong>SEO</strong>, <strong>Staffing</strong>, or <strong>Career Opportunities</strong>!
-                <div class="rb-chat-pills" id="initial-pills">
-                  <button class="rb-chat-pill" onclick="window.sendChatPill('Tell me about Web Development')"> Web Engineering</button>
-                  <button class="rb-chat-pill" onclick="window.sendChatPill('How can SEO help my site?')"> SEO Ranking</button>
-                  <button class="rb-chat-pill" onclick="window.sendChatPill('Digital Marketing Solutions')">Marketing</button>
-                  <button class="rb-chat-pill" onclick="window.sendChatPill('Tell me about Career Opportunities')"> Careers</button>
-                  <button class="rb-chat-pill" onclick="window.sendChatPill('Get a Custom Quote')"> Get a Quote</button>
+                Hello! Welcome to RiverBird Support. Ask about <strong>Web Engineering</strong>, <strong>SEO</strong>, <strong>Marketing</strong>, <strong>Staffing</strong>, or <strong>Careers</strong> — or tap a topic below.
+                <div class="rb-chat-pills" data-rb-pills>
+                  <button type="button" class="rb-chat-pill" data-rb-pill="Web Engineering">Web Engineering</button>
+                  <button type="button" class="rb-chat-pill" data-rb-pill="SEO and ranking">SEO Ranking</button>
+                  <button type="button" class="rb-chat-pill" data-rb-pill="Digital Marketing">Marketing</button>
+                  <button type="button" class="rb-chat-pill" data-rb-pill="Career opportunities">Careers</button>
+                  <button type="button" class="rb-chat-pill" data-rb-pill="Get a custom quote">Get a Quote</button>
                 </div>
               </div>
               <div class="rb-msg-timestamp">${getFormattedTime()}</div>
@@ -97,11 +189,12 @@
           </div>
         </div>
 
-        <!-- Footer Input -->
         <div class="rb-chat-footer">
-          <input type="text" id="rb-chat-input" class="rb-chat-input" placeholder="Type your message..." autocomplete="off" />
-          <button id="rb-chat-send" class="rb-chat-send-btn" aria-label="Send">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <label class="sr-only" for="rb-chat-input">Type your message</label>
+          <input type="text" id="rb-chat-input" class="rb-chat-input" placeholder="Type your message..." autocomplete="off" maxlength="500" />
+          <input type="text" id="rb-chat-honeypot" name="company_website" class="rb-chat-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <button id="rb-chat-send" class="rb-chat-send-btn" type="button" aria-label="Send message">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
               <line x1="22" y1="2" x2="11" y2="13"></line>
               <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
             </svg>
@@ -114,7 +207,6 @@
     attachEvents();
   }
 
-  // Attach Event Listeners
   function attachEvents() {
     const launcher = document.getElementById('rb-chat-launcher');
     const popBadge = document.getElementById('rb-chat-pop-badge');
@@ -122,23 +214,25 @@
     const closeBtn = document.getElementById('rb-chat-close');
     const sendBtn = document.getElementById('rb-chat-send');
     const input = document.getElementById('rb-chat-input');
+    const chatBody = document.getElementById('rb-chat-body');
 
-    const toggleChat = () => {
-      container.classList.toggle('active');
-      launcher.classList.toggle('active');
-      if (container.classList.contains('active')) {
+    const setOpen = (open) => {
+      container.classList.toggle('active', open);
+      launcher.classList.toggle('active', open);
+      container.hidden = !open;
+      launcher.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) {
         popBadge.classList.add('hidden');
+        session.openedAt = Date.now();
         input.focus();
       } else {
         popBadge.classList.remove('hidden');
       }
     };
 
-    launcher.addEventListener('click', toggleChat);
+    launcher.addEventListener('click', () => setOpen(!container.classList.contains('active')));
     if (popBadge) {
-      popBadge.addEventListener('click', toggleChat);
-      
-      // Trigger springy pop-out animation 2.5s after page refresh / load
+      popBadge.addEventListener('click', () => setOpen(true));
       setTimeout(() => {
         if (!container.classList.contains('active')) {
           popBadge.classList.add('popped');
@@ -146,81 +240,228 @@
       }, 2500);
     }
 
-    closeBtn.addEventListener('click', () => {
-      container.classList.remove('active');
-      launcher.classList.remove('active');
-      popBadge.classList.remove('hidden');
+    closeBtn.addEventListener('click', () => setOpen(false));
+
+    sendBtn.addEventListener('click', () => handleSend());
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleSend();
+      }
     });
 
-    sendBtn.addEventListener('click', handleSend);
-    input.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') handleSend();
+    chatBody.addEventListener('click', (e) => {
+      const pill = e.target.closest('[data-rb-pill]');
+      if (!pill) return;
+      const value = pill.getAttribute('data-rb-pill') || pill.textContent.trim();
+      handleUserMessage(value);
     });
   }
 
-  // Window global function for suggested pill buttons
   window.sendChatPill = function (text) {
-    const input = document.getElementById('rb-chat-input');
-    input.value = text;
-    handleSend();
+    handleUserMessage(text);
   };
 
-  // Format simple markdown (bold text & linebreaks)
-  function formatMarkdown(text) {
-    if (!text) return '';
-    let formatted = text
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\n\n/g, '<br/><br/>')
-      .replace(/\n/g, '<br/>');
-    return formatted;
-  }
-
-  // Handle User Message Sending
   async function handleSend() {
     const input = document.getElementById('rb-chat-input');
     const userMsg = input.value.trim();
     if (!userMsg) return;
-
     input.value = '';
-    appendMessage(userMsg, 'user');
-    chatHistory.push({ role: 'user', content: userMsg });
+    await handleUserMessage(userMsg);
+  }
 
+  async function handleUserMessage(userMsg) {
+    appendMessage(userMsg, 'user');
     showTypingIndicator();
+    await delay(350);
+    removeTypingIndicator();
+    await processUserInput(userMsg);
+  }
+
+  async function processUserInput(text) {
+    const norm = normalizeText(text);
+
+    if (session.leadSubmitted) {
+      appendMessage('Your details were already sent. For urgent help, call **+91 99949 67655** or visit our contact page.', 'bot', [
+        'Ask another question'
+      ]);
+      session.step = 'chat';
+      return;
+    }
+
+    if (norm === 'view careers page' || norm.includes('view careers')) {
+      const careersUrl = resolvePath('careers_index.html');
+      appendMessage(`Open **[Careers](${careersUrl})** to see open roles. You can also share your details here for HR.`, 'bot', [
+        'Yes, share my details',
+        'Back to topics'
+      ]);
+      return;
+    }
+
+    if (norm === 'try again' && session.name && session.phone && session.service && !session.leadSubmitted) {
+      session.step = 'confirm';
+      await submitLead();
+      return;
+    }
+
+    if (norm === 'ask another question' || norm === 'back to topics' || norm === 'general question') {
+      session.step = 'chat';
+      appendMessage('What would you like to know about?', 'bot', [
+        'Web Engineering',
+        'SEO and ranking',
+        'Get a custom quote'
+      ]);
+      return;
+    }
+
+    if (
+      session.step === 'chat' &&
+      ((norm.includes('yes') && norm.includes('detail')) ||
+        norm === 'continue' ||
+        norm === 'speak to team now' ||
+        norm.includes('share my'))
+    ) {
+      beginLeadCapture();
+      return;
+    }
+
+    switch (session.step) {
+      case 'collect_name':
+        if (text.length < 2 || text.length > 80) {
+          appendMessage('Please enter your **full name** (at least 2 characters).', 'bot');
+          return;
+        }
+        session.name = text.trim();
+        session.step = 'collect_phone';
+        appendMessage(`Thanks, **${escapeHtml(session.name)}**. What is the best **phone or WhatsApp** number to reach you? (e.g. +91 99949 67655)`, 'bot');
+        return;
+
+      case 'collect_phone': {
+        const digits = text.replace(/\D/g, '');
+        if (digits.length < 10 || digits.length > 15) {
+          appendMessage('Please enter a valid **phone number** with at least 10 digits.', 'bot');
+          return;
+        }
+        session.phone = text.trim();
+        session.step = 'collect_service';
+        appendMessage('Which **service** are you interested in? Choose one:', 'bot', SERVICE_OPTIONS);
+        return;
+      }
+
+      case 'collect_service': {
+        const picked = SERVICE_OPTIONS.find(
+          (s) => normalizeText(s) === norm || norm.includes(normalizeText(s))
+        );
+        if (picked) {
+          session.service = picked;
+          showConfirmSummary();
+          return;
+        }
+        appendMessage('Please pick a **service** using the buttons below.', 'bot', SERVICE_OPTIONS);
+        return;
+      }
+
+      case 'confirm':
+        if (norm === 'yes' || norm === 'send' || norm.includes('confirm')) {
+          await submitLead();
+          return;
+        }
+        if (norm === 'no' || norm.includes('edit') || norm.includes('change')) {
+          session.step = 'collect_name';
+          appendMessage("No problem. Let's start again — what is your **name**?", 'bot');
+          return;
+        }
+        appendMessage('Reply **Send** to notify our team, or **Edit** to change your details.', 'bot', ['Send', 'Edit']);
+        return;
+
+      default:
+        break;
+    }
+
+    const intent = matchIntent(text);
+    if (intent) {
+      session.intent = intent.id;
+      if (!session.service) {
+        session.service = intent.service;
+      }
+      appendMessage(intent.reply, 'bot', intent.pills);
+      return;
+    }
+
+    if (session.intent) {
+      appendMessage(
+        'I can help with **Web**, **SEO**, **Marketing**, **Staffing**, **Careers**, or a **quote**. Say "share my details" to reach our team.',
+        'bot',
+        ['Yes, share my details', 'Get a custom quote']
+      );
+      return;
+    }
+
+    appendMessage(
+      "I'm not sure I caught that. Try a topic below or type **quote**, **SEO**, or **careers**.",
+      'bot',
+      ['Web Engineering', 'SEO and ranking', 'Get a custom quote', 'Yes, share my details']
+    );
+  }
+
+  function beginLeadCapture() {
+    session.step = 'collect_name';
+    appendMessage('Great — I’ll collect **name**, **phone**, and **service** (nothing is stored in this chat after you close the page). What is your **name**?', 'bot');
+  }
+
+  function showConfirmSummary() {
+    session.step = 'confirm';
+    appendMessage(
+      `Please confirm:\n\n**Name:** ${escapeHtml(session.name)}\n**Phone:** ${escapeHtml(session.phone)}\n**Service:** ${escapeHtml(session.service)}\n\nSend this to **info@riverbird.in**?`,
+      'bot',
+      ['Send', 'Edit']
+    );
+  }
+
+  async function submitLead() {
+    showTypingIndicator();
+    const honeypot = document.getElementById('rb-chat-honeypot');
+    const payload = {
+      name: session.name,
+      phone: session.phone,
+      service: session.service,
+      intent: session.intent || '',
+      opened_at: session.openedAt,
+      company_website: honeypot ? honeypot.value : ''
+    };
 
     try {
-      const response = await fetch(`${API_BASE}/api/chatbot/message`, {
+      const response = await fetch(LEAD_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMsg, history: chatHistory })
+        body: JSON.stringify(payload)
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
       removeTypingIndicator();
 
-      if (data.text) {
-        appendMessage(data.text, 'bot', data.suggested_questions);
-        chatHistory.push({ role: 'bot', content: data.text });
-
-        if (data.service) {
-          currentServiceInterest = data.service;
-        }
-
-        // Show Lead Capture Form if AI recommends or upon user request
-        if (data.prompt_lead || userMsg.toLowerCase().includes('quote') || userMsg.toLowerCase().includes('call') || userMsg.toLowerCase().includes('contact')) {
-          setTimeout(() => renderLeadForm(currentServiceInterest), 400);
-        }
+      if (response.ok && data.success) {
+        session.leadSubmitted = true;
+        session.step = 'done';
+        appendMessage(
+          `Thank you, **${escapeHtml(session.name)}**! Our team will contact you soon at **${escapeHtml(session.phone)}** about **${escapeHtml(session.service)}**.`,
+          'bot'
+        );
       } else {
-        appendMessage("I'm sorry, I couldn't process that request right now. Please try again or contact our team directly!", 'bot');
+        appendMessage(data.error || 'Could not send your details. Please call **+91 99949 67655** or use our contact page.', 'bot', [
+          'Try again',
+          'Get a custom quote'
+        ]);
+        session.step = 'confirm';
       }
     } catch (err) {
-      console.error('Chatbot error:', err);
       removeTypingIndicator();
-      appendMessage("Something went wrong connecting to RiverBird. Please check your connection and try again.", 'bot');
+      appendMessage('Network error. Please try again or contact us at **info@riverbird.in**.', 'bot', ['Send', 'Edit']);
+      session.step = 'confirm';
     }
   }
 
-  // Append Message to Chat Body with Humanized Layout & Timestamps
-  function appendMessage(text, sender, suggestedQuestions = null) {
+  function appendMessage(text, sender, pillLabels = null) {
     const chatBody = document.getElementById('rb-chat-body');
     const timeStr = getFormattedTime();
 
@@ -238,7 +479,7 @@
       const logoUrl = getLogoPath();
       const botRow = document.createElement('div');
       botRow.className = 'rb-chat-msg-row rb-msg-bot';
-      
+
       const contentBox = document.createElement('div');
       contentBox.className = 'rb-msg-content-box';
 
@@ -246,14 +487,16 @@
       msgDiv.className = 'rb-chat-msg rb-chat-msg-bot';
       msgDiv.innerHTML = formatMarkdown(text);
 
-      if (suggestedQuestions && suggestedQuestions.length > 0) {
+      if (pillLabels && pillLabels.length > 0) {
         const pillsDiv = document.createElement('div');
         pillsDiv.className = 'rb-chat-pills';
-        suggestedQuestions.forEach(q => {
+        pillsDiv.setAttribute('data-rb-pills', '');
+        pillLabels.forEach((label) => {
           const pill = document.createElement('button');
+          pill.type = 'button';
           pill.className = 'rb-chat-pill';
-          pill.textContent = q;
-          pill.onclick = () => window.sendChatPill(q);
+          pill.setAttribute('data-rb-pill', label);
+          pill.textContent = label;
           pillsDiv.appendChild(pill);
         });
         msgDiv.appendChild(pillsDiv);
@@ -262,11 +505,7 @@
       contentBox.appendChild(msgDiv);
       contentBox.insertAdjacentHTML('beforeend', `<div class="rb-msg-timestamp">${timeStr}</div>`);
 
-      botRow.innerHTML = `
-        <div class="rb-msg-avatar">
-          <img src="${logoUrl}" alt="RiverBird" />
-        </div>
-      `;
+      botRow.innerHTML = `<div class="rb-msg-avatar"><img src="${logoUrl}" alt="" /></div>`;
       botRow.appendChild(contentBox);
       chatBody.appendChild(botRow);
     }
@@ -274,24 +513,17 @@
     chatBody.scrollTop = chatBody.scrollHeight;
   }
 
-  function escapeHtml(str) {
-    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  }
-
-  // Typing Indicator
   function showTypingIndicator() {
     const chatBody = document.getElementById('rb-chat-body');
+    if (document.getElementById('rb-typing-indicator')) return;
     const logoUrl = getLogoPath();
     const typingDiv = document.createElement('div');
     typingDiv.id = 'rb-typing-indicator';
     typingDiv.className = 'rb-chat-msg-row rb-msg-bot';
+    typingDiv.setAttribute('aria-hidden', 'true');
     typingDiv.innerHTML = `
-      <div class="rb-msg-avatar">
-        <img src="${logoUrl}" alt="RiverBird" />
-      </div>
-      <div class="rb-chat-typing">
-        <span></span><span></span><span></span>
-      </div>
+      <div class="rb-msg-avatar"><img src="${logoUrl}" alt="" /></div>
+      <div class="rb-chat-typing"><span></span><span></span><span></span></div>
     `;
     chatBody.appendChild(typingDiv);
     chatBody.scrollTop = chatBody.scrollHeight;
@@ -302,92 +534,6 @@
     if (typingDiv) typingDiv.remove();
   }
 
-  // Render Humanized Lead Collection Contact Form inside Chat
-  function renderLeadForm(serviceName) {
-    const chatBody = document.getElementById('rb-chat-body');
-    if (document.getElementById('rb-lead-card')) return;
-
-    const cardDiv = document.createElement('div');
-    cardDiv.id = 'rb-lead-card';
-    cardDiv.className = 'rb-lead-card';
-    cardDiv.innerHTML = `
-      <div class="rb-lead-card-header">
-        <div class="rb-lead-card-icon">📩</div>
-        <div>
-          <div class="rb-lead-card-title">Connect with RiverBird Team</div>
-          <div class="rb-lead-card-subtitle">Share your details and our team will get back to you with custom info & pricing.</div>
-        </div>
-      </div>
-
-      <form id="rb-lead-form-element" class="rb-lead-form">
-        <div class="rb-input-group">
-          <label for="rb-lead-name">Your Full Name</label>
-          <input type="text" id="rb-lead-name" placeholder="e.g. Alex Morgan" autocomplete="name" />
-        </div>
-        <div class="rb-input-group">
-          <label for="rb-lead-email">Email Address *</label>
-          <input type="email" id="rb-lead-email" placeholder="name@company.com" required autocomplete="email" />
-        </div>
-        <div class="rb-input-group">
-          <label for="rb-lead-phone">Phone / WhatsApp Number *</label>
-          <input type="tel" id="rb-lead-phone" placeholder="e.g. +91 99949 67655" required autocomplete="tel" />
-        </div>
-        <button type="submit" class="rb-lead-btn">Submit Contact Details ➔</button>
-      </form>
-      <div id="rb-lead-status" class="rb-lead-status"></div>
-    `;
-
-    chatBody.appendChild(cardDiv);
-    chatBody.scrollTop = chatBody.scrollHeight;
-
-    document.getElementById('rb-lead-form-element').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('rb-lead-name').value.trim();
-      const email = document.getElementById('rb-lead-email').value.trim();
-      const phone = document.getElementById('rb-lead-phone').value.trim();
-      const statusDiv = document.getElementById('rb-lead-status');
-
-      if (!email || !phone) {
-        statusDiv.style.color = '#EF4444';
-        statusDiv.textContent = 'Please enter both Email and Phone Number.';
-        return;
-      }
-
-      statusDiv.style.color = '#3B82F6';
-      statusDiv.textContent = 'Submitting details...';
-
-      try {
-        const response = await fetch(`${API_BASE}/api/chatbot/submit-lead`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: name,
-            email: email,
-            phone: phone,
-            service: serviceName,
-            message: chatHistory.length > 0 ? chatHistory[chatHistory.length - 1].content : ''
-          })
-        });
-
-        const resData = await response.json();
-        if (resData.success) {
-          isLeadCaptured = true;
-          localStorage.setItem('rb_lead_captured', 'true');
-          cardDiv.remove();
-          appendMessage(`🎉 Thank you ${name || ''}! We've received your contact details. Our team will reach out to you shortly!`, 'bot');
-        } else {
-          statusDiv.style.color = '#EF4444';
-          statusDiv.textContent = resData.error || 'Failed to submit details.';
-        }
-      } catch (err) {
-        console.error('Lead submit error:', err);
-        statusDiv.style.color = '#EF4444';
-        statusDiv.textContent = 'Network error. Please try again.';
-      }
-    });
-  }
-
-  // Load when DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initChatbot);
   } else {

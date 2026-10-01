@@ -7,3 +7,5 @@ static/uploads/*
 .env
 instance/
 assets/js/config.secrets.js
+api/chatbot/config.php
+api/chatbot/storage/rate/

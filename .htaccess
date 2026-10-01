@@ -5,6 +5,13 @@
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
   Header set X-XSS-Protection "1; mode=block"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+  <FilesMatch "\.(css|js|png|jpg|jpeg|webp|gif|ico|svg|woff2|woff|webmanifest)$">
+    Header set Cache-Control "public, max-age=604800, stale-while-revalidate=86400"
+  </FilesMatch>
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
 </IfModule>
 
 DirectoryIndex index.html
