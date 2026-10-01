@@ -31309,9 +31309,8 @@ section::after {
   pointer-events: none !important;
 }
 
-/* Google Reviews — live footer widget (review-widget.net / GBP) */
-.footer-google-reviews,
-.footer-google-reviews .review-widget_net {
+/* Google Reviews — first-party footer badge (data from Google Places or GRW API) */
+.footer-google-reviews {
   font-family: var(--font-secondary);
 }
 

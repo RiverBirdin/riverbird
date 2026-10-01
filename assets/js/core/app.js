@@ -86,9 +86,8 @@ const RIVERBIRD_CONTACT = {
 const RIVERBIRD_GBP = {
   placeId: 'ChIJY3knF8_1qjsRNAo55JY6bQs',
   mapsUrl: RIVERBIRD_CONTACT.mapsUrl,
-  /** Optional: use if review-widget.net lags behind Google until Places API key is set */
-  overrideReviewCount: null,
-  overrideRating: null
+  /** Footer line under stars, e.g. "15+" → "Based on 15+ reviews" */
+  footerReviewCountDisplay: '15+'
 };
 
 const RIVERBIRD_SOCIAL = {
@@ -169,15 +168,59 @@ function getPlacesApiKey() {
   return (window.RIVERBIRD_SECRETS?.placesApiKey || '').trim();
 }
 
-async function fetchLiveGbpStatsFromGoogle() {
-  await ensureRiverbirdSecrets();
-  const apiKey = getPlacesApiKey();
-  const placeId = (RIVERBIRD_GBP.placeId || '').trim();
+let googleMapsLoaderPromise = null;
 
-  if (!apiKey || !placeId) {
-    return null;
+function loadGoogleMapsApi(apiKey) {
+  if (window.google?.maps?.importLibrary) {
+    return Promise.resolve();
+  }
+  if (googleMapsLoaderPromise) {
+    return googleMapsLoaderPromise;
   }
 
+  googleMapsLoaderPromise = new Promise((resolve, reject) => {
+    const existing = document.querySelector('script[data-riverbird-gmaps]');
+    if (existing) {
+      existing.addEventListener('load', () => resolve(), { once: true });
+      existing.addEventListener('error', () => reject(new Error('Maps JS failed')), { once: true });
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(apiKey)}&loading=async&libraries=places`;
+    script.async = true;
+    script.defer = true;
+    script.dataset.riverbirdGmaps = 'true';
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error('Maps JS failed'));
+    document.head.appendChild(script);
+  });
+
+  return googleMapsLoaderPromise;
+}
+
+async function fetchLiveGbpStatsFromMapsJs(apiKey, placeId) {
+  try {
+    await loadGoogleMapsApi(apiKey);
+    const { Place } = await google.maps.importLibrary('places');
+    const place = new Place({ id: placeId });
+    await place.fetchFields({ fields: ['rating', 'userRatingCount', 'googleMapsURI'] });
+
+    if (typeof place.userRatingCount !== 'number') {
+      return null;
+    }
+
+    return {
+      rating: typeof place.rating === 'number' ? place.rating : 5,
+      count: place.userRatingCount,
+      url: place.googleMapsURI || RIVERBIRD_GBP.mapsUrl
+    };
+  } catch (e) {
+    return null;
+  }
+}
+
+async function fetchLiveGbpStatsFromPlacesRest(apiKey, placeId) {
   try {
     const response = await fetch(`https://places.googleapis.com/v1/places/${placeId}`, {
       headers: {
@@ -201,43 +244,70 @@ async function fetchLiveGbpStatsFromGoogle() {
   }
 }
 
-function resolveGbpDisplayStats(placesStats) {
+/** Live rating + count from Google (Maps JS in browser; REST is a fallback). */
+async function fetchLiveGbpStatsFromGoogle() {
+  await ensureRiverbirdSecrets();
+  const apiKey = getPlacesApiKey();
+  const placeId = (RIVERBIRD_GBP.placeId || '').trim();
+
+  if (!apiKey || !placeId) {
+    return null;
+  }
+
+  const mapsJsStats = await fetchLiveGbpStatsFromMapsJs(apiKey, placeId);
+  if (mapsJsStats) {
+    return mapsJsStats;
+  }
+
+  return fetchLiveGbpStatsFromPlacesRest(apiKey, placeId);
+}
+
+/** Read rating/count from review-widget API HTML (data source only; we render our own badge). */
+function parseGrwWidgetStats(widgetHtml) {
+  if (!widgetHtml) return null;
+
+  const countMatch = widgetHtml.match(/Based on\s+(\d+)\s+reviews?/i);
+  if (!countMatch) return null;
+
+  const count = parseInt(countMatch[1], 10);
+  let rating = 5;
+
+  const ratingMatch =
+    widgetHtml.match(/class="[^"]*grw-net-text[^"]*"[^>]*>\s*(\d+(?:\.\d+)?)/i) ||
+    widgetHtml.match(/class="[^"]*grw[^"]*rating[^"]*"[^>]*>\s*(\d+(?:\.\d+)?)/i);
+
+  if (ratingMatch) {
+    rating = parseFloat(ratingMatch[1]);
+  }
+
+  return {
+    rating: Number.isFinite(rating) ? rating : 5,
+    count,
+    url: RIVERBIRD_GBP.mapsUrl
+  };
+}
+
+function resolveFooterGbpStats(placesStats, widgetHtml) {
   if (placesStats) {
     return placesStats;
   }
-
-  const count = RIVERBIRD_GBP.overrideReviewCount;
-  const rating = RIVERBIRD_GBP.overrideRating;
-
-  if (typeof count === 'number' && count >= 0) {
-    return {
-      rating: typeof rating === 'number' ? rating : 5,
-      count,
-      url: RIVERBIRD_GBP.mapsUrl
-    };
-  }
-
-  return null;
+  return parseGrwWidgetStats(widgetHtml);
 }
 
-function patchGrwWidgetReviewStats(widgetHtml, stats) {
-  if (!widgetHtml || !stats) return widgetHtml;
-
-  let html = widgetHtml;
-  html = html.replace(/Based on\s+\d+\s+reviews/gi, `Based on ${stats.count} reviews`);
-
-  if (typeof stats.rating === 'number') {
-    const ratingText = stats.rating.toFixed(1);
-    html = html.replace(/(<div[^>]*class="[^"]*grw-net-text[^"]*"[^>]*>)\s*\d+\.\d+\s*(<\/div>)/i, `$1${ratingText}$2`);
-    html = html.replace(/(<span[^>]*class="[^"]*grw-net[^"]*rating[^"]*"[^>]*>)\s*\d+\.\d+\s*(<\/span>)/i, `$1${ratingText}$2`);
+function formatFooterReviewCountLine(stats) {
+  const custom = (RIVERBIRD_GBP.footerReviewCountDisplay || '').trim();
+  if (custom) {
+    return `Based on ${custom} reviews`;
   }
-
-  return html;
+  if (stats.count === 1) {
+    return 'Based on 1 review';
+  }
+  return `Based on ${stats.count} reviews`;
 }
 
 function buildFallbackGbpBadge(stats) {
   const ratingText = stats.rating.toFixed(1);
-  const reviewLabel = stats.count === 1 ? '1 review' : `${stats.count} reviews`;
+  const reviewLabel = formatFooterReviewCountLine(stats);
 
   return `
     <a class="rb-gbp-badge" href="${stats.url}" target="_blank" rel="noopener noreferrer">
@@ -255,22 +325,10 @@ function buildFallbackGbpBadge(stats) {
           <strong class="rb-gbp-badge__rating">${ratingText}</strong>
           <span class="rb-gbp-badge__stars" aria-label="${ratingText} out of 5 stars">★★★★★</span>
         </span>
-        <span class="rb-gbp-badge__count">Based on ${reviewLabel}</span>
+        <span class="rb-gbp-badge__count">${reviewLabel}</span>
       </span>
     </a>
   `;
-}
-
-function mountHtmlWithScripts(container, html) {
-  container.innerHTML = html;
-  container.querySelectorAll('script').forEach((oldScript) => {
-    const script = document.createElement('script');
-    Array.from(oldScript.attributes).forEach((attr) => {
-      script.setAttribute(attr.name, attr.value);
-    });
-    script.textContent = oldScript.textContent;
-    oldScript.replaceWith(script);
-  });
 }
 
 async function loadFooterGoogleReviews() {
@@ -284,12 +342,7 @@ async function loadFooterGoogleReviews() {
     fetchGrwWidgetMarkup()
   ]);
 
-  const displayStats = resolveGbpDisplayStats(placesStats);
-
-  if (widgetHtml) {
-    mountHtmlWithScripts(mount, patchGrwWidgetReviewStats(widgetHtml, displayStats));
-    return;
-  }
+  const displayStats = resolveFooterGbpStats(placesStats, widgetHtml);
 
   if (displayStats) {
     mount.innerHTML = buildFallbackGbpBadge(displayStats);
@@ -309,7 +362,7 @@ function initReviewWidget() {
     if (document.visibilityState === 'visible') {
       loadFooterGoogleReviews();
     }
-  }, 15 * 60 * 1000);
+  }, 5 * 60 * 1000);
 
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
