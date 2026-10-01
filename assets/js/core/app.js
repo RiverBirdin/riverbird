@@ -82,20 +82,44 @@ const RIVERBIRD_CONTACT = {
   addressHtml:
     '15/1, Pasupatheswar kovil 1st Main Road,<br />Karur Bypass Rd, opp. to Kalaingar Arivalayam,<br />Melachinthamani, Tiruchirappalli, Tamil Nadu 620002',
   hudLocationCode: 'MELACHINTHAMANI_TRICHY_IN',
-  mapsEmbedUrl:
-    'https://www.google.com/maps?q=15%2F1%2C%20Pasupatheswar%20kovil%201st%20Main%20Road%2C%20Karur%20Bypass%20Rd%2C%20opp.%20to%20Kalaingar%20Arivalayam%2C%20Melachinthamani%2C%20Tiruchirappalli%2C%20Tamil%20Nadu%20620002&hl=en&z=16&output=embed',
-  mapsUrl:
-    'https://www.google.com/maps/search/?api=1&query=15%2F1%2C%20Pasupatheswar%20kovil%201st%20Main%20Road%2C%20Karur%20Bypass%20Rd%2C%20opp.%20to%20Kalaingar%20Arivalayam%2C%20Melachinthamani%2C%20Tiruchirappalli%2C%20Tamil%20Nadu%20620002',
   whatsappUrl:
-    'https://wa.me/919994967655?text=Hi%20RiverBird%2C%20I%20would%20like%20a%20quick%20response%20from%20your%20team.'
+    'https://wa.me/919994967655?text=Hi%20RiverBird%2C%20I%20would%20like%20a%20quick%20response%20from%20your%20team.',
+  mapsEmbedUrl: '',
+  mapsUrl: ''
+};
+
+/** Pin aligned with Google Business Profile (Place ID). */
+const RIVERBIRD_MAP = {
+  lat: 10.835896,
+  lng: 78.690229,
+  zoom: 18
 };
 
 const RIVERBIRD_GBP = {
   placeId: 'ChIJY3knF8_1qjsRNAo55JY6bQs',
-  mapsUrl: RIVERBIRD_CONTACT.mapsUrl,
+  mapsUrl: '',
   /** Footer line under stars, e.g. "15+" → "Based on 15+ reviews" */
   footerReviewCountDisplay: '15+'
 };
+
+function getRiverbirdMapsUrls() {
+  const placeId = (RIVERBIRD_GBP.placeId || '').trim();
+  const label = encodeURIComponent(RIVERBIRD_CONTACT.legalName);
+  const coords = `${RIVERBIRD_MAP.lat},${RIVERBIRD_MAP.lng}`;
+
+  const mapsUrl = placeId
+    ? `https://www.google.com/maps/search/?api=1&query=${label}&query_place_id=${encodeURIComponent(placeId)}`
+    : `https://www.google.com/maps/search/?api=1&query=${coords}`;
+
+  const mapsEmbedUrl = placeId
+    ? `https://www.google.com/maps?q=${encodeURIComponent(`place_id:${placeId}`)}&hl=en&z=${RIVERBIRD_MAP.zoom}&output=embed`
+    : `https://www.google.com/maps?q=${coords}(${label})&hl=en&z=${RIVERBIRD_MAP.zoom}&output=embed`;
+
+  return { mapsEmbedUrl, mapsUrl };
+}
+
+Object.assign(RIVERBIRD_CONTACT, getRiverbirdMapsUrls());
+RIVERBIRD_GBP.mapsUrl = RIVERBIRD_CONTACT.mapsUrl;
 
 const RIVERBIRD_SOCIAL = {
   facebook: 'https://www.facebook.com/profile.php?id=61559792591988',
@@ -1797,36 +1821,46 @@ function initPageKeywords() {
   document.head.appendChild(meta);
 }
 
-function initFaqAccordions(root = document) {
-  root.querySelectorAll('.faq-question').forEach((btn) => {
-    if (btn.dataset.rbFaqBound) return;
-    btn.dataset.rbFaqBound = 'true';
-    btn.addEventListener('click', function onFaqClick() {
-      const item = this.closest('.faq-item');
-      const answer = item?.querySelector('.faq-answer');
-      if (!item || !answer) return;
-      const isOpen = item.classList.contains('is-open');
-      const list = item.closest('.faq-list');
-      if (list) {
-        list.querySelectorAll('.faq-item.is-open').forEach((openItem) => {
-          if (openItem !== item) {
-            openItem.classList.remove('is-open');
-            openItem.querySelector('.faq-question')?.setAttribute('aria-expanded', 'false');
-            const openAnswer = openItem.querySelector('.faq-answer');
-            if (openAnswer) openAnswer.style.maxHeight = '0';
-          }
-        });
-      }
-      if (isOpen) {
-        item.classList.remove('is-open');
-        this.setAttribute('aria-expanded', 'false');
-        answer.style.maxHeight = '0';
-      } else {
-        item.classList.add('is-open');
-        this.setAttribute('aria-expanded', 'true');
-        answer.style.maxHeight = `${answer.scrollHeight}px`;
+const FAQ_CHEVRON_ICON =
+  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
+
+let rbFaqAccordionDelegated = false;
+
+function toggleFaqButtonItem(btn) {
+  const item = btn.closest('.faq-item');
+  if (!item || item.tagName === 'DETAILS') return;
+
+  const isOpen = item.classList.contains('is-open');
+  const list = item.closest('.faq-list');
+
+  if (list) {
+    list.querySelectorAll('.faq-item.is-open, .faq-item.faq-item--open').forEach((openItem) => {
+      if (openItem !== item) {
+        openItem.classList.remove('is-open', 'faq-item--open');
+        const openBtn = openItem.querySelector('button.faq-question');
+        if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
       }
     });
+  }
+
+  if (isOpen) {
+    item.classList.remove('is-open', 'faq-item--open');
+    btn.setAttribute('aria-expanded', 'false');
+  } else {
+    item.classList.add('is-open');
+    item.classList.remove('faq-item--open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+}
+
+function initFaqAccordions() {
+  if (rbFaqAccordionDelegated) return;
+  rbFaqAccordionDelegated = true;
+
+  document.addEventListener('click', (event) => {
+    const btn = event.target.closest('button.faq-question');
+    if (!btn) return;
+    toggleFaqButtonItem(btn);
   });
 }
 
@@ -1834,8 +1868,8 @@ function buildFaqItem(question, answer, delayClass = '') {
   return `
     <div class="faq-item reveal ${delayClass}">
       <button class="faq-question" type="button" aria-expanded="false">
-        <span>${question}</span>
-        <span class="faq-icon" aria-hidden="true">+</span>
+        <span class="faq-question__text">${question}</span>
+        <span class="faq-icon" aria-hidden="true">${FAQ_CHEVRON_ICON}</span>
       </button>
       <div class="faq-answer"><p class="body-text">${answer}</p></div>
     </div>
@@ -1922,7 +1956,6 @@ function ensurePageFaqCoverage() {
       </div>
     `;
     main.appendChild(section);
-    initFaqAccordions(section);
     return;
   }
 
@@ -1938,7 +1971,20 @@ function ensurePageFaqCoverage() {
     added += 1;
   });
 
-  if (added) initFaqAccordions(list);
+}
+
+function initDetailsFaqs() {
+  document.querySelectorAll('details.faq-item').forEach((item) => {
+    const summary = item.querySelector('summary.faq-question');
+    if (!summary || summary.dataset.rbDetailsFaqBound) return;
+    summary.dataset.rbDetailsFaqBound = 'true';
+
+    const sync = () => {
+      summary.setAttribute('aria-expanded', item.open ? 'true' : 'false');
+    };
+    item.addEventListener('toggle', sync);
+    sync();
+  });
 }
 
 function initContactPageDetails() {
@@ -1962,6 +2008,12 @@ function initContactPageDetails() {
   const mapFrame = document.getElementById('rb-contact-map');
   if (mapFrame) {
     mapFrame.src = RIVERBIRD_CONTACT.mapsEmbedUrl;
+    mapFrame.setAttribute('title', `${RIVERBIRD_CONTACT.legalName} — Tiruchirappalli office map`);
+  }
+
+  const mapOpenLink = document.getElementById('rb-contact-map-link');
+  if (mapOpenLink) {
+    mapOpenLink.href = RIVERBIRD_CONTACT.mapsUrl;
   }
 }
 
@@ -2918,6 +2970,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initForms();
 
   initFaqAccordions();
+  initDetailsFaqs();
   ensurePageFaqCoverage();
   initContactPageDetails();
 
