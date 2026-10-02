@@ -1377,16 +1377,16 @@ function initTechStackScrollReveal() {
 
   // Muted opacity baselines
   const MUTED_WORD_OPACITY = 0.12;
-  const MUTED_BADGE_OPACITY = 0.08;
+  const MUTED_BADGE_OPACITY = 0.28;
 
   // Overall viewport intersection animation window
-  const REVEAL_START_RATIO = 0.12;
-  const REVEAL_END_RATIO   = 0.85;
+  const REVEAL_START_RATIO = 0.02;
+  const REVEAL_END_RATIO   = 0.62;
 
   // Smoothly interpolated progress arrays
   const wordProgress  = new Float32Array(WORD_COUNT).fill(0);
   const badgeProgress = new Float32Array(BADGE_COUNT).fill(0);
-  const LERP_SPEED    = 0.09;
+  const LERP_SPEED    = 0.18;
 
   let rafId = null;
   let dirty = false;
@@ -1402,26 +1402,26 @@ function initTechStackScrollReveal() {
     return Math.min(1, Math.max(0, remapped));
   }
 
-  /** Phase 1: Words animate from sectionProgress 0.00 to 0.48 */
+  /** Phase 1: Words reveal quickly as the section enters the viewport */
   function getWordTargetProgress(sectionProgress, wordIdx) {
     if (WORD_COUNT === 0) return 1;
     const windowStart = 0.00;
-    const windowEnd   = 0.48;
+    const windowEnd   = 0.30;
     const slice = (windowEnd - windowStart) / WORD_COUNT;
-    const wordStart = windowStart + wordIdx * slice * 0.85;
-    const wordEnd   = wordStart + slice * 1.5;
+    const wordStart = windowStart + wordIdx * slice * 0.7;
+    const wordEnd   = wordStart + slice * 1.25;
     const local = (sectionProgress - wordStart) / (wordEnd - wordStart);
     return Math.min(1, Math.max(0, local));
   }
 
-  /** Phase 2: Badges animate in staggered cascade from sectionProgress 0.24 to 0.84 */
+  /** Phase 2: Badges follow in a short, responsive stagger */
   function getBadgeTargetProgress(sectionProgress, badgeIdx) {
     if (BADGE_COUNT === 0) return 1;
-    const windowStart = 0.24;
-    const windowEnd   = 0.84;
+    const windowStart = 0.10;
+    const windowEnd   = 0.52;
     const slice = (windowEnd - windowStart) / BADGE_COUNT;
-    const badgeStart = windowStart + badgeIdx * slice * 0.7;
-    const badgeEnd   = badgeStart + slice * 2.0;
+    const badgeStart = windowStart + badgeIdx * slice * 0.55;
+    const badgeEnd   = badgeStart + slice * 1.5;
     const local = (sectionProgress - badgeStart) / (badgeEnd - badgeStart);
     return Math.min(1, Math.max(0, local));
   }
@@ -2713,6 +2713,56 @@ function initForms() {
   initProductionSafety();
   bindFormSubmit('enquiry-form', 'Thank you — your enquiry was received. We will contact you within one business day.');
   bindFormSubmit('apply-form', 'Your application was successfully uploaded. Our recruitment cell will review it.');
+  bindFormSubmit('web-quote-form', 'Thank you — your website requirements were received. Our development team will contact you within one business day.');
+  initWebQuoteModal();
+}
+
+function initWebQuoteModal() {
+  const dialog = document.getElementById('web-quote-dialog');
+  const openButton = document.getElementById('web-quote-open');
+  const closeButton = document.getElementById('web-quote-close');
+  if (!dialog || !openButton || !closeButton) return;
+
+  let returnFocusTo = null;
+
+  const openDialog = () => {
+    returnFocusTo = document.activeElement;
+    if (typeof dialog.showModal === 'function') {
+      dialog.showModal();
+    } else {
+      dialog.setAttribute('open', '');
+    }
+    document.body.classList.add('web-quote-modal-open');
+    window.requestAnimationFrame(() => {
+      const firstInput = dialog.querySelector('input, select, textarea');
+      if (firstInput) firstInput.focus();
+    });
+  };
+
+  const closeDialog = () => {
+    if (typeof dialog.close === 'function') {
+      dialog.close();
+    } else {
+      dialog.removeAttribute('open');
+      dialog.dispatchEvent(new Event('close'));
+    }
+  };
+
+  openButton.addEventListener('click', openDialog);
+  closeButton.addEventListener('click', closeDialog);
+
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) closeDialog();
+  });
+
+  dialog.addEventListener('cancel', () => {
+    document.body.classList.remove('web-quote-modal-open');
+  });
+
+  dialog.addEventListener('close', () => {
+    document.body.classList.remove('web-quote-modal-open');
+    if (returnFocusTo && typeof returnFocusTo.focus === 'function') returnFocusTo.focus();
+  });
 }
 
 function bindFormSubmit(formId, successMsg) {
