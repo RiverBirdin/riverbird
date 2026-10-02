@@ -20,7 +20,7 @@
   <meta name="theme-color" content="#F55D2D">
 </head>
 
-<body data-page="development-sub">
+<body data-page="development-sub" class="web-development-page">
 
   <a href="#main-content" class="skip-link">Skip to Content</a>
   <div class="cursor-glow"></div>
@@ -30,73 +30,46 @@
   <main id="main-content" class="liquid-wrapper">
 
     <!-- ═══ HERO ═══ -->
-    <section class="web-hero" id="web-hero">
-      <div class="container">
-        <div class="web-hero__grid">
-
-          <div class="reveal">
-            <div class="web-hero__eyebrow">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+    <section class="hero hero--service development-hero web-development-hero" id="web-hero">
+      <div class="container hero__container">
+        <div class="grid grid-2 web-development-hero__grid">
+          <div class="hero__content reveal">
+            <div class="hero__label-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <polyline points="16 18 22 12 16 6"></polyline>
                 <polyline points="8 6 2 12 8 18"></polyline>
               </svg>
               Development Division
             </div>
-            <h1 class="web-hero__title">
-              We Build Web<br>
-              <span class="accent">Experiences.</span>
+            <h1 class="display-text hero__title">
+              Web <span class="text-primary-color">Development.</span>
             </h1>
-            <p class="web-hero__desc">
+            <p class="hero__desc">
               Bespoke web applications built with clean vanilla technologies — from corporate business sites to
               real-time client portals and Shopify stores. Engineered for speed, designed for conversion.
             </p>
-            <div class="web-hero__actions">
+            <div class="hero__actions">
               <a href="contact_index.html" class="btn btn--primary magnetic-btn">Start Web Project &rarr;</a>
-              <a href="#web-portfolio" class="btn btn--outline magnetic-btn">View Our Work</a>
-            </div>
-            <div class="web-hero__stats">
-              <div>
-                <div class="web-hero__stat-num">50<span>+</span></div>
-                <div class="web-hero__stat-label">Websites Delivered</div>
-              </div>
-              <div>
-                <div class="web-hero__stat-num">100<span>/100</span></div>
-                <div class="web-hero__stat-label">Lighthouse Score</div>
-              </div>
-              <div>
-                <div class="web-hero__stat-num">0.3<span>s</span></div>
-                <div class="web-hero__stat-label">Avg. Page Load</div>
-              </div>
+              <a href="development_index.html" class="btn btn--outline btn--white magnetic-btn">All Solutions &rarr;</a>
             </div>
           </div>
 
-          <div class="web-hero__visual reveal delay-1">
-            <div class="web-hero__tech-badge">
-              <span>// WEB_BUILD_STACK</span><br>
-              HTML5 &nbsp;&#183;&nbsp; CSS3<br>JavaScript &nbsp;&#183;&nbsp; Vanilla
-            </div>
-            <div class="web-hero__img-wrap">
-              <img src="assets/img/web_dev_media.png" alt="Web Development Interface — Riverbird" loading="eager">
-            </div>
-            <div class="web-hero__score-badge">
-              <div class="web-hero__score-ring">
-                <svg viewBox="0 0 36 36" width="52" height="52">
-                  <path class="ring-bg"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
-                    stroke-width="2.5" />
-                  <path class="ring-val"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
-                    stroke-width="2.5" />
-                </svg>
-                <div class="web-hero__score-ring-label">100</div>
+          <div class="development-hero-visual reveal delay-1">
+            <div class="camera-viewport">
+              <div class="camera-hud-frame" aria-hidden="true">
+                <div class="hud-corner top-left"></div>
+                <div class="hud-corner top-right"></div>
+                <div class="hud-corner bottom-left"></div>
+                <div class="hud-corner bottom-right"></div>
               </div>
-              <div class="web-hero__badge-text">
-                <strong>Lighthouse Score</strong>
-                <p>Performance &middot; Accessibility &middot; SEO</p>
+              <div class="dev-hero-orb" aria-hidden="true"></div>
+              <div class="dev-hero-element web-development-hero__visual-frame">
+                <img src="assets/img/web_dev_media.png" alt="RiverBird web development interface" class="dev-hero-image"
+                  width="1024" height="1024" loading="eager">
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </section>
@@ -359,270 +332,331 @@
 
         <div class="bento-grid reveal delay-1">
 
-          <!-- Card 1: Mac Monitor – Fashyfi -->
-          <div class="bento-card bento-card--1">
-            <div class="bento-card__mockup mockup-bg-blue">
-              <img src="assets/img/development/mac_monitor_mockup.png" alt="Fashyfi Desktop" loading="lazy">
-              <!--div class="mockup-monitor">
-                <div class="mockup-monitor__shell">
-                  <div class="mockup-monitor__bar">
-                    <div class="mockup-monitor__dot"></div>
-                    <div class="mockup-monitor__dot"></div>
-                    <div class="mockup-monitor__dot"></div>
-                    <div class="mockup-monitor__url"></div>
-                  </div>
-                  <div class="mockup-monitor__screen">
-                    <img src="assets/img/development/iyx_hero.png" alt="Fashyfi Desktop" loading="lazy">
-                  </div>
-                </div>
-                <div class="mockup-monitor__stand"></div>
-                <div class="mockup-monitor__base"></div>
-              </div-->
+          <article class="bento-card bento-card--1">
+            <div class="bento-card__mockup">
+              <img src="assets/img/development/mac_monitor_mockup.png"
+                alt="MarkAt Chennai digital marketing agency website shown on a desktop monitor" loading="lazy">
             </div>
             <div class="bento-card__info">
               <div class="bento-card__tags">
-                <span class="bento-card__tag">E-Commerce</span>
-                <span class="bento-card__tag">Shopify</span>
-                <span class="bento-card__tag green">Live</span>
+                <span class="bento-card__tag">Agency Website</span>
+                <span class="bento-card__tag">Responsive</span>
               </div>
-              <div class="bento-card__name">Fashyfi &#8212; Fashion Retail Platform</div>
-              <div class="bento-card__desc">A full-featured online fashion store with curated product catalog, smart
-                filters, and seamless Razorpay checkout. Built for conversions with a 100/100 Lighthouse score.</div>
+              <h3 class="bento-card__name">MarkAt Chennai</h3>
+              <p class="bento-card__desc">A focused digital marketing agency website built to present services,
+                industry expertise, case studies, and consultation pathways clearly.</p>
               <div class="bento-card__footer">
-                <span class="bento-card__industry">Textile &amp; Fashion &#183; India</span>
-                <a href="https://fashyfi.com" class="bento-card__link" target="_blank" rel="noopener">
-                  Visit Site &rarr;
-                </a>
+                <span class="bento-card__industry">Digital Marketing Agency</span>
+                <a href="contact_index.html" class="bento-card__link">Project Details &rarr;</a>
               </div>
             </div>
-          </div>
+          </article>
 
-          <!-- Card 2: iPhone – Aha Restaurant -->
-          <div class="bento-card bento-card--2">
-            <div class="bento-card__mockup mockup-bg-green">
-              <img src="assets/img/development/classic_gypsum_mobile_mockup.png" alt="Aha Restaurant Mobile"
-                loading="lazy">
-              <!--div class="mockup-phone">
-                <div class="mockup-phone__shell">
-                  <div class="mockup-phone__notch"></div>
-                  <div class="mockup-phone__screen">
-                    <img src="assets/img/development/classic_gypsum_mobile_mockup.png" alt="Aha Restaurant Mobile"
-                      loading="lazy">
-                  </div>
-                </div>
-              </div-->
+          <article class="bento-card bento-card--2">
+            <div class="bento-card__mockup">
+              <img src="assets/img/development/classic_gypsum_mobile_mockup.png"
+                alt="Classic Gypsum supplier website shown on a mobile phone" loading="lazy">
+            </div>
+            <div class="bento-card__info">
+              <div class="bento-card__tags">
+                <span class="bento-card__tag">Product Catalogue</span>
+                <span class="bento-card__tag">Mobile-first</span>
+              </div>
+              <h3 class="bento-card__name">Classic Gypsum</h3>
+              <p class="bento-card__desc">A responsive product-led website for a supplier of gypsum boards, false
+                ceilings, and interior building products.</p>
+              <div class="bento-card__footer">
+                <span class="bento-card__industry">Interior Products Supplier</span>
+                <a href="contact_index.html" class="bento-card__link">Project Details &rarr;</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="bento-card bento-card--3">
+            <div class="bento-card__mockup">
+              <!-- Temporary visual until the final AM Briyani website mockup is supplied. -->
+              <img src="assets/img/development/ambriyani_laptop_monitor.png"
+                alt="AM Briyani restaurant website project placeholder" loading="lazy">
             </div>
             <div class="bento-card__info">
               <div class="bento-card__tags">
                 <span class="bento-card__tag">Restaurant</span>
-                <span class="bento-card__tag">UI/UX</span>
-                <span class="bento-card__tag green">Live</span>
+                <span class="bento-card__tag">Food &amp; Dining</span>
               </div>
-              <div class="bento-card__name">Aha Restaurant &#8212; Digital Menu &amp; Booking</div>
-              <div class="bento-card__desc">Mobile-first restaurant website featuring interactive digital menu, table
-                reservation system, and location map integration.</div>
+              <h3 class="bento-card__name">AM Briyani</h3>
+              <p class="bento-card__desc">A restaurant website designed to highlight signature dishes, brand story,
+                locations, and direct customer enquiries.</p>
               <div class="bento-card__footer">
-                <span class="bento-card__industry">Hospitality &#183; Chennai</span>
-                <a href="contact_index.html" class="bento-card__link">Details &rarr;</a>
+                <span class="bento-card__industry">Food Restaurant</span>
+                <a href="contact_index.html" class="bento-card__link">Project Details &rarr;</a>
               </div>
             </div>
-          </div>
+          </article>
 
-          <!-- Card 3: iPhone – Olivia Marketers -->
-          <div class="bento-card bento-card--3">
-            <div class="bento-card__mockup mockup-bg-purple">
-              <div class="mockup-phone">
-                <div class="mockup-phone__shell">
-                  <div class="mockup-phone__notch"></div>
-                  <div class="mockup-phone__screen">
-                    <img src="assets/img/seo-olivia.png" alt="Olivia Marketers" loading="lazy">
-                  </div>
-                </div>
-              </div>
+          <article class="bento-card bento-card--4">
+            <div class="bento-card__mockup">
+              <!-- Temporary visual until the final Sureshbhalaji website mockup is supplied. -->
+              <img src="assets/img/development/sureshbhalaji_mobile_mockup.png"
+                alt="Sureshbhalaji urology doctor personal branding website project placeholder" loading="lazy">
             </div>
             <div class="bento-card__info">
               <div class="bento-card__tags">
-                <span class="bento-card__tag">Corporate</span>
-                <span class="bento-card__tag">SEO Ranked</span>
-              </div>
-              <div class="bento-card__name">Olivia Marketers &#8212; Agency Hub</div>
-              <div class="bento-card__desc">High-converting agency website with dynamic service pages, client case study
-                modules, and automated contact funnel.</div>
-              <div class="bento-card__footer">
-                <span class="bento-card__industry">Marketing &amp; Media</span>
-                <a href="contact_index.html" class="bento-card__link">Details &rarr;</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 4: Laptop – SSIMS Education -->
-          <div class="bento-card bento-card--4">
-            <div class="bento-card__mockup mockup-bg-orange">
-              <img src="assets/img/development/iyx_monitor_mockup.png" alt="SSIMS Portal" loading="lazy">
-            </div>
-            <div class="bento-card__info">
-              <div class="bento-card__tags">
-                <span class="bento-card__tag">Education</span>
-                <span class="bento-card__tag">CMS Portal</span>
-              </div>
-              <div class="bento-card__name">SSIMS &#8212; Educational Institute Portal</div>
-              <div class="bento-card__desc">Institutional portal for admissions, department showcases, student notices,
-                and faculty management with headless backend architecture.</div>
-              <div class="bento-card__footer">
-                <span class="bento-card__industry">Education &amp; Research</span>
-                <a href="contact_index.html" class="bento-card__link">Details &rarr;</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 5: Mobile – Meenakshi Hospital -->
-          <div class="bento-card bento-card--5">
-            <div class="bento-card__mockup mockup-bg-teal">
-              <div class="mockup-phone">
-                <div class="mockup-phone__shell">
-                  <div class="mockup-phone__notch"></div>
-                  <div class="mockup-phone__screen">
-                    <img src="assets/img/seo-meenakshi.png" alt="Meenakshi Hospital" loading="lazy">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="bento-card__info">
-              <div class="bento-card__tags">
+                <span class="bento-card__tag">Personal Brand</span>
                 <span class="bento-card__tag">Healthcare</span>
-                <span class="bento-card__tag green">Live</span>
               </div>
-              <div class="bento-card__name">Meenakshi Hospital</div>
-              <div class="bento-card__desc">Doctor directory and appointment booking platform built for fast mobile load
-                times.</div>
+              <h3 class="bento-card__name">Sureshbhalaji</h3>
+              <p class="bento-card__desc">A trusted personal branding website for a urology doctor, presenting medical
+                expertise, treatments, patient information, and consultation access.</p>
               <div class="bento-card__footer">
-                <span class="bento-card__industry">Healthcare</span>
-                <a href="contact_index.html" class="bento-card__link">Details &rarr;</a>
+                <span class="bento-card__industry">Urology Specialist</span>
+                <a href="contact_index.html" class="bento-card__link">Project Details &rarr;</a>
               </div>
             </div>
-          </div>
+          </article>
 
-          <!-- Card 6: Mac Monitor – FitKits -->
-          <div class="bento-card bento-card--6">
-            <div class="bento-card__mockup mockup-bg-dark">
-              <img src="assets/img/development/dermiiz_monitor_mockup.png" alt="Dermiiz" loading="lazy">
+          <article class="bento-card bento-card--5">
+            <div class="bento-card__mockup">
+              <img src="assets/img/development/iyx_monitor_mockup.png"
+                alt="IYX Coin cryptocurrency website shown on a desktop monitor" loading="lazy">
             </div>
             <div class="bento-card__info">
               <div class="bento-card__tags">
-                <span class="bento-card__tag">E-Commerce</span>
-                <span class="bento-card__tag">Fitness</span>
-              </div>
-              <div class="bento-card__name">FitKits Store</div>
-              <div class="bento-card__desc">Supplements &amp; fitness equipment storefront with dynamic product bundles.
-              </div>
-              <div class="bento-card__footer">
-                <span class="bento-card__industry">Retail &amp; Health</span>
-                <a href="contact_index.html" class="bento-card__link">Details &rarr;</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 7: Laptop – Inocyx Web3 Platform -->
-          <div class="bento-card bento-card--7">
-            <div class="bento-card__mockup mockup-bg-blue">
-              <div class="mockup-laptop">
-                <div class="mockup-laptop__shell">
-                  <div class="mockup-laptop__camera"></div>
-                  <div class="mockup-laptop__screen">
-                    <img src="assets/img/software-development.png" alt="Inocyx Web3 Platform" loading="lazy">
-                  </div>
-                </div>
-                <div class="mockup-laptop__base"></div>
-                <div class="mockup-laptop__bottom"></div>
-              </div>
-            </div>
-            <div class="bento-card__info">
-              <div class="bento-card__tags">
-                <span class="bento-card__tag">FinTech</span>
+                <span class="bento-card__tag">React.js</span>
+                <span class="bento-card__tag">Tailwind CSS</span>
                 <span class="bento-card__tag">Web3</span>
               </div>
-              <div class="bento-card__name">Inocyx Web3 Platform</div>
-              <div class="bento-card__desc">Decentralized asset trading interface with real-time WebSocket chart feeds.
-              </div>
+              <h3 class="bento-card__name">IYX Coin</h3>
+              <p class="bento-card__desc">A bold cryptocurrency website focused on token information, community,
+                resources, and a clear path into the IYX ecosystem.</p>
               <div class="bento-card__footer">
-                <span class="bento-card__industry">FinTech</span>
-                <a href="contact_index.html" class="bento-card__link">Details &rarr;</a>
+                <span class="bento-card__industry">Crypto Coin</span>
+                <a href="contact_index.html" class="bento-card__link">Project Details &rarr;</a>
               </div>
             </div>
-          </div>
+          </article>
+
+          <article class="bento-card bento-card--6">
+            <div class="bento-card__mockup">
+              <img src="assets/img/development/dermiiz_monitor_mockup1.png"
+                alt="DermiiZ Skin and Hair Clinic website shown on a desktop monitor" loading="lazy">
+            </div>
+            <div class="bento-card__info">
+              <div class="bento-card__tags">
+                <span class="bento-card__tag">Clinic Website</span>
+                <span class="bento-card__tag">Healthcare</span>
+              </div>
+              <h3 class="bento-card__name">DermiiZ Skin &amp; Hair Clinic</h3>
+              <p class="bento-card__desc">A polished clinic website presenting dermatology, hair, and aesthetic
+                treatments with clear appointment and enquiry pathways.</p>
+              <div class="bento-card__footer">
+                <span class="bento-card__industry">Dermatology &amp; Aesthetics</span>
+                <a href="contact_index.html" class="bento-card__link">Project Details &rarr;</a>
+              </div>
+            </div>
+          </article>
 
         </div>
       </div>
     </section>
 
-    <!-- ═══ PROCESS SECTION ("How We Work") ═══ -->
-    <section class="web-process-section" id="how-we-work">
+    <!-- ═══ INTERACTIVE WORKFLOW SECTION ═══ -->
+    <section class="workflow-section web-process-section" id="how-we-work"
+      aria-label="Interactive Development Workflow">
       <div class="container">
         <div class="section-header center reveal">
-          <span class="label-text wipe-in" style="color: var(--color-secondary);">Workflow</span>
+          <span class="label-text wipe-in" style="color: var(--color-secondary);">Workflow Engine</span>
           <h2 class="h1" style="color: #ffffff;">Our Web Development Process</h2>
           <p class="body-text"
             style="color: rgba(255, 255, 255, 0.7); max-width: var(--max-width-narrow); margin: 0 auto;">
-            A disciplined, 4-stage engineering lifecycle — ensuring every project is delivered on schedule, fully
-            tested, and ready to scale.
+            A connected, node-based engineering pipeline. Drag any node to test dynamic linkages as each phase connects
+            to the next.
           </p>
         </div>
 
-        <div class="process-steps reveal delay-1">
-
-          <div class="process-step">
-            <span class="process-step__num">STEP 01</span>
-            <div class="process-step__icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
+        <div class="workflow-canvas-wrapper reveal delay-1">
+          <div class="workflow-canvas-toolbar">
+            <div class="workflow-canvas-pill">
+              <span class="workflow-canvas-pill__dot"></span>
+              <span>LIVE PIPELINE &middot; INTERACTIVE NODE CANVAS</span>
             </div>
-            <h3 class="process-step__title">Discovery &amp; Strategy</h3>
-            <p class="process-step__desc">We analyze your business objectives, map target user journeys, define tech
-              architecture, and establish clear scope milestones.</p>
+            <div class="workflow-canvas-actions">
+              <span class="workflow-canvas-hint">Drag any node</span>
+              <button type="button" class="workflow-canvas-reset" id="workflow-reset-btn"
+                aria-label="Reset Workflow Layout" title="Reset nodes to default positions">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                  <path d="M3 3v5h5" />
+                </svg>
+                <span>Reset Layout</span>
+              </button>
+            </div>
           </div>
 
-          <div class="process-step">
-            <span class="process-step__num">STEP 02</span>
-            <div class="process-step__icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polygon points="12 2 2 7 12 12 22 7 12 2" />
-                <polyline points="2 17 12 22 22 17" />
-                <polyline points="2 12 12 17 22 12" />
-              </svg>
-            </div>
-            <h3 class="process-step__title">UI/UX Wireframing</h3>
-            <p class="process-step__desc">Crafting high-fidelity interactive prototypes, responsive layout grids, and
-              design systems aligned with your brand identity.</p>
-          </div>
+          <div class="workflow-canvas" id="workflow-canvas">
+            <!-- Dynamic SVG Connections Layer -->
+            <svg class="workflow-connections" id="workflow-svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="workflow-line-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#F55D2D" stop-opacity="0.9" />
+                  <stop offset="50%" stop-color="#FF8C5A" stop-opacity="0.95" />
+                  <stop offset="100%" stop-color="#D4EE36" stop-opacity="0.9" />
+                </linearGradient>
+                <filter id="workflow-glow-filter" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="3" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
+              <g class="workflow-paths-group" id="workflow-paths-group"></g>
+            </svg>
 
-          <div class="process-step">
-            <span class="process-step__num">STEP 03</span>
-            <div class="process-step__icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="16 18 22 12 16 6" />
-                <polyline points="8 6 2 12 8 18" />
-              </svg>
+            <!-- 6 Draggable Workflow Nodes -->
+            <!-- Node 01: Discover -->
+            <div class="workflow-node" data-node-id="0" id="workflow-node-0" tabindex="0" role="group"
+              aria-label="Stage 1: Discover">
+              <span class="workflow-node__port workflow-node__port--in" aria-hidden="true"></span>
+              <div class="workflow-node__header">
+                <div class="workflow-node__icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <circle cx="12" cy="12" r="10" />
+                    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="currentColor" />
+                  </svg>
+                </div>
+                <span class="workflow-node__label">DISCOVER</span>
+              </div>
+              <h3 class="workflow-node__title">Discover</h3>
+              <p class="workflow-node__description">Understand your business, audience and project goals</p>
+              <div class="workflow-node__status">
+                <span class="workflow-node__status-arrow">&rarr;</span>
+                <span class="workflow-node__status-dot"></span>
+                <span class="workflow-node__status-text">CONNECTED</span>
+              </div>
+              <span class="workflow-node__port workflow-node__port--out" aria-hidden="true"></span>
             </div>
-            <h3 class="process-step__title">Vanilla Engineering</h3>
-            <p class="process-step__desc">Building performant HTML5, CSS3, and JavaScript code. Integrating APIs,
-              headless CMS backends, and payment gateways.</p>
-          </div>
 
-          <div class="process-step">
-            <span class="process-step__num">STEP 04</span>
-            <div class="process-step__icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                <polyline points="22 4 12 14.01 9 11.01" />
-              </svg>
+            <!-- Node 02: Strategy -->
+            <div class="workflow-node" data-node-id="1" id="workflow-node-1" tabindex="0" role="group"
+              aria-label="Stage 2: Strategy">
+              <span class="workflow-node__port workflow-node__port--in" aria-hidden="true"></span>
+              <div class="workflow-node__header">
+                <div class="workflow-node__icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="6" y1="3" x2="6" y2="15" />
+                    <circle cx="18" cy="6" r="3" />
+                    <circle cx="6" cy="18" r="3" />
+                    <path d="M18 9a9 9 0 0 1-9 9" />
+                  </svg>
+                </div>
+                <span class="workflow-node__label">STRATEGY</span>
+              </div>
+              <h3 class="workflow-node__title">Strategy</h3>
+              <p class="workflow-node__description">Define the structure, technology and user journey</p>
+              <div class="workflow-node__status">
+                <span class="workflow-node__status-arrow">&rarr;</span>
+                <span class="workflow-node__status-dot"></span>
+                <span class="workflow-node__status-text">CONNECTED</span>
+              </div>
+              <span class="workflow-node__port workflow-node__port--out" aria-hidden="true"></span>
             </div>
-            <h3 class="process-step__title">QA &amp; Cloud Launch</h3>
-            <p class="process-step__desc">Rigorous cross-device testing, Core Web Vitals optimization, SSL setup, and
-              seamless deployment to global CDN edge servers.</p>
-          </div>
 
+            <!-- Node 03: UI/UX Design -->
+            <div class="workflow-node" data-node-id="2" id="workflow-node-2" tabindex="0" role="group"
+              aria-label="Stage 3: UI/UX Design">
+              <span class="workflow-node__port workflow-node__port--in" aria-hidden="true"></span>
+              <div class="workflow-node__header">
+                <div class="workflow-node__icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M12 19l7-7 3 3-7 7-3-3z" />
+                    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+                    <path d="M2 2l7.586 7.586" />
+                    <circle cx="11" cy="11" r="2" />
+                  </svg>
+                </div>
+                <span class="workflow-node__label">DESIGN</span>
+              </div>
+              <h3 class="workflow-node__title">UI/UX Design</h3>
+              <p class="workflow-node__description">Create the visual system and responsive experience</p>
+              <div class="workflow-node__status">
+                <span class="workflow-node__status-arrow">&rarr;</span>
+                <span class="workflow-node__status-dot"></span>
+                <span class="workflow-node__status-text">CONNECTED</span>
+              </div>
+              <span class="workflow-node__port workflow-node__port--out" aria-hidden="true"></span>
+            </div>
+
+            <!-- Node 04: Development -->
+            <div class="workflow-node" data-node-id="3" id="workflow-node-3" tabindex="0" role="group"
+              aria-label="Stage 4: Development">
+              <span class="workflow-node__port workflow-node__port--in" aria-hidden="true"></span>
+              <div class="workflow-node__header">
+                <div class="workflow-node__icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="16 18 22 12 16 6" />
+                    <polyline points="8 6 2 12 8 18" />
+                  </svg>
+                </div>
+                <span class="workflow-node__label">DEVELOPMENT</span>
+              </div>
+              <h3 class="workflow-node__title">Development</h3>
+              <p class="workflow-node__description">Build a fast and responsive production-ready website</p>
+              <div class="workflow-node__status">
+                <span class="workflow-node__status-arrow">&rarr;</span>
+                <span class="workflow-node__status-dot"></span>
+                <span class="workflow-node__status-text">CONNECTED</span>
+              </div>
+              <span class="workflow-node__port workflow-node__port--out" aria-hidden="true"></span>
+            </div>
+
+            <!-- Node 05: Test & Refine -->
+            <div class="workflow-node" data-node-id="4" id="workflow-node-4" tabindex="0" role="group"
+              aria-label="Stage 5: Test & Refine">
+              <span class="workflow-node__port workflow-node__port--in" aria-hidden="true"></span>
+              <div class="workflow-node__header">
+                <div class="workflow-node__icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    <polyline points="9 12 11 14 15 10" />
+                  </svg>
+                </div>
+                <span class="workflow-node__label">TESTING</span>
+              </div>
+              <h3 class="workflow-node__title">Test &amp; Refine</h3>
+              <p class="workflow-node__description">Test performance, responsiveness and interactions</p>
+              <div class="workflow-node__status">
+                <span class="workflow-node__status-arrow">&rarr;</span>
+                <span class="workflow-node__status-dot"></span>
+                <span class="workflow-node__status-text">CONNECTED</span>
+              </div>
+              <span class="workflow-node__port workflow-node__port--out" aria-hidden="true"></span>
+            </div>
+
+            <!-- Node 06: Launch & Grow -->
+            <div class="workflow-node" data-node-id="5" id="workflow-node-5" tabindex="0" role="group"
+              aria-label="Stage 6: Launch & Grow">
+              <span class="workflow-node__port workflow-node__port--in" aria-hidden="true"></span>
+              <div class="workflow-node__header">
+                <div class="workflow-node__icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path
+                      d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+                    <path
+                      d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+                    <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+                    <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+                  </svg>
+                </div>
+                <span class="workflow-node__label">LAUNCH</span>
+              </div>
+              <h3 class="workflow-node__title">Launch &amp; Grow</h3>
+              <p class="workflow-node__description">Deploy, monitor and continuously improve the experience</p>
+              <div class="workflow-node__status">
+                <span class="workflow-node__status-arrow">&rarr;</span>
+                <span class="workflow-node__status-dot"></span>
+                <span class="workflow-node__status-text">CONNECTED</span>
+              </div>
+              <span class="workflow-node__port workflow-node__port--out" aria-hidden="true"></span>
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
@@ -714,82 +748,157 @@
       </div>
     </section>
 
-    <!-- ═══ CDN & SPEED TECH SECTION ═══ -->
-    <section class="web-tech-section section-padding" id="web-cdn">
-      <div class="container">
-        <div class="web-tech-two-col">
 
-          <div class="reveal">
-            <span class="label-text wipe-in">Infrastructure</span>
-            <h2 class="h1">Engineered for Speed,<br>Hosted for Scale</h2>
-            <p class="body-text" style="margin-top: var(--space-16);">
-              Speed isn't an afterthought — it's built into every line of code. We deploy on global edge CDN nodes to
-              ensure sub-100ms response times anywhere on earth.
-            </p>
 
-            <div class="web-scorecard">
-              <div class="score-item">
-                <div class="score-item__num">100</div>
-                <div class="score-item__label">Performance</div>
-              </div>
-              <div class="score-item">
-                <div class="score-item__num">100</div>
-                <div class="score-item__label">Accessibility</div>
-              </div>
-              <div class="score-item">
-                <div class="score-item__num">100</div>
-                <div class="score-item__label">Best Practices</div>
-              </div>
-              <div class="score-item">
-                <div class="score-item__num">100</div>
-                <div class="score-item__label">SEO</div>
-              </div>
-            </div>
+    <!-- ═══ TECH STACK SCROLL ANIMATION ═══ -->
+    <section class="web-tech-stack-scroll" id="web-tech-stack-scroll"
+      aria-label="Integrate with your favourite tech stack">
+      <div class="web-tech-stack-scroll__inner">
+        <p class="web-tech-stack-scroll__text" aria-label="Integrate with your fav tech stack">
+          <span class="web-tech-stack-scroll__line" data-line="0">
+            <span class="web-tech-stack-scroll__word" data-word="0">Integrate</span><span
+              class="web-tech-stack-scroll__word" data-word="1">with</span><span class="web-tech-stack-scroll__word"
+              data-word="2">your</span>
+          </span>
+          <span class="web-tech-stack-scroll__line" data-line="1">
+            <span class="web-tech-stack-scroll__word" data-word="3">fav</span><span class="web-tech-stack-scroll__word"
+              data-word="4">tech</span><span class="web-tech-stack-scroll__word" data-word="5"><span
+                class="web-tech-stack-scroll__accent">stack</span></span>
+          </span>
+        </p>
+
+        <!-- Tech Stack Logo Badges (Scroll Trigger Animation) -->
+        <div class="web-tech-stack-scroll__logos" aria-label="Supported Technologies">
+          <div class="web-tech-stack-scroll__badge" data-badge="0" style="--brand-rgb: 97, 218, 251;">
+            <svg viewBox="-11.5 -10.23174 23 20.46348" width="20" height="20" aria-hidden="true" focusable="false">
+              <circle cx="0" cy="0" r="2.05" fill="#61DAFB" />
+              <g stroke="#61DAFB" stroke-width="1" fill="none">
+                <ellipse rx="11" ry="4.2" />
+                <ellipse rx="11" ry="4.2" transform="rotate(60)" />
+                <ellipse rx="11" ry="4.2" transform="rotate(120)" />
+              </g>
+            </svg>
+            <span>React</span>
           </div>
 
-          <div class="reveal delay-1">
-            <div class="cdn-panel">
-              <div class="cdn-panel__header">
-                <span class="cdn-panel__title">RVRBRD // CDN_EDGE_LATENCY</span>
-                <span class="cdn-panel__status">
-                  <span class="ping-dot"></span> EDGE_ACTIVE
-                </span>
-              </div>
-              <div class="cdn-panel__pings">
-                <div class="cdn-ping-row">
-                  <div class="cdn-ping-row__city">
-                    <span class="ping-dot"></span> Singapore (SIN-01)
-                  </div>
-                  <span class="cdn-ping-row__ms">14 ms</span>
-                </div>
-                <div class="cdn-ping-row">
-                  <div class="cdn-ping-row__city">
-                    <span class="ping-dot"></span> London (LHR-02)
-                  </div>
-                  <span class="cdn-ping-row__ms">22 ms</span>
-                </div>
-                <div class="cdn-ping-row">
-                  <div class="cdn-ping-row__city">
-                    <span class="ping-dot"></span> New York (JFK-01)
-                  </div>
-                  <span class="cdn-ping-row__ms">28 ms</span>
-                </div>
-                <div class="cdn-ping-row">
-                  <div class="cdn-ping-row__city">
-                    <span class="ping-dot"></span> Tokyo (HND-01)
-                  </div>
-                  <span class="cdn-ping-row__ms">18 ms</span>
-                </div>
-                <div class="cdn-ping-row">
-                  <div class="cdn-ping-row__city">
-                    <span class="ping-dot"></span> Frankfurt (FRA-01)
-                  </div>
-                  <span class="cdn-ping-row__ms">19 ms</span>
-                </div>
-              </div>
-            </div>
+          <div class="web-tech-stack-scroll__badge" data-badge="1" style="--brand-rgb: 0, 0, 0;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false">
+              <path
+                d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.122 17.524L8.932 6.945h1.74l6.98 9.068-.53 1.511zm-.433-4.832l-1.39-1.802v-3.945h1.39v5.747z" />
+            </svg>
+            <span>Next.js</span>
           </div>
 
+          <div class="web-tech-stack-scroll__badge" data-badge="2" style="--brand-rgb: 49, 120, 198;">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+              <rect width="24" height="24" rx="4" fill="#3178C6" />
+              <path
+                d="M11.75 14.28c-.2.32-.46.58-.78.78-.32.19-.71.29-1.16.29-.6 0-1.07-.17-1.42-.52-.35-.35-.55-.88-.6-1.58H6.2c.06 1.05.41 1.88 1.05 2.47.64.59 1.48.89 2.52.89.72 0 1.36-.14 1.93-.43.56-.28 1-.7 1.31-1.25.32-.55.48-1.2.48-1.95 0-.67-.14-1.22-.41-1.66-.27-.44-.65-.8-1.14-1.08-.49-.28-1.09-.52-1.79-.72-.61-.17-1.04-.34-1.29-.51-.25-.17-.38-.41-.38-.72 0-.3.12-.55.37-.74.25-.19.6-.28 1.06-.28.47 0 .84.11 1.11.32.27.22.42.55.45 1h1.55c-.05-.8-.35-1.43-.89-1.88-.54-.45-1.28-.68-2.22-.68-.7 0-1.32.14-1.85.42-.53.28-.93.68-1.2 1.2-.27.52-.41 1.12-.41 1.8 0 .68.14 1.24.42 1.69.28.45.68.82 1.19 1.11.51.29 1.11.54 1.8.75.6.18 1.03.37 1.3.57.27.2.4.47.4.81 0 .36-.14.65-.41.87zM18.8 8h-6.2v1.54h2.24v7h1.72v-7h2.24V8z"
+                fill="#FFFFFF" />
+            </svg>
+            <span>TypeScript</span>
+          </div>
+
+          <div class="web-tech-stack-scroll__badge" data-badge="3" style="--brand-rgb: 56, 189, 248;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="#38BDF8" aria-hidden="true" focusable="false">
+              <path
+                d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.336 6.182 14.975 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.336 13.382 8.975 12 6.001 12z" />
+            </svg>
+            <span>Tailwind CSS</span>
+          </div>
+
+          <div class="web-tech-stack-scroll__badge" data-badge="4" style="--brand-rgb: 95, 160, 78;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="#5FA04E" aria-hidden="true" focusable="false">
+              <path
+                d="M11.998 2.25a1.5 1.5 0 00-.75.201l-7.5 4.33a1.5 1.5 0 00-.75 1.3v8.66a1.5 1.5 0 00.75 1.3l7.5 4.33c.465.268 1.035.268 1.5 0l7.5-4.33a1.5 1.5 0 00.75-1.3V8.081a1.5 1.5 0 00-.75-1.3l-7.5-4.33a1.503 1.503 0 00-.75-.201zm0 2.6l6.5 3.75v7.5l-6.5 3.75-6.5-3.75v-7.5l6.5-3.75z" />
+              <path d="M12 9.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5z" />
+            </svg>
+            <span>Node.js</span>
+          </div>
+
+          <div class="web-tech-stack-scroll__badge" data-badge="5" style="--brand-rgb: 150, 191, 72;">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+              <path
+                d="M21.24 6.27l-2.03-.61c-.04-.15-.1-.31-.19-.48-.63-1.22-1.74-1.89-3.2-1.92-.09 0-.17 0-.26.01-1.07.09-2.06.66-2.92 1.69-.64.76-1.12 1.76-1.39 2.9l-3.23 1c-.34.11-.58.4-.6.76l-.82 12.18c-.02.26.1.51.31.67.14.1.3.15.48.15.06 0 .11 0 .17-.02l9.04-2.82c.28-.09.48-.34.5-.64l1.39-12.87z"
+                fill="#95BF47" />
+              <path
+                d="M13.41 7.86l-2.18.68c.27-1.14.75-2.14 1.39-2.9.46-.55.98-.93 1.52-1.14-.37 1.04-.62 2.22-.73 3.36z"
+                fill="#5E8E3E" />
+              <path
+                d="M14.54 11.53c-.04-.04-.14-.07-.27-.06-.13.01-.29.07-.48.17l-.87.48v2.96l1.24-.38c.36-.11.55-.42.55-.83 0-.41-.06-.69-.17-.84z"
+                fill="#FFFFFF" />
+            </svg>
+            <span>Shopify</span>
+          </div>
+
+          <div class="web-tech-stack-scroll__badge" data-badge="6" style="--brand-rgb: 66, 184, 131;">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+              <path d="M12 15.2L4.6 2.4h3.8L12 8.6l3.6-6.2h3.8L12 15.2z" fill="#42B883" />
+              <path d="M12 9.2L6.8 2.4H2L12 19.8 22 2.4h-4.8L12 9.2z" fill="#35495E" />
+            </svg>
+            <span>Vue.js</span>
+          </div>
+
+          <div class="web-tech-stack-scroll__badge" data-badge="7" style="--brand-rgb: 55, 118, 171;">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+              <path
+                d="M11.91 2C7.3 2 7.57 3.99 7.57 3.99l.01 2.08h4.41v.63H4.7S2 6.39 2 11c0 4.61 2.37 4.43 2.37 4.43h1.41v-2.09s-.08-2.48 2.43-2.48h4.19s2.35.04 2.35-2.29V4.29S15.11 2 11.91 2zm-1.84 1.35a.86.86 0 11.01 1.72.86.86 0 01-.01-1.72z"
+                fill="#3776AB" />
+              <path
+                d="M12.09 22c4.61 0 4.34-1.99 4.34-1.99l-.01-2.08h-4.41v-.63h7.29S22 17.61 22 13c0-4.61-2.37-4.43-2.37-4.43h-1.41v2.09s.08 2.48-2.43 2.48h-4.19s-2.35-.04-2.35 2.29v4.28S8.89 22 12.09 22zm1.84-1.35a.86.86 0 11-.01-1.72.86.86 0 01.01 1.72z"
+                fill="#FFD43B" />
+            </svg>
+            <span>Python</span>
+          </div>
+
+          <div class="web-tech-stack-scroll__badge" data-badge="8" style="--brand-rgb: 62, 207, 142;">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+              <path
+                d="M13.447 2.112a1.2 1.2 0 00-1.894 0L1.758 14.51c-.693.882-.065 2.175 1.056 2.175H11.5v6.203a1.2 1.2 0 001.894.957l9.795-12.398c.693-.882.065-2.175-1.056-2.175H13.5V2.112z"
+                fill="#3ECF8E" />
+            </svg>
+            <span>Supabase</span>
+          </div>
+
+          <div class="web-tech-stack-scroll__badge" data-badge="9" style="--brand-rgb: 65, 105, 225;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="#4169E1" aria-hidden="true" focusable="false">
+              <path
+                d="M12.072 2.012c-.52 0-1.02.046-1.5.137-.417-.676-1.124-.997-1.99-.997-1.468 0-2.392.934-2.463 2.487C4.195 4.316 2.7 6.435 2.7 9.155c0 3.738 2.507 7.025 6.275 8.225.105.776.368 1.442.793 1.992.83 1.077 2.053 1.628 3.535 1.628 1.48 0 2.704-.551 3.535-1.628.425-.55.688-1.216.793-1.992 3.768-1.2 6.275-4.487 6.275-8.225 0-2.72-1.495-4.839-3.419-5.516-.07-1.553-.995-2.487-2.463-2.487-.866 0-1.573.321-1.99.997-.48-.091-.98-.137-1.5-.137zm-2.025 2.19c.45 0 .783.18.995.534-.41.228-.77.51-1.076.84-.047-.798.156-1.374.081-1.374zm4.05 0c-.075 0 .128.576.08 1.374-.305-.33-.665-.612-1.075-.84.212-.354.545-.534.995-.534zM12 4.417c2.81 0 5.088 2.278 5.088 5.088 0 2.81-2.278 5.088-5.088 5.088-2.81 0-5.088-2.278-5.088-5.088 0-2.81 2.278-5.088 5.088-5.088z" />
+            </svg>
+            <span>PostgreSQL</span>
+          </div>
+
+          <div class="web-tech-stack-scroll__badge" data-badge="10" style="--brand-rgb: 36, 150, 237;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="#2496ED" aria-hidden="true" focusable="false">
+              <path
+                d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.186.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.186.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.186.186.186m5.893 2.715h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.186.186 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.185-.186H5.136a.186.186 0 00-.186.185v1.888c0 .102.084.185.186.185m-2.928 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.185-.186H2.208a.186.186 0 00-.186.185v1.888c0 .102.084.185.186.185m21.727 1.802c-.31-.205-.97-.333-1.636-.264-.132-.593-.497-1.123-.974-1.493-.46-.358-1.036-.554-1.666-.566-.098 0-.197.003-.296.012-.41-1.077-1.428-1.789-2.585-1.789h-1.69a.186.186 0 00-.185.186v5.228H1.12a.93.93 0 00-.92.931c0 2.217.75 4.34 2.113 5.978 1.488 1.79 3.57 2.872 5.86 3.05 5.568.431 10.428-2.607 12.38-7.733 1.43-.07 3.064-.816 3.382-3.15z" />
+            </svg>
+            <span>Docker</span>
+          </div>
+
+          <div class="web-tech-stack-scroll__badge" data-badge="11" style="--brand-rgb: 225, 0, 152;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="#E10098" aria-hidden="true" focusable="false">
+              <path
+                d="M12 2l8.66 5v10L12 22l-8.66-5V7L12 2zm0 2.31L5.34 8.15v7.7L12 19.69l6.66-3.84v-7.7L12 4.31zM12 7a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z" />
+            </svg>
+            <span>GraphQL</span>
+          </div>
+
+          <div class="web-tech-stack-scroll__badge" data-badge="12" style="--brand-rgb: 33, 117, 155;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="#21759B" aria-hidden="true" focusable="false">
+              <path
+                d="M12 2C6.486 2 2 6.486 2 12c0 5.515 4.486 10 10 10 5.514 0 10-4.485 10-10 0-5.514-4.486-10-10-10zm-8.28 10c0-1.847.63-3.55 1.688-4.908L9.04 17.65c-3.14-1.196-5.32-4.22-5.32-7.65zm8.28 8.28c-1.31 0-2.535-.355-3.593-.976l3.774-10.96 3.864 10.59c-.066.012-.132.023-.2.034-.094.015-.19.03-.284.041-1.157.85-2.31 1.271-3.56 1.271zm1.26-12.33l-3.3 9.58L6.87 8.01c.732-.04 1.425-.116 1.425-.116.577-.07.51-1.003-.067-.97 0 0-1.745.143-2.871.143-1.06 0-2.805-.143-2.805-.143-.578-.033-.645.9-.068.97 0 0 .67.076 1.34.116L7.14 18.06l-.01.03-3.23-9.61c.732-.04 1.425-.116 1.425-.116.577-.07.51-1.003-.067-.97 0 0-1.745.143-2.871.143-.225 0-.477-.008-.74-.019C3.655 4.978 7.502 3.72 12 3.72c3.425 0 6.495 1.705 8.355 4.316-.06.002-.12.006-.18.006-.948 0-1.62.825-1.62 1.708 0 .783.45 1.442.923 2.227.378.63.78 1.385.78 2.502 0 .807-.225 1.745-.63 2.768l-2.07-6.07c.732-.04 1.392-.116 1.392-.116.578-.07.512-1.003-.066-.97 0 0-1.745.143-2.872.143-1.126 0-2.871-.143-2.871-.143-.577-.033-.644.9-.066.97 0 0 .693.076 1.385.116z" />
+            </svg>
+            <span>WordPress</span>
+          </div>
+
+          <div class="web-tech-stack-scroll__badge" data-badge="13" style="--brand-rgb: 255, 153, 0;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="#FF9900" aria-hidden="true" focusable="false">
+              <path
+                d="M6.865 11.233c-.156.402-.27.842-.341 1.32-.07.478-.106.945-.106 1.402 0 .62.062 1.144.185 1.571.124.428.324.767.6 1.018.277.25.641.376 1.093.376.54 0 .99-.17 1.35-.51.36-.34.61-.837.75-1.49l.06-.297h1.492c-.08.625-.262 1.183-.547 1.674-.285.49-.684.88-1.197 1.168-.513.287-1.148.43-1.905.43-.884 0-1.616-.217-2.196-.65-.58-.434-.997-1.026-1.25-1.776-.254-.75-.381-1.634-.381-2.65 0-.96.136-1.812.408-2.557.272-.745.69-1.34 1.254-1.785.564-.445 1.272-.668 2.124-.668.73 0 1.355.15 1.874.451.52.3.928.718 1.224 1.253.296.535.474 1.16.534 1.875h-1.48c-.08-.49-.24-.9-.48-1.23-.24-.33-.55-.58-.93-.75-.38-.17-.83-.255-1.35-.255-.54 0-.986.13-1.338.39-.352.26-.615.63-.789 1.11zM18.89 17.652c-2.73 1.942-6.52 2.97-9.92 2.97-4.66 0-8.86-1.73-12.04-4.61-.25-.23-.27-.6-.04-.84.23-.24.59-.26.84-.03 2.94 2.65 6.82 4.24 11.13 4.24 3.09 0 6.55-.95 9.07-2.73.36-.25.8.17.46.5l.5.5zm1.18-1.15c-.35-.44-2.3-.21-3.18-.1-.27.03-.31-.21-.07-.37 1.55-1.08 4.09-.77 4.39-.4.3.37-.1 2.97-1.57 4.14-.23.18-.44.08-.34-.16.33-.79.92-2.83.77-3.11z" />
+            </svg>
+            <span>AWS</span>
+          </div>
         </div>
       </div>
     </section>
@@ -797,26 +906,158 @@
     <!-- ═══ INDUSTRIES SECTION ═══ -->
     <section class="web-industries-section section-padding" id="web-industries">
       <div class="container">
-        <div class="section-header center reveal">
-          <span class="label-text wipe-in">Versatility</span>
-          <h2 class="h1">Tailored Web Expertise for Diverse Industries</h2>
-          <p class="body-text" style="max-width: var(--max-width-narrow); margin: 0 auto;">We build specialized web
-            platforms engineered around the unique operational needs of each market sector.</p>
+        <div class="web-industries-header reveal">
+          <div class="web-industries-header__title">
+            <span class="label-text wipe-in">Versatility</span>
+            <h2 class="h1">Tailored Web Expertise for Diverse Industries</h2>
+          </div>
+          <p class="web-industries-header__description">We build specialized web platforms engineered around the
+            unique operational needs of each market sector.</p>
+        </div>
+      </div>
+
+      <svg class="web-industries-icons" aria-hidden="true" focusable="false">
+        <defs>
+          <symbol id="industry-icon-commerce" viewBox="0 0 24 24">
+            <path d="M6 8h12l1 12H5L6 8Z" />
+            <path d="M9 9V6a3 3 0 0 1 6 0v3" />
+          </symbol>
+          <symbol id="industry-icon-healthcare" viewBox="0 0 24 24">
+            <path d="M12 21s-8-4.8-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.2-8 11-8 11Z" />
+            <path d="M8 12h2l1-2 2 5 1-3h2" />
+          </symbol>
+          <symbol id="industry-icon-property" viewBox="0 0 24 24">
+            <path d="m3 11 9-7 9 7" />
+            <path d="M5 10v10h14V10M9 20v-6h6v6" />
+          </symbol>
+          <symbol id="industry-icon-education" viewBox="0 0 24 24">
+            <path d="m3 9 9-5 9 5-9 5-9-5Z" />
+            <path d="M7 11.5V16c3 2.3 7 2.3 10 0v-4.5M21 9v6" />
+          </symbol>
+          <symbol id="industry-icon-fintech" viewBox="0 0 24 24">
+            <circle cx="9" cy="9" r="5" />
+            <path d="M7 9h4M9 7v4M14 15h7M17.5 12v6" />
+          </symbol>
+          <symbol id="industry-icon-hospitality" viewBox="0 0 24 24">
+            <path d="M7 3v8M4 3v5a3 3 0 0 0 6 0V3M7 11v10M16 3v18M16 3c3 2 4 5 4 8h-4" />
+          </symbol>
+          <symbol id="industry-icon-logistics" viewBox="0 0 24 24">
+            <path d="M3 6h11v11H3zM14 10h4l3 3v4h-7z" />
+            <circle cx="7" cy="18" r="2" />
+            <circle cx="18" cy="18" r="2" />
+          </symbol>
+          <symbol id="industry-icon-media" viewBox="0 0 24 24">
+            <path d="M4 5h16v14H4z" />
+            <path d="M8 9h5M8 13h8M8 16h8M16 8h1v2h-1z" />
+          </symbol>
+          <symbol id="industry-icon-legal" viewBox="0 0 24 24">
+            <path d="M12 3v18M6 6h12M5 6l-3 7h6L5 6ZM19 6l-3 7h6l-3-7ZM8 21h8" />
+          </symbol>
+          <symbol id="industry-icon-saas" viewBox="0 0 24 24">
+            <path d="M14 5c2-2 5-2 7-2 0 2 0 5-2 7l-5 5-5-5 5-5Z" />
+            <path d="m9 10-4 1-2 3 6 1M14 15l-1 4-3 2-1-6M15 8h.01" />
+          </symbol>
+          <symbol id="industry-icon-manufacturing" viewBox="0 0 24 24">
+            <path d="M3 21V10l6 3V9l6 3V5h6v16H3Z" />
+            <path d="M7 17h2M12 17h2M17 17h2" />
+          </symbol>
+          <symbol id="industry-icon-automotive" viewBox="0 0 24 24">
+            <path d="m5 11 2-5h10l2 5M3 12h18v6H3z" />
+            <circle cx="7" cy="18" r="2" />
+            <circle cx="17" cy="18" r="2" />
+          </symbol>
+        </defs>
+      </svg>
+
+      <div class="web-industries-marquee reveal delay-1" aria-label="Industries we serve">
+        <div class="web-industries-marquee__row">
+          <div class="web-industries-marquee__track">
+            <div class="web-industries-marquee__group">
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-commerce"></use>
+                </svg><span>E-Commerce &amp; Retail</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-healthcare"></use>
+                </svg><span>Healthcare &amp; Hospitals</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-property"></use>
+                </svg><span>Real Estate &amp; Property</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-education"></use>
+                </svg><span>Education &amp; E-Learning</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-fintech"></use>
+                </svg><span>FinTech &amp; Web3</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-hospitality"></use>
+                </svg><span>Hospitality &amp; Dining</span></div>
+            </div>
+            <div class="web-industries-marquee__group" aria-hidden="true">
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-commerce"></use>
+                </svg><span>E-Commerce &amp; Retail</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-healthcare"></use>
+                </svg><span>Healthcare &amp; Hospitals</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-property"></use>
+                </svg><span>Real Estate &amp; Property</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-education"></use>
+                </svg><span>Education &amp; E-Learning</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-fintech"></use>
+                </svg><span>FinTech &amp; Web3</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-hospitality"></use>
+                </svg><span>Hospitality &amp; Dining</span></div>
+            </div>
+          </div>
         </div>
 
-        <div class="industries-tags reveal delay-1">
-          <div class="industry-tag">E-Commerce &amp; Retail</div>
-          <div class="industry-tag">Healthcare &amp; Hospitals</div>
-          <div class="industry-tag">Real Estate &amp; Property</div>
-          <div class="industry-tag">Education &amp; E-Learning</div>
-          <div class="industry-tag">FinTech &amp; Web3</div>
-          <div class="industry-tag">Hospitality &amp; Dining</div>
-          <div class="industry-tag">Logistics &amp; Supply Chain</div>
-          <div class="industry-tag">Media &amp; Publishing</div>
-          <div class="industry-tag">Legal &amp; Professional Services</div>
-          <div class="industry-tag">SaaS &amp; Tech Startups</div>
-          <div class="industry-tag">Manufacturing &amp; Export</div>
-          <div class="industry-tag">Automotive &amp; Transport</div>
+        <div class="web-industries-marquee__row web-industries-marquee__row--reverse">
+          <div class="web-industries-marquee__track">
+            <div class="web-industries-marquee__group">
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-logistics"></use>
+                </svg><span>Logistics &amp; Supply Chain</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-media"></use>
+                </svg><span>Media &amp; Publishing</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-legal"></use>
+                </svg><span>Legal &amp; Professional Services</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-saas"></use>
+                </svg><span>SaaS &amp; Tech Startups</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-manufacturing"></use>
+                </svg><span>Manufacturing &amp; Export</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-automotive"></use>
+                </svg><span>Automotive &amp; Transport</span></div>
+            </div>
+            <div class="web-industries-marquee__group" aria-hidden="true">
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-logistics"></use>
+                </svg><span>Logistics &amp; Supply Chain</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-media"></use>
+                </svg><span>Media &amp; Publishing</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-legal"></use>
+                </svg><span>Legal &amp; Professional Services</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-saas"></use>
+                </svg><span>SaaS &amp; Tech Startups</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-manufacturing"></use>
+                </svg><span>Manufacturing &amp; Export</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-automotive"></use>
+                </svg><span>Automotive &amp; Transport</span></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

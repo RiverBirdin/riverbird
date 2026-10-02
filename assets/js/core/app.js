@@ -1211,8 +1211,643 @@ function initAnimations() {
   }
   initStaggerAnimations();
 
+  initTechStackScrollReveal();
+  initInteractiveWorkflow();
+  initHeroScrollAnimation();
+
   scanAndObserve(document.body);
   initMutationObserver();
+}
+
+/**
+ * Scroll-driven 3D perspective animation for the Web Development Hero screen.
+ *
+ * How it works:
+ *  1. Detects the .web-hero__scroll-area scroll runway.
+ *  2. Computes progress (0→1) across the screen's actual sticky travel.
+ *  3. Interpolates rotateX, scale, and translateY using lerp for silk-smooth motion.
+ *  4. Writes the transform to #web-hero-screen via requestAnimationFrame.
+ *  5. Completely disabled under prefers-reduced-motion.
+ *
+ * Initial state  →  Final state
+ *   rotateX: 12°        0°
+ *   scale:   0.84       1
+ *   translateY: 48px    0px
+ */
+function initHeroScrollAnimation() {
+  const scrollArea = document.getElementById('web-hero-scroll-area');
+  const screenWrapper = document.getElementById('web-hero-screen-wrapper');
+  const screen     = document.getElementById('web-hero-screen');
+
+  if (!scrollArea || !screenWrapper || !screen) return;
+
+  // Respect system reduced-motion preference
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  // ─── Config ───
+  const ROTX_START   = 12;    // degrees
+  const ROTX_END     = 0;
+  const SCALE_START  = 0.84;
+  const SCALE_END    = 1;
+  const TRANSY_START = 48;    // px
+  const TRANSY_END   = 0;
+  const PERSP        = 1400;  // px
+  const LERP_SPEED   = 0.085; // [0–1] — lower = smoother / laggier
+
+  // Mobile uses a softer effect
+  function getConfig() {
+    if (window.innerWidth < 768) {
+      return {
+        rotXStart: 4, rotXEnd: 0,
+        scaleStart: 0.95, scaleEnd: 1,
+        transYStart: 18, transYEnd: 0,
+        persp: 800
+      };
+    }
+    return {
+      rotXStart: ROTX_START, rotXEnd: ROTX_END,
+      scaleStart: SCALE_START, scaleEnd: SCALE_END,
+      transYStart: TRANSY_START, transYEnd: TRANSY_END,
+      persp: PERSP
+    };
+  }
+
+  // ─── State ───
+  const initialConfig = getConfig();
+  let targetRotX   = initialConfig.rotXStart;
+  let targetScale  = initialConfig.scaleStart;
+  let targetTransY = initialConfig.transYStart;
+
+  let currentRotX   = initialConfig.rotXStart;
+  let currentScale  = initialConfig.scaleStart;
+  let currentTransY = initialConfig.transYStart;
+
+  let rafId    = null;
+  let needsTick = false;
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+  function getScrollProgress() {
+    const areaRect = scrollArea.getBoundingClientRect();
+    const areaTop = window.scrollY + areaRect.top;
+    const stickyTop = parseFloat(window.getComputedStyle(screenWrapper).top) || 0;
+
+    // Begin only when the screen reaches its sticky resting point. End at the
+    // moment the runway releases it, so the next section follows immediately.
+    const start = areaTop + screenWrapper.offsetTop - stickyTop;
+    const end = areaTop + scrollArea.offsetHeight - stickyTop - screenWrapper.offsetHeight;
+    const range = Math.max(end - start, window.innerHeight * 0.35);
+
+    return clamp((window.scrollY - start) / range, 0, 1);
+  }
+
+  function tick() {
+    rafId = null;
+
+    const cfg      = getConfig();
+    const progress = getScrollProgress();
+
+    // Map progress to target values
+    // Ease-out keeps the physical approach pronounced at the beginning and
+    // lets the frame settle gently into its fully flat final state.
+    const p = 1 - Math.pow(1 - progress, 3);
+    targetRotX   = lerp(cfg.rotXStart,   cfg.rotXEnd,   p);
+    targetScale  = lerp(cfg.scaleStart,  cfg.scaleEnd,  p);
+    targetTransY = lerp(cfg.transYStart, cfg.transYEnd, p);
+
+    // Smooth interpolation
+    currentRotX   = lerp(currentRotX,   targetRotX,   LERP_SPEED);
+    currentScale  = lerp(currentScale,  targetScale,  LERP_SPEED);
+    currentTransY = lerp(currentTransY, targetTransY, LERP_SPEED);
+
+    screenWrapper.style.perspective = `${cfg.persp}px`;
+    screen.style.transform =
+      `translate3d(0, ${currentTransY.toFixed(2)}px, 0) rotateX(${currentRotX.toFixed(3)}deg) scale(${currentScale.toFixed(4)})`;
+
+    // Keep ticking while there's visible movement
+    const stillMoving =
+      Math.abs(currentRotX   - targetRotX)   > 0.005 ||
+      Math.abs(currentScale  - targetScale)  > 0.0002 ||
+      Math.abs(currentTransY - targetTransY) > 0.05;
+
+    if (needsTick || stillMoving) {
+      needsTick = false;
+      rafId = requestAnimationFrame(tick);
+    }
+  }
+
+  function onScroll() {
+    needsTick = true;
+    if (rafId === null) {
+      rafId = requestAnimationFrame(tick);
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+
+  // Kick off an initial tick on page load
+  rafId = requestAnimationFrame(tick);
+}
+
+
+/**
+ * Scroll-driven text reveal for the "Integrate with your fav tech stack" section.
+ * – Progress is based on section position in viewport (0→1 as it scrolls through).
+ * – Each word reveals sequentially with slight stagger.
+ * – Uses requestAnimationFrame — NO direct DOM writes in the scroll handler.
+ * – Fully bidirectional: scrolling back reverses the animation.
+ * – Respects prefers-reduced-motion.
+ */
+function initTechStackScrollReveal() {
+  const section = document.querySelector('.web-tech-stack-scroll');
+  if (!section) return;
+
+  // Respect reduced-motion preference — CSS already handles static reveal
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const words = Array.from(section.querySelectorAll('.web-tech-stack-scroll__word'));
+  const badges = Array.from(section.querySelectorAll('.web-tech-stack-scroll__badge'));
+  if (words.length === 0 && badges.length === 0) return;
+
+  const WORD_COUNT = words.length;
+  const BADGE_COUNT = badges.length;
+
+  // Muted opacity baselines
+  const MUTED_WORD_OPACITY = 0.12;
+  const MUTED_BADGE_OPACITY = 0.08;
+
+  // Overall viewport intersection animation window
+  const REVEAL_START_RATIO = 0.12;
+  const REVEAL_END_RATIO   = 0.85;
+
+  // Smoothly interpolated progress arrays
+  const wordProgress  = new Float32Array(WORD_COUNT).fill(0);
+  const badgeProgress = new Float32Array(BADGE_COUNT).fill(0);
+  const LERP_SPEED    = 0.09;
+
+  let rafId = null;
+  let dirty = false;
+
+  /** Overall section progress (0→1) through viewport */
+  function getSectionProgress() {
+    const rect = section.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const totalTravel = vh + rect.height;
+    const travelled   = vh - rect.top;
+    const raw = travelled / totalTravel;
+    const remapped = (raw - REVEAL_START_RATIO) / (REVEAL_END_RATIO - REVEAL_START_RATIO);
+    return Math.min(1, Math.max(0, remapped));
+  }
+
+  /** Phase 1: Words animate from sectionProgress 0.00 to 0.48 */
+  function getWordTargetProgress(sectionProgress, wordIdx) {
+    if (WORD_COUNT === 0) return 1;
+    const windowStart = 0.00;
+    const windowEnd   = 0.48;
+    const slice = (windowEnd - windowStart) / WORD_COUNT;
+    const wordStart = windowStart + wordIdx * slice * 0.85;
+    const wordEnd   = wordStart + slice * 1.5;
+    const local = (sectionProgress - wordStart) / (wordEnd - wordStart);
+    return Math.min(1, Math.max(0, local));
+  }
+
+  /** Phase 2: Badges animate in staggered cascade from sectionProgress 0.24 to 0.84 */
+  function getBadgeTargetProgress(sectionProgress, badgeIdx) {
+    if (BADGE_COUNT === 0) return 1;
+    const windowStart = 0.24;
+    const windowEnd   = 0.84;
+    const slice = (windowEnd - windowStart) / BADGE_COUNT;
+    const badgeStart = windowStart + badgeIdx * slice * 0.7;
+    const badgeEnd   = badgeStart + slice * 2.0;
+    const local = (sectionProgress - badgeStart) / (badgeEnd - badgeStart);
+    return Math.min(1, Math.max(0, local));
+  }
+
+  /** Linear interpolation */
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  /** Apply current interpolated values to DOM */
+  function applyStyles() {
+    const sectionProg = getSectionProgress();
+
+    // 1. Text Words
+    for (let i = 0; i < WORD_COUNT; i++) {
+      const target = getWordTargetProgress(sectionProg, i);
+      wordProgress[i] = lerp(wordProgress[i], target, LERP_SPEED);
+      const p = wordProgress[i];
+      const opacity = MUTED_WORD_OPACITY + (1 - MUTED_WORD_OPACITY) * p;
+      words[i].style.setProperty('--word-progress', p.toFixed(4));
+      words[i].style.setProperty('--word-opacity',  opacity.toFixed(4));
+    }
+
+    // 2. Tech Stack Logo Badges
+    for (let j = 0; j < BADGE_COUNT; j++) {
+      const target = getBadgeTargetProgress(sectionProg, j);
+      badgeProgress[j] = lerp(badgeProgress[j], target, LERP_SPEED);
+      const p = badgeProgress[j];
+      const opacity = MUTED_BADGE_OPACITY + (1 - MUTED_BADGE_OPACITY) * p;
+      badges[j].style.setProperty('--badge-progress', p.toFixed(4));
+      badges[j].style.setProperty('--badge-opacity',  opacity.toFixed(4));
+    }
+  }
+
+  /** Animation tick */
+  function tick() {
+    applyStyles();
+
+    const sectionProg = getSectionProgress();
+    let stillMoving = false;
+
+    // Check if any word is still animating
+    for (let i = 0; i < WORD_COUNT; i++) {
+      const target = getWordTargetProgress(sectionProg, i);
+      if (Math.abs(wordProgress[i] - target) > 0.001) {
+        stillMoving = true;
+        break;
+      }
+    }
+
+    // Check if any badge is still animating
+    if (!stillMoving) {
+      for (let j = 0; j < BADGE_COUNT; j++) {
+        const target = getBadgeTargetProgress(sectionProg, j);
+        if (Math.abs(badgeProgress[j] - target) > 0.001) {
+          stillMoving = true;
+          break;
+        }
+      }
+    }
+
+    dirty = false;
+    if (stillMoving) {
+      rafId = requestAnimationFrame(tick);
+    } else {
+      rafId = null;
+    }
+  }
+
+  function onScroll() {
+    if (!dirty) {
+      dirty = true;
+      if (rafId === null) {
+        rafId = requestAnimationFrame(tick);
+      }
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+
+  // Initial call on load
+  applyStyles();
+}
+
+/**
+ * Interactive Draggable Workflow Canvas (n8n / automation style)
+ * - 6 sequentially connected nodes (Discover -> Strategy -> Design -> Development -> Testing -> Launch)
+ * - Independent dragging via Pointer Events (pointerdown, pointermove, pointerup)
+ * - Dynamic SVG cubic Bézier connections with flowing dashed stroke animation
+ * - Smart 4-way anchor routing (top, right, bottom, left) based on relative node positions
+ * - Canvas boundary constraint
+ * - Persistent dropped state (no auto snap-back)
+ * - Reset layout button
+ * - Sequential entrance animation via IntersectionObserver
+ * - Reduced motion support
+ */
+function initInteractiveWorkflow() {
+  const section = document.querySelector('.workflow-section');
+  if (!section) return;
+
+  const canvas = section.querySelector('.workflow-canvas');
+  const svgConnections = section.querySelector('.workflow-connections');
+  const nodes = Array.from(section.querySelectorAll('.workflow-node'));
+  const resetBtn = section.querySelector('#workflow-reset-btn');
+
+  if (!canvas || !svgConnections || nodes.length === 0) return;
+
+  // We connect nodes in sequential order: 0->1, 1->2, 2->3, 3->4, 4->5
+  const connections = [];
+  for (let i = 0; i < nodes.length - 1; i++) {
+    connections.push({ from: i, to: i + 1 });
+  }
+
+  // Pre-create SVG paths for each connection (1 track path + 1 animated flow path)
+  svgConnections.innerHTML = '';
+  const pathElements = connections.map(() => {
+    const track = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    track.setAttribute('class', 'workflow-connection-track');
+
+    const flow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    flow.setAttribute('class', 'workflow-connection-flow');
+
+    svgConnections.appendChild(track);
+    svgConnections.appendChild(flow);
+
+    return { track, flow };
+  });
+
+  // Calculate default positions
+  function getDefaultPositions() {
+    const rect = canvas.getBoundingClientRect();
+    const cw = rect.width || canvas.clientWidth || 1000;
+    const ch = rect.height || canvas.clientHeight || 680;
+
+    // Node dimensions estimate (or measured if already rendered)
+    const nw = nodes[0].offsetWidth || 260;
+    const nh = nodes[0].offsetHeight || 150;
+
+    if (cw >= 1000) {
+      // Desktop: S-curve pipeline layout (0 -> 1 -> 2 -> 3 -> 4 -> 5)
+      // Top row flows right: 0 (left), 1 (center), 2 (right)
+      // Bottom row flows left: 3 (right), 4 (center), 5 (left)
+      const topY = Math.max(40, ch * 0.1);
+      const bottomY = Math.min(ch - nh - 40, ch * 0.58);
+
+      const colLeft = Math.max(30, cw * 0.05);
+      const colCenter = Math.max(colLeft + nw + 20, (cw - nw) * 0.5);
+      const colRight = Math.min(cw - nw - 30, cw * 0.95 - nw);
+
+      return [
+        { x: colLeft, y: topY },
+        { x: colCenter, y: topY + 45 },
+        { x: colRight, y: topY },
+        { x: colRight, y: bottomY },
+        { x: colCenter, y: bottomY - 35 },
+        { x: colLeft, y: bottomY }
+      ];
+    } else if (cw >= 640) {
+      // Tablet: 2-column zigzag
+      const col1 = Math.max(20, cw * 0.08);
+      const col2 = Math.min(cw - nw - 20, cw * 0.92 - nw);
+      const stepY = (ch - nh - 50) / 5;
+
+      return [
+        { x: col1, y: 30 },
+        { x: col2, y: 30 + stepY * 1 },
+        { x: col1, y: 30 + stepY * 2 },
+        { x: col2, y: 30 + stepY * 3 },
+        { x: col1, y: 30 + stepY * 4 },
+        { x: col2, y: 30 + stepY * 5 }
+      ];
+    } else {
+      // Mobile: Vertical flow with subtle alternating indent
+      const availableW = Math.max(0, cw - nw);
+      const indent1 = Math.min(availableW, 16);
+      const indent2 = Math.max(0, availableW - 16);
+      const stepY = (ch - nh - 40) / 5;
+
+      return [
+        { x: indent1, y: 20 },
+        { x: indent2, y: 20 + stepY * 1 },
+        { x: indent1, y: 20 + stepY * 2 },
+        { x: indent2, y: 20 + stepY * 3 },
+        { x: indent1, y: 20 + stepY * 4 },
+        { x: indent2, y: 20 + stepY * 5 }
+      ];
+    }
+  }
+
+  // Node position state { x, y }
+  const nodePositions = [];
+
+  function setInitialPositions(animate = false) {
+    const defaults = getDefaultPositions();
+    const cw = canvas.clientWidth || 1000;
+    const ch = canvas.clientHeight || 680;
+
+    defaults.forEach((pos, idx) => {
+      const node = nodes[idx];
+      if (!node) return;
+
+      const nw = node.offsetWidth || 260;
+      const nh = node.offsetHeight || 150;
+
+      const clampedX = Math.max(10, Math.min(pos.x, cw - nw - 10));
+      const clampedY = Math.max(10, Math.min(pos.y, ch - nh - 10));
+
+      nodePositions[idx] = { x: clampedX, y: clampedY };
+
+      if (animate) {
+        node.style.transition = 'left 0.45s cubic-bezier(0.16, 1, 0.3, 1), top 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
+        setTimeout(() => {
+          node.style.transition = '';
+        }, 460);
+      }
+
+      node.style.left = `${clampedX}px`;
+      node.style.top = `${clampedY}px`;
+    });
+
+    updateConnections();
+  }
+
+  // Smart Anchor calculation between two nodes
+  function getSmartConnectionPath(nodeA, posA, nodeB, posB) {
+    const wA = nodeA.offsetWidth || 260;
+    const hA = nodeA.offsetHeight || 150;
+    const wB = nodeB.offsetWidth || 260;
+    const hB = nodeB.offsetHeight || 150;
+
+    const centerAx = posA.x + wA / 2;
+    const centerAy = posA.y + hA / 2;
+    const centerBx = posB.x + wB / 2;
+    const centerBy = posB.y + hB / 2;
+
+    const dx = centerBx - centerAx;
+    const dy = centerBy - centerAy;
+
+    let x1, y1, x2, y2, c1x, c1y, c2x, c2y;
+
+    if (Math.abs(dx) >= Math.abs(dy)) {
+      // Horizontal dominant connection
+      if (dx >= 0) {
+        // Node B is to the right of Node A: Exit Right of A, Enter Left of B
+        x1 = posA.x + wA;
+        y1 = centerAy;
+        x2 = posB.x;
+        y2 = centerBy;
+        const curveOffset = Math.max(40, Math.abs(x2 - x1) * 0.45);
+        c1x = x1 + curveOffset;
+        c1y = y1;
+        c2x = x2 - curveOffset;
+        c2y = y2;
+      } else {
+        // Node B is to the left of Node A: Exit Left of A, Enter Right of B
+        x1 = posA.x;
+        y1 = centerAy;
+        x2 = posB.x + wB;
+        y2 = centerBy;
+        const curveOffset = Math.max(40, Math.abs(x1 - x2) * 0.45);
+        c1x = x1 - curveOffset;
+        c1y = y1;
+        c2x = x2 + curveOffset;
+        c2y = y2;
+      }
+    } else {
+      // Vertical dominant connection
+      if (dy >= 0) {
+        // Node B is below Node A: Exit Bottom of A, Enter Top of B
+        x1 = centerAx;
+        y1 = posA.y + hA;
+        x2 = centerBx;
+        y2 = posB.y;
+        const curveOffset = Math.max(40, Math.abs(y2 - y1) * 0.45);
+        c1x = x1;
+        c1y = y1 + curveOffset;
+        c2x = x2;
+        c2y = y2 - curveOffset;
+      } else {
+        // Node B is above Node A: Exit Top of A, Enter Bottom of B
+        x1 = centerAx;
+        y1 = posA.y;
+        x2 = centerBx;
+        y2 = posB.y + hB;
+        const curveOffset = Math.max(40, Math.abs(y1 - y2) * 0.45);
+        c1x = x1;
+        c1y = y1 - curveOffset;
+        c2x = x2;
+        c2y = y2 + curveOffset;
+      }
+    }
+
+    return `M ${x1} ${y1} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${x2} ${y2}`;
+  }
+
+  function updateConnections() {
+    connections.forEach((conn, idx) => {
+      const nodeA = nodes[conn.from];
+      const nodeB = nodes[conn.to];
+      const posA = nodePositions[conn.from];
+      const posB = nodePositions[conn.to];
+
+      if (!nodeA || !nodeB || !posA || !posB) return;
+
+      const d = getSmartConnectionPath(nodeA, posA, nodeB, posB);
+      const elems = pathElements[idx];
+      if (elems) {
+        elems.track.setAttribute('d', d);
+        elems.flow.setAttribute('d', d);
+      }
+    });
+  }
+
+  // Pointer dragging system
+  let activeDrag = null;
+  let rafPending = false;
+
+  nodes.forEach((node, index) => {
+    node.addEventListener('pointerdown', (e) => {
+      // Primary button only
+      if (e.button !== 0) return;
+
+      e.preventDefault();
+      node.setPointerCapture(e.pointerId);
+
+      const canvasRect = canvas.getBoundingClientRect();
+      const nodeRect = node.getBoundingClientRect();
+
+      activeDrag = {
+        index,
+        node,
+        pointerId: e.pointerId,
+        offsetX: e.clientX - nodeRect.left,
+        offsetY: e.clientY - nodeRect.top,
+        canvasRect
+      };
+
+      node.classList.add('is-dragging');
+    });
+
+    node.addEventListener('pointermove', (e) => {
+      if (!activeDrag || activeDrag.index !== index) return;
+      e.preventDefault();
+
+      // Refresh canvas rect in case of dynamic scroll
+      const canvasRect = canvas.getBoundingClientRect();
+      const nw = node.offsetWidth;
+      const nh = node.offsetHeight;
+
+      const rawX = e.clientX - canvasRect.left - activeDrag.offsetX;
+      const rawY = e.clientY - canvasRect.top - activeDrag.offsetY;
+
+      // Clamp within canvas boundaries
+      const clampedX = Math.max(10, Math.min(rawX, canvas.clientWidth - nw - 10));
+      const clampedY = Math.max(10, Math.min(rawY, canvas.clientHeight - nh - 10));
+
+      nodePositions[index] = { x: clampedX, y: clampedY };
+      node.style.left = `${clampedX}px`;
+      node.style.top = `${clampedY}px`;
+
+      if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(() => {
+          updateConnections();
+          rafPending = false;
+        });
+      }
+    });
+
+    const stopDrag = (e) => {
+      if (!activeDrag || activeDrag.index !== index) return;
+      try {
+        node.releasePointerCapture(e.pointerId);
+      } catch (err) {
+        // Safe fallback if pointer capture already released
+      }
+      node.classList.remove('is-dragging');
+      activeDrag = null;
+      updateConnections();
+    };
+
+    node.addEventListener('pointerup', stopDrag);
+    node.addEventListener('pointercancel', stopDrag);
+  });
+
+  // Reset Button
+  if (resetBtn) {
+    resetBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      setInitialPositions(true);
+    });
+  }
+
+  // Window Resize
+  let resizeTimeout = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      setInitialPositions(false);
+    }, 150);
+  });
+
+  // IntersectionObserver for staggered entrance animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        section.classList.add('workflow-revealed');
+
+        // Stagger appearance of nodes
+        nodes.forEach((node, i) => {
+          node.style.transitionDelay = `${i * 90}ms`;
+        });
+
+        // Trigger connections recalculation once positioned
+        requestAnimationFrame(() => {
+          updateConnections();
+        });
+
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  observer.observe(section);
+
+  // Initial positioning setup
+  setInitialPositions(false);
 }
 
 function initCursorGlow() {
