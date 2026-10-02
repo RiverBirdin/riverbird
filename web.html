@@ -50,7 +50,8 @@
               real-time client portals and Shopify stores. Engineered for speed, designed for conversion.
             </p>
             <div class="hero__actions">
-              <a href="contact_index.html" class="btn btn--primary magnetic-btn">Start Web Project &rarr;</a>
+              <button type="button" class="btn btn--primary magnetic-btn" id="web-quote-open"
+                aria-haspopup="dialog" aria-controls="web-quote-dialog">Get a Quick qoute</button>
               <a href="development_index.html" class="btn btn--outline btn--white magnetic-btn">All Solutions &rarr;</a>
             </div>
           </div>
@@ -145,7 +146,7 @@
           </div>
 
           <!-- Card 2 -->
-          <div class="web-stack-card stack-card reverse reveal">
+          <div class="web-stack-card stack-card reveal">
             <div class="web-stack-card__content stack-card__content">
               <span class="web-stack-card__tag">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -259,7 +260,7 @@
           </div>
 
           <!-- Card 4 -->
-          <div class="web-stack-card stack-card reverse reveal">
+          <div class="web-stack-card stack-card reveal">
             <div class="web-stack-card__content stack-card__content">
               <span class="web-stack-card__tag">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -459,218 +460,147 @@
       </div>
     </section>
 
-    <!-- ═══ INTERACTIVE WORKFLOW SECTION ═══ -->
-    <section class="workflow-section web-process-section" id="how-we-work"
-      aria-label="Interactive Development Workflow">
-      <div class="container">
-        <div class="section-header center reveal">
-          <span class="label-text wipe-in" style="color: var(--color-secondary);">Workflow Engine</span>
-          <h2 class="h1" style="color: #ffffff;">Our Web Development Process</h2>
-          <p class="body-text"
-            style="color: rgba(255, 255, 255, 0.7); max-width: var(--max-width-narrow); margin: 0 auto;">
-            A connected, node-based engineering pipeline. Drag any node to test dynamic linkages as each phase connects
-            to the next.
-          </p>
-        </div>
 
-        <div class="workflow-canvas-wrapper reveal delay-1">
-          <div class="workflow-canvas-toolbar">
-            <div class="workflow-canvas-pill">
-              <span class="workflow-canvas-pill__dot"></span>
-              <span>LIVE PIPELINE &middot; INTERACTIVE NODE CANVAS</span>
-            </div>
-            <div class="workflow-canvas-actions">
-              <span class="workflow-canvas-hint">Drag any node</span>
-              <button type="button" class="workflow-canvas-reset" id="workflow-reset-btn"
-                aria-label="Reset Workflow Layout" title="Reset nodes to default positions">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                  <path d="M3 3v5h5" />
-                </svg>
-                <span>Reset Layout</span>
-              </button>
-            </div>
-          </div>
+    <!-- ═══ TECH STACK SCROLL ANIMATION ═══ -->
+    <section class="web-tech-stack-scroll" id="web-tech-stack-scroll"
+      aria-label="Integrate with your favourite tech stack">
+      <div class="web-tech-stack-scroll__inner">
+        <p class="web-tech-stack-scroll__text" aria-label="Integrate with your fav tech stack">
+          <span class="web-tech-stack-scroll__line" data-line="0">
+            <span class="web-tech-stack-scroll__word" data-word="0">Integrate</span><span
+              class="web-tech-stack-scroll__word" data-word="1">with</span><span class="web-tech-stack-scroll__word"
+              data-word="2">your</span>
+          </span>
+          <span class="web-tech-stack-scroll__line" data-line="1">
+            <span class="web-tech-stack-scroll__word" data-word="3">fav</span><span class="web-tech-stack-scroll__word"
+              data-word="4">tech</span><span class="web-tech-stack-scroll__word" data-word="5"><span
+                class="web-tech-stack-scroll__accent">stack</span></span>
+          </span>
+        </p>
 
-          <div class="workflow-canvas" id="workflow-canvas">
-            <!-- Dynamic SVG Connections Layer -->
-            <svg class="workflow-connections" id="workflow-svg" aria-hidden="true">
-              <defs>
-                <linearGradient id="workflow-line-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#F55D2D" stop-opacity="0.9" />
-                  <stop offset="50%" stop-color="#FF8C5A" stop-opacity="0.95" />
-                  <stop offset="100%" stop-color="#D4EE36" stop-opacity="0.9" />
-                </linearGradient>
-                <filter id="workflow-glow-filter" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="3" result="blur" />
-                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
-              </defs>
-              <g class="workflow-paths-group" id="workflow-paths-group"></g>
-            </svg>
-
-            <!-- 6 Draggable Workflow Nodes -->
-            <!-- Node 01: Discover -->
-            <div class="workflow-node" data-node-id="0" id="workflow-node-0" tabindex="0" role="group"
-              aria-label="Stage 1: Discover">
-              <span class="workflow-node__port workflow-node__port--in" aria-hidden="true"></span>
-              <div class="workflow-node__header">
-                <div class="workflow-node__icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <circle cx="12" cy="12" r="10" />
-                    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="currentColor" />
-                  </svg>
-                </div>
-                <span class="workflow-node__label">DISCOVER</span>
-              </div>
-              <h3 class="workflow-node__title">Discover</h3>
-              <p class="workflow-node__description">Understand your business, audience and project goals</p>
-              <div class="workflow-node__status">
-                <span class="workflow-node__status-arrow">&rarr;</span>
-                <span class="workflow-node__status-dot"></span>
-                <span class="workflow-node__status-text">CONNECTED</span>
-              </div>
-              <span class="workflow-node__port workflow-node__port--out" aria-hidden="true"></span>
+        <!-- Tech Stack Logo Badges (Scroll Trigger Animation) -->
+        <div class="web-tech-stack-scroll__logos" aria-label="Supported Technologies">
+          <div class="web-tech-stack-scroll__badge-row" aria-label="Frontend and commerce technologies">
+            <div class="web-tech-stack-scroll__badge" data-badge="0" style="--brand-rgb: 97, 218, 251;">
+              <svg viewBox="-11.5 -10.23174 23 20.46348" width="20" height="20" aria-hidden="true" focusable="false">
+                <circle cx="0" cy="0" r="2.05" fill="#61DAFB" />
+                <g stroke="#61DAFB" stroke-width="1" fill="none">
+                  <ellipse rx="11" ry="4.2" />
+                  <ellipse rx="11" ry="4.2" transform="rotate(60)" />
+                  <ellipse rx="11" ry="4.2" transform="rotate(120)" />
+                </g>
+              </svg>
+              <span>React</span>
             </div>
 
-            <!-- Node 02: Strategy -->
-            <div class="workflow-node" data-node-id="1" id="workflow-node-1" tabindex="0" role="group"
-              aria-label="Stage 2: Strategy">
-              <span class="workflow-node__port workflow-node__port--in" aria-hidden="true"></span>
-              <div class="workflow-node__header">
-                <div class="workflow-node__icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <line x1="6" y1="3" x2="6" y2="15" />
-                    <circle cx="18" cy="6" r="3" />
-                    <circle cx="6" cy="18" r="3" />
-                    <path d="M18 9a9 9 0 0 1-9 9" />
-                  </svg>
-                </div>
-                <span class="workflow-node__label">STRATEGY</span>
-              </div>
-              <h3 class="workflow-node__title">Strategy</h3>
-              <p class="workflow-node__description">Define the structure, technology and user journey</p>
-              <div class="workflow-node__status">
-                <span class="workflow-node__status-arrow">&rarr;</span>
-                <span class="workflow-node__status-dot"></span>
-                <span class="workflow-node__status-text">CONNECTED</span>
-              </div>
-              <span class="workflow-node__port workflow-node__port--out" aria-hidden="true"></span>
+            <div class="web-tech-stack-scroll__badge" data-badge="1" style="--brand-rgb: 0, 0, 0;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false">
+                <path d="M18.665 21.978C16.758 23.255 14.465 24 12 24 5.377 24 0 18.623 0 12S5.377 0 12 0s12 5.377 12 12c0 3.583-1.574 6.801-4.067 9.001L9.219 7.2H7.2v9.596h1.615V9.251l9.85 12.727Zm-3.332-8.533 1.6 2.061V7.2h-1.6v6.245Z" />
+              </svg>
+              <span>Next.js</span>
             </div>
 
-            <!-- Node 03: UI/UX Design -->
-            <div class="workflow-node" data-node-id="2" id="workflow-node-2" tabindex="0" role="group"
-              aria-label="Stage 3: UI/UX Design">
-              <span class="workflow-node__port workflow-node__port--in" aria-hidden="true"></span>
-              <div class="workflow-node__header">
-                <div class="workflow-node__icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M12 19l7-7 3 3-7 7-3-3z" />
-                    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
-                    <path d="M2 2l7.586 7.586" />
-                    <circle cx="11" cy="11" r="2" />
-                  </svg>
-                </div>
-                <span class="workflow-node__label">DESIGN</span>
-              </div>
-              <h3 class="workflow-node__title">UI/UX Design</h3>
-              <p class="workflow-node__description">Create the visual system and responsive experience</p>
-              <div class="workflow-node__status">
-                <span class="workflow-node__status-arrow">&rarr;</span>
-                <span class="workflow-node__status-dot"></span>
-                <span class="workflow-node__status-text">CONNECTED</span>
-              </div>
-              <span class="workflow-node__port workflow-node__port--out" aria-hidden="true"></span>
+            <div class="web-tech-stack-scroll__badge" data-badge="2" style="--brand-rgb: 49, 120, 198;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#3178C6" aria-hidden="true" focusable="false">
+                <path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a1.023 1.023 0 0 0-.074-1.089 2.12 2.12 0 0 0-.537-.5 5.597 5.597 0 0 0-.807-.444 27.72 27.72 0 0 0-1.007-.436c-.918-.383-1.602-.852-2.053-1.405-.45-.553-.676-1.222-.676-2.005 0-.614.123-1.141.369-1.582.246-.441.58-.804 1.004-1.089a4.494 4.494 0 0 1 1.47-.629 7.536 7.536 0 0 1 1.77-.201zm-15.113.188h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z" />
+              </svg>
+              <span>TypeScript</span>
             </div>
 
-            <!-- Node 04: Development -->
-            <div class="workflow-node" data-node-id="3" id="workflow-node-3" tabindex="0" role="group"
-              aria-label="Stage 4: Development">
-              <span class="workflow-node__port workflow-node__port--in" aria-hidden="true"></span>
-              <div class="workflow-node__header">
-                <div class="workflow-node__icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <polyline points="16 18 22 12 16 6" />
-                    <polyline points="8 6 2 12 8 18" />
-                  </svg>
-                </div>
-                <span class="workflow-node__label">DEVELOPMENT</span>
-              </div>
-              <h3 class="workflow-node__title">Development</h3>
-              <p class="workflow-node__description">Build a fast and responsive production-ready website</p>
-              <div class="workflow-node__status">
-                <span class="workflow-node__status-arrow">&rarr;</span>
-                <span class="workflow-node__status-dot"></span>
-                <span class="workflow-node__status-text">CONNECTED</span>
-              </div>
-              <span class="workflow-node__port workflow-node__port--out" aria-hidden="true"></span>
+            <div class="web-tech-stack-scroll__badge" data-badge="3" style="--brand-rgb: 56, 189, 248;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#38BDF8" aria-hidden="true" focusable="false">
+                <path
+                  d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.336 6.182 14.975 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.336 13.382 8.975 12 6.001 12z" />
+              </svg>
+              <span>Tailwind CSS</span>
             </div>
 
-            <!-- Node 05: Test & Refine -->
-            <div class="workflow-node" data-node-id="4" id="workflow-node-4" tabindex="0" role="group"
-              aria-label="Stage 5: Test & Refine">
-              <span class="workflow-node__port workflow-node__port--in" aria-hidden="true"></span>
-              <div class="workflow-node__header">
-                <div class="workflow-node__icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                    <polyline points="9 12 11 14 15 10" />
-                  </svg>
-                </div>
-                <span class="workflow-node__label">TESTING</span>
-              </div>
-              <h3 class="workflow-node__title">Test &amp; Refine</h3>
-              <p class="workflow-node__description">Test performance, responsiveness and interactions</p>
-              <div class="workflow-node__status">
-                <span class="workflow-node__status-arrow">&rarr;</span>
-                <span class="workflow-node__status-dot"></span>
-                <span class="workflow-node__status-text">CONNECTED</span>
-              </div>
-              <span class="workflow-node__port workflow-node__port--out" aria-hidden="true"></span>
+            <div class="web-tech-stack-scroll__badge" data-badge="4" style="--brand-rgb: 95, 160, 78;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#5FA04E" aria-hidden="true" focusable="false">
+                <path d="M11.998 24c-.321 0-.641-.084-.922-.247L8.14 22.016c-.438-.245-.224-.332-.08-.383.585-.203.703-.25 1.328-.604.065-.037.151-.023.218.017l2.256 1.339c.082.045.197.045.272 0l8.795-5.076c.082-.047.134-.141.134-.238V6.921c0-.099-.053-.192-.137-.242l-8.791-5.072c-.081-.047-.189-.047-.271 0L3.075 6.68c-.085.049-.139.145-.139.241v10.15c0 .097.054.189.139.235l2.409 1.392c1.307.654 2.108-.116 2.108-.89V7.787c0-.142.114-.253.256-.253h1.115c.139 0 .255.112.255.253v10.021c0 1.745-.95 2.745-2.604 2.745-.508 0-.909 0-2.026-.551L2.28 18.675c-.57-.329-.922-.945-.922-1.604V6.921c0-.659.353-1.275.922-1.603L11.075.236c.557-.315 1.296-.315 1.848 0l8.794 5.082c.57.329.924.944.924 1.603v10.15c0 .659-.354 1.273-.924 1.604l-8.794 5.078c-.28.163-.599.247-.925.247zm7.101-10.007c0-1.9-1.284-2.406-3.987-2.763-2.731-.361-3.009-.548-3.009-1.187 0-.528.235-1.233 2.258-1.233 1.807 0 2.473.389 2.747 1.607.024.115.129.199.247.199h1.141c.071 0 .138-.031.186-.081.048-.054.074-.123.067-.196-.177-2.098-1.571-3.076-4.388-3.076-2.508 0-4.004 1.058-4.004 2.833 0 1.925 1.488 2.457 3.895 2.695 2.88.282 3.103.703 3.103 1.269 0 .983-.789 1.402-2.642 1.402-2.327 0-2.839-.584-3.011-1.742-.02-.124-.126-.215-.253-.215h-1.137c-.141 0-.254.112-.254.253 0 1.482.806 3.248 4.655 3.248 2.786 0 4.384-1.097 4.384-3.014z" />
+              </svg>
+              <span>Node.js</span>
             </div>
 
-            <!-- Node 06: Launch & Grow -->
-            <div class="workflow-node" data-node-id="5" id="workflow-node-5" tabindex="0" role="group"
-              aria-label="Stage 6: Launch & Grow">
-              <span class="workflow-node__port workflow-node__port--in" aria-hidden="true"></span>
-              <div class="workflow-node__header">
-                <div class="workflow-node__icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path
-                      d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
-                    <path
-                      d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
-                    <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
-                    <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
-                  </svg>
-                </div>
-                <span class="workflow-node__label">LAUNCH</span>
-              </div>
-              <h3 class="workflow-node__title">Launch &amp; Grow</h3>
-              <p class="workflow-node__description">Deploy, monitor and continuously improve the experience</p>
-              <div class="workflow-node__status">
-                <span class="workflow-node__status-arrow">&rarr;</span>
-                <span class="workflow-node__status-dot"></span>
-                <span class="workflow-node__status-text">CONNECTED</span>
-              </div>
-              <span class="workflow-node__port workflow-node__port--out" aria-hidden="true"></span>
+            <div class="web-tech-stack-scroll__badge" data-badge="5" style="--brand-rgb: 150, 191, 72;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#95BF47" aria-hidden="true" focusable="false">
+                <path d="M15.337 23.979l7.216-1.561s-2.604-17.613-2.625-17.73c-.018-.116-.114-.192-.211-.192s-1.929-.136-1.929-.136-1.275-1.274-1.439-1.411c-.045-.037-.075-.057-.121-.074l-.914 21.104h.023zM11.71 11.305s-.81-.424-1.774-.424c-1.447 0-1.504.906-1.504 1.141 0 1.232 3.24 1.715 3.24 4.629 0 2.295-1.44 3.76-3.406 3.76-2.354 0-3.54-1.465-3.54-1.465l.646-2.086s1.245 1.066 2.28 1.066c.675 0 .975-.545.975-.932 0-1.619-2.654-1.694-2.654-4.359-.034-2.237 1.571-4.416 4.827-4.416 1.257 0 1.875.361 1.875.361l-.945 2.715-.02.01zM11.17.83c.136 0 .271.038.405.135-.984.465-2.064 1.639-2.508 3.992-.656.213-1.293.405-1.889.578C7.697 3.75 8.951.84 11.17.84V.83zm1.235 2.949v.135c-.754.232-1.583.484-2.394.736.466-1.777 1.333-2.645 2.085-2.971.193.501.309 1.176.309 2.1zm.539-2.234c.694.074 1.141.867 1.429 1.755-.349.114-.735.231-1.158.366v-.252c0-.752-.096-1.371-.271-1.871v.002zm2.992 1.289c-.02 0-.06.021-.078.021s-.289.075-.714.21c-.423-1.233-1.176-2.37-2.508-2.37h-.115C12.135.209 11.669 0 11.265 0 8.159 0 6.675 3.877 6.21 5.846c-1.194.365-2.063.636-2.16.674-.675.213-.694.232-.772.87-.075.462-1.83 14.063-1.83 14.063L15.009 24l.927-21.166z" />
+              </svg>
+              <span>Shopify</span>
+            </div>
+
+            <div class="web-tech-stack-scroll__badge" data-badge="6" style="--brand-rgb: 66, 184, 131;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#42B883" aria-hidden="true" focusable="false">
+                <path d="M24 1.61H14.06L12 5.16 9.94 1.61H0L12 22.39ZM12 14.08 5.16 2.23H9.59L12 6.41l2.41-4.18h4.43Z" />
+              </svg>
+              <span>Vue.js</span>
             </div>
 
           </div>
-        </div>
-      </div>
-    </section>
+          <div class="web-tech-stack-scroll__badge-row" aria-label="Backend and infrastructure technologies">
 
-    <!-- ═══ CAPABILITIES GRID ═══ -->
-    <section class="web-capabilities-section section-padding" id="web-capabilities">
-      <div class="container">
-        <div class="section-header center reveal">
-          <span class="label-text wipe-in">Engineering</span>
-          <h2 class="h1">What Sets Our Websites Apart</h2>
-          <p class="body-text" style="max-width: var(--max-width-narrow); margin: 0 auto;">Every website we build is
-            crafted around six core pillars of modern web performance.</p>
-        </div>
+            <div class="web-tech-stack-scroll__badge" data-badge="7" style="--brand-rgb: 55, 118, 171;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#3776AB" aria-hidden="true" focusable="false">
+                <path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z" />
+              </svg>
+              <span>Python</span>
+            </div>
 
+            <div class="web-tech-stack-scroll__badge" data-badge="8" style="--brand-rgb: 62, 207, 142;">
+              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                <path
+                  d="M13.447 2.112a1.2 1.2 0 00-1.894 0L1.758 14.51c-.693.882-.065 2.175 1.056 2.175H11.5v6.203a1.2 1.2 0 001.894.957l9.795-12.398c.693-.882.065-2.175-1.056-2.175H13.5V2.112z"
+                  fill="#3ECF8E" />
+              </svg>
+              <span>Supabase</span>
+            </div>
+
+            <div class="web-tech-stack-scroll__badge" data-badge="9" style="--brand-rgb: 65, 105, 225;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#4169E1" aria-hidden="true" focusable="false">
+                <path d="M23.5594 14.7228a.5269.5269 0 0 0-.0563-.1191c-.139-.2632-.4768-.3418-1.0074-.2321-1.6533.3411-2.2935.1312-2.5256-.0191 1.342-2.0482 2.445-4.522 3.0411-6.8297.2714-1.0507.7982-3.5237.1222-4.7316a1.5641 1.5641 0 0 0-.1509-.235C21.6931.9086 19.8007.0248 17.5099.0005c-1.4947-.0158-2.7705.3461-3.1161.4794a9.449 9.449 0 0 0-.5159-.0816 8.044 8.044 0 0 0-1.3114-.1278c-1.1822-.0184-2.2038.2642-3.0498.8406-.8573-.3211-4.7888-1.645-7.2219.0788C.9359 2.1526.3086 3.8733.4302 6.3043c.0409.818.5069 3.334 1.2423 5.7436.4598 1.5065.9387 2.7019 1.4334 3.582.553.9942 1.1259 1.5933 1.7143 1.7895.4474.1491 1.1327.1441 1.8581-.7279.8012-.9635 1.5903-1.8258 1.9446-2.2069.4351.2355.9064.3625 1.39.3772a.0569.0569 0 0 0 .0004.0041 11.0312 11.0312 0 0 0-.2472.3054c-.3389.4302-.4094.5197-1.5002.7443-.3102.064-1.1344.2339-1.1464.8115-.0025.1224.0329.2309.0919.3268.2269.4231.9216.6097 1.015.6331 1.3345.3335 2.5044.092 3.3714-.6787-.017 2.231.0775 4.4174.3454 5.0874.2212.5529.7618 1.9045 2.4692 1.9043.2505 0 .5263-.0291.8296-.0941 1.7819-.3821 2.5557-1.1696 2.855-2.9059.1503-.8707.4016-2.8753.5388-4.1012.0169-.0703.0357-.1207.057-.1362.0007-.0005.0697-.0471.4272.0307a.3673.3673 0 0 0 .0443.0068l.2539.0223.0149.001c.8468.0384 1.9114-.1426 2.5312-.4308.6438-.2988 1.8057-1.0323 1.5951-1.6698zM2.371 11.8765c-.7435-2.4358-1.1779-4.8851-1.2123-5.5719-.1086-2.1714.4171-3.6829 1.5623-4.4927 1.8367-1.2986 4.8398-.5408 6.108-.13-.0032.0032-.0066.0061-.0098.0094-2.0238 2.044-1.9758 5.536-1.9708 5.7495-.0002.0823.0066.1989.0162.3593.0348.5873.0996 1.6804-.0735 2.9184-.1609 1.1504.1937 2.2764.9728 3.0892.0806.0841.1648.1631.2518.2374-.3468.3714-1.1004 1.1926-1.9025 2.1576-.5677.6825-.9597.5517-1.0886.5087-.3919-.1307-.813-.5871-1.2381-1.3223-.4796-.839-.9635-2.0317-1.4155-3.5126zm6.0072 5.0871c-.1711-.0428-.3271-.1132-.4322-.1772.0889-.0394.2374-.0902.4833-.1409 1.2833-.2641 1.4815-.4506 1.9143-1.0002.0992-.126.2116-.2687.3673-.4426a.3549.3549 0 0 0 .0737-.1298c.1708-.1513.2724-.1099.4369-.0417.156.0646.3078.26.3695.4752.0291.1016.0619.2945-.0452.4444-.9043 1.2658-2.2216 1.2494-3.1676 1.0128zm2.094-3.988-.0525.141c-.133.3566-.2567.6881-.3334 1.003-.6674-.0021-1.3168-.2872-1.8105-.8024-.6279-.6551-.9131-1.5664-.7825-2.5004.1828-1.3079.1153-2.4468.079-3.0586-.005-.0857-.0095-.1607-.0122-.2199.2957-.2621 1.6659-.9962 2.6429-.7724.4459.1022.7176.4057.8305.928.5846 2.7038.0774 3.8307-.3302 4.7363-.084.1866-.1633.3629-.2311.5454zm7.3637 4.5725c-.0169.1768-.0358.376-.0618.5959l-.146.4383a.3547.3547 0 0 0-.0182.1077c-.0059.4747-.054.6489-.115.8693-.0634.2292-.1353.4891-.1794 1.0575-.11 1.4143-.8782 2.2267-2.4172 2.5565-1.5155.3251-1.7843-.4968-2.0212-1.2217a6.5824 6.5824 0 0 0-.0769-.2266c-.2154-.5858-.1911-1.4119-.1574-2.5551.0165-.5612-.0249-1.9013-.3302-2.6462.0044-.2932.0106-.5909.019-.8918a.3529.3529 0 0 0-.0153-.1126 1.4927 1.4927 0 0 0-.0439-.208c-.1226-.4283-.4213-.7866-.7797-.9351-.1424-.059-.4038-.1672-.7178-.0869.067-.276.1831-.5875.309-.9249l.0529-.142c.0595-.16.134-.3257.213-.5012.4265-.9476 1.0106-2.2453.3766-5.1772-.2374-1.0981-1.0304-1.6343-2.2324-1.5098-.7207.0746-1.3799.3654-1.7088.5321a5.6716 5.6716 0 0 0-.1958.1041c.0918-1.1064.4386-3.1741 1.7357-4.4823a4.0306 4.0306 0 0 1 .3033-.276.3532.3532 0 0 0 .1447-.0644c.7524-.5706 1.6945-.8506 2.802-.8325.4091.0067.8017.0339 1.1742.081 1.939.3544 3.2439 1.4468 4.0359 2.3827.8143.9623 1.2552 1.9315 1.4312 2.4543-1.3232-.1346-2.2234.1268-2.6797.779-.9926 1.4189.543 4.1729 1.2811 5.4964.1353.2426.2522.4522.2889.5413.2403.5825.5515.9713.7787 1.2552.0696.087.1372.1714.1885.245-.4008.1155-1.1208.3825-1.0552 1.717-.0123.1563-.0423.4469-.0834.8148-.0461.2077-.0702.4603-.0994.7662zm.8905-1.6211c-.0405-.8316.2691-.9185.5967-1.0105a2.8566 2.8566 0 0 0 .135-.0406 1.202 1.202 0 0 0 .1342.103c.5703.3765 1.5823.4213 3.0068.1344-.2016.1769-.5189.3994-.9533.6011-.4098.1903-1.0957.333-1.7473.3636-.7197.0336-1.0859-.0807-1.1721-.151zm.5695-9.2712c-.0059.3508-.0542.6692-.1054 1.0017-.055.3576-.112.7274-.1264 1.1762-.0142.4368.0404.8909.0932 1.3301.1066.887.216 1.8003-.2075 2.7014a3.5272 3.5272 0 0 1-.1876-.3856c-.0527-.1276-.1669-.3326-.3251-.6162-.6156-1.1041-2.0574-3.6896-1.3193-4.7446.3795-.5427 1.3408-.5661 2.1781-.463zm.2284 7.0137a12.3762 12.3762 0 0 0-.0853-.1074l-.0355-.0444c.7262-1.1995.5842-2.3862.4578-3.4385-.0519-.4318-.1009-.8396-.0885-1.2226.0129-.4061.0666-.7543.1185-1.0911.0639-.415.1288-.8443.1109-1.3505.0134-.0531.0188-.1158.0118-.1902-.0457-.4855-.5999-1.938-1.7294-3.253-.6076-.7073-1.4896-1.4972-2.6889-2.0395.5251-.1066 1.2328-.2035 2.0244-.1859 2.0515.0456 3.6746.8135 4.8242 2.2824a.908.908 0 0 1 .0667.1002c.7231 1.3556-.2762 6.2751-2.9867 10.5405zm-8.8166-6.1162c-.025.1794-.3089.4225-.6211.4225a.5821.5821 0 0 1-.0809-.0056c-.1873-.026-.3765-.144-.5059-.3156-.0458-.0605-.1203-.178-.1055-.2844.0055-.0401.0261-.0985.0925-.1488.1182-.0894.3518-.1226.6096-.0867.3163.0441.6426.1938.6113.4186zm7.9305-.4114c.0111.0792-.049.201-.1531.3102-.0683.0717-.212.1961-.4079.2232a.5456.5456 0 0 1-.075.0052c-.2935 0-.5414-.2344-.5607-.3717-.024-.1765.2641-.3106.5611-.352.297-.0414.6111.0088.6356.1851z" />
+              </svg>
+              <span>PostgreSQL</span>
+            </div>
+
+            <div class="web-tech-stack-scroll__badge" data-badge="10" style="--brand-rgb: 36, 150, 237;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#2496ED" aria-hidden="true" focusable="false">
+                <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.186.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.186.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.186.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z" />
+              </svg>
+              <span>Docker</span>
+            </div>
+
+            <div class="web-tech-stack-scroll__badge" data-badge="11" style="--brand-rgb: 225, 0, 152;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#E10098" aria-hidden="true" focusable="false">
+                <path d="M12.002 0a2.138 2.138 0 1 0 0 4.277 2.138 2.138 0 1 0 0-4.277zm8.54 4.931a2.138 2.138 0 1 0 0 4.277 2.138 2.138 0 1 0 0-4.277zm0 9.862a2.138 2.138 0 1 0 0 4.277 2.138 2.138 0 1 0 0-4.277zm-8.54 4.931a2.138 2.138 0 1 0 0 4.276 2.138 2.138 0 1 0 0-4.276zm-8.542-4.93a2.138 2.138 0 1 0 0 4.276 2.138 2.138 0 1 0 0-4.277zm0-9.863a2.138 2.138 0 1 0 0 4.277 2.138 2.138 0 1 0 0-4.277zm8.542-3.378L2.953 6.777v10.448l9.049 5.224 9.047-5.224V6.777zm0 1.601 7.66 13.27H4.34zm-1.387.371L3.97 15.037V7.363zm2.774 0 6.646 3.838v7.674zM5.355 17.44h13.293l-6.646 3.836z" />
+              </svg>
+              <span>GraphQL</span>
+            </div>
+
+          </div>
+          <div class="web-tech-stack-scroll__badge-row" aria-label="Content and cloud technologies">
+
+            <div class="web-tech-stack-scroll__badge" data-badge="12" style="--brand-rgb: 33, 117, 155;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#21759B" aria-hidden="true" focusable="false">
+                <path d="M21.469 6.825c.84 1.537 1.318 3.3 1.318 5.175 0 3.979-2.156 7.456-5.363 9.325l3.295-9.527c.615-1.54.82-2.771.82-3.864 0-.405-.026-.78-.07-1.11m-7.981.105c.647-.03 1.232-.105 1.232-.105.582-.075.514-.93-.067-.899 0 0-1.755.135-2.88.135-1.064 0-2.85-.15-2.85-.15-.585-.03-.661.855-.075.885 0 0 .54.061 1.125.09l1.68 4.605-2.37 7.08L5.354 6.9c.649-.03 1.234-.1 1.234-.1.585-.075.516-.93-.065-.896 0 0-1.746.138-2.874.138-.2 0-.438-.008-.69-.015C4.911 3.15 8.235 1.215 12 1.215c2.809 0 5.365 1.072 7.286 2.833-.046-.003-.091-.009-.141-.009-1.06 0-1.812.923-1.812 1.914 0 .89.513 1.643 1.06 2.531.411.72.89 1.643.89 2.977 0 .915-.354 1.994-.821 3.479l-1.075 3.585-3.9-11.61.001.014zM12 22.784c-1.059 0-2.081-.153-3.048-.437l3.237-9.406 3.315 9.087c.024.053.05.101.078.149-1.12.393-2.325.609-3.582.609M1.211 12c0-1.564.336-3.05.935-4.39L7.29 21.709C3.694 19.96 1.212 16.271 1.211 12M12 0C5.385 0 0 5.385 0 12s5.385 12 12 12 12-5.385 12-12S18.615 0 12 0" />
+              </svg>
+              <span>WordPress</span>
+            </div>
+
+            <div class="web-tech-stack-scroll__badge" data-badge="13" style="--brand-rgb: 255, 153, 0;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#FF9900" aria-hidden="true" focusable="false">
+                <path d="M6.763 10.036c0 .296.032.535.088.71.064.176.144.368.256.576.04.063.056.127.056.183 0 .08-.048.16-.152.24l-.503.335a.383.383 0 0 1-.208.072c-.08 0-.16-.04-.239-.112a2.47 2.47 0 0 1-.287-.375 6.18 6.18 0 0 1-.248-.471c-.622.734-1.405 1.101-2.347 1.101-.67 0-1.205-.191-1.596-.574-.391-.384-.59-.894-.59-1.533 0-.678.239-1.23.726-1.644.487-.415 1.133-.623 1.955-.623.272 0 .551.024.846.064.296.04.6.104.918.176v-.583c0-.607-.127-1.03-.375-1.277-.255-.248-.686-.367-1.3-.367-.28 0-.568.031-.863.103-.295.072-.583.16-.862.272a2.287 2.287 0 0 1-.28.104.488.488 0 0 1-.127.023c-.112 0-.168-.08-.168-.247v-.391c0-.128.016-.224.056-.28a.597.597 0 0 1 .224-.167c.279-.144.614-.264 1.005-.36a4.84 4.84 0 0 1 1.246-.151c.95 0 1.644.216 2.091.647.439.43.662 1.085.662 1.963v2.586zm-3.24 1.214c.263 0 .534-.048.822-.144.287-.096.543-.271.758-.51.128-.152.224-.32.272-.512.047-.191.08-.423.08-.694v-.335a6.66 6.66 0 0 0-.735-.136 6.02 6.02 0 0 0-.75-.048c-.535 0-.926.104-1.19.32-.263.215-.39.518-.39.917 0 .375.095.655.295.846.191.2.47.296.838.296zm6.41.862c-.144 0-.24-.024-.304-.08-.064-.048-.12-.16-.168-.311L7.586 5.55a1.398 1.398 0 0 1-.072-.32c0-.128.064-.2.191-.2h.783c.151 0 .255.025.31.08.065.048.113.16.16.312l1.342 5.284 1.245-5.284c.04-.16.088-.264.151-.312a.549.549 0 0 1 .32-.08h.638c.152 0 .256.025.32.08.063.048.12.16.151.312l1.261 5.348 1.381-5.348c.048-.16.104-.264.16-.312a.52.52 0 0 1 .311-.08h.743c.127 0 .2.065.2.2 0 .04-.009.08-.017.128a1.137 1.137 0 0 1-.056.2l-1.923 6.17c-.048.16-.104.263-.168.311a.51.51 0 0 1-.303.08h-.687c-.151 0-.255-.024-.32-.08-.063-.056-.119-.16-.15-.32l-1.238-5.148-1.23 5.14c-.04.16-.087.264-.15.32-.065.056-.177.08-.32.08zm10.256.215c-.415 0-.83-.048-1.229-.143-.399-.096-.71-.2-.918-.32-.128-.071-.215-.151-.247-.223a.563.563 0 0 1-.048-.224v-.407c0-.167.064-.247.183-.247.048 0 .096.008.144.024.048.016.12.048.2.08.271.12.566.215.878.279.319.064.63.096.95.096.502 0 .894-.088 1.165-.264a.86.86 0 0 0 .415-.758.777.777 0 0 0-.215-.559c-.144-.151-.416-.287-.807-.415l-1.157-.36c-.583-.183-1.014-.454-1.277-.813a1.902 1.902 0 0 1-.4-1.158c0-.335.073-.63.216-.886.144-.255.335-.479.575-.654.24-.184.51-.32.83-.415.32-.096.655-.136 1.006-.136.175 0 .359.008.535.032.183.024.35.056.518.088.16.04.312.08.455.127.144.048.256.096.336.144a.69.69 0 0 1 .24.2.43.43 0 0 1 .071.263v.375c0 .168-.064.256-.184.256a.83.83 0 0 1-.303-.096 3.652 3.652 0 0 0-1.532-.311c-.455 0-.815.071-1.062.223-.248.152-.375.383-.375.71 0 .224.08.416.24.567.159.152.454.304.877.44l1.134.358c.574.184.99.44 1.237.767.247.327.367.702.367 1.117 0 .343-.072.655-.207.926-.144.272-.336.511-.583.703-.248.2-.543.343-.886.447-.36.111-.734.167-1.142.167zM21.698 16.207c-2.626 1.94-6.442 2.969-9.722 2.969-4.598 0-8.74-1.7-11.87-4.526-.247-.223-.024-.527.272-.351 3.384 1.963 7.559 3.153 11.877 3.153 2.914 0 6.114-.607 9.06-1.852.439-.2.814.287.383.607zM22.792 14.961c-.336-.43-2.22-.207-3.074-.103-.255.032-.295-.192-.063-.36 1.5-1.053 3.967-.75 4.254-.399.287.36-.08 2.826-1.485 4.007-.215.184-.423.088-.327-.151.32-.79 1.03-2.57.695-2.994z" />
+              </svg>
+              <span>AWS</span>
+            </div>
+
+            <div class="web-tech-stack-scroll__badge" data-badge="14" style="--brand-rgb: 247, 223, 30;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#F7DF1E" aria-hidden="true" focusable="false">
+                <path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z" />
+              </svg>
+              <span>JavaScript</span>
+            </div>
+          </div>
+        </div>
         <div class="capabilities-grid reveal delay-1">
 
           <div class="capability-card">
@@ -744,161 +674,6 @@
               zero latency worldwide access.</p>
           </div>
 
-        </div>
-      </div>
-    </section>
-
-
-
-    <!-- ═══ TECH STACK SCROLL ANIMATION ═══ -->
-    <section class="web-tech-stack-scroll" id="web-tech-stack-scroll"
-      aria-label="Integrate with your favourite tech stack">
-      <div class="web-tech-stack-scroll__inner">
-        <p class="web-tech-stack-scroll__text" aria-label="Integrate with your fav tech stack">
-          <span class="web-tech-stack-scroll__line" data-line="0">
-            <span class="web-tech-stack-scroll__word" data-word="0">Integrate</span><span
-              class="web-tech-stack-scroll__word" data-word="1">with</span><span class="web-tech-stack-scroll__word"
-              data-word="2">your</span>
-          </span>
-          <span class="web-tech-stack-scroll__line" data-line="1">
-            <span class="web-tech-stack-scroll__word" data-word="3">fav</span><span class="web-tech-stack-scroll__word"
-              data-word="4">tech</span><span class="web-tech-stack-scroll__word" data-word="5"><span
-                class="web-tech-stack-scroll__accent">stack</span></span>
-          </span>
-        </p>
-
-        <!-- Tech Stack Logo Badges (Scroll Trigger Animation) -->
-        <div class="web-tech-stack-scroll__logos" aria-label="Supported Technologies">
-          <div class="web-tech-stack-scroll__badge" data-badge="0" style="--brand-rgb: 97, 218, 251;">
-            <svg viewBox="-11.5 -10.23174 23 20.46348" width="20" height="20" aria-hidden="true" focusable="false">
-              <circle cx="0" cy="0" r="2.05" fill="#61DAFB" />
-              <g stroke="#61DAFB" stroke-width="1" fill="none">
-                <ellipse rx="11" ry="4.2" />
-                <ellipse rx="11" ry="4.2" transform="rotate(60)" />
-                <ellipse rx="11" ry="4.2" transform="rotate(120)" />
-              </g>
-            </svg>
-            <span>React</span>
-          </div>
-
-          <div class="web-tech-stack-scroll__badge" data-badge="1" style="--brand-rgb: 0, 0, 0;">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false">
-              <path
-                d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.122 17.524L8.932 6.945h1.74l6.98 9.068-.53 1.511zm-.433-4.832l-1.39-1.802v-3.945h1.39v5.747z" />
-            </svg>
-            <span>Next.js</span>
-          </div>
-
-          <div class="web-tech-stack-scroll__badge" data-badge="2" style="--brand-rgb: 49, 120, 198;">
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
-              <rect width="24" height="24" rx="4" fill="#3178C6" />
-              <path
-                d="M11.75 14.28c-.2.32-.46.58-.78.78-.32.19-.71.29-1.16.29-.6 0-1.07-.17-1.42-.52-.35-.35-.55-.88-.6-1.58H6.2c.06 1.05.41 1.88 1.05 2.47.64.59 1.48.89 2.52.89.72 0 1.36-.14 1.93-.43.56-.28 1-.7 1.31-1.25.32-.55.48-1.2.48-1.95 0-.67-.14-1.22-.41-1.66-.27-.44-.65-.8-1.14-1.08-.49-.28-1.09-.52-1.79-.72-.61-.17-1.04-.34-1.29-.51-.25-.17-.38-.41-.38-.72 0-.3.12-.55.37-.74.25-.19.6-.28 1.06-.28.47 0 .84.11 1.11.32.27.22.42.55.45 1h1.55c-.05-.8-.35-1.43-.89-1.88-.54-.45-1.28-.68-2.22-.68-.7 0-1.32.14-1.85.42-.53.28-.93.68-1.2 1.2-.27.52-.41 1.12-.41 1.8 0 .68.14 1.24.42 1.69.28.45.68.82 1.19 1.11.51.29 1.11.54 1.8.75.6.18 1.03.37 1.3.57.27.2.4.47.4.81 0 .36-.14.65-.41.87zM18.8 8h-6.2v1.54h2.24v7h1.72v-7h2.24V8z"
-                fill="#FFFFFF" />
-            </svg>
-            <span>TypeScript</span>
-          </div>
-
-          <div class="web-tech-stack-scroll__badge" data-badge="3" style="--brand-rgb: 56, 189, 248;">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="#38BDF8" aria-hidden="true" focusable="false">
-              <path
-                d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.336 6.182 14.975 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.336 13.382 8.975 12 6.001 12z" />
-            </svg>
-            <span>Tailwind CSS</span>
-          </div>
-
-          <div class="web-tech-stack-scroll__badge" data-badge="4" style="--brand-rgb: 95, 160, 78;">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="#5FA04E" aria-hidden="true" focusable="false">
-              <path
-                d="M11.998 2.25a1.5 1.5 0 00-.75.201l-7.5 4.33a1.5 1.5 0 00-.75 1.3v8.66a1.5 1.5 0 00.75 1.3l7.5 4.33c.465.268 1.035.268 1.5 0l7.5-4.33a1.5 1.5 0 00.75-1.3V8.081a1.5 1.5 0 00-.75-1.3l-7.5-4.33a1.503 1.503 0 00-.75-.201zm0 2.6l6.5 3.75v7.5l-6.5 3.75-6.5-3.75v-7.5l6.5-3.75z" />
-              <path d="M12 9.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5z" />
-            </svg>
-            <span>Node.js</span>
-          </div>
-
-          <div class="web-tech-stack-scroll__badge" data-badge="5" style="--brand-rgb: 150, 191, 72;">
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
-              <path
-                d="M21.24 6.27l-2.03-.61c-.04-.15-.1-.31-.19-.48-.63-1.22-1.74-1.89-3.2-1.92-.09 0-.17 0-.26.01-1.07.09-2.06.66-2.92 1.69-.64.76-1.12 1.76-1.39 2.9l-3.23 1c-.34.11-.58.4-.6.76l-.82 12.18c-.02.26.1.51.31.67.14.1.3.15.48.15.06 0 .11 0 .17-.02l9.04-2.82c.28-.09.48-.34.5-.64l1.39-12.87z"
-                fill="#95BF47" />
-              <path
-                d="M13.41 7.86l-2.18.68c.27-1.14.75-2.14 1.39-2.9.46-.55.98-.93 1.52-1.14-.37 1.04-.62 2.22-.73 3.36z"
-                fill="#5E8E3E" />
-              <path
-                d="M14.54 11.53c-.04-.04-.14-.07-.27-.06-.13.01-.29.07-.48.17l-.87.48v2.96l1.24-.38c.36-.11.55-.42.55-.83 0-.41-.06-.69-.17-.84z"
-                fill="#FFFFFF" />
-            </svg>
-            <span>Shopify</span>
-          </div>
-
-          <div class="web-tech-stack-scroll__badge" data-badge="6" style="--brand-rgb: 66, 184, 131;">
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
-              <path d="M12 15.2L4.6 2.4h3.8L12 8.6l3.6-6.2h3.8L12 15.2z" fill="#42B883" />
-              <path d="M12 9.2L6.8 2.4H2L12 19.8 22 2.4h-4.8L12 9.2z" fill="#35495E" />
-            </svg>
-            <span>Vue.js</span>
-          </div>
-
-          <div class="web-tech-stack-scroll__badge" data-badge="7" style="--brand-rgb: 55, 118, 171;">
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
-              <path
-                d="M11.91 2C7.3 2 7.57 3.99 7.57 3.99l.01 2.08h4.41v.63H4.7S2 6.39 2 11c0 4.61 2.37 4.43 2.37 4.43h1.41v-2.09s-.08-2.48 2.43-2.48h4.19s2.35.04 2.35-2.29V4.29S15.11 2 11.91 2zm-1.84 1.35a.86.86 0 11.01 1.72.86.86 0 01-.01-1.72z"
-                fill="#3776AB" />
-              <path
-                d="M12.09 22c4.61 0 4.34-1.99 4.34-1.99l-.01-2.08h-4.41v-.63h7.29S22 17.61 22 13c0-4.61-2.37-4.43-2.37-4.43h-1.41v2.09s.08 2.48-2.43 2.48h-4.19s-2.35-.04-2.35 2.29v4.28S8.89 22 12.09 22zm1.84-1.35a.86.86 0 11-.01-1.72.86.86 0 01.01 1.72z"
-                fill="#FFD43B" />
-            </svg>
-            <span>Python</span>
-          </div>
-
-          <div class="web-tech-stack-scroll__badge" data-badge="8" style="--brand-rgb: 62, 207, 142;">
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
-              <path
-                d="M13.447 2.112a1.2 1.2 0 00-1.894 0L1.758 14.51c-.693.882-.065 2.175 1.056 2.175H11.5v6.203a1.2 1.2 0 001.894.957l9.795-12.398c.693-.882.065-2.175-1.056-2.175H13.5V2.112z"
-                fill="#3ECF8E" />
-            </svg>
-            <span>Supabase</span>
-          </div>
-
-          <div class="web-tech-stack-scroll__badge" data-badge="9" style="--brand-rgb: 65, 105, 225;">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="#4169E1" aria-hidden="true" focusable="false">
-              <path
-                d="M12.072 2.012c-.52 0-1.02.046-1.5.137-.417-.676-1.124-.997-1.99-.997-1.468 0-2.392.934-2.463 2.487C4.195 4.316 2.7 6.435 2.7 9.155c0 3.738 2.507 7.025 6.275 8.225.105.776.368 1.442.793 1.992.83 1.077 2.053 1.628 3.535 1.628 1.48 0 2.704-.551 3.535-1.628.425-.55.688-1.216.793-1.992 3.768-1.2 6.275-4.487 6.275-8.225 0-2.72-1.495-4.839-3.419-5.516-.07-1.553-.995-2.487-2.463-2.487-.866 0-1.573.321-1.99.997-.48-.091-.98-.137-1.5-.137zm-2.025 2.19c.45 0 .783.18.995.534-.41.228-.77.51-1.076.84-.047-.798.156-1.374.081-1.374zm4.05 0c-.075 0 .128.576.08 1.374-.305-.33-.665-.612-1.075-.84.212-.354.545-.534.995-.534zM12 4.417c2.81 0 5.088 2.278 5.088 5.088 0 2.81-2.278 5.088-5.088 5.088-2.81 0-5.088-2.278-5.088-5.088 0-2.81 2.278-5.088 5.088-5.088z" />
-            </svg>
-            <span>PostgreSQL</span>
-          </div>
-
-          <div class="web-tech-stack-scroll__badge" data-badge="10" style="--brand-rgb: 36, 150, 237;">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="#2496ED" aria-hidden="true" focusable="false">
-              <path
-                d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.186.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.186.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.186.186.186m5.893 2.715h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.186.186 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.185-.186H5.136a.186.186 0 00-.186.185v1.888c0 .102.084.185.186.185m-2.928 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.185-.186H2.208a.186.186 0 00-.186.185v1.888c0 .102.084.185.186.185m21.727 1.802c-.31-.205-.97-.333-1.636-.264-.132-.593-.497-1.123-.974-1.493-.46-.358-1.036-.554-1.666-.566-.098 0-.197.003-.296.012-.41-1.077-1.428-1.789-2.585-1.789h-1.69a.186.186 0 00-.185.186v5.228H1.12a.93.93 0 00-.92.931c0 2.217.75 4.34 2.113 5.978 1.488 1.79 3.57 2.872 5.86 3.05 5.568.431 10.428-2.607 12.38-7.733 1.43-.07 3.064-.816 3.382-3.15z" />
-            </svg>
-            <span>Docker</span>
-          </div>
-
-          <div class="web-tech-stack-scroll__badge" data-badge="11" style="--brand-rgb: 225, 0, 152;">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="#E10098" aria-hidden="true" focusable="false">
-              <path
-                d="M12 2l8.66 5v10L12 22l-8.66-5V7L12 2zm0 2.31L5.34 8.15v7.7L12 19.69l6.66-3.84v-7.7L12 4.31zM12 7a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z" />
-            </svg>
-            <span>GraphQL</span>
-          </div>
-
-          <div class="web-tech-stack-scroll__badge" data-badge="12" style="--brand-rgb: 33, 117, 155;">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="#21759B" aria-hidden="true" focusable="false">
-              <path
-                d="M12 2C6.486 2 2 6.486 2 12c0 5.515 4.486 10 10 10 5.514 0 10-4.485 10-10 0-5.514-4.486-10-10-10zm-8.28 10c0-1.847.63-3.55 1.688-4.908L9.04 17.65c-3.14-1.196-5.32-4.22-5.32-7.65zm8.28 8.28c-1.31 0-2.535-.355-3.593-.976l3.774-10.96 3.864 10.59c-.066.012-.132.023-.2.034-.094.015-.19.03-.284.041-1.157.85-2.31 1.271-3.56 1.271zm1.26-12.33l-3.3 9.58L6.87 8.01c.732-.04 1.425-.116 1.425-.116.577-.07.51-1.003-.067-.97 0 0-1.745.143-2.871.143-1.06 0-2.805-.143-2.805-.143-.578-.033-.645.9-.068.97 0 0 .67.076 1.34.116L7.14 18.06l-.01.03-3.23-9.61c.732-.04 1.425-.116 1.425-.116.577-.07.51-1.003-.067-.97 0 0-1.745.143-2.871.143-.225 0-.477-.008-.74-.019C3.655 4.978 7.502 3.72 12 3.72c3.425 0 6.495 1.705 8.355 4.316-.06.002-.12.006-.18.006-.948 0-1.62.825-1.62 1.708 0 .783.45 1.442.923 2.227.378.63.78 1.385.78 2.502 0 .807-.225 1.745-.63 2.768l-2.07-6.07c.732-.04 1.392-.116 1.392-.116.578-.07.512-1.003-.066-.97 0 0-1.745.143-2.872.143-1.126 0-2.871-.143-2.871-.143-.577-.033-.644.9-.066.97 0 0 .693.076 1.385.116z" />
-            </svg>
-            <span>WordPress</span>
-          </div>
-
-          <div class="web-tech-stack-scroll__badge" data-badge="13" style="--brand-rgb: 255, 153, 0;">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="#FF9900" aria-hidden="true" focusable="false">
-              <path
-                d="M6.865 11.233c-.156.402-.27.842-.341 1.32-.07.478-.106.945-.106 1.402 0 .62.062 1.144.185 1.571.124.428.324.767.6 1.018.277.25.641.376 1.093.376.54 0 .99-.17 1.35-.51.36-.34.61-.837.75-1.49l.06-.297h1.492c-.08.625-.262 1.183-.547 1.674-.285.49-.684.88-1.197 1.168-.513.287-1.148.43-1.905.43-.884 0-1.616-.217-2.196-.65-.58-.434-.997-1.026-1.25-1.776-.254-.75-.381-1.634-.381-2.65 0-.96.136-1.812.408-2.557.272-.745.69-1.34 1.254-1.785.564-.445 1.272-.668 2.124-.668.73 0 1.355.15 1.874.451.52.3.928.718 1.224 1.253.296.535.474 1.16.534 1.875h-1.48c-.08-.49-.24-.9-.48-1.23-.24-.33-.55-.58-.93-.75-.38-.17-.83-.255-1.35-.255-.54 0-.986.13-1.338.39-.352.26-.615.63-.789 1.11zM18.89 17.652c-2.73 1.942-6.52 2.97-9.92 2.97-4.66 0-8.86-1.73-12.04-4.61-.25-.23-.27-.6-.04-.84.23-.24.59-.26.84-.03 2.94 2.65 6.82 4.24 11.13 4.24 3.09 0 6.55-.95 9.07-2.73.36-.25.8.17.46.5l.5.5zm1.18-1.15c-.35-.44-2.3-.21-3.18-.1-.27.03-.31-.21-.07-.37 1.55-1.08 4.09-.77 4.39-.4.3.37-.1 2.97-1.57 4.14-.23.18-.44.08-.34-.16.33-.79.92-2.83.77-3.11z" />
-            </svg>
-            <span>AWS</span>
-          </div>
         </div>
       </div>
     </section>
@@ -985,12 +760,6 @@
               <div class="industry-tag"><svg>
                   <use href="#industry-icon-education"></use>
                 </svg><span>Education &amp; E-Learning</span></div>
-              <div class="industry-tag"><svg>
-                  <use href="#industry-icon-fintech"></use>
-                </svg><span>FinTech &amp; Web3</span></div>
-              <div class="industry-tag"><svg>
-                  <use href="#industry-icon-hospitality"></use>
-                </svg><span>Hospitality &amp; Dining</span></div>
             </div>
             <div class="web-industries-marquee__group" aria-hidden="true">
               <div class="industry-tag"><svg>
@@ -1005,12 +774,6 @@
               <div class="industry-tag"><svg>
                   <use href="#industry-icon-education"></use>
                 </svg><span>Education &amp; E-Learning</span></div>
-              <div class="industry-tag"><svg>
-                  <use href="#industry-icon-fintech"></use>
-                </svg><span>FinTech &amp; Web3</span></div>
-              <div class="industry-tag"><svg>
-                  <use href="#industry-icon-hospitality"></use>
-                </svg><span>Hospitality &amp; Dining</span></div>
             </div>
           </div>
         </div>
@@ -1019,11 +782,38 @@
           <div class="web-industries-marquee__track">
             <div class="web-industries-marquee__group">
               <div class="industry-tag"><svg>
+                  <use href="#industry-icon-fintech"></use>
+                </svg><span>FinTech &amp; Web3</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-hospitality"></use>
+                </svg><span>Hospitality &amp; Dining</span></div>
+              <div class="industry-tag"><svg>
                   <use href="#industry-icon-logistics"></use>
                 </svg><span>Logistics &amp; Supply Chain</span></div>
               <div class="industry-tag"><svg>
                   <use href="#industry-icon-media"></use>
                 </svg><span>Media &amp; Publishing</span></div>
+            </div>
+            <div class="web-industries-marquee__group" aria-hidden="true">
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-fintech"></use>
+                </svg><span>FinTech &amp; Web3</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-hospitality"></use>
+                </svg><span>Hospitality &amp; Dining</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-logistics"></use>
+                </svg><span>Logistics &amp; Supply Chain</span></div>
+              <div class="industry-tag"><svg>
+                  <use href="#industry-icon-media"></use>
+                </svg><span>Media &amp; Publishing</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="web-industries-marquee__row web-industries-marquee__row--third">
+          <div class="web-industries-marquee__track">
+            <div class="web-industries-marquee__group">
               <div class="industry-tag"><svg>
                   <use href="#industry-icon-legal"></use>
                 </svg><span>Legal &amp; Professional Services</span></div>
@@ -1039,12 +829,6 @@
             </div>
             <div class="web-industries-marquee__group" aria-hidden="true">
               <div class="industry-tag"><svg>
-                  <use href="#industry-icon-logistics"></use>
-                </svg><span>Logistics &amp; Supply Chain</span></div>
-              <div class="industry-tag"><svg>
-                  <use href="#industry-icon-media"></use>
-                </svg><span>Media &amp; Publishing</span></div>
-              <div class="industry-tag"><svg>
                   <use href="#industry-icon-legal"></use>
                 </svg><span>Legal &amp; Professional Services</span></div>
               <div class="industry-tag"><svg>
@@ -1062,23 +846,129 @@
       </div>
     </section>
 
-    <!-- ═══ CTA SECTION ═══ -->
-    <section class="web-cta-section" id="web-cta">
-      <div class="cta-grid-lines"></div>
-      <div class="container reveal">
-        <span class="cta-eyebrow">GET STARTED TODAY</span>
-        <h2 class="cta-big-title">Ready to Launch Your<br><span>Dream Website?</span></h2>
-        <p class="cta-big-desc">Get a high-performing, bespoke web application engineered to scale your business. Fast
-          delivery, transparent pricing, and 100/100 Lighthouse scores guaranteed.</p>
-        <div class="cta-big-actions">
-          <a href="contact_index.html" class="btn btn--primary magnetic-btn">Start Your Web Project &rarr;</a>
-          <a href="https://wa.me/919943111000" class="btn btn--outline btn--white magnetic-btn" target="_blank"
-            rel="noopener">Chat on WhatsApp</a>
+    <!-- 5. CTA Section (2nd Image) -->
+    <section class="section-padding bg-white" id="marketing-cta-section">
+      <div class="container">
+        <div class="marketing-cta-card reveal"
+          style="background: url('assets/img/services/cta-hummingbird-bg.png') center/cover no-repeat; border-radius: var(--radius-lg);">
+          <div class="cta-card-content">
+            <span class="cta-card-label">Get in Touch</span>
+            <h2 class="display-text cta-card-title">
+              Ready to Build a Website <br />
+              That Performs?
+            </h2>
+            <p class="cta-card-desc">
+              Launch a fast, scalable, conversion-focused website or web application built around your business goals.
+            </p>
+            <div class="cta-card-action">
+              <a href="contact_index.html" class="btn btn--marketing-cta magnetic-btn">
+                Start Your Web Project &rarr;
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
+
+
   </main>
+
+  <dialog class="web-quote-dialog" id="web-quote-dialog" aria-labelledby="web-quote-title"
+    aria-describedby="web-quote-description">
+    <div class="web-quote-dialog__panel">
+      <button type="button" class="web-quote-dialog__close" id="web-quote-close" aria-label="Close quote form">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" aria-hidden="true">
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      </button>
+
+      <div class="web-quote-dialog__header">
+        <span class="label-text">Web Development Quote</span>
+        <h2 class="web-quote-dialog__title" id="web-quote-title">Tell us about your website.</h2>
+        <p class="web-quote-dialog__description" id="web-quote-description">Share a few project details and our
+          development team will contact you with the right approach and an initial estimate.</p>
+      </div>
+
+      <form class="web-quote-form" id="web-quote-form" novalidate>
+        <div class="web-quote-form__grid">
+          <div class="form-group web-quote-form__field">
+            <label class="form-label" for="web-quote-name">Your Name</label>
+            <input type="text" id="web-quote-name" name="name" class="form-input" placeholder="Enter your name"
+              autocomplete="name" required>
+          </div>
+
+          <div class="form-group web-quote-form__field">
+            <label class="form-label" for="web-quote-email">Email Address</label>
+            <input type="email" id="web-quote-email" name="email" class="form-input"
+              placeholder="name@company.com" autocomplete="email" required>
+          </div>
+
+          <div class="form-group web-quote-form__field">
+            <label class="form-label" for="web-quote-phone">Phone Number</label>
+            <input type="tel" id="web-quote-phone" name="phone" class="form-input" placeholder="+91 99949 67655"
+              autocomplete="tel" inputmode="tel" required>
+          </div>
+
+          <div class="form-group web-quote-form__field">
+            <label class="form-label" for="web-quote-company">Company / Brand</label>
+            <input type="text" id="web-quote-company" name="company" class="form-input"
+              placeholder="Your company or brand" autocomplete="organization">
+          </div>
+
+          <div class="form-group web-quote-form__field">
+            <label class="form-label" for="web-quote-type">Website Type</label>
+            <select id="web-quote-type" name="website_type" class="form-select" required>
+              <option value="" disabled selected>Select website type</option>
+              <option value="business-website">Corporate / Business Website</option>
+              <option value="ecommerce">E-Commerce / Shopify Store</option>
+              <option value="web-application">Web Application / PWA</option>
+              <option value="portal-cms">Client Portal / CMS</option>
+              <option value="redesign">Website Redesign</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group web-quote-form__field">
+            <label class="form-label" for="web-quote-budget">Estimated Budget</label>
+            <select id="web-quote-budget" name="budget" class="form-select" required>
+              <option value="" disabled selected>Select budget range</option>
+              <option value="under-50000">Under ₹50,000</option>
+              <option value="50000-100000">₹50,000 – ₹1,00,000</option>
+              <option value="100000-250000">₹1,00,000 – ₹2,50,000</option>
+              <option value="250000-plus">₹2,50,000+</option>
+              <option value="discuss">Let's discuss</option>
+            </select>
+          </div>
+
+          <div class="form-group web-quote-form__field web-quote-form__field--full">
+            <label class="form-label" for="web-quote-timeline">Preferred Timeline</label>
+            <select id="web-quote-timeline" name="timeline" class="form-select" required>
+              <option value="" disabled selected>When would you like to launch?</option>
+              <option value="asap">As soon as possible</option>
+              <option value="one-month">Within 1 month</option>
+              <option value="two-three-months">Within 2–3 months</option>
+              <option value="flexible">Timeline is flexible</option>
+            </select>
+          </div>
+
+          <div class="form-group web-quote-form__field web-quote-form__field--full">
+            <label class="form-label" for="web-quote-details">Project Requirements</label>
+            <textarea id="web-quote-details" name="project_details" class="form-textarea"
+              placeholder="Tell us about your goals, required pages or features, and any reference websites."
+              required></textarea>
+          </div>
+        </div>
+
+        <div class="web-quote-form__footer">
+          <p class="web-quote-form__privacy">Your project information stays private and is used only to prepare your
+            quote.</p>
+          <button type="submit" class="btn btn--primary web-quote-form__submit">Request My Quote &rarr;</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
 
   <div id="footer-slot"></div>
   <script defer src="assets/js/core/app.js"></script>
