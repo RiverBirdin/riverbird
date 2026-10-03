@@ -32270,36 +32270,8 @@ section::after {
   color: var(--color-primary);
 }
 
-.error-404-faq {
-  padding-top: var(--space-64);
-  scroll-margin-top: calc(var(--header-height, 72px) + 24px);
-}
-
 body[data-page="error"] #main-content {
   padding-top: 8px;
-}
-
-.error-404-faq .section-header {
-  max-width: 40rem;
-  margin-inline: auto;
-}
-
-.error-404-faq .section-header .body-text {
-  margin-inline: auto;
-}
-
-.error-404-faq .faq-list {
-  max-width: 42rem;
-}
-
-.error-404-faq .faq-answer .body-text a {
-  color: var(--color-primary);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.error-404-faq .faq-answer .body-text a:hover {
-  text-decoration: underline;
 }
 
 .legal-prose {
