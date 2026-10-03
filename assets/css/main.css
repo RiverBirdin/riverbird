@@ -32086,86 +32086,143 @@ section::after {
   min-height: calc(100dvh - var(--header-height, 72px));
   display: flex;
   align-items: center;
-  padding: calc(var(--header-height, 72px) + var(--space-48)) var(--space-16) var(--space-64);
+  justify-content: center;
+  padding: calc(var(--header-height, 72px) + var(--space-32)) 0 var(--space-64);
   background:
-    radial-gradient(ellipse 80% 60% at 15% 20%, rgba(245, 93, 45, 0.12), transparent 55%),
-    radial-gradient(ellipse 70% 50% at 90% 80%, rgba(255, 143, 107, 0.1), transparent 50%),
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(245, 93, 45, 0.1), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 90% 80%, rgba(255, 143, 107, 0.08), transparent 50%),
     var(--color-bg-white);
 }
 
 .error-404__container {
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(var(--space-32), 5vw, var(--space-48));
-  align-items: start;
-  max-width: 960px;
+  gap: clamp(var(--space-28), 4vw, var(--space-40));
+  align-items: stretch;
+  width: 100%;
+  max-width: 920px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   .error-404__container {
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
     align-items: center;
+    gap: clamp(40px, 5vw, 56px);
+  }
+}
+
+.error-404__main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+@media (min-width: 900px) {
+  .error-404__main {
+    align-items: flex-start;
+    text-align: left;
   }
 }
 
 .error-404__code {
-  margin: 0 0 var(--space-8);
+  margin: 0 0 var(--space-12);
   font-family: var(--font-primary);
-  font-size: clamp(4.5rem, 18vw, 7.5rem);
+  font-size: clamp(3.5rem, 14vw, 6.5rem);
   font-weight: 800;
-  line-height: 0.9;
+  line-height: 1;
   letter-spacing: -0.04em;
   color: var(--color-primary);
-  background: linear-gradient(135deg, #ff9a72 0%, var(--color-primary) 50%, #e54a1f 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
 }
 
-@supports ((-webkit-background-clip: text) or (background-clip: text)) {
-  .error-404__code {
-    color: transparent;
-  }
+.error-404__label {
+  margin-bottom: var(--space-20);
 }
 
 .error-404__title {
-  margin-bottom: var(--space-16);
-  line-height: 1.05;
+  margin: 0 0 var(--space-16);
+  line-height: 1.08;
+  font-size: clamp(2rem, 5.5vw, 3.25rem);
+  max-width: 16em;
 }
 
 .error-404__desc {
-  max-width: 34rem;
-  margin-bottom: var(--space-28);
+  max-width: 36rem;
+  margin: 0 auto var(--space-28);
+  line-height: 1.6;
+}
+
+@media (min-width: 900px) {
+  .error-404__desc {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 
 .error-404__actions {
   margin-bottom: 0;
+  width: 100%;
+  justify-content: center;
+}
+
+@media (min-width: 900px) {
+  .error-404__actions {
+    justify-content: flex-start;
+  }
 }
 
 .error-404__links {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
   padding: clamp(var(--space-20), 4vw, var(--space-28));
   border-radius: var(--radius-lg);
   background: var(--color-bg-alt);
   border: 1px solid var(--color-border);
+  text-align: left;
 }
 
-.error-404__links .label-text {
+@media (min-width: 900px) {
+  .error-404__links {
+    max-width: none;
+    margin: 0;
+  }
+}
+
+.error-404__links-title {
   display: block;
-  margin-bottom: var(--space-16);
+  margin: 0 0 var(--space-16);
+  letter-spacing: 0.06em;
 }
 
 .error-404__link-list {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: var(--space-12);
 }
 
+@media (min-width: 480px) {
+  .error-404__link-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-20);
+  }
+}
+
+@media (min-width: 900px) {
+  .error-404__link-list {
+    grid-template-columns: 1fr;
+  }
+}
+
 .error-404__link-list a {
+  display: block;
   font-family: var(--font-secondary);
   font-size: 0.9375rem;
   font-weight: 600;
+  line-height: 1.4;
   color: var(--color-text-primary);
   text-decoration: none;
   transition: color var(--transition-fast);
