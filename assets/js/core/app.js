@@ -253,6 +253,7 @@ const RIVERBIRD_MAP = {
   embedUrl:
     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.678520222997!2d78.68761557504281!3d10.835895589316477!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3baaf5cf17277963%3A0xb6d3a96e4390a34!2sRiverbird.in%20%7C%20Digital%20Marketing%20Agency!5e0!3m2!1sen!2sin!4v1790852215501!5m2!1sen!2sin',
   /** Legacy @-coords URL (fallback only â€” prefer Place ID links). */
+  /** Legacy @-coords URL (fallback only — prefer Place ID links). */
   mapsPlaceUrl:
     'https://www.google.com/maps/place/Riverbird.in+%7C+Digital+Marketing+Agency/@10.8358956,78.6902292,17z/data=!4m6!3m5!1s0x3baaf5cf17277963:0xb6d3a96e4390a34!8m2!3d10.8358956!4d78.6902292'
 };
@@ -269,6 +270,7 @@ const RIVERBIRD_GBP = {
 /**
  * Opens the full Google Business Profile place card (address, hours, reviews)
  * instead of a bare map pin / â€œAdd a labelâ€ view.
+ * instead of a bare map pin / “Add a label” view.
  * @see https://developers.google.com/maps/documentation/urls/get-started
  */
 function getRiverbirdMapsPlacePageUrl() {
@@ -285,6 +287,7 @@ function getRiverbirdMapsPlacePageUrl() {
 }
 
 /** Google Reviews badge â€” same verified GBP place card as â€œView on Google Mapsâ€. */
+/** Google Reviews badge — same verified GBP place card as “View on Google Maps”. */
 function getRiverbirdGbpBadgeHref() {
   return getRiverbirdMapsPlacePageUrl();
 }
@@ -536,6 +539,7 @@ function buildFallbackGbpBadge(stats) {
 
   return `
     <a class="rb-gbp-badge" href="${mapsHref}" target="_blank" rel="noopener noreferrer" aria-label="View Riverbird on Google â€” office location and reviews">
+    <a class="rb-gbp-badge" href="${mapsHref}" target="_blank" rel="noopener noreferrer" aria-label="View Riverbird on Google — office location and reviews">
       <span class="rb-gbp-badge__logo" aria-hidden="true">
         <svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -2226,6 +2230,13 @@ function buildFaqItem(question, answer, delayClass = '') {
     </div>
   `;
 }
+    if (
+      card.classList.contains('card-showcase') ||
+      card.classList.contains('contact-enquiry-form') ||
+      card.classList.contains('careers-apply-form')
+    ) {
+      return;
+    }
 
 function getAutoFaqsForPage(pageName) {
   const base = [
@@ -3179,6 +3190,50 @@ const developmentSolutions = {
     }
   ]
 };
+  ];
+
+  const byPage = {
+    careers: [
+      { q: 'How do I apply for IT vs digital marketing roles?', a: 'Open <a href="' + resolvePath('careers_index.html') + '">Careers</a> and use the Engineering (IT), Digital Marketing, or Internships filters — or apply directly from the job card.' },
+      { q: 'Are roles based in Trichy or remote?', a: 'Each posting lists location (on-site, hybrid, or remote India). Filter jobs by department to see current openings.' },
+      { q: 'Can I submit a general application?', a: 'Yes. Scroll to Apply Now on the careers page, choose your target role, and upload your CV in PDF or DOCX format.' },
+      { q: 'What is the interview process?', a: 'Typically a screening call, skills assessment, and final conversation with the hiring lead. Marketing roles may include a practical review.' },
+      { q: 'Do you hire freshers?', a: 'We run internship tracks and select entry-level roles — watch the Internships filter for active programs.' }
+    ],
+    contact: [
+      { q: 'What is the best number to reach Riverbird?', a: 'Call <a href="tel:' + RIVERBIRD_CONTACT.phoneTel + '">' + RIVERBIRD_CONTACT.phoneDisplay + '</a> or email <a href="mailto:' + RIVERBIRD_CONTACT.email + '">' + RIVERBIRD_CONTACT.email + '</a>.' },
+      { q: 'Can I visit your office?', a: 'Yes, by appointment. Our address and map are on this page: ' + RIVERBIRD_CONTACT.addressLine },
+      { q: 'Do you quote in rupees?', a: 'All standard proposals and retainers are quoted in <strong>INR (₹)</strong> for Indian clients, including GST details where applicable.' },
+      { q: 'How fast do you respond?', a: 'We aim to reply within 24 hours on business days. Urgent staffing requests can be escalated via phone or WhatsApp.' },
+      { q: 'What should I include in a project brief?', a: 'Share goals, timeline, budget range in INR, and any existing assets (brand kit, codebase, ad accounts) so we can route you to the right team.' }
+    ],
+    blog: [
+      { q: 'How often do you publish articles?', a: 'We add practical guides on engineering, SEO, and staffing as our delivery teams publish learnings from client work.' },
+      { q: 'Can I suggest a topic?', a: 'Email ' + RIVERBIRD_CONTACT.email + ' with your idea — we welcome questions from founders and marketing leads.' },
+      { q: 'Are blog posts written by practitioners?', a: 'Yes. Content is produced by engineers, marketers, and recruiters who implement the strategies described.' },
+      { q: 'Do you cover local SEO for Trichy businesses?', a: 'Several articles address local search, Google Business Profile, and performance marketing for Tamil Nadu markets.' },
+      { q: 'Where do I read case studies?', a: 'Visit our <a href="' + resolvePath('digital_marketing_index.html') + '#testimonials">testimonials</a> and service pages for outcomes and client feedback.' }
+    ]
+  };
+
+  return byPage[pageName] || base;
+}
+
+function ensurePageFaqCoverage() {
+  const page = document.body.getAttribute('data-page');
+  if (page === 'error' || document.body.hasAttribute('data-rb-no-auto-faq')) {
+    document
+      .querySelectorAll('#main-content .rb-auto-faq, #main-content section.faq-section.rb-auto-faq')
+      .forEach((el) => el.remove());
+    return;
+  }
+
+  if (document.getElementById('error-404-faq')) return;
+
+  if (!page || page === 'home' || page === 'legal' || page === 'blog-article') return;
+  if (document.getElementById('company-faq') || document.querySelector('.home-faq .faq-item')) {
+    return;
+  }
 
 const ICONS = {
   software: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>`,
@@ -3204,6 +3259,111 @@ const ICONS = {
   dollar: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>`,
 
   target: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>`,
+  const mapOpenLink = document.getElementById('rb-contact-map-link');
+  if (mapOpenLink) {
+    mapOpenLink.href = RIVERBIRD_CONTACT.mapsUrl;
+  }
+
+  initContactEnquiryServiceSelect();
+}
+
+function initContactEnquiryServiceSelect() {
+  const wrap = document.querySelector('.contact-enquiry-select-wrap');
+  if (!wrap) return;
+
+  const native = wrap.querySelector('.contact-enquiry-select-native');
+  const trigger = wrap.querySelector('.contact-enquiry-select');
+  const valueEl = wrap.querySelector('.contact-enquiry-select__value');
+  const menu = wrap.querySelector('.contact-enquiry-select__menu');
+  const options = [...wrap.querySelectorAll('.contact-enquiry-select__option[role="option"]')];
+  const formGroup = wrap.closest('.form-group');
+  if (!native || !trigger || !valueEl || !menu || !options.length) return;
+
+  let focusIndex = -1;
+
+  function closeMenu() {
+    menu.hidden = true;
+    trigger.setAttribute('aria-expanded', 'false');
+    formGroup?.classList.remove('is-dropdown-open');
+    focusIndex = -1;
+    options.forEach((opt) => opt.classList.remove('is-focused'));
+  }
+
+  function openMenu() {
+    menu.hidden = false;
+    trigger.setAttribute('aria-expanded', 'true');
+    formGroup?.classList.add('is-dropdown-open');
+  }
+
+  function setValue(value, label) {
+    native.value = value;
+    native.dispatchEvent(new Event('change', { bubbles: true }));
+    valueEl.textContent = label;
+    valueEl.classList.remove('is-placeholder');
+    options.forEach((opt) => {
+      const selected = opt.dataset.value === value;
+      opt.setAttribute('aria-selected', selected ? 'true' : 'false');
+    });
+    closeMenu();
+    trigger.focus();
+  }
+
+  trigger.addEventListener('click', () => {
+    if (menu.hidden) openMenu();
+    else closeMenu();
+  });
+
+  options.forEach((opt, index) => {
+    opt.addEventListener('click', () => {
+      setValue(opt.dataset.value, opt.textContent.trim());
+    });
+    opt.addEventListener('mouseenter', () => {
+      focusIndex = index;
+      options.forEach((o, i) => o.classList.toggle('is-focused', i === index));
+    });
+  });
+
+  trigger.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (menu.hidden) openMenu();
+      if (e.key === 'ArrowDown' && options[0]) {
+        focusIndex = 0;
+        options[0].classList.add('is-focused');
+      }
+    } else if (e.key === 'Escape') {
+      closeMenu();
+    }
+  });
+
+  menu.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      closeMenu();
+      trigger.focus();
+      return;
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      focusIndex = Math.min(focusIndex + 1, options.length - 1);
+      options.forEach((o, i) => o.classList.toggle('is-focused', i === focusIndex));
+      options[focusIndex]?.focus();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      focusIndex = Math.max(focusIndex - 1, 0);
+      options.forEach((o, i) => o.classList.toggle('is-focused', i === focusIndex));
+      options[focusIndex]?.focus();
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      const opt = options[focusIndex];
+      if (opt) setValue(opt.dataset.value, opt.textContent.trim());
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!wrap.contains(e.target)) closeMenu();
+  });
+}
 
   handshake: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="rb-icon"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`,
 
@@ -4109,6 +4269,67 @@ function initInteractiveWorkflow() {
     const hA = nodeA.offsetHeight || 150;
     const wB = nodeB.offsetWidth || 260;
     const hB = nodeB.offsetHeight || 150;
+function getJobIllustration(job) {
+  const byId = {
+    'snr-backend-eng': `
+      <svg class="job-card__art" viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="38" y="28" width="124" height="78" rx="8" stroke="#1a1a1a" stroke-width="2.2"/>
+        <path d="M52 98h96" stroke="#1a1a1a" stroke-width="2.2"/>
+        <rect x="88" y="98" width="24" height="8" fill="#F55D2D"/>
+        <path d="M58 48h48M58 58h72M58 68h56" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="148" cy="52" r="10" fill="#F55D2D" opacity="0.9"/>
+        <path d="M30 118h140" stroke="#d1d5db" stroke-width="2" stroke-linecap="round"/>
+      </svg>`,
+    'frontend-dev': `
+      <svg class="job-card__art" viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="34" y="22" width="132" height="88" rx="10" stroke="#1a1a1a" stroke-width="2.2"/>
+        <rect x="44" y="34" width="48" height="36" rx="4" stroke="#F55D2D" stroke-width="2"/>
+        <path d="M104 40h44M104 52h36M104 64h28" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/>
+        <path d="M56 86l10 8 18-22" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="158" cy="108" r="14" stroke="#1a1a1a" stroke-width="2"/>
+        <path d="M152 108h12M158 102v12" stroke="#F55D2D" stroke-width="2"/>
+      </svg>`,
+    'digital-marketing-lead': `
+      <svg class="job-card__art" viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="28" y="88" width="24" height="40" rx="3" stroke="#1a1a1a" stroke-width="2"/>
+        <rect x="58" y="72" width="24" height="56" rx="3" stroke="#1a1a1a" stroke-width="2"/>
+        <rect x="88" y="56" width="24" height="72" rx="3" fill="#F55D2D" opacity="0.85"/>
+        <rect x="118" y="68" width="24" height="60" rx="3" stroke="#1a1a1a" stroke-width="2"/>
+        <path d="M36 44h92l16 20H36V44z" stroke="#1a1a1a" stroke-width="2.2" stroke-linejoin="round"/>
+        <circle cx="152" cy="42" r="12" stroke="#F55D2D" stroke-width="2.2"/>
+        <path d="M146 42h12M152 36v12" stroke="#F55D2D" stroke-width="2"/>
+      </svg>`,
+    'video-animator': `
+      <svg class="job-card__art" viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="40" y="36" width="120" height="72" rx="8" stroke="#1a1a1a" stroke-width="2.2"/>
+        <path d="M88 58l28 16-28 16V58z" fill="#F55D2D"/>
+        <circle cx="56" cy="118" r="10" stroke="#1a1a1a" stroke-width="2"/>
+        <path d="M120 118h52" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/>
+        <rect x="132" y="28" width="36" height="8" rx="2" fill="#F55D2D" opacity="0.7"/>
+      </svg>`,
+    'intern-dev': `
+      <svg class="job-card__art" viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M100 24l40 72H60L100 24z" stroke="#1a1a1a" stroke-width="2.2" stroke-linejoin="round"/>
+        <circle cx="100" cy="78" r="10" fill="#F55D2D"/>
+        <path d="M72 118c8-12 48-12 56 0" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+        <rect x="46" y="104" width="108" height="22" rx="6" stroke="#1a1a1a" stroke-width="2"/>
+        <path d="M58 115h24M118 115h24" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/>
+      </svg>`
+  };
+
+  if (byId[job.id]) return byId[job.id];
+
+  const fallback = {
+    it: byId['snr-backend-eng'],
+    marketing: byId['digital-marketing-lead'],
+    internship: byId['intern-dev']
+  };
+  return fallback[job.department] || byId['snr-backend-eng'];
+}
+
+function renderJobs(containerId, filterDept = 'all') {
+  const container = document.getElementById(containerId);
+  if (!container) return;
 
     const centerAx = posA.x + wA / 2;
     const centerAy = posA.y + hA / 2;
@@ -4171,6 +4392,45 @@ function initInteractiveWorkflow() {
         c2y = y2 + curveOffset;
       }
     }
+  if (filteredJobs.length === 0) {
+    container.innerHTML = `<p class="text-center body-text careers-jobs-grid__empty">No positions open in this department at this time.</p>`;
+    return;
+  }
+
+  container.innerHTML = filteredJobs.map(job => `
+    <article class="job-card job-card--grid reveal">
+      <div class="job-card__visual">
+        ${getJobIllustration(job)}
+      </div>
+      <div class="job-card__body">
+        <h3 class="job-card__title">${job.title}</h3>
+        <p class="job-card__desc">${job.description}</p>
+        <a href="#apply-section" class="btn btn--outline btn--sm job-card__apply apply-job-trigger" data-job="${job.title}">Apply Now</a>
+      </div>
+    </article>
+  `).join('');
+
+  container.querySelectorAll('.apply-job-trigger').forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      const link = e.currentTarget;
+      const jobTitle = link.getAttribute('data-job');
+      const formInput = document.getElementById('apply-job-input');
+      if (formInput && jobTitle) {
+        formInput.value = jobTitle;
+      }
+    });
+  });
+
+  scanAndObserve(container);
+}
+
+function getBlogBySlug(slug) {
+  return blogs.find(post => post.id === slug);
+}
+
+function renderBlogListing(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
 
     return `M ${x1} ${y1} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${x2} ${y2}`;
   }
@@ -4270,6 +4530,25 @@ function initInteractiveWorkflow() {
     resetBtn.addEventListener('click', (e) => {
       e.preventDefault();
       setInitialPositions(true);
+  if (pageName === 'home') {
+    renderCaseStudies('home-case-studies', 3);
+    renderTestimonials('home-testimonials');
+    initOrbitalSystem();
+  }
+  else if (pageName === 'development') {
+    renderProcessSteps('dev-process-grid');
+  }
+  else if (pageName === 'company') {
+    renderBlogs('company-blog-grid');
+    initStoryTimeline();
+  }
+  else if (pageName === 'careers') {
+    const initialDept = readCareersHashDept();
+    applyCareersDepartment(initialDept);
+    setupCareersFilter(initialDept);
+    initCareersIdCard();
+    window.addEventListener('hashchange', () => {
+      applyCareersDepartment(readCareersHashDept());
     });
   }
 
@@ -4281,6 +4560,128 @@ function initInteractiveWorkflow() {
       setInitialPositions(false);
     }, 150);
   });
+function initCareersIdCard() {
+  const scene = document.getElementById('careers-id-scene');
+  const pendulum = document.getElementById('careers-id-pendulum');
+  const card = document.getElementById('careers-id-card');
+  if (!scene || !pendulum || !card) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  let targetRX = 0;
+  let targetRY = 0;
+  let targetRZ = 0;
+  let currentRX = 0;
+  let currentRY = 0;
+  let currentRZ = 0;
+  let rafId = 0;
+  let pointerInside = false;
+  let activePointerId = null;
+
+  const isFinePointer = () => window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
+
+  function applyTargets(clientX, clientY) {
+    const rect = scene.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    const nx = (clientX - rect.left) / rect.width - 0.5;
+    const ny = (clientY - rect.top) / rect.height - 0.5;
+    const tiltScale = isFinePointer() ? 1 : 1.15;
+    targetRY = nx * 16 * tiltScale;
+    targetRX = -ny * 12 * tiltScale;
+    targetRZ = nx * 5 * tiltScale;
+  }
+
+  function resetTargets() {
+    targetRX = 0;
+    targetRY = 0;
+    targetRZ = 0;
+  }
+
+  function tick() {
+    const ease = pointerInside ? 0.14 : 0.08;
+    currentRX = lerp(currentRX, targetRX, ease);
+    currentRY = lerp(currentRY, targetRY, ease);
+    currentRZ = lerp(currentRZ, targetRZ, ease);
+    pendulum.style.transform = `rotateZ(${currentRZ}deg)`;
+    card.style.transform = `rotateX(${currentRX}deg) rotateY(${currentRY}deg)`;
+    rafId = window.requestAnimationFrame(tick);
+  }
+
+  rafId = window.requestAnimationFrame(tick);
+
+  scene.addEventListener('pointerenter', () => {
+    pointerInside = true;
+  });
+
+  scene.addEventListener('pointerleave', () => {
+    pointerInside = false;
+    activePointerId = null;
+    if (!isFinePointer()) return;
+    resetTargets();
+  });
+
+  scene.addEventListener('pointermove', (e) => {
+    if (isFinePointer() && e.pointerType === 'mouse') {
+      applyTargets(e.clientX, e.clientY);
+      return;
+    }
+    if (activePointerId !== null && e.pointerId !== activePointerId) return;
+    applyTargets(e.clientX, e.clientY);
+  });
+
+  scene.addEventListener('pointerdown', (e) => {
+    if (isFinePointer() && e.pointerType === 'mouse') return;
+    activePointerId = e.pointerId;
+    pointerInside = true;
+    scene.setPointerCapture(e.pointerId);
+    applyTargets(e.clientX, e.clientY);
+  });
+
+  scene.addEventListener('pointerup', (e) => {
+    if (activePointerId === e.pointerId) {
+      activePointerId = null;
+      pointerInside = false;
+      try {
+        scene.releasePointerCapture(e.pointerId);
+      } catch (_) {
+        /* ignore */
+      }
+      resetTargets();
+    }
+  });
+
+  scene.addEventListener('pointercancel', () => {
+    activePointerId = null;
+    pointerInside = false;
+    resetTargets();
+  });
+
+  if (typeof window.DeviceOrientationEvent !== 'undefined' && !isFinePointer()) {
+    window.addEventListener(
+      'deviceorientation',
+      (e) => {
+        if (pointerInside) return;
+        const beta = typeof e.beta === 'number' ? e.beta : 45;
+        const gamma = typeof e.gamma === 'number' ? e.gamma : 0;
+        targetRX = Math.max(-10, Math.min(10, (beta - 48) * 0.22));
+        targetRY = Math.max(-12, Math.min(12, gamma * 0.32));
+        targetRZ = Math.max(-4, Math.min(4, gamma * 0.12));
+      },
+      { passive: true }
+    );
+  }
+
+  window.addEventListener('pagehide', () => {
+    if (rafId) window.cancelAnimationFrame(rafId);
+  });
+}
+
+function setupCareersFilter(activeDept = 'all') {
+  const filterContainer = document.querySelector('.careers-filter');
+  if (!filterContainer) return;
 
   // IntersectionObserver for staggered entrance animation
   const observer = new IntersectionObserver((entries) => {

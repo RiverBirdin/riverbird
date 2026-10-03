@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="360" viewBox="0 0 480 360" fill="none" role="img" aria-label="Placeholder visual">
+  <rect width="480" height="360" rx="16" fill="#F3F4F6"/>
+  <rect x="24" y="24" width="432" height="312" rx="12" stroke="#E5E7EB" stroke-width="2" stroke-dasharray="8 6"/>
+  <path d="M240 140v80M200 180h80" stroke="#D1D5DB" stroke-width="3" stroke-linecap="round"/>
+  <text x="240" y="268" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#9CA3AF">Replace with pipeline visual</text>
+</svg>

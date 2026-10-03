@@ -16,6 +16,15 @@
 
 DirectoryIndex index.html
 
+# Avoid content-negotiation picking wrong handlers for missing URLs (LiteSpeed/Apache)
+<IfModule mod_negotiation.c>
+  Options -MultiViews
+</IfModule>
+
+# Custom 404 — file must live in site root (public_html/404.html)
+# hPanel backup: Websites → Manage → Advanced → Error pages → 404 → /404.html
+ErrorDocument 404 /404.html
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
@@ -26,4 +35,11 @@ DirectoryIndex index.html
   RewriteCond %{HTTPS} !=on
   RewriteCond %{HTTP_HOST} ^(www\.)?riverbird\.in$ [NC]
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # LiteSpeed/Hostinger fallback when ErrorDocument is overridden in hPanel
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !^/404\.html$ [NC]
+  RewriteCond %{ENV:REDIRECT_STATUS} ^$
+  RewriteRule ^ /404.html [L,R=404]
 </IfModule>

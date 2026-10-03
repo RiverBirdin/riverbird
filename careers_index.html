@@ -27,8 +27,8 @@
 
   <main id="main-content" class="liquid-wrapper">
 
-    <section class="hero" style="min-height: 60vh; padding-bottom: var(--space-48);">
-      <div class="container hero__container">
+    <section class="hero hero--careers">
+      <div class="container hero__container hero__container--careers">
         <div class="hero__content reveal">
           <span class="hero__label">Careers</span>
           <h1 class="display-text hero__title">
@@ -37,6 +37,37 @@
           <p class="hero__desc">
             We are always looking for senior developers, creative managers, and growth strategists who appreciate technical precision and clean workflows.
           </p>
+        </div>
+
+        <div class="careers-id-visual reveal delay-1" aria-hidden="true">
+          <p class="careers-id-visual__backdrop">Careers<span class="careers-id-visual__dot" aria-hidden="true"></span></p>
+          <div class="careers-id-scene" id="careers-id-scene">
+            <div class="careers-id-pendulum" id="careers-id-pendulum">
+              <div class="careers-id-lanyard" aria-hidden="true">
+                <span class="careers-id-lanyard__label">Riverbird</span>
+              </div>
+              <div class="careers-id-clip" aria-hidden="true"></div>
+              <article class="careers-id-card" id="careers-id-card">
+                <div class="careers-id-card__pattern" aria-hidden="true"></div>
+                <div class="careers-id-card__shine" aria-hidden="true"></div>
+                <header class="careers-id-card__head">
+                  <img
+                    class="careers-id-card__logo"
+                    src="assets/img/Logo-with-Text-copy.png"
+                    alt=""
+                    width="120"
+                    height="32"
+                    decoding="async" />
+                  <span class="careers-id-card__serial">#RB2026</span>
+                </header>
+                <div class="careers-id-card__body">
+                  <p class="careers-id-card__title">JOIN US</p>
+                  <p class="careers-id-card__tagline">Let's build together</p>
+                </div>
+                <footer class="careers-id-card__foot">Careers</footer>
+              </article>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -59,19 +90,42 @@
           <button class="careers-filter__btn" data-filter="internship">Internships</button>
         </div>
 
-        <div id="careers-jobs-grid" style="margin-bottom: var(--space-64);"></div>
+        <div id="careers-jobs-grid" class="careers-jobs-grid"></div>
       </div>
     </section>
 
     <section class="section-padding bg-light" id="apply-section">
-      <div class="container" style="max-width: 680px;">
-        <div class="section-header center">
+      <div class="container careers-apply">
+        <div class="careers-apply__intro reveal">
           <span class="label-text">Application</span>
           <h2 class="h2">Apply Now</h2>
-          <p class="body-text">Complete the fields below and upload your resume profile directly to our recruiting cell.</p>
+          <p class="body-text careers-apply__lead">
+            Complete the fields and upload your resume — our recruiting team reviews every application personally.
+          </p>
+          <ul class="careers-apply__highlights">
+            <li>
+              <span class="careers-apply__highlight-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </span>
+              <span><strong>Roles across IT, marketing &amp; internships</strong> — hybrid and on-site options in Chennai and Tiruchirappalli.</span>
+            </li>
+            <li>
+              <span class="careers-apply__highlight-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </span>
+              <span><strong>Typical response within 3–5 business days</strong> after we receive your CV.</span>
+            </li>
+            <li>
+              <span class="careers-apply__highlight-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </span>
+              <span>Questions? Email <a href="mailto:info@riverbird.in">info@riverbird.in</a> with the role title in the subject line.</span>
+            </li>
+          </ul>
+          <p class="body-text body-small careers-apply__formats">Accepted formats: PDF or DOCX · Max one file per application</p>
         </div>
 
-        <form class="card reveal" id="apply-form" style="border: 1px solid var(--color-border);">
+        <form class="card careers-apply-form reveal delay-1" id="apply-form">
           <div class="form-group">
             <label class="form-label" for="apply-name">Full Name</label>
             <input type="text" id="apply-name" class="form-input" required placeholder="Enter your full name" />
