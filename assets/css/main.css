@@ -32083,11 +32083,11 @@ section::after {
 
 /* ── 404 page ── */
 .error-404 {
-  min-height: calc(100dvh - var(--header-height, 72px));
+  min-height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: calc(var(--header-height, 72px) + var(--space-32)) 0 var(--space-64);
+  padding: calc(var(--header-height, 72px) + var(--space-40)) 0 var(--space-48);
   background:
     radial-gradient(ellipse 80% 60% at 50% 0%, rgba(245, 93, 45, 0.1), transparent 55%),
     radial-gradient(ellipse 70% 50% at 90% 80%, rgba(255, 143, 107, 0.08), transparent 50%),
@@ -32100,7 +32100,8 @@ section::after {
   gap: clamp(var(--space-28), 4vw, var(--space-40));
   align-items: stretch;
   width: 100%;
-  max-width: 920px;
+  max-width: 57.5rem;
+  margin-inline: auto;
 }
 
 @media (min-width: 900px) {
@@ -32230,6 +32231,33 @@ section::after {
 
 .error-404__link-list a:hover {
   color: var(--color-primary);
+}
+
+.error-404-faq {
+  padding-top: var(--space-48);
+}
+
+.error-404-faq .section-header {
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+.error-404-faq .section-header .body-text {
+  margin-inline: auto;
+}
+
+.error-404-faq .faq-list {
+  max-width: 42rem;
+}
+
+.error-404-faq .faq-answer .body-text a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.error-404-faq .faq-answer .body-text a:hover {
+  text-decoration: underline;
 }
 
 .legal-prose {

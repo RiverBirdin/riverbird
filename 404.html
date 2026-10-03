@@ -23,6 +23,42 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="assets/css/main.css" />
+  <style>
+    /* Layout fallback if an older main.css is cached on production */
+    .error-404__container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(1.75rem, 4vw, 2.5rem);
+      width: 100%;
+      max-width: 57.5rem;
+      margin-inline: auto;
+      align-items: stretch;
+    }
+    @media (min-width: 900px) {
+      .error-404__container {
+        grid-template-columns: minmax(0, 1fr) minmax(17.5rem, 20rem);
+        align-items: center;
+      }
+    }
+    .error-404__links {
+      background: #f5f5f7;
+      border: 1px solid #e8e8ed;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      text-align: left;
+    }
+    .error-404__code {
+      font-size: clamp(3.5rem, 14vw, 6.5rem);
+      font-weight: 800;
+      line-height: 1;
+      color: #f55d2d;
+      margin: 0 0 0.75rem;
+    }
+    .error-404-faq .faq-list {
+      max-width: 42rem;
+      margin-inline: auto;
+    }
+  </style>
 
   <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
@@ -65,6 +101,58 @@
             <li><a href="blog_index.html">Blog</a></li>
           </ul>
         </nav>
+      </div>
+    </section>
+
+    <section class="faq-section section-padding bg-light error-404-faq" id="error-404-faq" aria-labelledby="error-404-faq-title">
+      <div class="container">
+        <div class="section-header center reveal">
+          <span class="label-text">FAQ</span>
+          <h2 id="error-404-faq-title" class="h2">Need help finding something?</h2>
+          <p class="body-text">Quick answers if you landed here by mistake or an old bookmark.</p>
+        </div>
+
+        <div class="faq-list">
+          <details class="faq-item reveal" open>
+            <summary class="faq-question">
+              Why am I seeing this page?
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-answer">
+              <p class="body-text">The URL may be wrong, the page was moved, or a link is outdated. Use <a href="index.html">Home</a> or the shortcuts above to browse the site.</p>
+            </div>
+          </details>
+
+          <details class="faq-item reveal delay-1">
+            <summary class="faq-question">
+              How do I contact Riverbird?
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-answer">
+              <p class="body-text">Email <a href="mailto:info@riverbird.in">info@riverbird.in</a>, call <a href="tel:+919994967655">+91 99949 67655</a>, or use our <a href="contact_index.html">contact form</a> for projects, marketing, or staffing.</p>
+            </div>
+          </details>
+
+          <details class="faq-item reveal delay-2">
+            <summary class="faq-question">
+              Where can I explore your services?
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-answer">
+              <p class="body-text">Start with <a href="development_index.html">Development</a>, <a href="digital_marketing_index.html">Digital Marketing</a>, or <a href="staffing_index.html">Staffing</a> — each hub links to detailed service pages.</p>
+            </div>
+          </details>
+
+          <details class="faq-item reveal delay-3">
+            <summary class="faq-question">
+              I was looking for careers or the blog
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-answer">
+              <p class="body-text">Open <a href="careers_index.html">Careers</a> for open roles and applications, or the <a href="blog_index.html">Blog</a> for guides on engineering, SEO, and hiring.</p>
+            </div>
+          </details>
+        </div>
       </div>
     </section>
   </main>
