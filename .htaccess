@@ -16,6 +16,9 @@
 
 DirectoryIndex index.html
 
+# Custom 404 page (Apache / Hostinger)
+ErrorDocument 404 /404.html
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
