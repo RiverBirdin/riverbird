@@ -1155,7 +1155,7 @@ const counterObserver = new IntersectionObserver((entries) => {
 
 function isLightPerformancePage() {
   const page = document.body.getAttribute('data-page');
-  return page === 'contact' || page === 'legal';
+  return page === 'contact' || page === 'legal' || page === 'error';
 }
 
 function initAnimations() {

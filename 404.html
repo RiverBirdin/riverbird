@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" data-base="">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    (function () {
+      var root = document.documentElement;
+      if (location.protocol === 'file:') {
+        root.setAttribute('data-base', '');
+        return;
+      }
+      root.setAttribute('data-base', '/');
+      var baseEl = document.createElement('base');
+      baseEl.href = location.origin + '/';
+      document.head.appendChild(baseEl);
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found (404) | Riverbird</title>
+  <meta name="description" content="The page you requested could not be found on Riverbird.in." />
+  <meta name="robots" content="noindex, follow" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/css/main.css" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+  <link rel="shortcut icon" href="assets/img/favicon.ico">
+  <link rel="manifest" href="assets/img/site.webmanifest">
+  <meta name="theme-color" content="#F55D2D">
+</head>
+<body data-page="error">
+
+  <a href="#main-content" class="skip-link">Skip to Content</a>
+
+  <div id="header-slot"></div>
+
+  <main id="main-content" class="liquid-wrapper">
+    <section class="error-404" aria-labelledby="error-404-title">
+      <div class="container error-404__container">
+        <div class="error-404__content reveal">
+          <p class="error-404__code" aria-hidden="true">404</p>
+          <span class="hero__label">Lost in the stack</span>
+          <h1 id="error-404-title" class="display-text error-404__title">
+            This page <span class="text-primary-color">doesn't exist.</span>
+          </h1>
+          <p class="body-text error-404__desc">
+            The link may be outdated, or the URL might have a typo. Head back home or reach out — we'll help you find what you need.
+          </p>
+          <div class="hero__actions error-404__actions">
+            <a href="index.html" class="btn btn--primary">Back to Home</a>
+            <a href="contact_index.html" class="btn btn--outline">Contact Us</a>
+          </div>
+        </div>
+
+        <nav class="error-404__links reveal delay-1" aria-label="Popular pages">
+          <p class="label-text">Try these instead</p>
+          <ul class="error-404__link-list">
+            <li><a href="development_index.html">Development Solutions</a></li>
+            <li><a href="digital_marketing_index.html">Digital Marketing</a></li>
+            <li><a href="staffing_index.html">Staffing Solutions</a></li>
+            <li><a href="careers_index.html">Careers</a></li>
+            <li><a href="blog_index.html">Blog</a></li>
+          </ul>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-slot"></div>
+  <script type="module" src="assets/js/core/app.js"></script>
+</body>
+</html>
