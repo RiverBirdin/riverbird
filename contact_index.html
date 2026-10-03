@@ -127,13 +127,30 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="form-label" for="inq-service">Service</label>
-                <select id="inq-service" name="service" class="form-select contact-enquiry-select" required>
-                  <option value="" disabled selected>Select a service</option>
-                  <option value="software">Software Engineering</option>
-                  <option value="marketing">Digital Marketing</option>
-                  <option value="staffing">Staffing Solutions</option>
-                </select>
+                <label class="form-label" id="inq-service-label" for="inq-service-trigger">Service</label>
+                <div class="contact-enquiry-select-wrap">
+                  <select id="inq-service" name="service" class="contact-enquiry-select-native" required tabindex="-1" aria-hidden="true">
+                    <option value="" disabled selected>Select a service</option>
+                    <option value="software">Software Engineering</option>
+                    <option value="marketing">Digital Marketing</option>
+                    <option value="staffing">Staffing Solutions</option>
+                  </select>
+                  <button
+                    type="button"
+                    class="contact-enquiry-select"
+                    id="inq-service-trigger"
+                    aria-haspopup="listbox"
+                    aria-expanded="false"
+                    aria-labelledby="inq-service-label inq-service-value">
+                    <span id="inq-service-value" class="contact-enquiry-select__value is-placeholder">Select a service</span>
+                    <span class="contact-enquiry-select__icon" aria-hidden="true"></span>
+                  </button>
+                  <ul class="contact-enquiry-select__menu" id="inq-service-listbox" role="listbox" aria-labelledby="inq-service-label" hidden>
+                    <li class="contact-enquiry-select__option" role="option" data-value="software" tabindex="-1">Software Engineering</li>
+                    <li class="contact-enquiry-select__option" role="option" data-value="marketing" tabindex="-1">Digital Marketing</li>
+                    <li class="contact-enquiry-select__option" role="option" data-value="staffing" tabindex="-1">Staffing Solutions</li>
+                  </ul>
+                </div>
               </div>
               <button type="submit" class="btn btn--primary contact-enquiry-submit">Submit enquiry</button>
             </form>
