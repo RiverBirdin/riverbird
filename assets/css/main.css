@@ -33299,7 +33299,7 @@ section::after {
   font-family: var(--font-secondary);
 }
 
-.rb-gbp-badge {
+.footer-google-reviews .rb-gbp-badge {
   display: flex;
   align-items: center;
   gap: var(--space-12);
@@ -33310,11 +33310,22 @@ section::after {
   text-decoration: none;
   color: inherit;
   max-width: 280px;
+  width: 100%;
+  cursor: pointer;
+  transition:
+    border-color var(--transition-normal),
+    box-shadow var(--transition-normal),
+    transform var(--transition-fast);
 }
 
-.rb-gbp-badge:hover {
+.footer-google-reviews .rb-gbp-badge:hover {
   border-color: rgba(245, 93, 45, 0.35);
   box-shadow: 0 8px 24px rgba(15, 12, 16, 0.06);
+}
+
+.footer-google-reviews .rb-gbp-badge:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .rb-gbp-badge__logo {
