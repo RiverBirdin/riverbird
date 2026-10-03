@@ -1912,10 +1912,17 @@ function getAutoFaqsForPage(pageName) {
 }
 
 function ensurePageFaqCoverage() {
+  const page = document.body.getAttribute('data-page');
+  if (page === 'error' || document.body.hasAttribute('data-rb-no-auto-faq')) {
+    document
+      .querySelectorAll('#main-content .rb-auto-faq, #main-content section.faq-section.rb-auto-faq')
+      .forEach((el) => el.remove());
+    return;
+  }
+
   if (document.getElementById('error-404-faq')) return;
 
-  const page = document.body.getAttribute('data-page');
-  if (!page || page === 'home' || page === 'legal' || page === 'error' || page === 'blog-article') return;
+  if (!page || page === 'home' || page === 'legal' || page === 'blog-article') return;
   if (document.getElementById('company-faq') || document.querySelector('.home-faq .faq-item')) {
     return;
   }
