@@ -32115,10 +32115,16 @@ section::after {
   font-weight: 800;
   line-height: 0.9;
   letter-spacing: -0.04em;
-  color: transparent;
+  color: var(--color-primary);
   background: linear-gradient(135deg, #ff9a72 0%, var(--color-primary) 50%, #e54a1f 100%);
   -webkit-background-clip: text;
   background-clip: text;
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .error-404__code {
+    color: transparent;
+  }
 }
 
 .error-404__title {
