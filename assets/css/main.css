@@ -6900,8 +6900,14 @@ details.faq-item[open] .faq-question svg {
   padding: 0 var(--space-24) var(--space-24);
 }
 
-details.faq-item .faq-answer {
-  max-height: none;
+details.faq-item:not([open]) .faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 var(--space-24);
+}
+
+details.faq-item[open] .faq-answer {
+  max-height: 2400px;
   overflow: visible;
   padding: 0 var(--space-24) var(--space-24);
 }
@@ -32087,7 +32093,7 @@ section::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: calc(var(--header-height, 72px) + var(--space-40)) 0 var(--space-48);
+  padding: calc(var(--header-height, 72px) + 16px + var(--space-56)) 0 var(--space-48);
   background:
     radial-gradient(ellipse 80% 60% at 50% 0%, rgba(245, 93, 45, 0.1), transparent 55%),
     radial-gradient(ellipse 70% 50% at 90% 80%, rgba(255, 143, 107, 0.08), transparent 50%),
@@ -32234,7 +32240,12 @@ section::after {
 }
 
 .error-404-faq {
-  padding-top: var(--space-48);
+  padding-top: var(--space-64);
+  scroll-margin-top: calc(var(--header-height, 72px) + 24px);
+}
+
+body[data-page="error"] #main-content {
+  padding-top: 8px;
 }
 
 .error-404-faq .section-header {

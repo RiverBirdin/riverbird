@@ -1912,13 +1912,11 @@ function getAutoFaqsForPage(pageName) {
 }
 
 function ensurePageFaqCoverage() {
+  if (document.getElementById('error-404-faq')) return;
+
   const page = document.body.getAttribute('data-page');
   if (!page || page === 'home' || page === 'legal' || page === 'error' || page === 'blog-article') return;
-  if (
-    document.getElementById('company-faq') ||
-    document.getElementById('error-404-faq') ||
-    document.querySelector('.home-faq .faq-item')
-  ) {
+  if (document.getElementById('company-faq') || document.querySelector('.home-faq .faq-item')) {
     return;
   }
 
