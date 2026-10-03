@@ -96,7 +96,7 @@ const RIVERBIRD_MAP = {
   /** Official Maps embed (place card + correct “Open in Maps” target). */
   embedUrl:
     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.678520222997!2d78.68761557504281!3d10.835895589316477!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3baaf5cf17277963%3A0xb6d3a96e4390a34!2sRiverbird.in%20%7C%20Digital%20Marketing%20Agency!5e0!3m2!1sen!2sin!4v1790852215501!5m2!1sen!2sin',
-  /** Same listing as embed (hex place reference from GBP). */
+  /** Legacy @-coords URL (fallback only — prefer Place ID links). */
   mapsPlaceUrl:
     'https://www.google.com/maps/place/Riverbird.in+%7C+Digital+Marketing+Agency/@10.8358956,78.6902292,17z/data=!4m6!3m5!1s0x3baaf5cf17277963:0xb6d3a96e4390a34!8m2!3d10.8358956!4d78.6902292'
 };
@@ -110,24 +110,53 @@ const RIVERBIRD_GBP = {
   footerReviewCountDisplay: '15+'
 };
 
-function getRiverbirdMapsUrls() {
+/**
+ * Opens the full Google Business Profile place card (address, hours, reviews)
+ * instead of a bare map pin / “Add a label” view.
+ * @see https://developers.google.com/maps/documentation/urls/get-started
+ */
+function getRiverbirdMapsPlacePageUrl() {
   const placeId = (RIVERBIRD_GBP.placeId || '').trim();
-  const listingName = encodeURIComponent(RIVERBIRD_GBP.mapsListingName || RIVERBIRD_CONTACT.businessName);
+  const listingQuery = encodeURIComponent(
+    RIVERBIRD_GBP.mapsListingName || RIVERBIRD_CONTACT.businessName || 'Riverbird.in'
+  );
 
-  // Full GBP listing (reviews, hours, photos) — matches embed place card.
-  const mapsUrl =
-    RIVERBIRD_MAP.mapsPlaceUrl ||
-    (placeId
-      ? `https://www.google.com/maps/search/?api=1&query=${listingName}&query_place_id=${encodeURIComponent(placeId)}`
-      : `https://www.google.com/maps/search/?api=1&query=${listingName}`);
+  if (placeId) {
+    return `https://www.google.com/maps/search/?api=1&query=${listingQuery}&query_place_id=${encodeURIComponent(placeId)}`;
+  }
 
+  return RIVERBIRD_MAP.mapsPlaceUrl || `https://www.google.com/maps/search/?api=1&query=${listingQuery}`;
+}
+
+/** Google Reviews badge — same verified GBP place card as “View on Google Maps”. */
+function getRiverbirdGbpBadgeHref() {
+  return getRiverbirdMapsPlacePageUrl();
+}
+
+function getRiverbirdMapsUrls() {
   const mapsEmbedUrl = RIVERBIRD_MAP.embedUrl;
-
+  const mapsUrl = getRiverbirdMapsPlacePageUrl();
   return { mapsEmbedUrl, mapsUrl };
 }
 
 Object.assign(RIVERBIRD_CONTACT, getRiverbirdMapsUrls());
 RIVERBIRD_GBP.mapsUrl = RIVERBIRD_CONTACT.mapsUrl;
+
+function withCanonicalGbpMapsUrl(stats) {
+  if (!stats) return null;
+  return { ...stats, url: getRiverbirdGbpBadgeHref() };
+}
+
+function getDefaultGbpBadgeStats() {
+  const custom = (RIVERBIRD_GBP.footerReviewCountDisplay || '').trim();
+  const countFromDisplay = custom ? parseInt(custom.replace(/\D/g, ''), 10) : NaN;
+
+  return {
+    rating: 5,
+    count: Number.isFinite(countFromDisplay) ? countFromDisplay : 15,
+    url: getRiverbirdGbpBadgeHref()
+  };
+}
 
 const RIVERBIRD_SOCIAL = {
   facebook: 'https://www.facebook.com/profile.php?id=61559792591988',
@@ -322,7 +351,7 @@ function parseGrwWidgetStats(widgetHtml) {
   return {
     rating: Number.isFinite(rating) ? rating : 5,
     count,
-    url: RIVERBIRD_GBP.mapsUrl
+    url: getRiverbirdGbpBadgeHref()
   };
 }
 
@@ -347,9 +376,10 @@ function formatFooterReviewCountLine(stats) {
 function buildFallbackGbpBadge(stats) {
   const ratingText = stats.rating.toFixed(1);
   const reviewLabel = formatFooterReviewCountLine(stats);
+  const mapsHref = getRiverbirdGbpBadgeHref();
 
   return `
-    <a class="rb-gbp-badge" href="${stats.url}" target="_blank" rel="noopener noreferrer">
+    <a class="rb-gbp-badge" href="${mapsHref}" target="_blank" rel="noopener noreferrer" aria-label="View Riverbird on Google — office location and reviews">
       <span class="rb-gbp-badge__logo" aria-hidden="true">
         <svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -381,11 +411,10 @@ async function loadFooterGoogleReviews() {
     fetchGrwWidgetMarkup()
   ]);
 
-  const displayStats = resolveFooterGbpStats(placesStats, widgetHtml);
+  const displayStats =
+    withCanonicalGbpMapsUrl(resolveFooterGbpStats(placesStats, widgetHtml)) || getDefaultGbpBadgeStats();
 
-  if (displayStats) {
-    mount.innerHTML = buildFallbackGbpBadge(displayStats);
-  }
+  mount.innerHTML = buildFallbackGbpBadge(displayStats);
 }
 
 let reviewWidgetRefreshTimer = null;
