@@ -6,6 +6,36 @@ function getBasePath() {
   return baseAttr;
 }
 
+const CLEAN_ROUTE_PATHS = {
+  'index.html': 'home',
+  'about.html': 'aboutus',
+  'blog_index.html': 'blog',
+  'development_index.html': 'development-solution',
+  'software.html': 'best-software-solution',
+  'web.html': 'best-web-development',
+  'app.html': 'best-application-development',
+  'digital_marketing_index.html': 'best-digital-marketing',
+  'social-media.html': 'social-media-marketing',
+  'personal-branding.html': 'personal-branding',
+  'influencer-marketing.html': 'influencer-marketing',
+  'seo.html': 'search-engine-optimization',
+  'lead-generation.html': 'lead-generation',
+  'paid-ads.html': 'google-and-meta-ads',
+  'video-production.html': 'video-production-services',
+  'graphic-design.html': 'graphic-design-services',
+  'brand-identity.html': 'branding-services',
+  'staffing_index.html': 'staffing-solutions',
+  'talent-management.html': 'talent-management',
+  'hire-talent.html': 'hire-talent',
+  'manpower.html': 'hr-services',
+  'product_index.html': 'products',
+  'careers_index.html': 'careers',
+  'contact_index.html': 'contact',
+  'privacy_policy.html': 'privacy-policy',
+  'terms_of_service.html': 'terms-of-service',
+  'refund_and_cancellation.html': 'refund-policy'
+};
+
 function resolvePath(path) {
   const base = getBasePath();
 
@@ -14,8 +44,12 @@ function resolvePath(path) {
   }
 
   const cleanPath = path.startsWith('/') ? path.substring(1) : path;
+  const routeMatch = cleanPath.match(/^([^?#]+)(.*)$/);
+  const routePath = routeMatch ? routeMatch[1] : cleanPath;
+  const routeSuffix = routeMatch ? routeMatch[2] : '';
+  const resolvedPath = CLEAN_ROUTE_PATHS[routePath] || routePath;
 
-  return `${base}${cleanPath}`;
+  return `${base}${resolvedPath}${routeSuffix}`;
 }
 
 /** Desktop-only decorative effects (skip touch / reduced-motion for smoother scrolling). */
@@ -784,7 +818,7 @@ function getNavbarHTML() {
                   </li>
                   <li>
                     <a href="${resolvePath('manpower.html')}" class="dropdown-menu__link">
-                      <span class="dropdown-menu__item-title">Manpower Solutions</span>
+                      <span class="dropdown-menu__item-title">HR Solutions</span>
                       <span class="dropdown-menu__item-desc">High volume operations staffing pools.</span>
                     </a>
                   </li>
@@ -893,7 +927,7 @@ function getNavbarHTML() {
           <div class="mobile-menu__submenu" data-submenu="staffing">
             <a href="${resolvePath('talent-management.html')}" class="mobile-menu__sublink">Talent Management</a>
             <a href="${resolvePath('hire-talent.html')}" class="mobile-menu__sublink">Hire Talents</a>
-            <a href="${resolvePath('manpower.html')}" class="mobile-menu__sublink">Manpower Solutions</a>
+            <a href="${resolvePath('manpower.html')}" class="mobile-menu__sublink">HR Solutions</a>
           </div>
         </div>
 
@@ -1015,7 +1049,7 @@ function getFooterHTML() {
               <ul class="footer__list">
                 <li><a href="${resolvePath('talent-management.html')}" class="footer__link">Talent Management</a></li>
                 <li><a href="${resolvePath('hire-talent.html')}" class="footer__link">Hire Talents</a></li>
-                <li><a href="${resolvePath('manpower.html')}" class="footer__link">Manpower Solutions</a></li>
+                <li><a href="${resolvePath('manpower.html')}" class="footer__link">HR Solutions</a></li>
               </ul>
             </div>
           </div>
