@@ -14,7 +14,7 @@
   </FilesMatch>
 </IfModule>
 
-DirectoryIndex index.html
+DirectoryIndex home.html
 
 # Avoid content-negotiation picking wrong handlers for missing URLs (LiteSpeed/Apache)
 <IfModule mod_negotiation.c>
@@ -87,33 +87,33 @@ ErrorDocument 404 /404.html
   RewriteRule ^refund_and_cancellation\.html$ /refund-policy [R=301,L,NE]
 
   # Serve the existing static files for canonical URLs without changing the URL.
-  RewriteRule ^home/?$ index.html [L]
-  RewriteRule ^aboutus/?$ about.html [L]
-  RewriteRule ^blog/?$ blog_index.html [L]
-  RewriteRule ^development-solution/?$ development_index.html [L]
-  RewriteRule ^best-software-solution/?$ software.html [L]
-  RewriteRule ^best-web-development/?$ web.html [L]
-  RewriteRule ^best-application-development/?$ app.html [L]
-  RewriteRule ^best-digital-marketing/?$ digital_marketing_index.html [L]
-  RewriteRule ^social-media-marketing/?$ social-media.html [L]
+  RewriteRule ^home/?$ home.html [L]
+  RewriteRule ^aboutus/?$ about-us.html [L]
+  RewriteRule ^blog/?$ blog.html [L]
+  RewriteRule ^development-solution/?$ development-solution.html [L]
+  RewriteRule ^best-software-solution/?$ software-solution.html [L]
+  RewriteRule ^best-web-development/?$ web-development.html [L]
+  RewriteRule ^best-application-development/?$ application-development.html [L]
+  RewriteRule ^best-digital-marketing/?$ digital-marketing.html [L]
+  RewriteRule ^social-media-marketing/?$ social-media-marketing.html [L]
   RewriteRule ^personal-branding/?$ personal-branding.html [L]
   RewriteRule ^influencer-marketing/?$ influencer-marketing.html [L]
-  RewriteRule ^search-engine-optimization/?$ seo.html [L]
+  RewriteRule ^search-engine-optimization/?$ search-engine-optimization.html [L]
   RewriteRule ^lead-generation/?$ lead-generation.html [L]
-  RewriteRule ^google-and-meta-ads/?$ paid-ads.html [L]
-  RewriteRule ^video-production-services/?$ video-production.html [L]
-  RewriteRule ^graphic-design-services/?$ graphic-design.html [L]
-  RewriteRule ^branding-services/?$ brand-identity.html [L]
-  RewriteRule ^staffing-solutions/?$ staffing_index.html [L]
+  RewriteRule ^google-and-meta-ads/?$ google-and-meta-ads.html [L]
+  RewriteRule ^video-production-services/?$ video-production-services.html [L]
+  RewriteRule ^graphic-design-services/?$ graphic-design-services.html [L]
+  RewriteRule ^branding-services/?$ branding-services.html [L]
+  RewriteRule ^staffing-solutions/?$ staffing-solutions.html [L]
   RewriteRule ^talent-management/?$ talent-management.html [L]
   RewriteRule ^hire-talent/?$ hire-talent.html [L]
-  RewriteRule ^hr-services/?$ manpower.html [L]
-  RewriteRule ^products/?$ product_index.html [L]
-  RewriteRule ^careers/?$ careers_index.html [L]
-  RewriteRule ^contact/?$ contact_index.html [L]
-  RewriteRule ^privacy-policy/?$ privacy_policy.html [L]
-  RewriteRule ^terms-of-service/?$ terms_of_service.html [L]
-  RewriteRule ^refund-policy/?$ refund_and_cancellation.html [L]
+  RewriteRule ^hr-services/?$ hr-services.html [L]
+  RewriteRule ^products/?$ products.html [L]
+  RewriteRule ^careers/?$ careers.html [L]
+  RewriteRule ^contact/?$ contact.html [L]
+  RewriteRule ^privacy-policy/?$ privacy-policy.html [L]
+  RewriteRule ^terms-of-service/?$ terms-of-service.html [L]
+  RewriteRule ^refund-policy/?$ refund-policy.html [L]
 
   # Force HTTPS on production host (optional — enable when SSL is active)
   RewriteCond %{HTTPS} !=on
