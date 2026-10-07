@@ -1417,6 +1417,7 @@ function initApplicationResponsiveShowcase() {
   ];
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const mobileLayout = window.matchMedia('(max-width: 767px)');
+  const transitionEnd = 0.82;
   let frameRequested = false;
 
   const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
@@ -1460,7 +1461,10 @@ function initApplicationResponsiveShowcase() {
       const containerRect = container.getBoundingClientRect();
       const stickyTop = Number.parseFloat(window.getComputedStyle(stage).top) || 0;
       const travel = Math.max(container.offsetHeight - stage.offsetHeight, 1);
-      const progress = clamp((stickyTop - containerRect.top) / travel, 0, 1);
+      const scrollProgress = clamp((stickyTop - containerRect.top) / travel, 0, 1);
+      // Complete the reflow before the sticky range ends so the mobile state is
+      // visible briefly before the section releases into the next block.
+      const progress = clamp(scrollProgress / transitionEnd, 0, 1);
       const scaled = progress * (frames.length - 1);
       const fromIndex = Math.min(Math.floor(scaled), frames.length - 2);
       const toIndex = Math.min(fromIndex + 1, frames.length - 1);
@@ -1503,7 +1507,8 @@ function initApplicationResponsiveShowcase() {
         const containerTop = window.scrollY + container.getBoundingClientRect().top;
         const stickyTop = Number.parseFloat(window.getComputedStyle(stage).top) || 0;
         const travel = Math.max(container.offsetHeight - stage.offsetHeight, 1);
-        window.scrollTo({ top: containerTop - stickyTop + ((stateIndex / 3) * travel), behavior: 'smooth' });
+        const targetProgress = (stateIndex / (frames.length - 1)) * transitionEnd;
+        window.scrollTo({ top: containerTop - stickyTop + (targetProgress * travel), behavior: 'smooth' });
       });
     });
   });
