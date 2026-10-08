@@ -7,7 +7,7 @@ function getBasePath() {
 }
 
 const CLEAN_ROUTE_PATHS = {
-  'home.html': 'home',
+  'index.html': 'home',
   'about-us.html': 'aboutus',
   'blog.html': 'blog',
   'development-solution.html': 'development-solution',
@@ -631,7 +631,7 @@ function initReviewWidget() {
 
 function getNavbarHTML() {
   const logoUrl = resolvePath('assets/img/Logo-with-Text-copy.png');
-  const homeUrl = resolvePath('home.html');
+  const homeUrl = resolvePath('index.html');
   const companyUrl = resolvePath('about-us.html');
   const mktUrl = resolvePath('digital-marketing.html');
   const devUrl = resolvePath('development-solution.html');
@@ -952,7 +952,7 @@ function getNavbarHTML() {
 }
 
 function getFooterHTML() {
-  const homeUrl = resolvePath('home.html');
+  const homeUrl = resolvePath('index.html');
   const companyUrl = resolvePath('about-us.html');
   const blogUrl = resolvePath('blog.html');
   const devUrl = resolvePath('development-solution.html');

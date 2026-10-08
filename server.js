@@ -14,7 +14,7 @@ const PORT = Number(process.env.PORT) || 5501;
 const ROOT = __dirname;
 
 const routes = {
-  home: 'home.html',
+  home: 'index.html',
   aboutus: 'about-us.html',
   blog: 'blog.html',
   'development-solution': 'development-solution.html',
@@ -66,7 +66,8 @@ const legacyRoutes = {
   'contact_index.html': 'contact',
   'privacy_policy.html': 'privacy-policy',
   'terms_of_service.html': 'terms-of-service',
-  'refund_and_cancellation.html': 'refund-policy'
+  'refund_and_cancellation.html': 'refund-policy',
+  'thank.html': 'thanks.html'
 };
 
 const mimeTypes = {

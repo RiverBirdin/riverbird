@@ -14,7 +14,7 @@
   </FilesMatch>
 </IfModule>
 
-DirectoryIndex home.html
+DirectoryIndex index.html
 
 # Avoid content-negotiation picking wrong handlers for missing URLs (LiteSpeed/Apache)
 <IfModule mod_negotiation.c>
@@ -85,9 +85,11 @@ ErrorDocument 404 /404.html
   RewriteRule ^terms_of_service\.html$ /terms-of-service [R=301,L,NE]
   RewriteCond %{THE_REQUEST} \s/+refund_and_cancellation\.html[?\ ] [NC]
   RewriteRule ^refund_and_cancellation\.html$ /refund-policy [R=301,L,NE]
+  RewriteCond %{THE_REQUEST} \s/+thank\.html[?\ ] [NC]
+  RewriteRule ^thank\.html$ /thanks.html [R=301,L,NE]
 
   # Serve the existing static files for canonical URLs without changing the URL.
-  RewriteRule ^home/?$ home.html [L]
+  RewriteRule ^home/?$ index.html [L]
   RewriteRule ^aboutus/?$ about-us.html [L]
   RewriteRule ^blog/?$ blog.html [L]
   RewriteRule ^development-solution/?$ development-solution.html [L]
