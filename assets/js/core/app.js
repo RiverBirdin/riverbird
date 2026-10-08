@@ -6,6 +6,36 @@ function getBasePath() {
   return baseAttr;
 }
 
+const CLEAN_ROUTE_PATHS = {
+  'home.html': 'home',
+  'about-us.html': 'aboutus',
+  'blog.html': 'blog',
+  'development-solution.html': 'development-solution',
+  'software-solution.html': 'best-software-solution',
+  'web-development.html': 'best-web-development',
+  'application-development.html': 'best-application-development',
+  'digital-marketing.html': 'best-digital-marketing',
+  'social-media-marketing.html': 'social-media-marketing',
+  'personal-branding.html': 'personal-branding',
+  'influencer-marketing.html': 'influencer-marketing',
+  'search-engine-optimization.html': 'search-engine-optimization',
+  'lead-generation.html': 'lead-generation',
+  'google-and-meta-ads.html': 'google-and-meta-ads',
+  'video-production-services.html': 'video-production-services',
+  'graphic-design-services.html': 'graphic-design-services',
+  'branding-services.html': 'branding-services',
+  'staffing-solutions.html': 'staffing-solutions',
+  'talent-management.html': 'talent-management',
+  'hire-talent.html': 'hire-talent',
+  'hr-services.html': 'hr-services',
+  'products.html': 'products',
+  'careers.html': 'careers',
+  'contact.html': 'contact',
+  'privacy-policy.html': 'privacy-policy',
+  'terms-of-service.html': 'terms-of-service',
+  'refund-policy.html': 'refund-policy'
+};
+
 function resolvePath(path) {
   const base = getBasePath();
 
@@ -14,8 +44,12 @@ function resolvePath(path) {
   }
 
   const cleanPath = path.startsWith('/') ? path.substring(1) : path;
+  const routeMatch = cleanPath.match(/^([^?#]+)(.*)$/);
+  const routePath = routeMatch ? routeMatch[1] : cleanPath;
+  const routeSuffix = routeMatch ? routeMatch[2] : '';
+  const resolvedPath = CLEAN_ROUTE_PATHS[routePath] || routePath;
 
-  return `${base}${cleanPath}`;
+  return `${base}${resolvedPath}${routeSuffix}`;
 }
 
 /** Desktop-only decorative effects (skip touch / reduced-motion for smoother scrolling). */
@@ -597,15 +631,15 @@ function initReviewWidget() {
 
 function getNavbarHTML() {
   const logoUrl = resolvePath('assets/img/Logo-with-Text-copy.png');
-  const homeUrl = resolvePath('index.html');
-  const companyUrl = resolvePath('about.html');
-  const mktUrl = resolvePath('digital_marketing_index.html');
-  const devUrl = resolvePath('development_index.html');
-  const staffingUrl = resolvePath('staffing_index.html');
-  const productUrl = resolvePath('product_index.html');
-  const careersUrl = resolvePath('careers_index.html');
-  const contactUrl = resolvePath('contact_index.html');
-  const blogUrl = resolvePath('blog_index.html');
+  const homeUrl = resolvePath('home.html');
+  const companyUrl = resolvePath('about-us.html');
+  const mktUrl = resolvePath('digital-marketing.html');
+  const devUrl = resolvePath('development-solution.html');
+  const staffingUrl = resolvePath('staffing-solutions.html');
+  const productUrl = resolvePath('products.html');
+  const careersUrl = resolvePath('careers.html');
+  const contactUrl = resolvePath('contact.html');
+  const blogUrl = resolvePath('blog.html');
 
   return `
     <header class="header" id="main-header">
@@ -652,19 +686,19 @@ function getNavbarHTML() {
               <div class="dropdown-menu">
                 <ul class="dropdown-menu__list">
                   <li>
-                    <a href="${resolvePath('software.html')}" class="dropdown-menu__link">
+                    <a href="${resolvePath('software-solution.html')}" class="dropdown-menu__link">
                       <span class="dropdown-menu__item-title">Software Development</span>
                       <span class="dropdown-menu__item-desc">Enterprise database and custom scripting builds.</span>
                     </a>
                   </li>
                   <li>
-                    <a href="${resolvePath('web.html')}" class="dropdown-menu__link">
+                    <a href="${resolvePath('web-development.html')}" class="dropdown-menu__link">
                       <span class="dropdown-menu__item-title">Web Development</span>
                       <span class="dropdown-menu__item-desc">High-performance reactive interfaces and SPAs.</span>
                     </a>
                   </li>
                   <li>
-                    <a href="${resolvePath('app.html')}" class="dropdown-menu__link">
+                    <a href="${resolvePath('application-development.html')}" class="dropdown-menu__link">
                       <span class="dropdown-menu__item-title">Application Development</span>
                       <span class="dropdown-menu__item-desc">Modern iOS, Android, and cross-platform builds.</span>
                     </a>
@@ -686,7 +720,7 @@ function getNavbarHTML() {
                   <h3 class="mega-menu__column-title">Organic Growth</h3>
                   <ul class="mega-menu__list">
                   <li>
-                      <a href="${resolvePath('social-media.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('social-media-marketing.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Social Media Marketing</span>
                         <span class="mega-menu__item-desc">Content and channel strategies that convert.</span>
                       </a>
@@ -712,7 +746,7 @@ function getNavbarHTML() {
                   <h3 class="mega-menu__column-title">Performance</h3>
                   <ul class="mega-menu__list">
                     <li>
-                      <a href="${resolvePath('seo.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('search-engine-optimization.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">SEO (Google Ranking)</span>
                         <span class="mega-menu__item-desc">Technical search rankings & audit pipelines.</span>
                       </a>
@@ -724,7 +758,7 @@ function getNavbarHTML() {
                       </a>
                     </li>
                     <li>
-                      <a href="${resolvePath('paid-ads.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('google-and-meta-ads.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Paid Ads (Meta & Google)</span>
                         <span class="mega-menu__item-desc">ROI campaigns across Search and Social.</span>
                       </a>
@@ -737,20 +771,20 @@ function getNavbarHTML() {
                   <h3 class="mega-menu__column-title">Creatives</h3>
                   <ul class="mega-menu__list">
                     <li>
-                      <a href="${resolvePath('video-production.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('video-production-services.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Video Production</span>
                         <span class="mega-menu__item-desc">High-quality editing and corporate media.</span>
                       </a>
                     </li>
                     <li>
-                      <a href="${resolvePath('graphic-design.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('graphic-design-services.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Graphic Design</span>
                         <span class="mega-menu__item-desc">Professional branding and high-end vectors.</span>
                       </a>
                     </li>
                     
                     <li>
-                      <a href="${resolvePath('brand-identity.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('branding-services.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Brand Identity</span>
                         <span class="mega-menu__item-desc">Logo, typography, and voice manuals.</span>
                       </a>
@@ -783,8 +817,8 @@ function getNavbarHTML() {
                     </a>
                   </li>
                   <li>
-                    <a href="${resolvePath('manpower.html')}" class="dropdown-menu__link">
-                      <span class="dropdown-menu__item-title">Manpower Solutions</span>
+                    <a href="${resolvePath('hr-services.html')}" class="dropdown-menu__link">
+                      <span class="dropdown-menu__item-title">HR Solutions</span>
                       <span class="dropdown-menu__item-desc">High volume operations staffing pools.</span>
                     </a>
                   </li>
@@ -856,9 +890,9 @@ function getNavbarHTML() {
             </svg>
           </div>
           <div class="mobile-menu__submenu" data-submenu="dev">
-            <a href="${resolvePath('software.html')}" class="mobile-menu__sublink">Software Development</a>
-            <a href="${resolvePath('web.html')}" class="mobile-menu__sublink">Web Development</a>
-            <a href="${resolvePath('app.html')}" class="mobile-menu__sublink">Application Development</a>
+            <a href="${resolvePath('software-solution.html')}" class="mobile-menu__sublink">Software Development</a>
+            <a href="${resolvePath('web-development.html')}" class="mobile-menu__sublink">Web Development</a>
+            <a href="${resolvePath('application-development.html')}" class="mobile-menu__sublink">Application Development</a>
           </div>
         </div>
 
@@ -870,15 +904,15 @@ function getNavbarHTML() {
             </svg>
           </div>
           <div class="mobile-menu__submenu" data-submenu="marketing">
-            <a href="${resolvePath('social-media.html')}" class="mobile-menu__sublink">Social Media Marketing</a>
+            <a href="${resolvePath('social-media-marketing.html')}" class="mobile-menu__sublink">Social Media Marketing</a>
             <a href="${resolvePath('personal-branding.html')}" class="mobile-menu__sublink">Personal Branding</a>
             <a href="${resolvePath('influencer-marketing.html')}" class="mobile-menu__sublink">Influencer Marketing</a>
-            <a href="${resolvePath('seo.html')}" class="mobile-menu__sublink">SEO (Google Ranking)</a>
+            <a href="${resolvePath('search-engine-optimization.html')}" class="mobile-menu__sublink">SEO (Google Ranking)</a>
             <a href="${resolvePath('lead-generation.html')}" class="mobile-menu__sublink">Lead Generation System</a>
-            <a href="${resolvePath('paid-ads.html')}" class="mobile-menu__sublink">Paid Ads (Meta & Google)</a>
-            <a href="${resolvePath('video-production.html')}" class="mobile-menu__sublink">Video Production</a>
-            <a href="${resolvePath('graphic-design.html')}" class="mobile-menu__sublink">Graphic Design</a>
-            <a href="${resolvePath('brand-identity.html')}" class="mobile-menu__sublink">Brand Identity</a>
+            <a href="${resolvePath('google-and-meta-ads.html')}" class="mobile-menu__sublink">Paid Ads (Meta & Google)</a>
+            <a href="${resolvePath('video-production-services.html')}" class="mobile-menu__sublink">Video Production</a>
+            <a href="${resolvePath('graphic-design-services.html')}" class="mobile-menu__sublink">Graphic Design</a>
+            <a href="${resolvePath('branding-services.html')}" class="mobile-menu__sublink">Brand Identity</a>
             
           </div>
         </div>
@@ -893,7 +927,7 @@ function getNavbarHTML() {
           <div class="mobile-menu__submenu" data-submenu="staffing">
             <a href="${resolvePath('talent-management.html')}" class="mobile-menu__sublink">Talent Management</a>
             <a href="${resolvePath('hire-talent.html')}" class="mobile-menu__sublink">Hire Talents</a>
-            <a href="${resolvePath('manpower.html')}" class="mobile-menu__sublink">Manpower Solutions</a>
+            <a href="${resolvePath('hr-services.html')}" class="mobile-menu__sublink">HR Solutions</a>
           </div>
         </div>
 
@@ -918,14 +952,14 @@ function getNavbarHTML() {
 }
 
 function getFooterHTML() {
-  const homeUrl = resolvePath('index.html');
-  const companyUrl = resolvePath('about.html');
-  const blogUrl = resolvePath('blog_index.html');
-  const devUrl = resolvePath('development_index.html');
-  const mktUrl = resolvePath('digital_marketing_index.html');
-  const staffingUrl = resolvePath('staffing_index.html');
-  const careersUrl = resolvePath('careers_index.html');
-  const contactUrl = resolvePath('contact_index.html');
+  const homeUrl = resolvePath('home.html');
+  const companyUrl = resolvePath('about-us.html');
+  const blogUrl = resolvePath('blog.html');
+  const devUrl = resolvePath('development-solution.html');
+  const mktUrl = resolvePath('digital-marketing.html');
+  const staffingUrl = resolvePath('staffing-solutions.html');
+  const careersUrl = resolvePath('careers.html');
+  const contactUrl = resolvePath('contact.html');
 
   return `
     <footer class="footer py-2xl">
@@ -983,18 +1017,18 @@ function getFooterHTML() {
             <div class="footer__block">
               <h4 class="footer__section-title"><a href="${devUrl}">Development Solutions</a></h4>
               <ul class="footer__list">
-                <li><a href="${resolvePath('software.html')}" class="footer__link">Software development</a></li>
-                <li><a href="${resolvePath('web.html')}" class="footer__link">Web development</a></li>
-                <li><a href="${resolvePath('app.html')}" class="footer__link">Application Development</a></li>
+                <li><a href="${resolvePath('software-solution.html')}" class="footer__link">Software development</a></li>
+                <li><a href="${resolvePath('web-development.html')}" class="footer__link">Web development</a></li>
+                <li><a href="${resolvePath('application-development.html')}" class="footer__link">Application Development</a></li>
               </ul>
             </div>
             <div class="footer__block">
               <h4 class="footer__section-title"><a href="${mktUrl}">Marketing Solutions</a></h4>
               <ul class="footer__list">
-                <li><a href="${resolvePath('social-media.html')}" class="footer__link">Social media marketing</a></li>
+                <li><a href="${resolvePath('social-media-marketing.html')}" class="footer__link">Social media marketing</a></li>
                 <li><a href="${resolvePath('personal-branding.html')}" class="footer__link">Personal branding</a></li>
-                <li><a href="${resolvePath('seo.html')}" class="footer__link">SEO (Search engine optimization)</a></li>
-                <li><a href="${resolvePath('paid-ads.html')}" class="footer__link">Paid Ads (Meta &amp; Google)</a></li>
+                <li><a href="${resolvePath('search-engine-optimization.html')}" class="footer__link">SEO (Search engine optimization)</a></li>
+                <li><a href="${resolvePath('google-and-meta-ads.html')}" class="footer__link">Paid Ads (Meta &amp; Google)</a></li>
                 <li><a href="${resolvePath('lead-generation.html')}" class="footer__link">Lead Generation</a></li>
               </ul>
             </div>
@@ -1002,12 +1036,12 @@ function getFooterHTML() {
 
           <div class="footer__col footer__col--stack">
             <div class="footer__block">
-              <h4 class="footer__section-title"><a href="${resolvePath('brand-identity.html')}">Branding</a></h4>
+              <h4 class="footer__section-title"><a href="${resolvePath('branding-services.html')}">Branding</a></h4>
               <ul class="footer__list">
-                <li><a href="${resolvePath('brand-identity.html')}" class="footer__link">Brand identity</a></li>
+                <li><a href="${resolvePath('branding-services.html')}" class="footer__link">Brand identity</a></li>
                 <li><a href="${resolvePath('influencer-marketing.html')}" class="footer__link">Influencer marketing</a></li>
-                <li><a href="${resolvePath('graphic-design.html')}" class="footer__link">Graphic design</a></li>
-                <li><a href="${resolvePath('video-production.html')}" class="footer__link">Video production</a></li>
+                <li><a href="${resolvePath('graphic-design-services.html')}" class="footer__link">Graphic design</a></li>
+                <li><a href="${resolvePath('video-production-services.html')}" class="footer__link">Video production</a></li>
               </ul>
             </div>
             <div class="footer__block">
@@ -1015,7 +1049,7 @@ function getFooterHTML() {
               <ul class="footer__list">
                 <li><a href="${resolvePath('talent-management.html')}" class="footer__link">Talent Management</a></li>
                 <li><a href="${resolvePath('hire-talent.html')}" class="footer__link">Hire Talents</a></li>
-                <li><a href="${resolvePath('manpower.html')}" class="footer__link">Manpower Solutions</a></li>
+                <li><a href="${resolvePath('hr-services.html')}" class="footer__link">HR Solutions</a></li>
               </ul>
             </div>
           </div>
@@ -1053,9 +1087,9 @@ function getFooterHTML() {
         <div class="footer__bottom">
           <p class="footer__copyright">&copy; ${new Date().getFullYear()} Riverbird. All rights reserved.</p>
           <div class="footer__legal">
-            <a href="${resolvePath('privacy_policy.html')}" class="footer__legal-link">Privacy Policy</a>
-            <a href="${resolvePath('terms_of_service.html')}" class="footer__legal-link">Terms of Service</a>
-            <a href="${resolvePath('refund_and_cancellation.html')}" class="footer__legal-link">Refund and Cancellation Policy</a>
+            <a href="${resolvePath('privacy-policy.html')}" class="footer__legal-link">Privacy Policy</a>
+            <a href="${resolvePath('terms-of-service.html')}" class="footer__legal-link">Terms of Service</a>
+            <a href="${resolvePath('refund-policy.html')}" class="footer__legal-link">Refund and Cancellation Policy</a>
           </div>
         </div>
       </div>
@@ -2239,7 +2273,7 @@ function getAutoFaqsForPage(pageName) {
     },
     {
       q: 'How do I request a quote?',
-      a: 'Use our <a href="' + resolvePath('contact_index.html') + '">contact form</a> or call <a href="tel:' + RIVERBIRD_CONTACT.phoneTel + '">' + RIVERBIRD_CONTACT.phoneDisplay + '</a>. We respond within one business day with scope and timelines. Estimates are provided in <strong>Indian Rupees (INR)</strong> unless agreed otherwise in writing.'
+      a: 'Use our <a href="' + resolvePath('contact.html') + '">contact form</a> or call <a href="tel:' + RIVERBIRD_CONTACT.phoneTel + '">' + RIVERBIRD_CONTACT.phoneDisplay + '</a>. We respond within one business day with scope and timelines. Estimates are provided in <strong>Indian Rupees (INR)</strong> unless agreed otherwise in writing.'
     },
     {
       q: 'What industries do you work with?',
@@ -2257,7 +2291,7 @@ function getAutoFaqsForPage(pageName) {
 
   const byPage = {
     careers: [
-      { q: 'How do I apply for IT vs digital marketing roles?', a: 'Open <a href="' + resolvePath('careers_index.html') + '">Careers</a> and use the Engineering (IT), Digital Marketing, or Internships filters â€” or apply directly from the job card.' },
+      { q: 'How do I apply for IT vs digital marketing roles?', a: 'Open <a href="' + resolvePath('careers.html') + '">Careers</a> and use the Engineering (IT), Digital Marketing, or Internships filters â€” or apply directly from the job card.' },
       { q: 'Are roles based in Trichy or remote?', a: 'Each posting lists location (on-site, hybrid, or remote India). Filter jobs by department to see current openings.' },
       { q: 'Can I submit a general application?', a: 'Yes. Scroll to Apply Now on the careers page, choose your target role, and upload your CV in PDF or DOCX format.' },
       { q: 'What is the interview process?', a: 'Typically a screening call, skills assessment, and final conversation with the hiring lead. Marketing roles may include a practical review.' },
@@ -2275,7 +2309,7 @@ function getAutoFaqsForPage(pageName) {
       { q: 'Can I suggest a topic?', a: 'Email ' + RIVERBIRD_CONTACT.email + ' with your idea â€” we welcome questions from founders and marketing leads.' },
       { q: 'Are blog posts written by practitioners?', a: 'Yes. Content is produced by engineers, marketers, and recruiters who implement the strategies described.' },
       { q: 'Do you cover local SEO for Trichy businesses?', a: 'Several articles address local search, Google Business Profile, and performance marketing for Tamil Nadu markets.' },
-      { q: 'Where do I read case studies?', a: 'Visit our <a href="' + resolvePath('digital_marketing_index.html') + '#testimonials">testimonials</a> and service pages for outcomes and client feedback.' }
+      { q: 'Where do I read case studies?', a: 'Visit our <a href="' + resolvePath('digital-marketing.html') + '#testimonials">testimonials</a> and service pages for outcomes and client feedback.' }
     ]
   };
 
@@ -3425,7 +3459,7 @@ function renderBlogArticle() {
   if (!post || !titleEl || !bodyEl) {
     if (titleEl) titleEl.textContent = 'Article not found';
     if (bodyEl) {
-      bodyEl.innerHTML = '<p class="body-text">This article may have been moved. <a href="' + resolvePath('blog_index.html') + '">Return to the blog</a>.</p>';
+      bodyEl.innerHTML = '<p class="body-text">This article may have been moved. <a href="' + resolvePath('blog.html') + '">Return to the blog</a>.</p>';
     }
     return;
   }
