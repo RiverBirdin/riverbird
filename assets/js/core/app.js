@@ -3230,6 +3230,21 @@ const developmentSolutions = {
       step: "04",
       title: "Deploy & Scale",
       description: "Releasing to production environments via continuous integration pipelines with active monitoring."
+    },
+    {
+      step: "05",
+      title: "Monitor & Support",
+      description: "24/7 uptime checks, error tracking, and SLA-backed response so production stays healthy after launch."
+    },
+    {
+      step: "06",
+      title: "Optimize & Iterate",
+      description: "Performance tuning, A/B feedback loops, and incremental releases across web, mobile, and backend surfaces."
+    },
+    {
+      step: "07",
+      title: "Handoff & Grow",
+      description: "Documentation, team training, and a roadmap for new features so your platform keeps scaling with the business."
     }
   ]
 };
@@ -3515,25 +3530,27 @@ function renderProcessSteps(containerId) {
     `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>`,
     `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`,
     `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>`,
-    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>`
+    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>`,
+    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>`,
+    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>`,
+    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg>`
   ];
 
-  container.innerHTML = developmentSolutions.process.map((step, index) => `
-    <div class="bento-process-card${index === 0 ? ' bento-process-card--featured' : ''} reveal${index > 0 ? ` delay-${index}` : ''}">
-      <div class="bento-process-card__inner">
-        <div class="bento-process-card__dot-grid"></div>
-        <div class="bento-process-card__header">
-          <div class="bento-process-card__icon">
-            ${stepIcons[index] || stepIcons[0]}
-          </div>
-          <span class="bento-process-card__step">${step.step}</span>
-        </div>
-        <h3 class="bento-process-card__title">${step.title}</h3>
-        <p class="bento-process-card__desc">${step.description}</p>
-        <div class="bento-process-card__glow"></div>
+  container.innerHTML = developmentSolutions.process
+    .map((step, index) => `
+    <article class="dev-process-flow__item reveal${index > 0 ? ` delay-${index}` : ''}" role="listitem">
+      <div class="dev-process-flow__node">
+        <span class="dev-process-flow__step">${step.step}</span>
+        <div class="dev-process-flow__icon">${stepIcons[index] || stepIcons[0]}</div>
       </div>
-    </div>
-  `).join('');
+      <div class="dev-process-flow__card">
+        <h3 class="dev-process-flow__title">${step.title}</h3>
+        <p class="dev-process-flow__desc">${step.description}</p>
+      </div>
+    </article>`)
+    .join('');
+
+  container.scrollLeft = 0;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
