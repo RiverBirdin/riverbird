@@ -3553,6 +3553,45 @@ function renderProcessSteps(containerId) {
   container.scrollLeft = 0;
 }
 
+function initDevStackShowcase() {
+  const root = document.getElementById('dev-stack-showcase');
+  if (!root) return;
+
+  const tabs = root.querySelectorAll('[data-dev-stack-tab]');
+  const panels = root.querySelectorAll('[data-dev-stack-panel]');
+
+  const activate = (id) => {
+    tabs.forEach((tab) => {
+      const isActive = tab.getAttribute('data-dev-stack-tab') === id;
+      tab.classList.toggle('is-active', isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      tab.tabIndex = isActive ? 0 : -1;
+    });
+    panels.forEach((panel) => {
+      const isActive = panel.getAttribute('data-dev-stack-panel') === id;
+      panel.classList.toggle('is-active', isActive);
+      panel.hidden = !isActive;
+    });
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      activate(tab.getAttribute('data-dev-stack-tab'));
+    });
+    tab.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault();
+      const order = Array.from(tabs);
+      const index = order.indexOf(tab);
+      const next = e.key === 'ArrowRight'
+        ? order[(index + 1) % order.length]
+        : order[(index - 1 + order.length) % order.length];
+      next.focus();
+      activate(next.getAttribute('data-dev-stack-tab'));
+    });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   document.documentElement.classList.add('js-enabled');
 
@@ -3585,7 +3624,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initOrbitalSystem();
   }
   else if (pageName === 'development') {
-    renderProcessSteps('dev-process-grid');
+    initDevStackShowcase();
   }
   else if (pageName === 'company') {
     renderBlogs('company-blog-grid');
