@@ -58,35 +58,17 @@
           </div>
 
           <div class="dev-hero-visual-wrap">
-            <div class="dev-hero-showcase reveal delay-1" aria-label="Web, mobile, and software previews">
-              <figure class="dev-hero-showcase__card dev-hero-showcase__card--web">
-                <div class="dev-hero-showcase__media">
-                  <img src="assets/img/development/web_app.png" alt="Web application preview" width="320" height="200" loading="lazy" decoding="async" />
-                </div>
-                <figcaption class="dev-hero-showcase__caption">
-                  <span class="dev-hero-showcase__tag">Web</span>
-                  <span class="dev-hero-showcase__hint">Sites &amp; portals</span>
-                </figcaption>
-              </figure>
-              <figure class="dev-hero-showcase__card dev-hero-showcase__card--mobile">
-                <div class="dev-hero-showcase__media">
-                  <img src="assets/img/development/classic_gypsum_mobile_mockup.png" alt="Mobile app preview" width="280" height="360" loading="lazy" decoding="async" />
-                </div>
-                <figcaption class="dev-hero-showcase__caption">
-                  <span class="dev-hero-showcase__tag">Mobile</span>
-                  <span class="dev-hero-showcase__hint">iOS &amp; Android</span>
-                </figcaption>
-              </figure>
-              <figure class="dev-hero-showcase__card dev-hero-showcase__card--software">
-                <div class="dev-hero-showcase__media">
-                  <img src="assets/img/development/admin_dashboard.png" alt="Enterprise software dashboard" width="320" height="200" loading="lazy" decoding="async" />
-                </div>
-                <figcaption class="dev-hero-showcase__caption">
-                  <span class="dev-hero-showcase__tag">Software</span>
-                  <span class="dev-hero-showcase__hint">Dashboards &amp; APIs</span>
-                </figcaption>
-              </figure>
-            </div>
+            <figure class="dev-hero-figure reveal delay-1">
+              <img
+                src="assets/img/development/dev-hero-mockup.png"
+                alt="Riverbird web dashboard on laptop and mobile app mockup"
+                width="960"
+                height="720"
+                loading="eager"
+                decoding="async"
+                class="dev-hero-figure__img"
+              />
+            </figure>
           </div>
 
         </div>
@@ -115,7 +97,7 @@
               <li>Node &amp; REST</li>
             </ul>
           </article>
-          <article class="dev-stack-pillar dev-stack-pillar--featured">
+          <article class="dev-stack-pillar">
             <div class="dev-stack-pillar__icon" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
             </div>
@@ -141,129 +123,177 @@
           </article>
         </div>
 
-        <div class="dev-stack-immersive reveal delay-1">
-          <div class="dev-stack-immersive__glow" aria-hidden="true"></div>
-
-        <!-- IDE Editor Mockup -->
-        <div class="dev-ide-window">
-          <!-- Title bar -->
-          <div class="dev-ide-titlebar">
-            <div class="dev-ide-dots">
-              <span class="dev-ide-dot dev-ide-dot--red"></span>
-              <span class="dev-ide-dot dev-ide-dot--yellow"></span>
-              <span class="dev-ide-dot dev-ide-dot--green"></span>
-            </div>
-            <div class="dev-ide-title">riverbird — web · mobile · software</div>
-            <div class="dev-ide-actions">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
-            </div>
+        <div class="dev-stack-showcase reveal delay-1" id="dev-stack-showcase">
+          <div class="dev-stack-showcase__tabs" role="tablist" aria-label="Engineering delivery tracks">
+            <button type="button" class="dev-stack-showcase__tab is-active" role="tab" id="dev-stack-tab-web" aria-selected="true" aria-controls="dev-stack-panel-web" data-dev-stack-tab="web">Web Development</button>
+            <button type="button" class="dev-stack-showcase__tab" role="tab" id="dev-stack-tab-mobile" aria-selected="false" aria-controls="dev-stack-panel-mobile" data-dev-stack-tab="mobile" tabindex="-1">Mobile Apps</button>
+            <button type="button" class="dev-stack-showcase__tab" role="tab" id="dev-stack-tab-software" aria-selected="false" aria-controls="dev-stack-panel-software" data-dev-stack-tab="software" tabindex="-1">Enterprise Software</button>
           </div>
 
-          <div class="dev-ide-body">
-            <!-- Sidebar -->
-            <div class="dev-ide-sidebar">
-              <div class="dev-ide-sidebar-title">EXPLORER</div>
-              <div class="dev-ide-file dev-ide-file--folder">▾ mobile</div>
-              <div class="dev-ide-file">&nbsp;&nbsp;App.tsx</div>
-              <div class="dev-ide-file">&nbsp;&nbsp;navigation.ts</div>
-              <div class="dev-ide-file dev-ide-file--folder">▾ web</div>
-              <div class="dev-ide-file dev-ide-file--active">&nbsp;&nbsp;app.js</div>
-              <div class="dev-ide-file">&nbsp;&nbsp;router.js</div>
-              <div class="dev-ide-file dev-ide-file--folder">▾ api</div>
-              <div class="dev-ide-file">&nbsp;&nbsp;auth.js</div>
-              <div class="dev-ide-file">&nbsp;&nbsp;data.js</div>
-              <div class="dev-ide-file dev-ide-file--folder">▾ software</div>
-              <div class="dev-ide-file">&nbsp;&nbsp;services.py</div>
-              <div class="dev-ide-file">&nbsp;&nbsp;schema.sql</div>
-              <div class="dev-ide-file dev-ide-file--folder">▸ deploy</div>
+          <article class="dev-stack-showcase__panel is-active" id="dev-stack-panel-web" role="tabpanel" aria-labelledby="dev-stack-tab-web" data-dev-stack-panel="web">
+            <div class="dev-stack-showcase__visual">
+              <img src="assets/img/development/web_app.png" alt="Web application dashboard preview" width="640" height="400" loading="lazy" decoding="async" />
             </div>
-
-            <!-- Editor pane -->
-            <div class="dev-ide-editor">
-              <div class="dev-ide-code">
-                <div class="dev-ide-line"><span class="dev-ide-ln">1</span><span class="code-keyword">import</span> { createServer } <span class="code-keyword">from</span> <span class="code-string">'node:http'</span>;</div>
-                <div class="dev-ide-line"><span class="dev-ide-ln">2</span><span class="code-keyword">import</span> { Router } <span class="code-keyword">from</span> <span class="code-string">'./router.js'</span>;</div>
-                <div class="dev-ide-line"><span class="dev-ide-ln">3</span><span class="code-keyword">import</span> { connectDB } <span class="code-keyword">from</span> <span class="code-string">'./db/schema.js'</span>;</div>
-                <div class="dev-ide-line"><span class="dev-ide-ln">4</span></div>
-                <div class="dev-ide-line"><span class="dev-ide-ln">5</span><span class="code-keyword">const</span> <span class="code-func">app</span> = <span class="code-func">createServer</span>(<span class="code-param">async</span> (req, res) <span class="code-keyword">=></span> {</div>
-                <div class="dev-ide-line"><span class="dev-ide-ln">6</span>  <span class="code-keyword">await</span> <span class="code-func">Router</span>.<span class="code-func">handle</span>(req, res);</div>
-                <div class="dev-ide-line"><span class="dev-ide-ln">7</span>});</div>
-                <div class="dev-ide-line"><span class="dev-ide-ln">8</span></div>
-                <div class="dev-ide-line"><span class="dev-ide-ln">9</span><span class="code-comment">// Initialize database connection</span></div>
-                <div class="dev-ide-line"><span class="dev-ide-ln">10</span><span class="code-keyword">await</span> <span class="code-func">connectDB</span>({</div>
-                <div class="dev-ide-line"><span class="dev-ide-ln">11</span>  host: <span class="code-string">'db.riverbird.in'</span>,</div>
-                <div class="dev-ide-line"><span class="dev-ide-ln">12</span>  ssl: <span class="code-bool">true</span>,</div>
-                <div class="dev-ide-line"><span class="dev-ide-ln">13</span>  pool: <span class="code-num">25</span></div>
-                <div class="dev-ide-line"><span class="dev-ide-ln">14</span>});</div>
-                <div class="dev-ide-line"><span class="dev-ide-ln">15</span></div>
-                <div class="dev-ide-line"><span class="dev-ide-ln">16</span>app.<span class="code-func">listen</span>(<span class="code-num">3000</span>, () <span class="code-keyword">=></span> {</div>
-                <div class="dev-ide-line"><span class="dev-ide-ln">17</span>  <span class="code-func">console</span>.<span class="code-func">log</span>(<span class="code-string">'⚡ Server ready'</span>);</div>
-                <div class="dev-ide-line"><span class="dev-ide-ln">18</span>});</div>
-              </div>
-
-              <!-- Terminal panel -->
-              <div class="dev-ide-terminal">
-                <div class="dev-ide-terminal-header">
-                  <span class="dev-ide-terminal-tab dev-ide-terminal-tab--active">TERMINAL</span>
-                  <span class="dev-ide-terminal-tab">OUTPUT</span>
-                  <span class="dev-ide-terminal-tab">PROBLEMS</span>
+            <div class="dev-stack-showcase__body">
+              <p class="dev-stack-showcase__text">We build fast, accessible websites and web apps with SEO-ready markup, API-first backends, and performance budgets your team can maintain.</p>
+              <div class="dev-stack-showcase__metrics">
+                <div class="dev-stack-showcase__metric">
+                  <span class="dev-stack-showcase__metric-value">90+</span>
+                  <span class="dev-stack-showcase__metric-label">Lighthouse performance targets</span>
                 </div>
-                <div class="dev-ide-terminal-body">
-                  <div class="dev-terminal-line"><span class="dev-terminal-prompt">$</span> node src/app.js</div>
-                  <div class="dev-terminal-line dev-terminal-success">✔ Database connected (pool: 25)</div>
-                  <div class="dev-terminal-line dev-terminal-success">✔ SSL verified</div>
-                  <div class="dev-terminal-line dev-terminal-info">⚡ Server ready on port 3000</div>
-                  <div class="dev-terminal-line"><span class="dev-terminal-prompt">$</span> <span class="dev-terminal-cursor">|</span></div>
+                <div class="dev-stack-showcase__metric">
+                  <span class="dev-stack-showcase__metric-value">100%</span>
+                  <span class="dev-stack-showcase__metric-label">Responsive layouts</span>
+                </div>
+                <div class="dev-stack-showcase__metric">
+                  <span class="dev-stack-showcase__metric-value">API</span>
+                  <span class="dev-stack-showcase__metric-label">First integrations</span>
                 </div>
               </div>
+              <div class="dev-stack-showcase__tags">
+                <span>HTML5 / CSS3</span><span>React / Vue</span><span>Node &amp; REST</span>
+              </div>
+              <a href="web-development.html" class="btn btn--primary btn--arrow magnetic-btn">Explore Web Development <span aria-hidden="true">&rarr;</span></a>
             </div>
-          </div>
-        </div>
+          </article>
 
-        </div>
+          <article class="dev-stack-showcase__panel" id="dev-stack-panel-mobile" role="tabpanel" aria-labelledby="dev-stack-tab-mobile" data-dev-stack-panel="mobile" hidden>
+            <div class="dev-stack-showcase__visual">
+              <img src="assets/img/development/classic_gypsum_mobile_mockup.png" alt="Mobile application on device" width="480" height="640" loading="lazy" decoding="async" />
+            </div>
+            <div class="dev-stack-showcase__body">
+              <p class="dev-stack-showcase__text">Cross-platform mobile apps with native-feel UX, offline support, push notifications, and store-ready release pipelines.</p>
+              <div class="dev-stack-showcase__metrics">
+                <div class="dev-stack-showcase__metric">
+                  <span class="dev-stack-showcase__metric-value">iOS</span>
+                  <span class="dev-stack-showcase__metric-label">&amp; Android delivery</span>
+                </div>
+                <div class="dev-stack-showcase__metric">
+                  <span class="dev-stack-showcase__metric-value">60fps</span>
+                  <span class="dev-stack-showcase__metric-label">Interaction targets</span>
+                </div>
+                <div class="dev-stack-showcase__metric">
+                  <span class="dev-stack-showcase__metric-value">FCM</span>
+                  <span class="dev-stack-showcase__metric-label">Push &amp; offline sync</span>
+                </div>
+              </div>
+              <div class="dev-stack-showcase__tags">
+                <span>React Native</span><span>Flutter</span><span>Swift &amp; Kotlin</span>
+              </div>
+              <a href="application-development.html" class="btn btn--primary btn--arrow magnetic-btn">Explore App Development <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </article>
 
-        <div class="dev-stack-matrix reveal delay-2">
-          <div class="dev-stack-matrix__col">
-            <h4 class="dev-stack-matrix__heading">Web layer</h4>
-            <div class="dev-tech-strip dev-tech-strip--compact">
-              <span class="dev-tech-pill">HTML5 / CSS3</span>
-              <span class="dev-tech-pill">JavaScript</span>
-              <span class="dev-tech-pill">React / Vue</span>
-              <span class="dev-tech-pill">Lighthouse 90+</span>
+          <article class="dev-stack-showcase__panel" id="dev-stack-panel-software" role="tabpanel" aria-labelledby="dev-stack-tab-software" data-dev-stack-panel="software" hidden>
+            <div class="dev-stack-showcase__visual">
+              <img src="assets/img/development/admin_dashboard.png" alt="Enterprise software dashboard" width="640" height="400" loading="lazy" decoding="async" />
             </div>
-          </div>
-          <div class="dev-stack-matrix__col">
-            <h4 class="dev-stack-matrix__heading">Mobile layer</h4>
-            <div class="dev-tech-strip dev-tech-strip--compact">
-              <span class="dev-tech-pill">React Native</span>
-              <span class="dev-tech-pill">Flutter</span>
-              <span class="dev-tech-pill">App Store / Play</span>
-              <span class="dev-tech-pill">Push &amp; offline</span>
+            <div class="dev-stack-showcase__body">
+              <p class="dev-stack-showcase__text">Custom ERP, CRM, and internal platforms with role-based access, audit trails, and integrations to the systems your business already runs.</p>
+              <div class="dev-stack-showcase__metrics">
+                <div class="dev-stack-showcase__metric">
+                  <span class="dev-stack-showcase__metric-value">99.9%</span>
+                  <span class="dev-stack-showcase__metric-label">Uptime-focused architecture</span>
+                </div>
+                <div class="dev-stack-showcase__metric">
+                  <span class="dev-stack-showcase__metric-value">RBAC</span>
+                  <span class="dev-stack-showcase__metric-label">Security &amp; compliance</span>
+                </div>
+                <div class="dev-stack-showcase__metric">
+                  <span class="dev-stack-showcase__metric-value">Cloud</span>
+                  <span class="dev-stack-showcase__metric-label">AWS / GCP ready</span>
+                </div>
+              </div>
+              <div class="dev-stack-showcase__tags">
+                <span>Python / Java</span><span>PostgreSQL</span><span>Docker</span>
+              </div>
+              <a href="software-solution.html" class="btn btn--primary btn--arrow magnetic-btn">Explore Software Solutions <span aria-hidden="true">&rarr;</span></a>
             </div>
-          </div>
-          <div class="dev-stack-matrix__col">
-            <h4 class="dev-stack-matrix__heading">Software layer</h4>
-            <div class="dev-tech-strip dev-tech-strip--compact">
-              <span class="dev-tech-pill">Node.js</span>
-              <span class="dev-tech-pill">Python</span>
-              <span class="dev-tech-pill">PostgreSQL</span>
-              <span class="dev-tech-pill">AWS / GCP</span>
-            </div>
-          </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- ── Section 3: Engineering Process (JS-rendered) ── -->
-    <section class="section-padding bg-light">
+    <!-- ── Section 3: Engineering Process ── -->
+    <section class="section-padding bg-light dev-engineering-trust">
       <div class="container">
         <div class="section-header center">
           <span class="label-text">Execution Pathway</span>
           <h2 class="h2">The Engineering Process</h2>
-          <p class="body-text">A systematic, secure development pipeline that ensures zero technical debt.</p>
+          <p class="body-text">A systematic, secure development pipeline that ensures zero technical debt — from discovery through launch and long-term growth.</p>
         </div>
 
-        <div class="process-steps dev-process-flow" id="dev-process-grid" role="list"></div>
+        <div class="dev-process-panel reveal delay-1">
+          <div class="dev-process-orbit">
+            <svg class="dev-process-orbit__arcs" viewBox="0 0 1000 520" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+              <path d="M155 88 Q 320 48 500 130 Q 680 212 845 88" stroke="rgba(245, 93, 45, 0.32)" stroke-width="1.5" />
+              <path d="M130 380 Q 300 440 500 400 Q 700 360 870 400" stroke="rgba(245, 93, 45, 0.26)" stroke-width="1.5" />
+              <path d="M175 115 Q 200 260 155 365" stroke="rgba(245, 93, 45, 0.2)" stroke-width="1.2" stroke-dasharray="5 8" />
+              <path d="M825 115 Q 800 260 845 385" stroke="rgba(245, 93, 45, 0.2)" stroke-width="1.2" stroke-dasharray="5 8" />
+            </svg>
+
+            <div class="dev-process-orbit__stage">
+              <div class="dev-process-orbit__glow" aria-hidden="true"></div>
+              <div class="dev-process-orbit__hub">
+                <img
+                  src="assets/img/development/dev-hero-mockup.png"
+                  alt=""
+                  width="570"
+                  height="438"
+                  loading="lazy"
+                  decoding="async"
+                  class="dev-process-orbit__hub-img"
+                />
+              </div>
+              <div class="dev-process-orbit__accent dev-process-orbit__accent--code" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              </div>
+              <div class="dev-process-orbit__accent dev-process-orbit__accent--cloud" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1 0-8 5 5 0 0 1 9.9 1.1A3.5 3.5 0 1 1 17 18H7z"></path><polyline points="16 16 16 22"></polyline><polyline points="19 19 16 22 13 19"></polyline></svg>
+              </div>
+            </div>
+
+            <article class="dev-process-orbit__step dev-process-orbit__step--01">
+              <div class="dev-process-orbit__icon" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              </div>
+              <div class="dev-process-orbit__copy">
+                <h3 class="dev-process-orbit__title"><span class="dev-process-orbit__num">01</span> Discovery &amp; Blueprint</h3>
+                <p class="dev-process-orbit__desc">Requirements, wireframes, and technical specs.</p>
+              </div>
+            </article>
+
+            <article class="dev-process-orbit__step dev-process-orbit__step--02">
+              <div class="dev-process-orbit__icon" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              </div>
+              <div class="dev-process-orbit__copy">
+                <h3 class="dev-process-orbit__title"><span class="dev-process-orbit__num">02</span> Build &amp; Integrate</h3>
+                <p class="dev-process-orbit__desc">Modular code, APIs, and database layers.</p>
+              </div>
+            </article>
+
+            <article class="dev-process-orbit__step dev-process-orbit__step--03">
+              <div class="dev-process-orbit__icon" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+              </div>
+              <div class="dev-process-orbit__copy">
+                <h3 class="dev-process-orbit__title"><span class="dev-process-orbit__num">03</span> Secure &amp; Deploy</h3>
+                <p class="dev-process-orbit__desc">SSL, QA, and production CI/CD pipelines.</p>
+              </div>
+            </article>
+
+            <article class="dev-process-orbit__step dev-process-orbit__step--04">
+              <div class="dev-process-orbit__icon" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              </div>
+              <div class="dev-process-orbit__copy">
+                <h3 class="dev-process-orbit__title"><span class="dev-process-orbit__num">04</span> Scale &amp; Support</h3>
+                <p class="dev-process-orbit__desc">Monitoring, optimization, and team handoff.</p>
+              </div>
+            </article>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -482,18 +512,133 @@
       </div>
     </section>
 
-    <!-- ── CTA Section ── -->
-    <section class="cta-section">
-      <div class="container cta__container">
-        <span class="cta__label">Connect</span>
-        <h2 class="display-text cta__title" style="font-size: clamp(2.5rem, 5vw, 4rem);">Scope your tech system today.</h2>
-        <p class="cta__desc">Get in touch with an engineering architect to outline your database, API, or dashboard specifications.</p>
-        <div>
-          <a href="contact.html" class="btn btn--primary magnetic-btn">Consult a Tech Lead &rarr;</a>
+    <!-- Lead Generation CTA (same as home) -->
+    <section class="leadgen-cta" id="leadgen-cta">
+      <div class="container leadgen-cta__container">
+
+        <div class="leadgen-cta__left">
+          <div class="leadgen-cta__badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+            </svg>
+            <span>LET'S GROW TOGETHER</span>
+          </div>
+          <h2 class="leadgen-cta__title">Building Digital
+            Growth Stories<br><span class="leadgen-cta__title--accent">That Matter.</span></h2>
+          <p class="leadgen-cta__desc">From strategy to execution, we help brands grow online, generate quality leads,
+            and achieve measurable results.</p>
+          <div class="leadgen-cta__actions">
+            <a href="contact.html" class="leadgen-btn leadgen-btn--primary" id="leadgen-free-consultation-dev">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+              </svg>
+              Get Free Consultation
+            </a>
+            <a href="contact.html" class="leadgen-btn leadgen-btn--outline" id="leadgen-schedule-call-dev">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              Schedule a Call
+            </a>
+          </div>
+        </div>
+
+        <div class="leadgen-cta__right">
+          <div class="leadgen-cta__features">
+            <div class="leadgen-feature">
+              <div class="leadgen-feature__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+              </div>
+              <p class="leadgen-feature__title">Strategy First</p>
+              <p class="leadgen-feature__desc">Custom strategies tailored to your business goals.</p>
+            </div>
+            <div class="leadgen-feature__divider" aria-hidden="true"></div>
+            <div class="leadgen-feature">
+              <div class="leadgen-feature__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="m9 12 2 2 4-4" />
+                </svg>
+              </div>
+              <p class="leadgen-feature__title">Quality Leads</p>
+              <p class="leadgen-feature__desc">We attract, capture, and deliver leads that convert.</p>
+            </div>
+            <div class="leadgen-feature__divider" aria-hidden="true"></div>
+            <div class="leadgen-feature">
+              <div class="leadgen-feature__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                  <polyline points="16 7 22 7 22 13" />
+                </svg>
+              </div>
+              <p class="leadgen-feature__title">Measurable Results</p>
+              <p class="leadgen-feature__desc">Track, analyze, and optimize for maximum growth.</p>
+            </div>
+            <div class="leadgen-feature__divider" aria-hidden="true"></div>
+            <div class="leadgen-feature">
+              <div class="leadgen-feature__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+              </div>
+              <p class="leadgen-feature__title">24/7 Support</p>
+              <p class="leadgen-feature__desc">We're here anytime to support your growth journey.</p>
+            </div>
+          </div>
+
+          <div class="leadgen-cta__social-proof">
+            <div class="leadgen-avatars">
+              <div class="leadgen-flag-wrap">
+                <img src="assets/img/Flags/unitedstates.png" alt="United States" class="leadgen-flag" width="36"
+                  height="36" loading="lazy" />
+              </div>
+              <div class="leadgen-flag-wrap">
+                <img src="assets/img/Flags/canada.png" alt="Canada" class="leadgen-flag" width="36" height="36"
+                  loading="lazy" />
+              </div>
+              <div class="leadgen-flag-wrap">
+                <img src="assets/img/Flags/unitedarabemirates.png" alt="United Arab Emirates" class="leadgen-flag"
+                  width="36" height="36" loading="lazy" />
+              </div>
+              <div class="leadgen-flag-wrap">
+                <img src="assets/img/Flags/malaysia.png" alt="Malaysia" class="leadgen-flag" width="36" height="36"
+                  loading="lazy" />
+              </div>
+              <div class="leadgen-flag-more">+ More</div>
+            </div>
+            <div class="leadgen-social-proof__text">
+              <strong>Growing Brands Across 4+ Countries</strong>
+              <span>Partnering with businesses worldwide through strategy, technology, and marketing.</span>
+            </div>
+            <a href="contact.html" class="leadgen-social-proof__arrow" aria-label="Get started"
+              id="leadgen-social-proof-cta-dev">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
+            </a>
+          </div>
         </div>
 
       </div>
-      <!-- Dotted pattern overlay -->
+
       <div class="leadgen-cta__dots" aria-hidden="true"></div>
     </section>
 
