@@ -5,6 +5,16 @@
 > **Stack:** Vanilla HTML5 + CSS3 + JavaScript (ES6 Modules)  
 > **Last Analyzed:** June 13, 2026
 
+### Local preview (clean URLs)
+
+Production uses `.htaccess` rewrites. Locally, run from the repo root:
+
+```bash
+node server.js
+```
+
+Then open `http://127.0.0.1:5501/home` or any canonical path (e.g. `/development-solution`). Opening `.html` files directly in the browser still works but links use clean paths.
+
 ---
 
 ## 1. Executive Summary
@@ -110,13 +120,10 @@ riverbird/
 │   ├── paid-ads.html
 │   └── lead-generation.html
 │
-├── staffing/                     # Staffing Solutions hub + sub-service pages
-│   ├── index.html                # Staffing overview
-│   ├── talent-management.html
-│   ├── hire-talent.html
-│   ├── manpower.html
-│   ├── recruitment-process.html
-│   └── industry-expertise.html
+├── staffing-solutions.html       # Staffing hub
+├── talent-management.html
+├── hire-talent.html
+├── hr-services.html              # Manpower / HR services
 │
 ├── product/                      # Fashyfi product showcase
 │   └── index.html

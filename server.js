@@ -2,7 +2,7 @@
  * Local development server for Riverbird's clean URLs.
  *
  * Run: node server.js
- * Then open: http://127.0.0.1:5501/best-web-development
+ * Then open: http://127.0.0.1:5501/development-solution
  *
  * Production uses the matching Apache rules in .htaccess.
  */
