@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" data-base="">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Application Development | Riverbird</title>
+  <meta name="description"
+    content="Premium mobile and desktop applications created for fluid user interactions, low battery drain, and native system capabilities." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/css/main.css" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+  <link rel="shortcut icon" href="assets/img/favicon.ico">
+  <link rel="manifest" href="assets/img/site.webmanifest">
+  <meta name="theme-color" content="#F55D2D">
+</head>
+
+<body class="application-development-page" data-page="development-sub">
+
+  <a href="#main-content" class="skip-link">Skip to Content</a>
+
+  <div class="cursor-glow"></div>
+  <canvas class="liquid-canvas"></canvas>
+  <div id="header-slot"></div>
+
+  <main id="main-content" class="liquid-wrapper">
+
+    <!-- ── Hero Section ── -->
+    <section class="hero hero--service development-hero">
+      <div class="container hero__container">
+        <div class="grid grid-2" style="align-items: center;">
+          <div class="hero__content reveal">
+            <div class="hero__label-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+              Development Division
+            </div>
+            <h1 class="display-text hero__title">
+              Application <span class="text-primary-color">Development.</span>
+            </h1>
+            <p class="hero__desc">
+              Premium mobile and desktop applications created for fluid user interactions, low battery drain, and native
+              system capabilities.
+            </p>
+            <div class="hero__actions">
+              <a href="contact.html" class="btn btn--primary magnetic-btn">Start App Blueprint &rarr;</a>
+              <a href="index.html" class="btn btn--outline btn--white magnetic-btn">All Solutions &rarr;</a>
+            </div>
+          </div>
+
+          <div class="development-hero-visual reveal delay-1">
+            <div class="camera-viewport">
+              <div class="camera-hud-frame">
+                <div class="hud-corner top-left"></div>
+                <div class="hud-corner top-right"></div>
+                <div class="hud-corner bottom-left"></div>
+                <div class="hud-corner bottom-right"></div>
+              </div>
+              <div class="dev-hero-orb"></div>
+              <div class="dev-hero-element"
+                style="border: none; padding: 0; box-shadow: none; background: transparent;">
+                <img src="assets/img/development/app_development_banner.png" alt="Application Development Interface"
+                  class="dev-hero-image">
+              </div>
+              <!-- <div class="hud-metadata-bar">
+                <div class="hud-metadata-item">
+                  <span class="hud-ping-dot"></span>
+                  <span>[● REC] 24.00 FPS</span>
+                </div>
+                <div class="hud-metadata-item">
+                  <span>COMP: RVRBRD_MKT_PROD</span>
+                </div>
+                <div class="hud-metadata-item">
+                  <span>TC: 00:03:23:23</span>
+                </div>
+                <div class="hud-metadata-item">
+                  <span>SHUTTER: 180° | ISO 800</span>
+                </div>
+              </div> 
+            </div>-->
+            </div>
+          </div>
+        </div>
+    </section>
+
+
+
+    <!-- What kind of applications do we build? -->
+    <section class="application-ecosystem-section" aria-labelledby="application-ecosystem-title">
+      <div class="container application-ecosystem-container">
+        <div class="application-ecosystem-header">
+          <div class="application-ecosystem-header__title reveal">
+            <span class="application-ecosystem-eyebrow">Application Ecosystem</span>
+            <h2 id="application-ecosystem-title">
+              <span>What Kind of Applications</span>
+              <span>Do We Build?</span>
+            </h2>
+          </div>
+          <p class="application-ecosystem-header__copy reveal delay-1">
+            We design and develop powerful applications for customers, teams and businesses across web, mobile and cloud
+            environments.
+          </p>
+        </div>
+
+        <div class="application-ecosystem-stage reveal" aria-label="Connected application environments">
+          <svg class="application-ecosystem-connections" viewBox="0 0 1200 650" preserveAspectRatio="none"
+            aria-hidden="true">
+            <path data-connection="web mobile" d="M780 112 C805 112 815 112 840 112" />
+            <path data-connection="web business" d="M300 238 C300 270 210 270 210 302" />
+            <path data-connection="web portal" d="M650 238 C650 270 710 270 710 302" />
+            <path data-connection="mobile portal" d="M1000 238 C1000 270 955 270 955 302" />
+            <path data-connection="business admin" d="M210 410 C210 450 350 450 350 492" />
+            <path data-connection="portal admin" d="M620 410 C620 450 600 450 600 492" />
+            <path data-connection="portal saas" d="M1000 410 C1000 450 1000 450 1000 492" />
+            <circle cx="810" cy="112" r="5" />
+            <circle cx="650" cy="270" r="5" />
+            <circle cx="350" cy="450" r="5" />
+            <circle cx="1000" cy="450" r="5" />
+          </svg>
+
+          <article class="application-ecosystem-card application-ecosystem-card--web" data-application-card="web"
+            tabindex="0">
+            <div class="application-ecosystem-card__meta"><span>01</span><span>Web</span></div>
+            <div class="application-ecosystem-card__content">
+              <h3>Web Applications</h3>
+              <p>Powerful browser-based applications built for performance and scale.</p>
+            </div>
+            <div class="application-ecosystem-visual application-ecosystem-visual--web" aria-hidden="true">
+              <img src="assets/img/development/web_app.png" alt="" loading="lazy">
+            </div>
+          </article>
+
+          <article class="application-ecosystem-card application-ecosystem-card--mobile" data-application-card="mobile"
+            tabindex="0">
+            <div class="application-ecosystem-card__meta"><span>02</span><span>Mobile</span></div>
+            <div class="application-ecosystem-visual application-ecosystem-visual--mobile" aria-hidden="true">
+              <img src="assets/img/development/app_dev 1.png" alt="" loading="lazy">
+            </div>
+            <div class="application-ecosystem-card__content">
+              <h3>Mobile<BR> Applications</h3>
+              <p>Modern mobile experiences for <br> Android and iOS users.</p>
+            </div>
+          </article>
+
+          <article class="application-ecosystem-card application-ecosystem-card--business"
+            data-application-card="business" tabindex="0">
+            <div class="application-ecosystem-card__meta"><span>03</span><span>Business</span></div>
+            <div class="application-ecosystem-visual application-ecosystem-visual--business" aria-hidden="true">
+              <img src="assets/img/development/business_app.png" alt="bussiness application" loading="lazy">
+
+            </div>
+            <div class="application-ecosystem-card__content">
+              <h3>Business Applications</h3>
+              <p>Custom tools designed around<br> your internal workflows.</p>
+            </div>
+          </article>
+
+          <article class="application-ecosystem-card application-ecosystem-card--portal" data-application-card="portal"
+            tabindex="0">
+            <div class="application-ecosystem-card__meta"><span>04</span><span>Customer</span></div>
+            <div class="application-ecosystem-card__content">
+              <h3>Customer Portals</h3>
+              <p>Secure platforms where customers can access services, data and updates.</p>
+            </div>
+            <div class="application-ecosystem-visual application-ecosystem-visual--portal" aria-hidden="true">
+              <img src="assets/img/development/customer_portal.png" alt="costomer portal">
+
+            </div>
+          </article>
+
+          <article class="application-ecosystem-card application-ecosystem-card--admin" data-application-card="admin"
+            tabindex="0">
+            <div class="application-ecosystem-card__meta"><span>05</span><span>Admin</span></div>
+
+            <div class="application-ecosystem-visual application-ecosystem-visual--admin" aria-hidden="true">
+              <img src="assets/img/development/admin_dashboard.png" alt="" loading="lazy">
+
+            </div>
+            <div class="application-ecosystem-card__content">
+              <h3>Admin Dashboards</h3>
+              <p>Centralized interfaces for managing operations and business data.</p>
+            </div>
+          </article>
+
+          <article class="application-ecosystem-card application-ecosystem-card--saas" data-application-card="saas"
+            tabindex="0">
+            <div class="application-ecosystem-card__meta"><span>06</span><span>SaaS</span></div>
+            <div class="application-ecosystem-card__content">
+              <h3>SaaS Applications</h3>
+              <p>Scalable subscription-based products designed for multiple users.</p>
+            </div>
+
+            <div class="application-ecosystem-visual application-ecosystem-visual--saas" aria-hidden="true">
+              <img src="assets/img/development/saas_app.png" alt="" loading="lazy">
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+    <!-- Application platform ecosystem -->
+    <section class="app-ecosystem-section" aria-labelledby="app-ecosystem-title">
+      <div class="container app-ecosystem__container">
+        <h2 class="app-ecosystem__title reveal" id="app-ecosystem-title">
+          Technologies Behind <span>Exceptional Applications.</span>
+        </h2>
+
+        <div class="app-ecosystem__grid reveal delay-1" role="list" aria-label="Application platforms and technologies">
+          <div class="app-ecosystem__item" role="listitem">
+            <span class="app-ecosystem__symbol" aria-hidden="true"><img src="https://cdn.simpleicons.org/apple" alt=""
+                width="32" height="32" loading="lazy"></span>
+            <span class="app-ecosystem__name">iOS</span>
+          </div>
+          <div class="app-ecosystem__item" role="listitem">
+            <span class="app-ecosystem__symbol" aria-hidden="true"><img src="https://cdn.simpleicons.org/android" alt=""
+                width="32" height="32" loading="lazy"></span>
+            <span class="app-ecosystem__name">Android</span>
+          </div>
+          <div class="app-ecosystem__item" role="listitem">
+            <span class="app-ecosystem__symbol" aria-hidden="true"><img src="https://cdn.simpleicons.org/flutter" alt=""
+                width="32" height="32" loading="lazy"></span>
+            <span class="app-ecosystem__name">Flutter</span>
+          </div>
+          <div class="app-ecosystem__item" role="listitem">
+            <span class="app-ecosystem__symbol" aria-hidden="true"><img src="https://cdn.simpleicons.org/react" alt=""
+                width="32" height="32" loading="lazy"></span>
+            <span class="app-ecosystem__name">React Native</span>
+          </div>
+          <div class="app-ecosystem__item" role="listitem">
+            <span class="app-ecosystem__symbol" aria-hidden="true"><img src="https://cdn.simpleicons.org/swift" alt=""
+                width="32" height="32" loading="lazy"></span>
+            <span class="app-ecosystem__name">Swift</span>
+          </div>
+          <div class="app-ecosystem__item" role="listitem">
+            <span class="app-ecosystem__symbol" aria-hidden="true"><img src="https://cdn.simpleicons.org/kotlin" alt=""
+                width="32" height="32" loading="lazy"></span>
+            <span class="app-ecosystem__name">Kotlin</span>
+          </div>
+          <div class="app-ecosystem__item" role="listitem">
+            <span class="app-ecosystem__symbol" aria-hidden="true"><img src="https://cdn.simpleicons.org/firebase"
+                alt="" width="32" height="32" loading="lazy"></span>
+            <span class="app-ecosystem__name">Firebase</span>
+          </div>
+          <div class="app-ecosystem__item" role="listitem">
+            <span class="app-ecosystem__symbol app-ecosystem__symbol--aws" aria-hidden="true">
+              <img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"
+                alt="" width="64" height="32" loading="lazy">
+            </span>
+            <span class="app-ecosystem__name">AWS Cloud</span>
+          </div>
+          <div class="app-ecosystem__item" role="listitem">
+            <span class="app-ecosystem__symbol" aria-hidden="true"><img src="https://cdn.simpleicons.org/supabase"
+                alt="" width="32" height="32" loading="lazy"></span>
+            <span class="app-ecosystem__name">Supabase</span>
+          </div>
+          <div class="app-ecosystem__item" role="listitem">
+            <span class="app-ecosystem__symbol" aria-hidden="true"><img src="https://cdn.simpleicons.org/appstore"
+                alt="" width="32" height="32" loading="lazy"></span>
+            <span class="app-ecosystem__name">App Stores</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- One application, every screen -->
+    <section class="application-responsive-section" aria-labelledby="application-responsive-title"
+      data-responsive-state="desktop">
+      <div class="container application-responsive-container">
+        <div class="application-responsive-stage-wrap">
+          <div class="application-responsive-stage">
+            <div class="application-responsive-stage__topline" aria-hidden="true">
+              <span>Responsive application</span>
+              <span><i></i> Live reflow</span>
+            </div>
+
+            <div class="application-responsive-device-shell"
+              aria-label="One application adapting across desktop, laptop, tablet and mobile screens">
+              <div class="application-responsive-device">
+                <div class="application-responsive-device__camera" aria-hidden="true"></div>
+                <div class="application-responsive-interface" aria-hidden="true">
+                  <header class="application-responsive-nav">
+                    <strong><i>R</i><span>Flow</span></strong>
+                    <nav><span>Overview</span><span>Analytics</span><span>Projects</span></nav>
+                    <button type="button" tabindex="-1">Create</button>
+                    <em><i></i><i></i><i></i></em>
+                  </header>
+                  <div class="application-responsive-workspace">
+                    <aside class="application-responsive-sidebar">
+                      <span class="is-active"><i></i><b>Dashboard</b></span>
+                      <span><i></i><b>Activity</b></span>
+                      <span><i></i><b>Reports</b></span>
+                      <span><i></i><b>Settings</b></span>
+                    </aside>
+                    <div class="application-responsive-content">
+                      <div class="application-responsive-content__heading">
+                        <span><small>Workspace</small><strong>Performance overview</strong></span>
+                        <button type="button" tabindex="-1">This month</button>
+                      </div>
+                      <div class="application-responsive-cards">
+                        <article class="application-responsive-card"><small>Active
+                            users</small><strong>2,480</strong><span>+18.4%</span></article>
+                        <article class="application-responsive-card">
+                          <small>Completion</small><strong>92%</strong><span>On
+                            track</span>
+                        </article>
+                        <article class="application-responsive-card"><small>Projects</small><strong>164</strong><span>12
+                            new</span></article>
+                      </div>
+                      <div class="application-responsive-panels">
+                        <div class="application-responsive-chart">
+                          <header><span><small>Application usage</small><strong>Weekly activity</strong></span><i></i>
+                          </header>
+                          <div><i></i><i></i><i></i><i></i><i></i><i></i><i></i><b></b></div>
+                        </div>
+                        <div class="application-responsive-feed">
+                          <header><small>Recent activity</small><strong>Team updates</strong></header>
+                          <span><i></i><b></b><em></em></span>
+                          <span><i></i><b></b><em></em></span>
+                          <span><i></i><b></b><em></em></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="application-responsive-device__desktop-stand" aria-hidden="true"><i></i></div>
+                <div class="application-responsive-device__laptop-base" aria-hidden="true"><i></i></div>
+              </div>
+            </div>
+
+            <div class="application-responsive-indicator" aria-label="Responsive device state">
+              <button class="application-responsive-indicator__item is-active" type="button" data-responsive-index="0"
+                aria-current="step"><span>01</span>Desktop<i></i></button>
+              <button class="application-responsive-indicator__item" type="button"
+                data-responsive-index="1"><span>02</span>Laptop<i></i></button>
+              <button class="application-responsive-indicator__item" type="button"
+                data-responsive-index="2"><span>03</span>Tablet<i></i></button>
+              <button class="application-responsive-indicator__item" type="button"
+                data-responsive-index="3"><span>04</span>Mobile<i></i></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="application-responsive-copy-wrap">
+          <aside class="application-responsive-copy">
+            <span class="application-responsive-eyebrow">Responsive Development</span>
+            <h2 class="application-responsive-title" id="application-responsive-title"><span>One
+                Application.</span><span>Every Screen.</span></h2>
+            <p class="application-responsive-description">We design applications that adapt seamlessly across desktop,
+              laptop, tablet and mobile — without compromising usability, performance or visual consistency.</p>
+            <ol class="application-responsive-points">
+              <li><span>01</span>Adaptive layouts</li>
+              <li><span>02</span>Touch-friendly interfaces</li>
+              <li><span>03</span>Consistent user experience</li>
+              <li><span>04</span>Performance across devices</li>
+            </ol>
+            <a class="application-responsive-cta" href="contact.html">Explore Our Applications <span>→</span></a>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section (2nd Image) -->
+    <section class="section-padding bg-white" id="marketing-cta-section">
+      <div class="container">
+        <div class="marketing-cta-card reveal"
+          style="background: url('assets/img/services/cta-hummingbird-bg.png') center/cover no-repeat; border-radius: var(--radius-lg);">
+          <div class="cta-card-content">
+            <span class="cta-card-label">Build With RiverBird</span>
+            <h2 class="display-text cta-card-title">
+              Ready to Build Software <br />
+              That Scales With You?
+            </h2>
+            <p class="cta-card-desc">
+              Turn your workflows and product ideas into secure, maintainable software engineered around your business.
+            </p>
+            <div class="cta-card-action">
+              <a href="contact.html" class="btn btn--marketing-cta magnetic-btn">
+                Start Your Software Project &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="footer-slot"></div>
+  <script defer src="assets/js/core/app.js"></script>
+</body>
+
+</html>

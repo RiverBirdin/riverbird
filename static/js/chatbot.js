@@ -290,7 +290,7 @@
     }
 
     if (norm === 'view careers page' || norm.includes('view careers')) {
-      const careersUrl = resolvePath('careers_index.html');
+      const careersUrl = resolvePath('careers.html');
       appendMessage(`Open **[Careers](${careersUrl})** to see open roles. You can also share your details here for HR.`, 'bot', [
         'Yes, share my details',
         'Back to topics'

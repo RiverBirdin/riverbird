@@ -6,6 +6,36 @@ function getBasePath() {
   return baseAttr;
 }
 
+const CLEAN_ROUTE_PATHS = {
+  'index.html': 'home',
+  'about-us.html': 'aboutus',
+  'blog.html': 'blog',
+  'development-solution.html': 'development-solution',
+  'software-solution.html': 'best-software-solution',
+  'web-development.html': 'best-web-development',
+  'application-development.html': 'best-application-development',
+  'digital-marketing.html': 'best-digital-marketing',
+  'social-media-marketing.html': 'social-media-marketing',
+  'personal-branding.html': 'personal-branding',
+  'influencer-marketing.html': 'influencer-marketing',
+  'search-engine-optimization.html': 'search-engine-optimization',
+  'lead-generation.html': 'lead-generation',
+  'google-and-meta-ads.html': 'google-and-meta-ads',
+  'video-production-services.html': 'video-production-services',
+  'graphic-design-services.html': 'graphic-design-services',
+  'branding-services.html': 'branding-services',
+  'staffing-solutions.html': 'staffing-solutions',
+  'talent-management.html': 'talent-management',
+  'hire-talent.html': 'hire-talent',
+  'hr-services.html': 'hr-services',
+  'products.html': 'products',
+  'careers.html': 'careers',
+  'contact.html': 'contact',
+  'privacy-policy.html': 'privacy-policy',
+  'terms-of-service.html': 'terms-of-service',
+  'refund-policy.html': 'refund-policy'
+};
+
 function resolvePath(path) {
   const base = getBasePath();
 
@@ -14,8 +44,12 @@ function resolvePath(path) {
   }
 
   const cleanPath = path.startsWith('/') ? path.substring(1) : path;
+  const routeMatch = cleanPath.match(/^([^?#]+)(.*)$/);
+  const routePath = routeMatch ? routeMatch[1] : cleanPath;
+  const routeSuffix = routeMatch ? routeMatch[2] : '';
+  const resolvedPath = CLEAN_ROUTE_PATHS[routePath] || routePath;
 
-  return `${base}${cleanPath}`;
+  return `${base}${resolvedPath}${routeSuffix}`;
 }
 
 /** Desktop-only decorative effects (skip touch / reduced-motion for smoother scrolling). */
@@ -23,6 +57,162 @@ function shouldRunHeavyEffects() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
   if (window.matchMedia('(pointer: coarse)').matches) return false;
   return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+}
+
+/** Pointer spotlight for the Software Development "What We Build" bento. */
+function initSoftwareBuildBento() {
+  const grid = document.querySelector('.software-build-grid');
+  if (!grid || !shouldRunHeavyEffects()) return;
+
+  let activeCard = null;
+  let activeRect = null;
+  let pointerX = 0;
+  let pointerY = 0;
+  let frameId = null;
+
+  const clearActiveCard = () => {
+    if (activeCard) activeCard.classList.remove('is-active');
+    activeCard = null;
+    activeRect = null;
+    grid.classList.remove('has-active');
+  };
+
+  const paintSpotlight = () => {
+    frameId = null;
+    if (!activeCard || !activeRect) return;
+
+    const x = Math.max(0, Math.min(pointerX - activeRect.left, activeRect.width));
+    const y = Math.max(0, Math.min(pointerY - activeRect.top, activeRect.height));
+    activeCard.style.setProperty('--mouse-x', `${x}px`);
+    activeCard.style.setProperty('--mouse-y', `${y}px`);
+  };
+
+  grid.addEventListener('pointermove', (event) => {
+    const card = event.target.closest('.software-build-card');
+    if (!card || !grid.contains(card)) {
+      clearActiveCard();
+      return;
+    }
+
+    if (card !== activeCard) {
+      if (activeCard) activeCard.classList.remove('is-active');
+      activeCard = card;
+      activeRect = card.getBoundingClientRect();
+      activeCard.classList.add('is-active');
+      grid.classList.add('has-active');
+    }
+
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    if (frameId === null) frameId = requestAnimationFrame(paintSpotlight);
+  }, { passive: true });
+
+  grid.addEventListener('pointerleave', clearActiveCard, { passive: true });
+
+  window.addEventListener('resize', () => {
+    if (activeCard) activeRect = activeCard.getBoundingClientRect();
+  }, { passive: true });
+}
+
+/** Scroll-linked card stacking for the Software Development "Built for Scale" section. */
+function initSoftwareScaleStack() {
+  const section = document.querySelector('.software-scale-section');
+  if (!section) return;
+
+  const cards = Array.from(section.querySelectorAll('.software-scale-card'));
+  const progressItems = Array.from(section.querySelectorAll('.software-scale-progress span'));
+  if (cards.length === 0) return;
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return;
+  }
+
+  const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+  let stickyTops = [];
+  let frameId = null;
+  let isNearSection = false;
+
+  const measureStickyTops = () => {
+    stickyTops = cards.map(card => parseFloat(window.getComputedStyle(card).top) || 0);
+  };
+
+  const updateStack = () => {
+    frameId = null;
+    if (!isNearSection) return;
+
+    const viewportHeight = window.innerHeight;
+    const isMobile = window.innerWidth <= 767;
+    const rects = cards.map(card => card.getBoundingClientRect());
+    let activeIndex = 0;
+
+    rects.forEach((rect, index) => {
+      const activationLine = Math.min(stickyTops[index] + viewportHeight * 0.2, viewportHeight * 0.56);
+      if (rect.top <= activationLine) activeIndex = index;
+    });
+
+    const sectionRect = section.getBoundingClientRect();
+    if (sectionRect.bottom <= viewportHeight * 0.52) activeIndex = cards.length - 1;
+
+    cards.forEach((card, index) => {
+      const surface = card.querySelector('.software-scale-card__surface');
+      if (!surface) return;
+
+      const rect = rects[index];
+      const entryProgress = clamp(
+        (viewportHeight * 0.94 - rect.top) / Math.max(viewportHeight * 0.48, 1),
+        0,
+        1
+      );
+
+      let settleProgress = 0;
+      if (index < cards.length - 1) {
+        const nextTop = rects[index + 1].top;
+        const nextRestingTop = stickyTops[index + 1];
+        settleProgress = clamp(
+          (viewportHeight * 0.78 - nextTop) / Math.max(viewportHeight * 0.78 - nextRestingTop, 1),
+          0,
+          1
+        );
+      }
+
+      const scaleReduction = isMobile ? 0.016 : 0.034;
+      const scale = 1 - settleProgress * scaleReduction;
+      const enterDistance = isMobile ? 18 : 38;
+      const enterOffset = (1 - entryProgress) * enterDistance;
+      const opacity = index < activeIndex
+        ? 0.9
+        : 0.58 + entryProgress * 0.42;
+
+      surface.style.setProperty('--software-scale-enter', `${enterOffset.toFixed(2)}px`);
+      surface.style.setProperty('--software-scale-scale', scale.toFixed(4));
+      surface.style.setProperty('--software-scale-opacity', opacity.toFixed(3));
+      card.classList.toggle('is-active', index === activeIndex);
+    });
+
+    progressItems.forEach((item, index) => {
+      item.classList.toggle('is-active', index === activeIndex);
+    });
+  };
+
+  const requestStackUpdate = () => {
+    if (!isNearSection || frameId !== null) return;
+    frameId = requestAnimationFrame(updateStack);
+  };
+
+  const rangeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      isNearSection = entry.isIntersecting;
+      if (isNearSection) requestStackUpdate();
+    });
+  }, { rootMargin: '80% 0px 80% 0px' });
+
+  rangeObserver.observe(section);
+  measureStickyTops();
+  window.addEventListener('scroll', requestStackUpdate, { passive: true });
+  window.addEventListener('resize', () => {
+    measureStickyTops();
+    requestStackUpdate();
+  }, { passive: true });
 }
 
 function initLayout() {
@@ -93,10 +283,10 @@ const RIVERBIRD_MAP = {
   lat: 10.835896,
   lng: 78.690229,
   zoom: 18,
-  /** Official Maps embed (place card + correct “Open in Maps” target). */
+  /** Official Maps embed (place card + correct â€œOpen in Mapsâ€ target). */
   embedUrl:
     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.678520222997!2d78.68761557504281!3d10.835895589316477!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3baaf5cf17277963%3A0xb6d3a96e4390a34!2sRiverbird.in%20%7C%20Digital%20Marketing%20Agency!5e0!3m2!1sen!2sin!4v1790852215501!5m2!1sen!2sin',
-  /** Legacy @-coords URL (fallback only — prefer Place ID links). */
+  /** Legacy @-coords URL (fallback only â€” prefer Place ID links). */
   mapsPlaceUrl:
     'https://www.google.com/maps/place/Riverbird.in+%7C+Digital+Marketing+Agency/@10.8358956,78.6902292,17z/data=!4m6!3m5!1s0x3baaf5cf17277963:0xb6d3a96e4390a34!8m2!3d10.8358956!4d78.6902292'
 };
@@ -106,13 +296,13 @@ const RIVERBIRD_GBP = {
   /** Name shown on Google Business Profile (for map links & embed label). */
   mapsListingName: 'Riverbird.in | Digital Marketing Agency',
   mapsUrl: '',
-  /** Footer line under stars, e.g. "15+" → "Based on 15+ reviews" */
+  /** Footer line under stars, e.g. "15+" â†’ "Based on 15+ reviews" */
   footerReviewCountDisplay: '15+'
 };
 
 /**
  * Opens the full Google Business Profile place card (address, hours, reviews)
- * instead of a bare map pin / “Add a label” view.
+ * instead of a bare map pin / â€œAdd a labelâ€ view.
  * @see https://developers.google.com/maps/documentation/urls/get-started
  */
 function getRiverbirdMapsPlacePageUrl() {
@@ -128,7 +318,7 @@ function getRiverbirdMapsPlacePageUrl() {
   return RIVERBIRD_MAP.mapsPlaceUrl || `https://www.google.com/maps/search/?api=1&query=${listingQuery}`;
 }
 
-/** Google Reviews badge — same verified GBP place card as “View on Google Maps”. */
+/** Google Reviews badge â€” same verified GBP place card as â€œView on Google Mapsâ€. */
 function getRiverbirdGbpBadgeHref() {
   return getRiverbirdMapsPlacePageUrl();
 }
@@ -388,7 +578,7 @@ function buildFallbackGbpBadge(stats) {
   const mapsHref = getRiverbirdGbpBadgeHref();
 
   return `
-    <a class="rb-gbp-badge" href="${mapsHref}" target="_blank" rel="noopener noreferrer" aria-label="View Riverbird on Google — office location and reviews">
+    <a class="rb-gbp-badge" href="${mapsHref}" target="_blank" rel="noopener noreferrer" aria-label="View Riverbird on Google â€” office location and reviews">
       <span class="rb-gbp-badge__logo" aria-hidden="true">
         <svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -451,14 +641,14 @@ function initReviewWidget() {
 function getNavbarHTML() {
   const logoUrl = resolvePath('assets/img/Logo-with-Text-copy.png');
   const homeUrl = resolvePath('index.html');
-  const companyUrl = resolvePath('about.html');
-  const mktUrl = resolvePath('digital_marketing_index.html');
-  const devUrl = resolvePath('development_index.html');
-  const staffingUrl = resolvePath('staffing_index.html');
-  const productUrl = resolvePath('product_index.html');
-  const careersUrl = resolvePath('careers_index.html');
-  const contactUrl = resolvePath('contact_index.html');
-  const blogUrl = resolvePath('blog_index.html');
+  const companyUrl = resolvePath('about-us.html');
+  const mktUrl = resolvePath('digital-marketing.html');
+  const devUrl = resolvePath('development-solution.html');
+  const staffingUrl = resolvePath('staffing-solutions.html');
+  const productUrl = resolvePath('products.html');
+  const careersUrl = resolvePath('careers.html');
+  const contactUrl = resolvePath('contact.html');
+  const blogUrl = resolvePath('blog.html');
 
   return `
     <header class="header" id="main-header">
@@ -505,19 +695,19 @@ function getNavbarHTML() {
               <div class="dropdown-menu">
                 <ul class="dropdown-menu__list">
                   <li>
-                    <a href="${resolvePath('software.html')}" class="dropdown-menu__link">
+                    <a href="${resolvePath('software-solution.html')}" class="dropdown-menu__link">
                       <span class="dropdown-menu__item-title">Software Development</span>
                       <span class="dropdown-menu__item-desc">Enterprise database and custom scripting builds.</span>
                     </a>
                   </li>
                   <li>
-                    <a href="${resolvePath('web.html')}" class="dropdown-menu__link">
+                    <a href="${resolvePath('web-development.html')}" class="dropdown-menu__link">
                       <span class="dropdown-menu__item-title">Web Development</span>
                       <span class="dropdown-menu__item-desc">High-performance reactive interfaces and SPAs.</span>
                     </a>
                   </li>
                   <li>
-                    <a href="${resolvePath('app.html')}" class="dropdown-menu__link">
+                    <a href="${resolvePath('application-development.html')}" class="dropdown-menu__link">
                       <span class="dropdown-menu__item-title">Application Development</span>
                       <span class="dropdown-menu__item-desc">Modern iOS, Android, and cross-platform builds.</span>
                     </a>
@@ -539,7 +729,7 @@ function getNavbarHTML() {
                   <h3 class="mega-menu__column-title">Organic Growth</h3>
                   <ul class="mega-menu__list">
                   <li>
-                      <a href="${resolvePath('social-media.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('social-media-marketing.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Social Media Marketing</span>
                         <span class="mega-menu__item-desc">Content and channel strategies that convert.</span>
                       </a>
@@ -565,7 +755,7 @@ function getNavbarHTML() {
                   <h3 class="mega-menu__column-title">Performance</h3>
                   <ul class="mega-menu__list">
                     <li>
-                      <a href="${resolvePath('seo.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('search-engine-optimization.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">SEO (Google Ranking)</span>
                         <span class="mega-menu__item-desc">Technical search rankings & audit pipelines.</span>
                       </a>
@@ -577,7 +767,7 @@ function getNavbarHTML() {
                       </a>
                     </li>
                     <li>
-                      <a href="${resolvePath('paid-ads.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('google-and-meta-ads.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Paid Ads (Meta & Google)</span>
                         <span class="mega-menu__item-desc">ROI campaigns across Search and Social.</span>
                       </a>
@@ -590,20 +780,20 @@ function getNavbarHTML() {
                   <h3 class="mega-menu__column-title">Creatives</h3>
                   <ul class="mega-menu__list">
                     <li>
-                      <a href="${resolvePath('video-production.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('video-production-services.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Video Production</span>
                         <span class="mega-menu__item-desc">High-quality editing and corporate media.</span>
                       </a>
                     </li>
                     <li>
-                      <a href="${resolvePath('graphic-design.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('graphic-design-services.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Graphic Design</span>
                         <span class="mega-menu__item-desc">Professional branding and high-end vectors.</span>
                       </a>
                     </li>
                     
                     <li>
-                      <a href="${resolvePath('brand-identity.html')}" class="mega-menu__link">
+                      <a href="${resolvePath('branding-services.html')}" class="mega-menu__link">
                         <span class="mega-menu__item-title">Brand Identity</span>
                         <span class="mega-menu__item-desc">Logo, typography, and voice manuals.</span>
                       </a>
@@ -636,8 +826,8 @@ function getNavbarHTML() {
                     </a>
                   </li>
                   <li>
-                    <a href="${resolvePath('manpower.html')}" class="dropdown-menu__link">
-                      <span class="dropdown-menu__item-title">Manpower Solutions</span>
+                    <a href="${resolvePath('hr-services.html')}" class="dropdown-menu__link">
+                      <span class="dropdown-menu__item-title">HR Solutions</span>
                       <span class="dropdown-menu__item-desc">High volume operations staffing pools.</span>
                     </a>
                   </li>
@@ -709,9 +899,9 @@ function getNavbarHTML() {
             </svg>
           </div>
           <div class="mobile-menu__submenu" data-submenu="dev">
-            <a href="${resolvePath('software.html')}" class="mobile-menu__sublink">Software Development</a>
-            <a href="${resolvePath('web.html')}" class="mobile-menu__sublink">Web Development</a>
-            <a href="${resolvePath('app.html')}" class="mobile-menu__sublink">Application Development</a>
+            <a href="${resolvePath('software-solution.html')}" class="mobile-menu__sublink">Software Development</a>
+            <a href="${resolvePath('web-development.html')}" class="mobile-menu__sublink">Web Development</a>
+            <a href="${resolvePath('application-development.html')}" class="mobile-menu__sublink">Application Development</a>
           </div>
         </div>
 
@@ -723,15 +913,15 @@ function getNavbarHTML() {
             </svg>
           </div>
           <div class="mobile-menu__submenu" data-submenu="marketing">
-            <a href="${resolvePath('social-media.html')}" class="mobile-menu__sublink">Social Media Marketing</a>
+            <a href="${resolvePath('social-media-marketing.html')}" class="mobile-menu__sublink">Social Media Marketing</a>
             <a href="${resolvePath('personal-branding.html')}" class="mobile-menu__sublink">Personal Branding</a>
             <a href="${resolvePath('influencer-marketing.html')}" class="mobile-menu__sublink">Influencer Marketing</a>
-            <a href="${resolvePath('seo.html')}" class="mobile-menu__sublink">SEO (Google Ranking)</a>
+            <a href="${resolvePath('search-engine-optimization.html')}" class="mobile-menu__sublink">SEO (Google Ranking)</a>
             <a href="${resolvePath('lead-generation.html')}" class="mobile-menu__sublink">Lead Generation System</a>
-            <a href="${resolvePath('paid-ads.html')}" class="mobile-menu__sublink">Paid Ads (Meta & Google)</a>
-            <a href="${resolvePath('video-production.html')}" class="mobile-menu__sublink">Video Production</a>
-            <a href="${resolvePath('graphic-design.html')}" class="mobile-menu__sublink">Graphic Design</a>
-            <a href="${resolvePath('brand-identity.html')}" class="mobile-menu__sublink">Brand Identity</a>
+            <a href="${resolvePath('google-and-meta-ads.html')}" class="mobile-menu__sublink">Paid Ads (Meta & Google)</a>
+            <a href="${resolvePath('video-production-services.html')}" class="mobile-menu__sublink">Video Production</a>
+            <a href="${resolvePath('graphic-design-services.html')}" class="mobile-menu__sublink">Graphic Design</a>
+            <a href="${resolvePath('branding-services.html')}" class="mobile-menu__sublink">Brand Identity</a>
             
           </div>
         </div>
@@ -746,7 +936,7 @@ function getNavbarHTML() {
           <div class="mobile-menu__submenu" data-submenu="staffing">
             <a href="${resolvePath('talent-management.html')}" class="mobile-menu__sublink">Talent Management</a>
             <a href="${resolvePath('hire-talent.html')}" class="mobile-menu__sublink">Hire Talents</a>
-            <a href="${resolvePath('manpower.html')}" class="mobile-menu__sublink">Manpower Solutions</a>
+            <a href="${resolvePath('hr-services.html')}" class="mobile-menu__sublink">HR Solutions</a>
           </div>
         </div>
 
@@ -772,13 +962,13 @@ function getNavbarHTML() {
 
 function getFooterHTML() {
   const homeUrl = resolvePath('index.html');
-  const companyUrl = resolvePath('about.html');
-  const blogUrl = resolvePath('blog_index.html');
-  const devUrl = resolvePath('development_index.html');
-  const mktUrl = resolvePath('digital_marketing_index.html');
-  const staffingUrl = resolvePath('staffing_index.html');
-  const careersUrl = resolvePath('careers_index.html');
-  const contactUrl = resolvePath('contact_index.html');
+  const companyUrl = resolvePath('about-us.html');
+  const blogUrl = resolvePath('blog.html');
+  const devUrl = resolvePath('development-solution.html');
+  const mktUrl = resolvePath('digital-marketing.html');
+  const staffingUrl = resolvePath('staffing-solutions.html');
+  const careersUrl = resolvePath('careers.html');
+  const contactUrl = resolvePath('contact.html');
 
   return `
     <footer class="footer py-2xl">
@@ -836,18 +1026,18 @@ function getFooterHTML() {
             <div class="footer__block">
               <h4 class="footer__section-title"><a href="${devUrl}">Development Solutions</a></h4>
               <ul class="footer__list">
-                <li><a href="${resolvePath('software.html')}" class="footer__link">Software development</a></li>
-                <li><a href="${resolvePath('web.html')}" class="footer__link">Web development</a></li>
-                <li><a href="${resolvePath('app.html')}" class="footer__link">Application Development</a></li>
+                <li><a href="${resolvePath('software-solution.html')}" class="footer__link">Software development</a></li>
+                <li><a href="${resolvePath('web-development.html')}" class="footer__link">Web development</a></li>
+                <li><a href="${resolvePath('application-development.html')}" class="footer__link">Application Development</a></li>
               </ul>
             </div>
             <div class="footer__block">
               <h4 class="footer__section-title"><a href="${mktUrl}">Marketing Solutions</a></h4>
               <ul class="footer__list">
-                <li><a href="${resolvePath('social-media.html')}" class="footer__link">Social media marketing</a></li>
+                <li><a href="${resolvePath('social-media-marketing.html')}" class="footer__link">Social media marketing</a></li>
                 <li><a href="${resolvePath('personal-branding.html')}" class="footer__link">Personal branding</a></li>
-                <li><a href="${resolvePath('seo.html')}" class="footer__link">SEO (Search engine optimization)</a></li>
-                <li><a href="${resolvePath('paid-ads.html')}" class="footer__link">Paid Ads (Meta &amp; Google)</a></li>
+                <li><a href="${resolvePath('search-engine-optimization.html')}" class="footer__link">SEO (Search engine optimization)</a></li>
+                <li><a href="${resolvePath('google-and-meta-ads.html')}" class="footer__link">Paid Ads (Meta &amp; Google)</a></li>
                 <li><a href="${resolvePath('lead-generation.html')}" class="footer__link">Lead Generation</a></li>
               </ul>
             </div>
@@ -855,12 +1045,12 @@ function getFooterHTML() {
 
           <div class="footer__col footer__col--stack">
             <div class="footer__block">
-              <h4 class="footer__section-title"><a href="${resolvePath('brand-identity.html')}">Branding</a></h4>
+              <h4 class="footer__section-title"><a href="${resolvePath('branding-services.html')}">Branding</a></h4>
               <ul class="footer__list">
-                <li><a href="${resolvePath('brand-identity.html')}" class="footer__link">Brand identity</a></li>
+                <li><a href="${resolvePath('branding-services.html')}" class="footer__link">Brand identity</a></li>
                 <li><a href="${resolvePath('influencer-marketing.html')}" class="footer__link">Influencer marketing</a></li>
-                <li><a href="${resolvePath('graphic-design.html')}" class="footer__link">Graphic design</a></li>
-                <li><a href="${resolvePath('video-production.html')}" class="footer__link">Video production</a></li>
+                <li><a href="${resolvePath('graphic-design-services.html')}" class="footer__link">Graphic design</a></li>
+                <li><a href="${resolvePath('video-production-services.html')}" class="footer__link">Video production</a></li>
               </ul>
             </div>
             <div class="footer__block">
@@ -868,7 +1058,7 @@ function getFooterHTML() {
               <ul class="footer__list">
                 <li><a href="${resolvePath('talent-management.html')}" class="footer__link">Talent Management</a></li>
                 <li><a href="${resolvePath('hire-talent.html')}" class="footer__link">Hire Talents</a></li>
-                <li><a href="${resolvePath('manpower.html')}" class="footer__link">Manpower Solutions</a></li>
+                <li><a href="${resolvePath('hr-services.html')}" class="footer__link">HR Solutions</a></li>
               </ul>
             </div>
           </div>
@@ -906,9 +1096,9 @@ function getFooterHTML() {
         <div class="footer__bottom">
           <p class="footer__copyright">&copy; ${new Date().getFullYear()} Riverbird. All rights reserved.</p>
           <div class="footer__legal">
-            <a href="${resolvePath('privacy_policy.html')}" class="footer__legal-link">Privacy Policy</a>
-            <a href="${resolvePath('terms_of_service.html')}" class="footer__legal-link">Terms of Service</a>
-            <a href="${resolvePath('refund_and_cancellation.html')}" class="footer__legal-link">Refund and Cancellation Policy</a>
+            <a href="${resolvePath('privacy-policy.html')}" class="footer__legal-link">Privacy Policy</a>
+            <a href="${resolvePath('terms-of-service.html')}" class="footer__legal-link">Terms of Service</a>
+            <a href="${resolvePath('refund-policy.html')}" class="footer__legal-link">Refund and Cancellation Policy</a>
           </div>
         </div>
       </div>
@@ -1201,6 +1391,184 @@ function isLightPerformancePage() {
   return page === 'contact' || page === 'legal' || page === 'error';
 }
 
+function initApplicationEcosystem() {
+  document.querySelectorAll('.application-ecosystem-stage').forEach((stage) => {
+    const cards = stage.querySelectorAll('[data-application-card]');
+
+    const activateCard = (card) => {
+      const applicationType = card.getAttribute('data-application-card');
+      if (applicationType) stage.setAttribute('data-active', applicationType);
+    };
+
+    const clearActiveCard = () => {
+      stage.removeAttribute('data-active');
+    };
+
+    cards.forEach((card) => {
+      card.addEventListener('mouseenter', () => activateCard(card));
+      card.addEventListener('focus', () => activateCard(card));
+    });
+
+    stage.addEventListener('mouseleave', clearActiveCard);
+    stage.addEventListener('focusout', () => {
+      requestAnimationFrame(() => {
+        if (!stage.contains(document.activeElement)) clearActiveCard();
+      });
+    });
+  });
+}
+
+function initApplicationComparison() {
+  document.querySelectorAll('[data-compare-side]').forEach((side) => {
+    const features = side.querySelectorAll('[data-compare-feature]');
+
+    const activateFeature = (feature) => {
+      const featureIndex = feature.getAttribute('data-compare-feature');
+      if (!featureIndex) return;
+      side.setAttribute('data-feature-active', 'true');
+      side.setAttribute('data-highlight', featureIndex);
+    };
+
+    const clearFeature = () => {
+      side.removeAttribute('data-feature-active');
+      side.removeAttribute('data-highlight');
+    };
+
+    features.forEach((feature) => {
+      feature.addEventListener('mouseenter', () => activateFeature(feature));
+      feature.addEventListener('focus', () => activateFeature(feature));
+    });
+
+    side.addEventListener('mouseleave', clearFeature);
+    side.addEventListener('focusout', () => {
+      requestAnimationFrame(() => {
+        if (!side.contains(document.activeElement)) clearFeature();
+      });
+    });
+  });
+}
+
+function initApplicationResponsiveShowcase() {
+  const sections = Array.from(document.querySelectorAll('.application-responsive-section'));
+  if (!sections.length) return;
+
+  const stateNames = ['desktop', 'laptop', 'tablet', 'mobile'];
+  const frames = [
+    { width: 94, height: 390, radius: 14, offsetY: -27, desktop: 1, laptop: 0 },
+    { width: 86, height: 350, radius: 14, offsetY: -8, desktop: 0, laptop: 1 },
+    { width: 58, height: 425, radius: 25, offsetY: 0, desktop: 0, laptop: 0 },
+    { width: 36, height: 450, radius: 38, offsetY: 0, desktop: 0, laptop: 0 }
+  ];
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const mobileLayout = window.matchMedia('(max-width: 767px)');
+  const transitionEnd = 0.82;
+  let frameRequested = false;
+
+  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+  const lerp = (start, end, amount) => start + (end - start) * amount;
+  const ease = (value) => value * value * (3 - (2 * value));
+
+  const setActiveState = (section, stateIndex) => {
+    if (section.dataset.responsiveState !== stateNames[stateIndex]) {
+      section.dataset.responsiveState = stateNames[stateIndex];
+    }
+
+    section.querySelectorAll('[data-responsive-index]').forEach((item, index) => {
+      const isActive = index === stateIndex;
+      item.classList.toggle('is-active', isActive);
+      if (isActive) item.setAttribute('aria-current', 'step');
+      else item.removeAttribute('aria-current');
+    });
+  };
+
+  const applyExactState = (section, stateIndex) => {
+    const frame = frames[stateIndex];
+    section.style.setProperty('--responsive-device-width', `${frame.width.toFixed(2)}%`);
+    section.style.setProperty('--responsive-device-height', `${frame.height.toFixed(2)}px`);
+    section.style.setProperty('--responsive-device-radius', `${frame.radius.toFixed(2)}px`);
+    section.style.setProperty('--responsive-device-offset-y', `${frame.offsetY.toFixed(2)}px`);
+    section.style.setProperty('--responsive-desktop-opacity', frame.desktop.toFixed(2));
+    section.style.setProperty('--responsive-laptop-opacity', frame.laptop.toFixed(2));
+    setActiveState(section, stateIndex);
+  };
+
+  const render = () => {
+    frameRequested = false;
+
+    sections.forEach((section) => {
+      if (reducedMotion.matches || mobileLayout.matches) return;
+
+      const container = section.querySelector('.application-responsive-container');
+      const stage = section.querySelector('.application-responsive-stage');
+      if (!container || !stage) return;
+
+      const containerRect = container.getBoundingClientRect();
+      const stickyTop = Number.parseFloat(window.getComputedStyle(stage).top) || 0;
+      const travel = Math.max(container.offsetHeight - stage.offsetHeight, 1);
+      const scrollProgress = clamp((stickyTop - containerRect.top) / travel, 0, 1);
+      // Finish the reflow before the sticky range ends, leaving the mobile view visible.
+      const progress = clamp(scrollProgress / transitionEnd, 0, 1);
+      const scaled = progress * (frames.length - 1);
+      const fromIndex = Math.min(Math.floor(scaled), frames.length - 2);
+      const toIndex = Math.min(fromIndex + 1, frames.length - 1);
+      const localProgress = ease(scaled - fromIndex);
+      const from = frames[fromIndex];
+      const to = frames[toIndex];
+
+      section.style.setProperty('--responsive-device-width', `${lerp(from.width, to.width, localProgress).toFixed(2)}%`);
+      section.style.setProperty('--responsive-device-height', `${lerp(from.height, to.height, localProgress).toFixed(2)}px`);
+      section.style.setProperty('--responsive-device-radius', `${lerp(from.radius, to.radius, localProgress).toFixed(2)}px`);
+      section.style.setProperty('--responsive-device-offset-y', `${lerp(from.offsetY, to.offsetY, localProgress).toFixed(2)}px`);
+      section.style.setProperty('--responsive-desktop-opacity', lerp(from.desktop, to.desktop, localProgress).toFixed(2));
+      section.style.setProperty('--responsive-laptop-opacity', lerp(from.laptop, to.laptop, localProgress).toFixed(2));
+      setActiveState(section, Math.round(scaled));
+    });
+  };
+
+  const requestRender = () => {
+    if (frameRequested) return;
+    frameRequested = true;
+    requestAnimationFrame(render);
+  };
+
+  sections.forEach((section) => {
+    applyExactState(section, mobileLayout.matches ? 3 : 0);
+    section.querySelectorAll('[data-responsive-index]').forEach((item) => {
+      item.addEventListener('click', () => {
+        const stateIndex = Number.parseInt(item.dataset.responsiveIndex, 10);
+        if (!Number.isInteger(stateIndex)) return;
+
+        if (reducedMotion.matches || mobileLayout.matches) {
+          applyExactState(section, stateIndex);
+          return;
+        }
+
+        const container = section.querySelector('.application-responsive-container');
+        const stage = section.querySelector('.application-responsive-stage');
+        if (!container || !stage) return;
+
+        const containerTop = window.scrollY + container.getBoundingClientRect().top;
+        const stickyTop = Number.parseFloat(window.getComputedStyle(stage).top) || 0;
+        const travel = Math.max(container.offsetHeight - stage.offsetHeight, 1);
+        const targetProgress = (stateIndex / (frames.length - 1)) * transitionEnd;
+        window.scrollTo({ top: containerTop - stickyTop + (targetProgress * travel), behavior: 'smooth' });
+      });
+    });
+  });
+
+  window.addEventListener('scroll', requestRender, { passive: true });
+  window.addEventListener('resize', requestRender, { passive: true });
+  reducedMotion.addEventListener('change', () => {
+    sections.forEach((section) => applyExactState(section, mobileLayout.matches ? 3 : 0));
+    requestRender();
+  });
+  mobileLayout.addEventListener('change', () => {
+    sections.forEach((section) => applyExactState(section, mobileLayout.matches ? 3 : 0));
+    requestRender();
+  });
+  requestRender();
+}
+
 function initAnimations() {
   if (!isLightPerformancePage() && shouldRunHeavyEffects()) {
     initCursorGlow();
@@ -1215,6 +1583,14 @@ function initAnimations() {
   }
   initStaggerAnimations();
 
+  initTechStackScrollReveal();
+  initInteractiveWorkflow();
+  initHeroScrollAnimation();
+  initSoftwareBuildBento();
+  initSoftwareScaleStack();
+  initApplicationEcosystem();
+  initApplicationComparison();
+  initApplicationResponsiveShowcase();
   scanAndObserve(document.body);
   initMutationObserver();
 }
@@ -1913,11 +2289,11 @@ function getAutoFaqsForPage(pageName) {
     },
     {
       q: 'How do I request a quote?',
-      a: 'Use our <a href="' + resolvePath('contact_index.html') + '">contact form</a> or call <a href="tel:' + RIVERBIRD_CONTACT.phoneTel + '">' + RIVERBIRD_CONTACT.phoneDisplay + '</a>. We respond within one business day with scope and timelines. Estimates are provided in <strong>Indian Rupees (INR)</strong> unless agreed otherwise in writing.'
+      a: 'Use our <a href="' + resolvePath('contact.html') + '">contact form</a> or call <a href="tel:' + RIVERBIRD_CONTACT.phoneTel + '">' + RIVERBIRD_CONTACT.phoneDisplay + '</a>. We respond within one business day with scope and timelines. Estimates are provided in <strong>Indian Rupees (INR)</strong> unless agreed otherwise in writing.'
     },
     {
       q: 'What industries do you work with?',
-      a: 'We partner with startups, retail, hospitality, manufacturing, education, and professional services — especially brands that need reliable delivery across development, growth marketing, and hiring.'
+      a: 'We partner with startups, retail, hospitality, manufacturing, education, and professional services â€” especially brands that need reliable delivery across development, growth marketing, and hiring.'
     },
     {
       q: 'Do you offer monthly retainers and project-based work?',
@@ -1931,25 +2307,25 @@ function getAutoFaqsForPage(pageName) {
 
   const byPage = {
     careers: [
-      { q: 'How do I apply for IT vs digital marketing roles?', a: 'Open <a href="' + resolvePath('careers_index.html') + '">Careers</a> and use the Engineering (IT), Digital Marketing, or Internships filters — or apply directly from the job card.' },
+      { q: 'How do I apply for IT vs digital marketing roles?', a: 'Open <a href="' + resolvePath('careers.html') + '">Careers</a> and use the Engineering (IT), Digital Marketing, or Internships filters â€” or apply directly from the job card.' },
       { q: 'Are roles based in Trichy or remote?', a: 'Each posting lists location (on-site, hybrid, or remote India). Filter jobs by department to see current openings.' },
       { q: 'Can I submit a general application?', a: 'Yes. Scroll to Apply Now on the careers page, choose your target role, and upload your CV in PDF or DOCX format.' },
       { q: 'What is the interview process?', a: 'Typically a screening call, skills assessment, and final conversation with the hiring lead. Marketing roles may include a practical review.' },
-      { q: 'Do you hire freshers?', a: 'We run internship tracks and select entry-level roles — watch the Internships filter for active programs.' }
+      { q: 'Do you hire freshers?', a: 'We run internship tracks and select entry-level roles â€” watch the Internships filter for active programs.' }
     ],
     contact: [
       { q: 'What is the best number to reach Riverbird?', a: 'Call <a href="tel:' + RIVERBIRD_CONTACT.phoneTel + '">' + RIVERBIRD_CONTACT.phoneDisplay + '</a> or email <a href="mailto:' + RIVERBIRD_CONTACT.email + '">' + RIVERBIRD_CONTACT.email + '</a>.' },
       { q: 'Can I visit your office?', a: 'Yes, by appointment. Our address and map are on this page: ' + RIVERBIRD_CONTACT.addressLine },
-      { q: 'Do you quote in rupees?', a: 'All standard proposals and retainers are quoted in <strong>INR (₹)</strong> for Indian clients, including GST details where applicable.' },
+      { q: 'Do you quote in rupees?', a: 'All standard proposals and retainers are quoted in <strong>INR (â‚¹)</strong> for Indian clients, including GST details where applicable.' },
       { q: 'How fast do you respond?', a: 'We aim to reply within 24 hours on business days. Urgent staffing requests can be escalated via phone or WhatsApp.' },
       { q: 'What should I include in a project brief?', a: 'Share goals, timeline, budget range in INR, and any existing assets (brand kit, codebase, ad accounts) so we can route you to the right team.' }
     ],
     blog: [
       { q: 'How often do you publish articles?', a: 'We add practical guides on engineering, SEO, and staffing as our delivery teams publish learnings from client work.' },
-      { q: 'Can I suggest a topic?', a: 'Email ' + RIVERBIRD_CONTACT.email + ' with your idea — we welcome questions from founders and marketing leads.' },
+      { q: 'Can I suggest a topic?', a: 'Email ' + RIVERBIRD_CONTACT.email + ' with your idea â€” we welcome questions from founders and marketing leads.' },
       { q: 'Are blog posts written by practitioners?', a: 'Yes. Content is produced by engineers, marketers, and recruiters who implement the strategies described.' },
       { q: 'Do you cover local SEO for Trichy businesses?', a: 'Several articles address local search, Google Business Profile, and performance marketing for Tamil Nadu markets.' },
-      { q: 'Where do I read case studies?', a: 'Visit our <a href="' + resolvePath('digital_marketing_index.html') + '#testimonials">testimonials</a> and service pages for outcomes and client feedback.' }
+      { q: 'Where do I read case studies?', a: 'Visit our <a href="' + resolvePath('digital-marketing.html') + '#testimonials">testimonials</a> and service pages for outcomes and client feedback.' }
     ]
   };
 
@@ -2049,7 +2425,7 @@ function initContactPageDetails() {
   const mapFrame = document.getElementById('rb-contact-map');
   if (mapFrame) {
     mapFrame.src = RIVERBIRD_CONTACT.mapsEmbedUrl;
-    mapFrame.setAttribute('title', `${RIVERBIRD_CONTACT.legalName} — Tiruchirappalli office map`);
+    mapFrame.setAttribute('title', `${RIVERBIRD_CONTACT.legalName} â€” Tiruchirappalli office map`);
   }
 
   const mapOpenLink = document.getElementById('rb-contact-map-link');
@@ -2199,8 +2575,10 @@ function isHoneypotTripped(form) {
 
 function initForms() {
   initProductionSafety();
-  bindFormSubmit('enquiry-form', 'Thank you — your enquiry was received. We will contact you within one business day.');
+  bindFormSubmit('enquiry-form', 'Thank you â€” your enquiry was received. We will contact you within one business day.');
   bindFormSubmit('apply-form', 'Your application was successfully uploaded. Our recruitment cell will review it.');
+  bindFormSubmit('web-quote-form', 'Thank you — your website requirements were received. Our development team will contact you within one business day.');
+  initWebQuoteModal();
 }
 
 function bindFormSubmit(formId, successMsg) {
@@ -2254,7 +2632,7 @@ function bindFormSubmit(formId, successMsg) {
 
         const err = document.createElement('span');
         err.className = 'form-error-msg';
-        err.textContent = 'Please enter a valid phone number (10–15 digits).';
+        err.textContent = 'Please enter a valid phone number (10â€“15 digits).';
         phoneInput.parentElement.appendChild(err);
       }
     }
@@ -2684,7 +3062,7 @@ const testimonials = [
 const caseStudies = [
   {
     id: "fashyfi-launch",
-    title: "Launching Fashyfi — E-Commerce Scaling",
+    title: "Launching Fashyfi â€” E-Commerce Scaling",
     client: "Fashyfi Inc.",
     category: "Product Development & Marketing",
     tagline: "Building and marketing a global social e-commerce solution.",
@@ -2698,7 +3076,7 @@ const caseStudies = [
   },
   {
     id: "meridian-erp",
-    title: "Meridian Industrial Systems — Enterprise ERP",
+    title: "Meridian Industrial Systems â€” Enterprise ERP",
     client: "Meridian Systems",
     category: "Software Development",
     tagline: "Modernizing manufacturing workflows for enterprise operations.",
@@ -2712,7 +3090,7 @@ const caseStudies = [
   },
   {
     id: "techventure-staffing",
-    title: "TechVenture Inc. — Dedicated Engineering Cell",
+    title: "TechVenture Inc. â€” Dedicated Engineering Cell",
     client: "TechVenture Solutions",
     category: "Staffing Solutions",
     tagline: "Deploying a pre-vetted team of 15 senior developers.",
@@ -2793,8 +3171,8 @@ const blogs = [
     image: "assets/images/blog_vanilla.jpg",
     body: [
       "Enterprise teams often default to large JavaScript frameworks. At Riverbird, we evaluate whether that complexity is truly required for the business outcome.",
-      "Vanilla ES modules keep payloads small, reduce build overhead, and make long-term maintenance predictable — especially for marketing sites and internal dashboards that must stay fast on mobile networks.",
-      "When we do adopt frameworks, it is because the product roadmap genuinely needs them — not because it is the default template."
+      "Vanilla ES modules keep payloads small, reduce build overhead, and make long-term maintenance predictable â€” especially for marketing sites and internal dashboards that must stay fast on mobile networks.",
+      "When we do adopt frameworks, it is because the product roadmap genuinely needs them â€” not because it is the default template."
     ]
   },
   {
@@ -2808,7 +3186,7 @@ const blogs = [
     body: [
       "Technical SEO starts with crawlable HTML, semantic headings, and metadata that matches what users search for.",
       "We pair on-page structure with performance work: compressed images, deferred scripts, and layout-stable hero sections so Lighthouse and real users both see fast first paints.",
-      "Local businesses benefit when NAP data, schema, and Google Business Profile align with the live website — we treat that as one system, not three separate tasks."
+      "Local businesses benefit when NAP data, schema, and Google Business Profile align with the live website â€” we treat that as one system, not three separate tasks."
     ]
   },
   {
@@ -2822,7 +3200,7 @@ const blogs = [
     body: [
       "Hiring velocity only works when screening is technical enough to protect your team from mis-hires.",
       "Our pipeline combines structured interviews, practical assessments, and reference checks tuned to the stack you run in production.",
-      "For digital marketing and operations roles, we apply the same discipline — clear scorecards, accountable timelines, and transparent feedback to candidates."
+      "For digital marketing and operations roles, we apply the same discipline â€” clear scorecards, accountable timelines, and transparent feedback to candidates."
     ]
   }
 ];
@@ -2938,7 +3316,7 @@ function renderCaseStudies(containerId, limit = 3) {
 
   container.innerHTML = items.map((study, index) => `
     <div class="card card-showcase reveal stagger-item parallax-layer" data-speed="${0.2 + (index * 0.1)}">
-      
+
       <div class="card-showcase__bg morph-shape" style="background: linear-gradient(135deg, var(--color-bg-alt) 0%, rgba(245,93,45,0.15) 100%); position:absolute; width:100%; height:100%; top:0; left:0; z-index:1;"></div>
       <div class="card-showcase__content">
         <span class="label-text wipe-in" style="color: var(--color-primary); margin-bottom: var(--space-8);">${study.category}</span>
@@ -3097,7 +3475,7 @@ function renderBlogArticle() {
   if (!post || !titleEl || !bodyEl) {
     if (titleEl) titleEl.textContent = 'Article not found';
     if (bodyEl) {
-      bodyEl.innerHTML = '<p class="body-text">This article may have been moved. <a href="' + resolvePath('blog_index.html') + '">Return to the blog</a>.</p>';
+      bodyEl.innerHTML = '<p class="body-text">This article may have been moved. <a href="' + resolvePath('blog.html') + '">Return to the blog</a>.</p>';
     }
     return;
   }
@@ -3105,7 +3483,7 @@ function renderBlogArticle() {
   document.title = `${post.title} | Riverbird Blog`;
   if (categoryEl) categoryEl.textContent = post.category;
   titleEl.textContent = post.title;
-  if (metaEl) metaEl.textContent = `${post.date} · ${post.readTime}`;
+  if (metaEl) metaEl.textContent = `${post.date} Â· ${post.readTime}`;
   bodyEl.innerHTML = (post.body || []).map(paragraph => `<p class="body-text">${paragraph}</p>`).join('');
 }
 
@@ -3362,5 +3740,674 @@ function updateFilterButtons(activeDept) {
     } else {
       btn.classList.remove('careers-filter__btn--active');
     }
+  });
+}
+
+
+/* Preserved current-site modules during parallel app.js merge. */
+function initHeroScrollAnimation() {
+  const scrollArea = document.getElementById('web-hero-scroll-area');
+  const screenWrapper = document.getElementById('web-hero-screen-wrapper');
+  const screen     = document.getElementById('web-hero-screen');
+
+  if (!scrollArea || !screenWrapper || !screen) return;
+
+  // Respect system reduced-motion preference
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Config Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+  const ROTX_START   = 12;    // degrees
+  const ROTX_END     = 0;
+  const SCALE_START  = 0.84;
+  const SCALE_END    = 1;
+  const TRANSY_START = 48;    // px
+  const TRANSY_END   = 0;
+  const PERSP        = 1400;  // px
+  const LERP_SPEED   = 0.085; // [0Ã¢â‚¬â€œ1] Ã¢â‚¬â€ lower = smoother / laggier
+
+  // Mobile uses a softer effect
+  function getConfig() {
+    if (window.innerWidth < 768) {
+      return {
+        rotXStart: 4, rotXEnd: 0,
+        scaleStart: 0.95, scaleEnd: 1,
+        transYStart: 18, transYEnd: 0,
+        persp: 800
+      };
+    }
+    return {
+      rotXStart: ROTX_START, rotXEnd: ROTX_END,
+      scaleStart: SCALE_START, scaleEnd: SCALE_END,
+      transYStart: TRANSY_START, transYEnd: TRANSY_END,
+      persp: PERSP
+    };
+  }
+
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ State Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+  const initialConfig = getConfig();
+  let targetRotX   = initialConfig.rotXStart;
+  let targetScale  = initialConfig.scaleStart;
+  let targetTransY = initialConfig.transYStart;
+
+  let currentRotX   = initialConfig.rotXStart;
+  let currentScale  = initialConfig.scaleStart;
+  let currentTransY = initialConfig.transYStart;
+
+  let rafId    = null;
+  let needsTick = false;
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+  function getScrollProgress() {
+    const areaRect = scrollArea.getBoundingClientRect();
+    const areaTop = window.scrollY + areaRect.top;
+    const stickyTop = parseFloat(window.getComputedStyle(screenWrapper).top) || 0;
+
+    // Begin only when the screen reaches its sticky resting point. End at the
+    // moment the runway releases it, so the next section follows immediately.
+    const start = areaTop + screenWrapper.offsetTop - stickyTop;
+    const end = areaTop + scrollArea.offsetHeight - stickyTop - screenWrapper.offsetHeight;
+    const range = Math.max(end - start, window.innerHeight * 0.35);
+
+    return clamp((window.scrollY - start) / range, 0, 1);
+  }
+
+  function tick() {
+    rafId = null;
+
+    const cfg      = getConfig();
+    const progress = getScrollProgress();
+
+    // Map progress to target values
+    // Ease-out keeps the physical approach pronounced at the beginning and
+    // lets the frame settle gently into its fully flat final state.
+    const p = 1 - Math.pow(1 - progress, 3);
+    targetRotX   = lerp(cfg.rotXStart,   cfg.rotXEnd,   p);
+    targetScale  = lerp(cfg.scaleStart,  cfg.scaleEnd,  p);
+    targetTransY = lerp(cfg.transYStart, cfg.transYEnd, p);
+
+    // Smooth interpolation
+    currentRotX   = lerp(currentRotX,   targetRotX,   LERP_SPEED);
+    currentScale  = lerp(currentScale,  targetScale,  LERP_SPEED);
+    currentTransY = lerp(currentTransY, targetTransY, LERP_SPEED);
+
+    screenWrapper.style.perspective = `${cfg.persp}px`;
+    screen.style.transform =
+      `translate3d(0, ${currentTransY.toFixed(2)}px, 0) rotateX(${currentRotX.toFixed(3)}deg) scale(${currentScale.toFixed(4)})`;
+
+    // Keep ticking while there's visible movement
+    const stillMoving =
+      Math.abs(currentRotX   - targetRotX)   > 0.005 ||
+      Math.abs(currentScale  - targetScale)  > 0.0002 ||
+      Math.abs(currentTransY - targetTransY) > 0.05;
+
+    if (needsTick || stillMoving) {
+      needsTick = false;
+      rafId = requestAnimationFrame(tick);
+    }
+  }
+
+  function onScroll() {
+    needsTick = true;
+    if (rafId === null) {
+      rafId = requestAnimationFrame(tick);
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+
+  // Kick off an initial tick on page load
+  rafId = requestAnimationFrame(tick);
+}
+
+
+/**
+ * Scroll-driven text reveal for the "Integrate with your fav tech stack" section.
+ * Ã¢â‚¬â€œ Progress is based on section position in viewport (0Ã¢â€ â€™1 as it scrolls through).
+ * Ã¢â‚¬â€œ Each word reveals sequentially with slight stagger.
+ * Ã¢â‚¬â€œ Uses requestAnimationFrame Ã¢â‚¬â€ NO direct DOM writes in the scroll handler.
+ * Ã¢â‚¬â€œ Fully bidirectional: scrolling back reverses the animation.
+ * Ã¢â‚¬â€œ Respects prefers-reduced-motion.
+ */
+
+function initTechStackScrollReveal() {
+  const section = document.querySelector('.web-tech-stack-scroll');
+  if (!section) return;
+
+  // Respect reduced-motion preference Ã¢â‚¬â€ CSS already handles static reveal
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const words = Array.from(section.querySelectorAll('.web-tech-stack-scroll__word'));
+  const badges = Array.from(section.querySelectorAll('.web-tech-stack-scroll__badge'));
+  if (words.length === 0 && badges.length === 0) return;
+
+  const WORD_COUNT = words.length;
+  const BADGE_COUNT = badges.length;
+
+  // Muted opacity baselines
+  const MUTED_WORD_OPACITY = 0.12;
+  const MUTED_BADGE_OPACITY = 0.28;
+
+  // Overall viewport intersection animation window
+  const REVEAL_START_RATIO = 0.02;
+  const REVEAL_END_RATIO   = 0.62;
+
+  // Smoothly interpolated progress arrays
+  const wordProgress  = new Float32Array(WORD_COUNT).fill(0);
+  const badgeProgress = new Float32Array(BADGE_COUNT).fill(0);
+  const LERP_SPEED    = 0.18;
+
+  let rafId = null;
+  let dirty = false;
+
+  /** Overall section progress (0Ã¢â€ â€™1) through viewport */
+  function getSectionProgress() {
+    const rect = section.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const totalTravel = vh + rect.height;
+    const travelled   = vh - rect.top;
+    const raw = travelled / totalTravel;
+    const remapped = (raw - REVEAL_START_RATIO) / (REVEAL_END_RATIO - REVEAL_START_RATIO);
+    return Math.min(1, Math.max(0, remapped));
+  }
+
+  /** Phase 1: Words reveal quickly as the section enters the viewport */
+  function getWordTargetProgress(sectionProgress, wordIdx) {
+    if (WORD_COUNT === 0) return 1;
+    const windowStart = 0.00;
+    const windowEnd   = 0.30;
+    const slice = (windowEnd - windowStart) / WORD_COUNT;
+    const wordStart = windowStart + wordIdx * slice * 0.7;
+    const wordEnd   = wordStart + slice * 1.25;
+    const local = (sectionProgress - wordStart) / (wordEnd - wordStart);
+    return Math.min(1, Math.max(0, local));
+  }
+
+  /** Phase 2: Badges follow in a short, responsive stagger */
+  function getBadgeTargetProgress(sectionProgress, badgeIdx) {
+    if (BADGE_COUNT === 0) return 1;
+    const windowStart = 0.10;
+    const windowEnd   = 0.52;
+    const slice = (windowEnd - windowStart) / BADGE_COUNT;
+    const badgeStart = windowStart + badgeIdx * slice * 0.55;
+    const badgeEnd   = badgeStart + slice * 1.5;
+    const local = (sectionProgress - badgeStart) / (badgeEnd - badgeStart);
+    return Math.min(1, Math.max(0, local));
+  }
+
+  /** Linear interpolation */
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  /** Apply current interpolated values to DOM */
+  function applyStyles() {
+    const sectionProg = getSectionProgress();
+
+    // 1. Text Words
+    for (let i = 0; i < WORD_COUNT; i++) {
+      const target = getWordTargetProgress(sectionProg, i);
+      wordProgress[i] = lerp(wordProgress[i], target, LERP_SPEED);
+      const p = wordProgress[i];
+      const opacity = MUTED_WORD_OPACITY + (1 - MUTED_WORD_OPACITY) * p;
+      words[i].style.setProperty('--word-progress', p.toFixed(4));
+      words[i].style.setProperty('--word-opacity',  opacity.toFixed(4));
+    }
+
+    // 2. Tech Stack Logo Badges
+    for (let j = 0; j < BADGE_COUNT; j++) {
+      const target = getBadgeTargetProgress(sectionProg, j);
+      badgeProgress[j] = lerp(badgeProgress[j], target, LERP_SPEED);
+      const p = badgeProgress[j];
+      const opacity = MUTED_BADGE_OPACITY + (1 - MUTED_BADGE_OPACITY) * p;
+      badges[j].style.setProperty('--badge-progress', p.toFixed(4));
+      badges[j].style.setProperty('--badge-opacity',  opacity.toFixed(4));
+    }
+  }
+
+  /** Animation tick */
+  function tick() {
+    applyStyles();
+
+    const sectionProg = getSectionProgress();
+    let stillMoving = false;
+
+    // Check if any word is still animating
+    for (let i = 0; i < WORD_COUNT; i++) {
+      const target = getWordTargetProgress(sectionProg, i);
+      if (Math.abs(wordProgress[i] - target) > 0.001) {
+        stillMoving = true;
+        break;
+      }
+    }
+
+    // Check if any badge is still animating
+    if (!stillMoving) {
+      for (let j = 0; j < BADGE_COUNT; j++) {
+        const target = getBadgeTargetProgress(sectionProg, j);
+        if (Math.abs(badgeProgress[j] - target) > 0.001) {
+          stillMoving = true;
+          break;
+        }
+      }
+    }
+
+    dirty = false;
+    if (stillMoving) {
+      rafId = requestAnimationFrame(tick);
+    } else {
+      rafId = null;
+    }
+  }
+
+  function onScroll() {
+    if (!dirty) {
+      dirty = true;
+      if (rafId === null) {
+        rafId = requestAnimationFrame(tick);
+      }
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+
+  // Initial call on load
+  applyStyles();
+}
+
+/**
+ * Interactive Draggable Workflow Canvas (n8n / automation style)
+ * - 6 sequentially connected nodes (Discover -> Strategy -> Design -> Development -> Testing -> Launch)
+ * - Independent dragging via Pointer Events (pointerdown, pointermove, pointerup)
+ * - Dynamic SVG cubic BÃƒÂ©zier connections with flowing dashed stroke animation
+ * - Smart 4-way anchor routing (top, right, bottom, left) based on relative node positions
+ * - Canvas boundary constraint
+ * - Persistent dropped state (no auto snap-back)
+ * - Reset layout button
+ * - Sequential entrance animation via IntersectionObserver
+ * - Reduced motion support
+ */
+
+function initInteractiveWorkflow() {
+  const section = document.querySelector('.workflow-section');
+  if (!section) return;
+
+  const canvas = section.querySelector('.workflow-canvas');
+  const svgConnections = section.querySelector('.workflow-connections');
+  const nodes = Array.from(section.querySelectorAll('.workflow-node'));
+  const resetBtn = section.querySelector('#workflow-reset-btn');
+
+  if (!canvas || !svgConnections || nodes.length === 0) return;
+
+  // We connect nodes in sequential order: 0->1, 1->2, 2->3, 3->4, 4->5
+  const connections = [];
+  for (let i = 0; i < nodes.length - 1; i++) {
+    connections.push({ from: i, to: i + 1 });
+  }
+
+  // Pre-create SVG paths for each connection (1 track path + 1 animated flow path)
+  svgConnections.innerHTML = '';
+  const pathElements = connections.map(() => {
+    const track = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    track.setAttribute('class', 'workflow-connection-track');
+
+    const flow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    flow.setAttribute('class', 'workflow-connection-flow');
+
+    svgConnections.appendChild(track);
+    svgConnections.appendChild(flow);
+
+    return { track, flow };
+  });
+
+  // Calculate default positions
+  function getDefaultPositions() {
+    const rect = canvas.getBoundingClientRect();
+    const cw = rect.width || canvas.clientWidth || 1000;
+    const ch = rect.height || canvas.clientHeight || 680;
+
+    // Node dimensions estimate (or measured if already rendered)
+    const nw = nodes[0].offsetWidth || 260;
+    const nh = nodes[0].offsetHeight || 150;
+
+    if (cw >= 1000) {
+      // Desktop: S-curve pipeline layout (0 -> 1 -> 2 -> 3 -> 4 -> 5)
+      // Top row flows right: 0 (left), 1 (center), 2 (right)
+      // Bottom row flows left: 3 (right), 4 (center), 5 (left)
+      const topY = Math.max(40, ch * 0.1);
+      const bottomY = Math.min(ch - nh - 40, ch * 0.58);
+
+      const colLeft = Math.max(30, cw * 0.05);
+      const colCenter = Math.max(colLeft + nw + 20, (cw - nw) * 0.5);
+      const colRight = Math.min(cw - nw - 30, cw * 0.95 - nw);
+
+      return [
+        { x: colLeft, y: topY },
+        { x: colCenter, y: topY + 45 },
+        { x: colRight, y: topY },
+        { x: colRight, y: bottomY },
+        { x: colCenter, y: bottomY - 35 },
+        { x: colLeft, y: bottomY }
+      ];
+    } else if (cw >= 640) {
+      // Tablet: 2-column zigzag
+      const col1 = Math.max(20, cw * 0.08);
+      const col2 = Math.min(cw - nw - 20, cw * 0.92 - nw);
+      const stepY = (ch - nh - 50) / 5;
+
+      return [
+        { x: col1, y: 30 },
+        { x: col2, y: 30 + stepY * 1 },
+        { x: col1, y: 30 + stepY * 2 },
+        { x: col2, y: 30 + stepY * 3 },
+        { x: col1, y: 30 + stepY * 4 },
+        { x: col2, y: 30 + stepY * 5 }
+      ];
+    } else {
+      // Mobile: Vertical flow with subtle alternating indent
+      const availableW = Math.max(0, cw - nw);
+      const indent1 = Math.min(availableW, 16);
+      const indent2 = Math.max(0, availableW - 16);
+      const stepY = (ch - nh - 40) / 5;
+
+      return [
+        { x: indent1, y: 20 },
+        { x: indent2, y: 20 + stepY * 1 },
+        { x: indent1, y: 20 + stepY * 2 },
+        { x: indent2, y: 20 + stepY * 3 },
+        { x: indent1, y: 20 + stepY * 4 },
+        { x: indent2, y: 20 + stepY * 5 }
+      ];
+    }
+  }
+
+  // Node position state { x, y }
+  const nodePositions = [];
+
+  function setInitialPositions(animate = false) {
+    const defaults = getDefaultPositions();
+    const cw = canvas.clientWidth || 1000;
+    const ch = canvas.clientHeight || 680;
+
+    defaults.forEach((pos, idx) => {
+      const node = nodes[idx];
+      if (!node) return;
+
+      const nw = node.offsetWidth || 260;
+      const nh = node.offsetHeight || 150;
+
+      const clampedX = Math.max(10, Math.min(pos.x, cw - nw - 10));
+      const clampedY = Math.max(10, Math.min(pos.y, ch - nh - 10));
+
+      nodePositions[idx] = { x: clampedX, y: clampedY };
+
+      if (animate) {
+        node.style.transition = 'left 0.45s cubic-bezier(0.16, 1, 0.3, 1), top 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
+        setTimeout(() => {
+          node.style.transition = '';
+        }, 460);
+      }
+
+      node.style.left = `${clampedX}px`;
+      node.style.top = `${clampedY}px`;
+    });
+
+    updateConnections();
+  }
+
+  // Smart Anchor calculation between two nodes
+  function getSmartConnectionPath(nodeA, posA, nodeB, posB) {
+    const wA = nodeA.offsetWidth || 260;
+    const hA = nodeA.offsetHeight || 150;
+    const wB = nodeB.offsetWidth || 260;
+    const hB = nodeB.offsetHeight || 150;
+
+    const centerAx = posA.x + wA / 2;
+    const centerAy = posA.y + hA / 2;
+    const centerBx = posB.x + wB / 2;
+    const centerBy = posB.y + hB / 2;
+
+    const dx = centerBx - centerAx;
+    const dy = centerBy - centerAy;
+
+    let x1, y1, x2, y2, c1x, c1y, c2x, c2y;
+
+    if (Math.abs(dx) >= Math.abs(dy)) {
+      // Horizontal dominant connection
+      if (dx >= 0) {
+        // Node B is to the right of Node A: Exit Right of A, Enter Left of B
+        x1 = posA.x + wA;
+        y1 = centerAy;
+        x2 = posB.x;
+        y2 = centerBy;
+        const curveOffset = Math.max(40, Math.abs(x2 - x1) * 0.45);
+        c1x = x1 + curveOffset;
+        c1y = y1;
+        c2x = x2 - curveOffset;
+        c2y = y2;
+      } else {
+        // Node B is to the left of Node A: Exit Left of A, Enter Right of B
+        x1 = posA.x;
+        y1 = centerAy;
+        x2 = posB.x + wB;
+        y2 = centerBy;
+        const curveOffset = Math.max(40, Math.abs(x1 - x2) * 0.45);
+        c1x = x1 - curveOffset;
+        c1y = y1;
+        c2x = x2 + curveOffset;
+        c2y = y2;
+      }
+    } else {
+      // Vertical dominant connection
+      if (dy >= 0) {
+        // Node B is below Node A: Exit Bottom of A, Enter Top of B
+        x1 = centerAx;
+        y1 = posA.y + hA;
+        x2 = centerBx;
+        y2 = posB.y;
+        const curveOffset = Math.max(40, Math.abs(y2 - y1) * 0.45);
+        c1x = x1;
+        c1y = y1 + curveOffset;
+        c2x = x2;
+        c2y = y2 - curveOffset;
+      } else {
+        // Node B is above Node A: Exit Top of A, Enter Bottom of B
+        x1 = centerAx;
+        y1 = posA.y;
+        x2 = centerBx;
+        y2 = posB.y + hB;
+        const curveOffset = Math.max(40, Math.abs(y1 - y2) * 0.45);
+        c1x = x1;
+        c1y = y1 - curveOffset;
+        c2x = x2;
+        c2y = y2 + curveOffset;
+      }
+    }
+
+    return `M ${x1} ${y1} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${x2} ${y2}`;
+  }
+
+  function updateConnections() {
+    connections.forEach((conn, idx) => {
+      const nodeA = nodes[conn.from];
+      const nodeB = nodes[conn.to];
+      const posA = nodePositions[conn.from];
+      const posB = nodePositions[conn.to];
+
+      if (!nodeA || !nodeB || !posA || !posB) return;
+
+      const d = getSmartConnectionPath(nodeA, posA, nodeB, posB);
+      const elems = pathElements[idx];
+      if (elems) {
+        elems.track.setAttribute('d', d);
+        elems.flow.setAttribute('d', d);
+      }
+    });
+  }
+
+  // Pointer dragging system
+  let activeDrag = null;
+  let rafPending = false;
+
+  nodes.forEach((node, index) => {
+    node.addEventListener('pointerdown', (e) => {
+      // Primary button only
+      if (e.button !== 0) return;
+
+      e.preventDefault();
+      node.setPointerCapture(e.pointerId);
+
+      const canvasRect = canvas.getBoundingClientRect();
+      const nodeRect = node.getBoundingClientRect();
+
+      activeDrag = {
+        index,
+        node,
+        pointerId: e.pointerId,
+        offsetX: e.clientX - nodeRect.left,
+        offsetY: e.clientY - nodeRect.top,
+        canvasRect
+      };
+
+      node.classList.add('is-dragging');
+    });
+
+    node.addEventListener('pointermove', (e) => {
+      if (!activeDrag || activeDrag.index !== index) return;
+      e.preventDefault();
+
+      // Refresh canvas rect in case of dynamic scroll
+      const canvasRect = canvas.getBoundingClientRect();
+      const nw = node.offsetWidth;
+      const nh = node.offsetHeight;
+
+      const rawX = e.clientX - canvasRect.left - activeDrag.offsetX;
+      const rawY = e.clientY - canvasRect.top - activeDrag.offsetY;
+
+      // Clamp within canvas boundaries
+      const clampedX = Math.max(10, Math.min(rawX, canvas.clientWidth - nw - 10));
+      const clampedY = Math.max(10, Math.min(rawY, canvas.clientHeight - nh - 10));
+
+      nodePositions[index] = { x: clampedX, y: clampedY };
+      node.style.left = `${clampedX}px`;
+      node.style.top = `${clampedY}px`;
+
+      if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(() => {
+          updateConnections();
+          rafPending = false;
+        });
+      }
+    });
+
+    const stopDrag = (e) => {
+      if (!activeDrag || activeDrag.index !== index) return;
+      try {
+        node.releasePointerCapture(e.pointerId);
+      } catch (err) {
+        // Safe fallback if pointer capture already released
+      }
+      node.classList.remove('is-dragging');
+      activeDrag = null;
+      updateConnections();
+    };
+
+    node.addEventListener('pointerup', stopDrag);
+    node.addEventListener('pointercancel', stopDrag);
+  });
+
+  // Reset Button
+  if (resetBtn) {
+    resetBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      setInitialPositions(true);
+    });
+  }
+
+  // Window Resize
+  let resizeTimeout = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      setInitialPositions(false);
+    }, 150);
+  });
+
+  // IntersectionObserver for staggered entrance animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        section.classList.add('workflow-revealed');
+
+        // Stagger appearance of nodes
+        nodes.forEach((node, i) => {
+          node.style.transitionDelay = `${i * 90}ms`;
+        });
+
+        // Trigger connections recalculation once positioned
+        requestAnimationFrame(() => {
+          updateConnections();
+        });
+
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  observer.observe(section);
+
+  // Initial positioning setup
+  setInitialPositions(false);
+}
+
+
+function initWebQuoteModal() {
+  const dialog = document.getElementById('web-quote-dialog');
+  const openButton = document.getElementById('web-quote-open');
+  const closeButton = document.getElementById('web-quote-close');
+  if (!dialog || !openButton || !closeButton) return;
+
+  let returnFocusTo = null;
+
+  const openDialog = () => {
+    returnFocusTo = document.activeElement;
+    if (typeof dialog.showModal === 'function') {
+      dialog.showModal();
+    } else {
+      dialog.setAttribute('open', '');
+    }
+    document.body.classList.add('web-quote-modal-open');
+    window.requestAnimationFrame(() => {
+      const firstInput = dialog.querySelector('input, select, textarea');
+      if (firstInput) firstInput.focus();
+    });
+  };
+
+  const closeDialog = () => {
+    if (typeof dialog.close === 'function') {
+      dialog.close();
+    } else {
+      dialog.removeAttribute('open');
+      dialog.dispatchEvent(new Event('close'));
+    }
+  };
+
+  openButton.addEventListener('click', openDialog);
+  closeButton.addEventListener('click', closeDialog);
+
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) closeDialog();
+  });
+
+  dialog.addEventListener('cancel', () => {
+    document.body.classList.remove('web-quote-modal-open');
+  });
+
+  dialog.addEventListener('close', () => {
+    document.body.classList.remove('web-quote-modal-open');
+    if (returnFocusTo && typeof returnFocusTo.focus === 'function') returnFocusTo.focus();
   });
 }
