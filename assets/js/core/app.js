@@ -563,6 +563,15 @@ function formatFooterReviewCountLine(stats) {
   return `Based on ${stats.count} reviews`;
 }
 
+/** SVG stars avoid UTF-8 star (★) mojibake when JS is served without UTF-8. */
+function buildGbpStarsMarkup(rating) {
+  const starSvg =
+    '<svg class="rb-gbp-badge__star" width="13" height="13" viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
+    '<path fill="currentColor" d="M10 1.6l2.39 4.84 5.34.78-3.86 3.76.91 5.32L10 14.9l-4.78 2.2.91-5.32-3.86-3.76 5.34-.78L10 1.6z"/></svg>';
+  const filled = Math.min(5, Math.max(0, Math.round(Number(rating) || 5)));
+  return `<span class="rb-gbp-badge__stars">${starSvg.repeat(filled)}</span>`;
+}
+
 function buildFallbackGbpBadge(stats) {
   const ratingText = stats.rating.toFixed(1);
   const reviewLabel = formatFooterReviewCountLine(stats);
@@ -580,9 +589,9 @@ function buildFallbackGbpBadge(stats) {
       </span>
       <span class="rb-gbp-badge__body">
         <span class="rb-gbp-badge__title">Google Reviews</span>
-        <span class="rb-gbp-badge__rating-row">
+        <span class="rb-gbp-badge__rating-row" aria-label="${ratingText} out of 5 stars">
           <strong class="rb-gbp-badge__rating">${ratingText}</strong>
-          <span class="rb-gbp-badge__stars" aria-label="${ratingText} out of 5 stars">â˜…â˜…â˜…â˜…â˜…</span>
+          ${buildGbpStarsMarkup(stats.rating)}
         </span>
         <span class="rb-gbp-badge__count">${reviewLabel}</span>
       </span>
@@ -1117,17 +1126,22 @@ function bindNavbarEvents() {
     setLogo();
   }
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 16) {
-      header.classList.add('header--scrolled');
-      setLogo();
-    } else {
-      header.classList.remove('header--scrolled');
-      {
-        setLogo();
-      }
-    }
-  });
+  let headerScrollRaf = 0;
+  const updateHeaderScrollState = () => {
+    headerScrollRaf = 0;
+    header.classList.toggle('header--scrolled', window.scrollY > 16);
+  };
+
+  updateHeaderScrollState();
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (headerScrollRaf) return;
+      headerScrollRaf = requestAnimationFrame(updateHeaderScrollState);
+    },
+    { passive: true }
+  );
 
   // Keep desktop dropdowns open while the cursor moves from the label or arrow into the submenu.
   const navItems = header.querySelectorAll('.nav__item--has-dropdown');
@@ -1940,6 +1954,8 @@ function initLiquidBackground() {
 
   if (isLightPerformancePage()) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  /* Touch devices: skip continuous canvas animation (saves battery and scroll jank). */
+  if (window.matchMedia('(pointer: coarse)').matches) return;
 
   const ctx = canvas.getContext('2d');
   let animationFrameId;
