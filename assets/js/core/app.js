@@ -31,6 +31,7 @@ const CLEAN_ROUTE_PATHS = {
   'products.html': 'products',
   'careers.html': 'careers',
   'contact.html': 'contact',
+  'booking.html': 'booking',
   'privacy-policy.html': 'privacy-policy',
   'terms-of-service.html': 'terms-of-service',
   'refund-policy.html': 'refund-policy'
@@ -961,6 +962,7 @@ function getNavbarHTML() {
 }
 
 function getFooterHTML() {
+  const bookingUrl = resolvePath('booking.html');
   const homeUrl = resolvePath('index.html');
   const companyUrl = resolvePath('about-us.html');
   const blogUrl = resolvePath('blog.html');
@@ -1069,6 +1071,7 @@ function getFooterHTML() {
               <ul class="footer__list">
                 <li><a href="${companyUrl}" class="footer__link">About</a></li>
                 <li><a href="${careersUrl}" class="footer__link">Career</a></li>
+                <li><a href="${bookingUrl}" class="footer__link">Book a Consultation</a></li>
                 <li><a href="${blogUrl}" class="footer__link">Blog</a></li>
                 <li><a href="${resolvePath('testimonials.html')}" class="footer__link">Testimonials</a></li>
               </ul>
@@ -1686,7 +1689,8 @@ function initCardTilt() {
     if (
       card.classList.contains('card-showcase') ||
       card.classList.contains('contact-enquiry-form') ||
-      card.classList.contains('careers-apply-form')
+      card.classList.contains('careers-apply-form') ||
+      card.classList.contains('booking-form')
     ) {
       return;
     }
@@ -2573,15 +2577,389 @@ function isHoneypotTripped(form) {
   return honeypot && honeypot.value.trim().length > 0;
 }
 
+function initBookingDateField() {
+  const dateInput = document.getElementById('booking-date');
+  const trigger = document.getElementById('booking-date-trigger');
+  const display = document.getElementById('booking-date-display');
+  const calendar = document.getElementById('booking-calendar');
+  const monthLabel = document.getElementById('booking-calendar-month');
+  const grid = document.getElementById('booking-calendar-grid');
+  const prevButton = document.getElementById('booking-calendar-prev');
+  const nextButton = document.getElementById('booking-calendar-next');
+  const todayButton = document.getElementById('booking-calendar-today');
+  if (!dateInput || !trigger || !display || !calendar || !monthLabel || !grid) return;
+  if (trigger.dataset.calendarBound === 'true') return;
+  trigger.dataset.calendarBound = 'true';
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  let selectedDate = null;
+  let viewDate = new Date(today.getFullYear(), today.getMonth(), 1);
+
+  const toDateKey = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const isSameDay = (a, b) => Boolean(
+    a && b &&
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
+
+  const closeCalendar = () => {
+    calendar.hidden = true;
+    trigger.setAttribute('aria-expanded', 'false');
+  };
+
+  const renderCalendar = () => {
+    const year = viewDate.getFullYear();
+    const month = viewDate.getMonth();
+    monthLabel.textContent = viewDate.toLocaleDateString('en-IN', {
+      month: 'long',
+      year: 'numeric'
+    });
+
+    const firstDayOffset = (new Date(year, month, 1).getDay() + 6) % 7;
+    grid.innerHTML = '';
+
+    for (let index = 0; index < 42; index += 1) {
+      const dayDate = new Date(year, month, index - firstDayOffset + 1);
+      dayDate.setHours(0, 0, 0, 0);
+      const button = document.createElement('button');
+      const isOutside = dayDate.getMonth() !== month;
+      const isPast = dayDate < today;
+
+      button.type = 'button';
+      button.className = 'booking-calendar__day';
+      button.textContent = String(dayDate.getDate());
+      button.dataset.date = toDateKey(dayDate);
+      button.setAttribute('aria-label', dayDate.toLocaleDateString('en-IN', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      }));
+      button.classList.toggle('is-outside', isOutside);
+      button.classList.toggle('is-today', isSameDay(dayDate, today));
+      button.classList.toggle('is-selected', isSameDay(dayDate, selectedDate));
+      button.disabled = isPast;
+      grid.appendChild(button);
+    }
+
+    const currentMonthIndex = today.getFullYear() * 12 + today.getMonth();
+    const viewMonthIndex = year * 12 + month;
+    if (prevButton) prevButton.disabled = viewMonthIndex <= currentMonthIndex;
+  };
+
+  const selectDate = (date) => {
+    selectedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    viewDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+    dateInput.value = toDateKey(selectedDate);
+    display.textContent = selectedDate.toLocaleDateString('en-IN', {
+      weekday: 'short',
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    });
+    display.classList.remove('is-placeholder');
+    trigger.classList.remove('form-input--error');
+    trigger.closest('.form-group')?.querySelector('.form-error-msg')?.remove();
+    renderCalendar();
+    closeCalendar();
+  };
+
+  trigger.addEventListener('click', () => {
+    const willOpen = calendar.hidden;
+    calendar.hidden = !willOpen;
+    trigger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    if (willOpen) renderCalendar();
+  });
+
+  grid.addEventListener('click', (event) => {
+    const button = event.target.closest('.booking-calendar__day[data-date]');
+    if (!button || button.disabled) return;
+    const [year, month, day] = button.dataset.date.split('-').map(Number);
+    selectDate(new Date(year, month - 1, day));
+  });
+
+  prevButton?.addEventListener('click', () => {
+    if (prevButton.disabled) return;
+    viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1);
+    renderCalendar();
+  });
+
+  nextButton?.addEventListener('click', () => {
+    viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1);
+    renderCalendar();
+  });
+
+  todayButton?.addEventListener('click', () => selectDate(today));
+
+  document.addEventListener('click', (event) => {
+    if (!calendar.hidden && !calendar.contains(event.target) && !trigger.contains(event.target)) {
+      closeCalendar();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !calendar.hidden) {
+      closeCalendar();
+      trigger.focus();
+    }
+  });
+
+  trigger.closest('form')?.addEventListener('reset', () => {
+    window.setTimeout(() => {
+      selectedDate = null;
+      viewDate = new Date(today.getFullYear(), today.getMonth(), 1);
+      display.textContent = 'Select a date';
+      display.classList.add('is-placeholder');
+      closeCalendar();
+      renderCalendar();
+    }, 0);
+  });
+
+  renderCalendar();
+}
+
+function initBookingTimeField() {
+  const timeInput = document.getElementById('booking-time');
+  const trigger = document.getElementById('booking-time-trigger');
+  const display = document.getElementById('booking-time-display');
+  const panel = document.getElementById('booking-time-panel');
+  const slots = document.getElementById('booking-time-slots');
+  const periodGroup = document.getElementById('booking-time-period');
+  const applyButton = document.getElementById('booking-time-apply');
+  const closeButton = document.getElementById('booking-time-close');
+  if (!timeInput || !trigger || !display || !panel || !slots || !periodGroup || !applyButton) return;
+  if (trigger.dataset.timeBound === 'true') return;
+  trigger.dataset.timeBound = 'true';
+
+  let selectedSlot = '1:00';
+  let selectedPeriod = 'AM';
+  let wheelFrame = 0;
+  let wheelSettleTimer = 0;
+
+  const closePanel = () => {
+    panel.hidden = true;
+    trigger.setAttribute('aria-expanded', 'false');
+  };
+
+  const syncSelection = () => {
+    slots.querySelectorAll('[data-time]').forEach((button) => {
+      const isSelected = button.dataset.time === selectedSlot;
+      button.classList.toggle('is-selected', isSelected);
+      button.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+    });
+    periodGroup.querySelectorAll('[data-period]').forEach((button) => {
+      button.classList.toggle('is-selected', button.dataset.period === selectedPeriod);
+    });
+    applyButton.disabled = !selectedSlot;
+  };
+
+  const buildOptions = () => {
+    slots.innerHTML = '';
+
+    for (let hour = 1; hour <= 12; hour += 1) {
+      ['00', '30'].forEach((minute) => {
+        const value = `${hour}:${minute}`;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'booking-time-panel__slot';
+        button.dataset.time = value;
+        button.textContent = value;
+        slots.appendChild(button);
+      });
+    }
+  };
+
+  const centerSlot = (button, smooth = false) => {
+    if (!button) return;
+    const slotsRect = slots.getBoundingClientRect();
+    const buttonRect = button.getBoundingClientRect();
+    const centerDelta = buttonRect.top + buttonRect.height / 2 - (slotsRect.top + slotsRect.height / 2);
+    if (Math.abs(centerDelta) < 0.5) return;
+    slots.scrollTo({
+      top: slots.scrollTop + centerDelta,
+      behavior: smooth ? 'smooth' : 'auto'
+    });
+  };
+
+  const updateWheel = () => {
+    wheelFrame = 0;
+    const slotButtons = [...slots.querySelectorAll('[data-time]')];
+    if (!slotButtons.length || panel.hidden) return;
+
+    const slotsRect = slots.getBoundingClientRect();
+    const centerY = slotsRect.top + slotsRect.height / 2;
+    let closestButton = null;
+    let closestDistance = Infinity;
+
+    slotButtons.forEach((button) => {
+      const rect = button.getBoundingClientRect();
+      const distance = Math.abs((rect.top + rect.height / 2 - centerY) / 40);
+      const clampedDistance = Math.min(distance, 3.5);
+      const scale = Math.max(0.84, 1 - clampedDistance * 0.06);
+      const opacity = Math.max(0.12, 1 - clampedDistance * 0.3);
+      const blur = Math.min(1.5, clampedDistance * 0.45);
+
+      button.style.opacity = String(opacity);
+      button.style.filter = `blur(${blur}px)`;
+      button.style.transform = `scale(${scale})`;
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestButton = button;
+      }
+    });
+
+    if (closestButton && closestButton.dataset.time !== selectedSlot) {
+      selectedSlot = closestButton.dataset.time;
+      syncSelection();
+    }
+  };
+
+  const requestWheelUpdate = () => {
+    if (wheelFrame) return;
+    wheelFrame = window.requestAnimationFrame(updateWheel);
+  };
+
+  trigger.addEventListener('click', () => {
+    const willOpen = panel.hidden;
+    panel.hidden = !willOpen;
+    trigger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    if (willOpen) {
+      syncSelection();
+      window.requestAnimationFrame(() => {
+        centerSlot(slots.querySelector('.is-selected'));
+        updateWheel();
+      });
+    }
+  });
+
+  slots.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-time]');
+    if (!button) return;
+    selectedSlot = button.dataset.time;
+    syncSelection();
+    centerSlot(button, true);
+  });
+
+  slots.addEventListener('scroll', () => {
+    requestWheelUpdate();
+    window.clearTimeout(wheelSettleTimer);
+    wheelSettleTimer = window.setTimeout(() => {
+      centerSlot(slots.querySelector('.is-selected'), true);
+    }, 120);
+  }, { passive: true });
+
+  periodGroup.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-period]');
+    if (!button) return;
+    selectedPeriod = button.dataset.period;
+    syncSelection();
+  });
+
+  applyButton.addEventListener('click', () => {
+    if (!selectedSlot) return;
+    const value = `${selectedSlot} ${selectedPeriod}`;
+    timeInput.value = value;
+    display.textContent = value;
+    display.classList.remove('is-placeholder');
+    trigger.classList.remove('form-input--error');
+    trigger.closest('.form-group')?.querySelector('.form-error-msg')?.remove();
+    closePanel();
+  });
+
+  closeButton?.addEventListener('click', closePanel);
+
+  document.addEventListener('click', (event) => {
+    if (!panel.hidden && !panel.contains(event.target) && !trigger.contains(event.target)) {
+      closePanel();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !panel.hidden) {
+      closePanel();
+      trigger.focus();
+    }
+  });
+
+  trigger.closest('form')?.addEventListener('reset', () => {
+    window.setTimeout(() => {
+      selectedSlot = '1:00';
+      selectedPeriod = 'AM';
+      display.textContent = 'Select a time';
+      display.classList.add('is-placeholder');
+      closePanel();
+      syncSelection();
+    }, 0);
+  });
+
+  buildOptions();
+  syncSelection();
+}
+
+function sendBookingToWhatsApp(form) {
+  const data = new FormData(form);
+  const rawDate = String(data.get('date') || '');
+  const dateParts = rawDate.split('-');
+  const displayDate = dateParts.length === 3
+    ? `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`
+    : rawDate;
+  const displayTime = String(data.get('time') || '').trim();
+
+  const message = [
+    'Hello Riverbird, I would like to book a consultation.',
+    '',
+    `Name: ${String(data.get('name') || '').trim()}`,
+    `Phone: ${String(data.get('phone') || '').trim()}`,
+    `Brand Name: ${String(data.get('brand') || '').trim()}`,
+    `City: ${String(data.get('city') || '').trim()}`,
+    `Preferred Date: ${displayDate}`,
+    `Preferred Time: ${displayTime}`
+  ].join('\n');
+
+  const whatsappNumber = RIVERBIRD_CONTACT.phoneTel.replace(/\D/g, '');
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  return true;
+}
+
 function initForms() {
   initProductionSafety();
+  initBookingDateField();
+  initBookingTimeField();
   bindFormSubmit('enquiry-form', 'Thank you â€” your enquiry was received. We will contact you within one business day.');
+  bindFormSubmit(
+    'booking-form',
+    'WhatsApp opened with your booking details. Press Send there to complete your request.',
+    sendBookingToWhatsApp
+  );
   bindFormSubmit('apply-form', 'Your application was successfully uploaded. Our recruitment cell will review it.');
   bindFormSubmit('web-quote-form', 'Thank you — your website requirements were received. Our development team will contact you within one business day.');
   initWebQuoteModal();
 }
 
-function bindFormSubmit(formId, successMsg) {
+function showFormSuccess(form, successMsg) {
+  form.reset();
+
+  const successDiv = document.createElement('div');
+  successDiv.className = 'form-success-msg fade-in';
+  successDiv.textContent = successMsg;
+  form.insertBefore(successDiv, form.firstChild);
+
+  setTimeout(() => {
+    successDiv.remove();
+  }, 8000);
+}
+
+function bindFormSubmit(formId, successMsg, onValidSubmit = null) {
   const form = document.getElementById(formId);
   if (!form) return;
 
@@ -2600,7 +2978,11 @@ function bindFormSubmit(formId, successMsg) {
     form.querySelectorAll('[required]').forEach(input => {
       if (!input.value.trim()) {
         hasError = true;
-        input.classList.add('form-input--error');
+        const customTriggerId = input.type === 'hidden'
+          ? { 'booking-date': 'booking-date-trigger', 'booking-time': 'booking-time-trigger' }[input.id]
+          : null;
+        const visibleControl = customTriggerId ? document.getElementById(customTriggerId) : input;
+        visibleControl?.classList.add('form-input--error');
 
         const err = document.createElement('span');
         err.className = 'form-error-msg';
@@ -2639,6 +3021,14 @@ function bindFormSubmit(formId, successMsg) {
 
     if (hasError) return;
 
+    if (onValidSubmit) {
+      const submitted = onValidSubmit(form);
+      if (submitted !== false) {
+        showFormSuccess(form, successMsg);
+      }
+      return;
+    }
+
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
     submitBtn.disabled = true;
@@ -2653,7 +3043,6 @@ function bindFormSubmit(formId, successMsg) {
       const successDiv = document.createElement('div');
       successDiv.className = 'form-success-msg fade-in';
       successDiv.textContent = successMsg;
-
       form.insertBefore(successDiv, form.firstChild);
 
       setTimeout(() => {

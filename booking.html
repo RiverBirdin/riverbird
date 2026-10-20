@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-base="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book a Consultation | Riverbird</title>
+  <meta name="description" content="Book a consultation with Riverbird. Choose a convenient date and time to discuss your brand and business goals." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/css/main.css" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+  <link rel="shortcut icon" href="assets/img/favicon.ico">
+  <link rel="manifest" href="assets/img/site.webmanifest">
+  <meta name="theme-color" content="#F55D2D">
+</head>
+<body data-page="booking">
+  <a href="#main-content" class="skip-link">Skip to Content</a>
+  <div id="header-slot"></div>
+
+  <main id="main-content" class="liquid-wrapper">
+    <section class="booking-hero">
+      <div class="container booking-hero__container">
+        <div class="booking-form-wrap">
+          <form class="booking-form" id="booking-form">
+            <div class="booking-form__header">
+              <span class="booking-form__eyebrow">Schedule a meeting</span>
+              <h2 class="h2">Book your slot</h2>
+              <p class="body-text">Complete the details below and we&apos;ll take it from here.</p>
+            </div>
+
+            <div class="booking-form__grid">
+              <div class="form-group">
+                <label class="form-label" for="booking-name">Name</label>
+                <input type="text" id="booking-name" name="name" class="form-input" required placeholder="Enter your name" autocomplete="name" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="booking-phone">Phone Number</label>
+                <input type="tel" id="booking-phone" name="phone" class="form-input" required placeholder="Enter your phone number" autocomplete="tel" inputmode="tel" />
+              </div>
+              <div class="form-group booking-form__full">
+                <label class="form-label" for="booking-brand">Brand Name</label>
+                <input type="text" id="booking-brand" name="brand" class="form-input" required placeholder="Enter your brand or business name" autocomplete="organization" />
+              </div>
+              <div class="form-group booking-form__full">
+                <label class="form-label" for="booking-city">City</label>
+                <input type="text" id="booking-city" name="city" class="form-input" required placeholder="Enter your city" autocomplete="address-level2" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="booking-date-trigger">Preferred Date</label>
+                <div class="booking-date-picker">
+                  <button
+                    type="button"
+                    class="booking-date-trigger"
+                    id="booking-date-trigger"
+                    aria-haspopup="dialog"
+                    aria-expanded="false"
+                    aria-controls="booking-calendar">
+                    <span id="booking-date-display" class="booking-date-trigger__value is-placeholder">Select a date</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18"></path></svg>
+                  </button>
+                  <input type="hidden" id="booking-date" name="date" required />
+
+                  <div class="booking-calendar" id="booking-calendar" role="dialog" aria-label="Choose a preferred date" hidden>
+                    <div class="booking-calendar__header">
+                      <strong id="booking-calendar-month"></strong>
+                      <div class="booking-calendar__actions">
+                        <button type="button" class="booking-calendar__today" id="booking-calendar-today">Today</button>
+                        <button type="button" class="booking-calendar__nav" id="booking-calendar-prev" aria-label="Previous month">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+                        </button>
+                        <button type="button" class="booking-calendar__nav" id="booking-calendar-next" aria-label="Next month">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="booking-calendar__weekdays" aria-hidden="true">
+                      <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                    </div>
+                    <div class="booking-calendar__grid" id="booking-calendar-grid"></div>
+                    <div class="booking-calendar__legend">
+                      <span><i class="booking-calendar__dot booking-calendar__dot--today"></i>Today</span>
+                      <span><i class="booking-calendar__dot booking-calendar__dot--selected"></i>Selected</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="booking-time-trigger">Preferred Time</label>
+                <div class="booking-time-picker">
+                  <button
+                    type="button"
+                    class="booking-time-trigger"
+                    id="booking-time-trigger"
+                    aria-haspopup="dialog"
+                    aria-expanded="false"
+                    aria-controls="booking-time-panel">
+                    <span id="booking-time-display" class="booking-time-trigger__value is-placeholder">Select a time</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+                  </button>
+                  <input type="hidden" id="booking-time" name="time" required />
+
+                  <div class="booking-time-panel" id="booking-time-panel" role="dialog" aria-label="Choose a preferred time" hidden>
+                    <div class="booking-time-panel__header">
+                      <strong>Choose a time</strong>
+                      <button type="button" class="booking-time-panel__close" id="booking-time-close" aria-label="Close time picker">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+                      </button>
+                    </div>
+                    <div class="booking-time-panel__selector">
+                      <div class="booking-time-panel__slots" id="booking-time-slots" aria-label="Available half-hour time slots"></div>
+                      <div class="booking-time-panel__period" id="booking-time-period" aria-label="AM or PM">
+                        <button type="button" class="is-selected" data-period="AM">AM</button>
+                        <button type="button" data-period="PM">PM</button>
+                      </div>
+                    </div>
+                    <button type="button" class="booking-time-panel__apply" id="booking-time-apply" disabled>Set time</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn--primary booking-form__submit">Continue to WhatsApp</button>
+            <p class="booking-form__note">WhatsApp will open with your booking details. Press Send there to confirm your request.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-slot"></div>
+  <script type="module" src="assets/js/core/app.js"></script>
+</body>
+</html>
