@@ -38,6 +38,7 @@ const routes = {
   products: 'products.html',
   careers: 'careers.html',
   contact: 'contact.html',
+  booking: 'booking.html',
   'privacy-policy': 'privacy-policy.html',
   'terms-of-service': 'terms-of-service.html',
   'refund-policy': 'refund-policy.html'
