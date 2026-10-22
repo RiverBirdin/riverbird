@@ -2577,6 +2577,33 @@ function isHoneypotTripped(form) {
   return honeypot && honeypot.value.trim().length > 0;
 }
 
+function syncBookingPickerOverlay() {
+  const calendar = document.getElementById('booking-calendar');
+  const timePanel = document.getElementById('booking-time-panel');
+  const hasOpenPicker = Boolean(
+    (calendar && !calendar.hidden) ||
+    (timePanel && !timePanel.hidden)
+  );
+  document.body.classList.toggle('booking-picker-open', hasOpenPicker);
+}
+
+function positionBookingPickerAbove(panel, trigger) {
+  if (!panel || !trigger) return;
+
+  panel.style.removeProperty('top');
+  panel.style.removeProperty('left');
+  panel.style.removeProperty('transform');
+
+  if (!window.matchMedia('(max-width: 560px)').matches) return;
+
+  window.requestAnimationFrame(() => {
+    const panelRect = panel.getBoundingClientRect();
+    if (panelRect.top < 12) {
+      window.scrollBy(0, panelRect.top - 12);
+    }
+  });
+}
+
 function initBookingDateField() {
   const dateInput = document.getElementById('booking-date');
   const trigger = document.getElementById('booking-date-trigger');
@@ -2587,6 +2614,7 @@ function initBookingDateField() {
   const prevButton = document.getElementById('booking-calendar-prev');
   const nextButton = document.getElementById('booking-calendar-next');
   const todayButton = document.getElementById('booking-calendar-today');
+  const picker = trigger?.closest('.booking-date-picker');
   if (!dateInput || !trigger || !display || !calendar || !monthLabel || !grid) return;
   if (trigger.dataset.calendarBound === 'true') return;
   trigger.dataset.calendarBound = 'true';
@@ -2613,6 +2641,8 @@ function initBookingDateField() {
   const closeCalendar = () => {
     calendar.hidden = true;
     trigger.setAttribute('aria-expanded', 'false');
+    picker?.classList.remove('is-open');
+    syncBookingPickerOverlay();
   };
 
   const renderCalendar = () => {
@@ -2674,9 +2704,18 @@ function initBookingDateField() {
 
   trigger.addEventListener('click', () => {
     const willOpen = calendar.hidden;
+    const timePanel = document.getElementById('booking-time-panel');
+    if (willOpen && timePanel && !timePanel.hidden) {
+      timePanel.hidden = true;
+      document.getElementById('booking-time-trigger')?.setAttribute('aria-expanded', 'false');
+      timePanel.closest('.booking-time-picker')?.classList.remove('is-open');
+    }
     calendar.hidden = !willOpen;
     trigger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    picker?.classList.toggle('is-open', willOpen);
     if (willOpen) renderCalendar();
+    syncBookingPickerOverlay();
+    if (willOpen) positionBookingPickerAbove(calendar, trigger);
   });
 
   grid.addEventListener('click', (event) => {
@@ -2735,6 +2774,7 @@ function initBookingTimeField() {
   const periodGroup = document.getElementById('booking-time-period');
   const applyButton = document.getElementById('booking-time-apply');
   const closeButton = document.getElementById('booking-time-close');
+  const picker = trigger?.closest('.booking-time-picker');
   if (!timeInput || !trigger || !display || !panel || !slots || !periodGroup || !applyButton) return;
   if (trigger.dataset.timeBound === 'true') return;
   trigger.dataset.timeBound = 'true';
@@ -2747,6 +2787,8 @@ function initBookingTimeField() {
   const closePanel = () => {
     panel.hidden = true;
     trigger.setAttribute('aria-expanded', 'false');
+    picker?.classList.remove('is-open');
+    syncBookingPickerOverlay();
   };
 
   const syncSelection = () => {
@@ -2756,7 +2798,9 @@ function initBookingTimeField() {
       button.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
     });
     periodGroup.querySelectorAll('[data-period]').forEach((button) => {
-      button.classList.toggle('is-selected', button.dataset.period === selectedPeriod);
+      const isSelected = button.dataset.period === selectedPeriod;
+      button.classList.toggle('is-selected', isSelected);
+      button.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
     });
     applyButton.disabled = !selectedSlot;
   };
@@ -2830,8 +2874,17 @@ function initBookingTimeField() {
 
   trigger.addEventListener('click', () => {
     const willOpen = panel.hidden;
+    const calendar = document.getElementById('booking-calendar');
+    if (willOpen && calendar && !calendar.hidden) {
+      calendar.hidden = true;
+      document.getElementById('booking-date-trigger')?.setAttribute('aria-expanded', 'false');
+      calendar.closest('.booking-date-picker')?.classList.remove('is-open');
+    }
     panel.hidden = !willOpen;
     trigger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    picker?.classList.toggle('is-open', willOpen);
+    syncBookingPickerOverlay();
+    if (willOpen) positionBookingPickerAbove(panel, trigger);
     if (willOpen) {
       syncSelection();
       window.requestAnimationFrame(() => {
@@ -2860,6 +2913,8 @@ function initBookingTimeField() {
   periodGroup.addEventListener('click', (event) => {
     const button = event.target.closest('[data-period]');
     if (!button) return;
+    event.preventDefault();
+    event.stopPropagation();
     selectedPeriod = button.dataset.period;
     syncSelection();
   });
