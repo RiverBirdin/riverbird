@@ -539,6 +539,8 @@
 }
 
 .booking-time-panel__period {
+  position: relative;
+  z-index: 2;
   margin-top: var(--space-10);
   padding: 3px;
   border-radius: 8px;
@@ -557,6 +559,8 @@
   font-size: 0.72rem;
   font-weight: 700;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .booking-time-panel__period button.is-selected {
@@ -605,8 +609,46 @@
 }
 
 @media (max-width: 560px) {
+  body.booking-picker-open {
+    overflow: hidden;
+  }
+
+  body.booking-picker-open .liquid-wrapper {
+    transform: none !important;
+  }
+
+  body.booking-picker-open .liquid-wrapper::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background: rgba(20, 16, 14, 0.38);
+    backdrop-filter: blur(3px);
+  }
+
   .booking-hero {
+    align-items: flex-start;
+    padding-top: calc(var(--header-height) + var(--space-24));
     padding-bottom: var(--space-48);
+  }
+
+  .booking-hero__container {
+    padding-inline: 12px;
+  }
+
+  .booking-form {
+    padding: 22px 16px;
+    border-radius: var(--radius-md);
+    backdrop-filter: none;
+  }
+
+  .booking-date-picker.is-open,
+  .booking-time-picker.is-open {
+    z-index: 9999;
+  }
+
+  .booking-form__header {
+    margin-bottom: var(--space-24);
   }
 
   .booking-form__grid {
@@ -618,12 +660,45 @@
   }
 
   .booking-calendar {
-    width: min(280px, calc(100vw - 32px));
+    position: absolute;
+    top: auto;
+    left: 50%;
+    right: auto;
+    bottom: calc(100% + 6px);
+    z-index: 9999;
+    width: min(300px, calc(100vw - 28px));
+    max-height: calc(100dvh - 28px);
+    margin: 0;
     padding: var(--space-12);
+    overflow-y: auto;
+    transform: translateX(-50%);
+    box-shadow: 0 14px 32px rgba(47, 42, 56, 0.14);
   }
 
   .booking-time-panel {
-    width: min(280px, calc(100vw - 32px));
+    position: absolute;
+    top: auto;
+    left: 50%;
+    right: auto;
+    bottom: calc(100% + 6px);
+    z-index: 9999;
+    width: min(300px, calc(100vw - 28px));
+    max-height: calc(100dvh - 28px);
+    margin: 0;
+    overflow-y: auto;
+    transform: translateX(-50%);
+    box-shadow: 0 14px 32px rgba(47, 42, 56, 0.14);
+  }
+
+  .booking-time-panel__slots {
+    height: 178px;
+    padding-block: 71px;
+    scroll-padding-block: 71px;
+  }
+
+  .booking-time-panel__period button,
+  .booking-time-panel__apply {
+    min-height: 42px;
   }
 }
 
