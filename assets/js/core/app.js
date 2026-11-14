@@ -1350,7 +1350,7 @@ const revealObserver = new IntersectionObserver((entries) => {
     if (entry.isIntersecting) {
       entry.target.classList.add('reveal--visible');
 
-      if (shouldRunHeavyEffects()) {
+      if (shouldRunHeavyEffects() && document.body.getAttribute('data-page') !== 'digital-marketing') {
         const headings = entry.target.querySelectorAll('h1, h2, .h1, .h2');
         headings.forEach(h => scrambleText(h));
       }
@@ -1572,6 +1572,67 @@ function initApplicationResponsiveShowcase() {
   requestRender();
 }
 
+function initAppReadMore() {
+  document.querySelectorAll('.app-readmore-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      const card = btn.closest('.app-lifecycle-card');
+      const desc = card ? card.querySelector('.app-lifecycle-card__desc') : btn.previousElementSibling;
+      if (!desc) return;
+      if (isExpanded) {
+        desc.classList.add('is-collapsed');
+        btn.setAttribute('aria-expanded', 'false');
+        const label = btn.querySelector('.app-readmore-label');
+        if (label) label.textContent = 'Read more';
+      } else {
+        desc.classList.remove('is-collapsed');
+        btn.setAttribute('aria-expanded', 'true');
+        const label = btn.querySelector('.app-readmore-label');
+        if (label) label.textContent = 'Read less';
+      }
+    });
+  });
+}
+
+function initDigitalMarketingTestimonials() {
+  const wall = document.querySelector('.digital-marketing-page #testimonials .testimonials-masonry');
+  if (!wall || wall.dataset.verticalLoop === 'true') return;
+
+  const cards = Array.from(wall.querySelectorAll(':scope > .testimonial-card'));
+  if (cards.length < 3) return;
+
+  const groups = [cards.slice(0, 3), cards.slice(3, 6), cards.slice(6)];
+  const fragment = document.createDocumentFragment();
+
+  groups.forEach((group, index) => {
+    if (!group.length) return;
+
+    const column = document.createElement('div');
+    column.className = 'dm-testimonial-column';
+
+    const track = document.createElement('div');
+    track.className = `dm-testimonial-track dm-testimonial-track--${index + 1}`;
+
+    const set = document.createElement('div');
+    set.className = 'dm-testimonial-set';
+    group.forEach((card) => set.appendChild(card));
+
+    const duplicate = set.cloneNode(true);
+    duplicate.setAttribute('aria-hidden', 'true');
+    duplicate.querySelectorAll('a, button, input, select, textarea, [tabindex]').forEach((element) => {
+      element.setAttribute('tabindex', '-1');
+    });
+
+    track.append(set, duplicate);
+    column.appendChild(track);
+    fragment.appendChild(column);
+  });
+
+  wall.replaceChildren(fragment);
+  wall.classList.add('dm-testimonial-wall');
+  wall.dataset.verticalLoop = 'true';
+}
+
 function initAnimations() {
   if (!isLightPerformancePage() && shouldRunHeavyEffects()) {
     initCursorGlow();
@@ -1594,6 +1655,7 @@ function initAnimations() {
   initApplicationEcosystem();
   initApplicationComparison();
   initApplicationResponsiveShowcase();
+  initAppReadMore();
   scanAndObserve(document.body);
   initMutationObserver();
 }
@@ -4049,6 +4111,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initLayout();
 
+  initDigitalMarketingTestimonials();
+
   initAnimations();
 
   initLiquidBackground();
@@ -4866,9 +4930,9 @@ function initInteractiveWorkflow() {
 
 function initWebQuoteModal() {
   const dialog = document.getElementById('web-quote-dialog');
-  const openButton = document.getElementById('web-quote-open');
+  const openButtons = document.querySelectorAll('#web-quote-open, [data-web-quote-trigger]');
   const closeButton = document.getElementById('web-quote-close');
-  if (!dialog || !openButton || !closeButton) return;
+  if (!dialog || openButtons.length === 0 || !closeButton) return;
 
   let returnFocusTo = null;
 
@@ -4895,7 +4959,7 @@ function initWebQuoteModal() {
     }
   };
 
-  openButton.addEventListener('click', openDialog);
+  openButtons.forEach((button) => button.addEventListener('click', openDialog));
   closeButton.addEventListener('click', closeDialog);
 
   dialog.addEventListener('click', (event) => {
