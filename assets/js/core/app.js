@@ -216,6 +216,172 @@ function initSoftwareScaleStack() {
   }, { passive: true });
 }
 
+/** Scroll-linked diagnostic stack for the Social Media profile-stagnation section. */
+function initSmmChallengesStack() {
+  const section = document.querySelector('#smm-challenges');
+  if (!section || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const cards = Array.from(section.querySelectorAll('.smm-scale-card'));
+  const progressItems = Array.from(section.querySelectorAll('.smm-scale-progress span'));
+  if (!cards.length) return;
+
+  const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+  let stickyTops = [];
+  let frameId = null;
+  let isNearSection = false;
+  const measure = () => { stickyTops = cards.map(card => parseFloat(window.getComputedStyle(card).top) || 0); };
+
+  const update = () => {
+    frameId = null;
+    if (!isNearSection) return;
+    const viewportHeight = window.innerHeight;
+    const compact = window.innerWidth <= 767;
+    const rects = cards.map(card => card.getBoundingClientRect());
+    let activeIndex = 0;
+    rects.forEach((rect, index) => { if (rect.top <= Math.min(stickyTops[index] + viewportHeight * .2, viewportHeight * .56)) activeIndex = index; });
+    if (section.getBoundingClientRect().bottom <= viewportHeight * .52) activeIndex = cards.length - 1;
+    cards.forEach((card, index) => {
+      const surface = card.querySelector('.smm-scale-card__surface');
+      if (!surface) return;
+      const entry = clamp((viewportHeight * .94 - rects[index].top) / Math.max(viewportHeight * .48, 1), 0, 1);
+      const settle = index < cards.length - 1 ? clamp((viewportHeight * .78 - rects[index + 1].top) / Math.max(viewportHeight * .78 - stickyTops[index + 1], 1), 0, 1) : 0;
+      surface.style.setProperty('--smm-scale-enter', `${((1 - entry) * (compact ? 18 : 38)).toFixed(2)}px`);
+      surface.style.setProperty('--smm-scale-scale', (1 - settle * (compact ? .016 : .034)).toFixed(4));
+      surface.style.setProperty('--smm-scale-opacity', (index < activeIndex ? .9 : .58 + entry * .42).toFixed(3));
+      card.classList.toggle('is-active', index === activeIndex);
+    });
+    progressItems.forEach((item, index) => item.classList.toggle('is-active', index === activeIndex));
+  };
+  const requestUpdate = () => { if (isNearSection && frameId === null) frameId = requestAnimationFrame(update); };
+  const observer = new IntersectionObserver(entries => entries.forEach(entry => { isNearSection = entry.isIntersecting; if (isNearSection) requestUpdate(); }), { rootMargin: '80% 0px 80% 0px' });
+  observer.observe(section);
+  measure();
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', () => { measure(); requestUpdate(); });
+}
+
+/** Progressive disclosure for the social platform cards. */
+function initSmmPlatformReadMore() {
+  document.querySelectorAll('.smm-platform-card__toggle').forEach(button => {
+    button.addEventListener('click', () => {
+      const card = button.closest('.smm-platform-card');
+      const expanded = card.classList.toggle('is-expanded');
+      button.setAttribute('aria-expanded', String(expanded));
+      button.firstChild.textContent = expanded ? 'Read less ' : 'Read more ';
+    });
+  });
+}
+
+/** Progressive disclosure for the supporting Social Media hero copy. */
+function initSmmHeroReadMore() {
+  const button = document.querySelector('.smm-hero__more-toggle');
+  if (!button) return;
+
+  const content = document.getElementById(button.getAttribute('aria-controls'));
+  const label = button.querySelector('.smm-hero__more-toggle-label');
+  const intro = document.getElementById('smm-hero-intro');
+  const conclusion = document.getElementById('smm-hero-conclusion');
+  if (!content || !label || !intro || !conclusion) return;
+
+  button.addEventListener('click', () => {
+    const expanded = button.getAttribute('aria-expanded') === 'true';
+    const nextState = !expanded;
+    content.hidden = !nextState;
+    button.setAttribute('aria-expanded', String(nextState));
+    button.classList.toggle('is-expanded', nextState);
+    label.textContent = nextState ? 'Read less' : 'Read more';
+    (nextState ? conclusion : intro).append(' ', button);
+  });
+}
+
+/** Keep the Social Media phone mockup equal to its adjacent content column. */
+function initSmmHeroVisualHeight() {
+  const hero = document.querySelector('.hero--smm');
+  const content = hero?.querySelector('.hero__content');
+  if (!hero || !content || !('ResizeObserver' in window)) return;
+
+  const setHeight = () => {
+    if (window.innerWidth >= 1024) {
+      hero.style.setProperty('--smm-hero-content-height', `${Math.ceil(content.getBoundingClientRect().height)}px`);
+    } else {
+      hero.style.removeProperty('--smm-hero-content-height');
+    }
+  };
+
+  new ResizeObserver(setHeight).observe(content);
+  window.addEventListener('resize', setHeight, { passive: true });
+  setHeight();
+}
+
+/** Progressive disclosure for the Personal Branding hero copy. */
+function initPersonalBrandingHeroReadMore() {
+  const button = document.querySelector('.pb-hero__more-toggle');
+  if (!button) return;
+
+  const content = document.getElementById(button.getAttribute('aria-controls'));
+  const label = button.querySelector('.pb-hero__more-label');
+  const intro = document.getElementById('pb-hero-intro');
+  const conclusion = document.getElementById('pb-hero-conclusion');
+  if (!content || !label || !intro || !conclusion) return;
+
+  button.addEventListener('click', () => {
+    const nextState = button.getAttribute('aria-expanded') !== 'true';
+    content.hidden = !nextState;
+    button.setAttribute('aria-expanded', String(nextState));
+    button.classList.toggle('is-expanded', nextState);
+    label.textContent = nextState ? 'Read less' : 'Read more';
+    (nextState ? conclusion : intro).append(' ', button);
+  });
+}
+
+/** Progressive disclosure for the Personal Branding service-scope cards. */
+function initPersonalBrandingServiceReadMore() {
+  document.querySelectorAll('.pb-service-card__toggle').forEach(button => {
+    const content = document.getElementById(button.getAttribute('aria-controls'));
+    const label = button.childNodes[0];
+    if (!content || !label) return;
+
+    button.addEventListener('click', () => {
+      const nextState = button.getAttribute('aria-expanded') !== 'true';
+      content.hidden = !nextState;
+      button.setAttribute('aria-expanded', String(nextState));
+      button.closest('.pb-service-card')?.classList.toggle('is-expanded', nextState);
+      label.textContent = nextState ? 'Read less ' : 'Read more ';
+    });
+  });
+}
+
+/** Scroll-linked active state for Personal Branding's recognition stages. */
+function initPersonalBrandingRecognitionScroll() {
+  const section = document.querySelector('#pb-recognition');
+  if (!section || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const cards = Array.from(section.querySelectorAll('.pb-recognition-split__card'));
+  if (!cards.length) return;
+
+  let frameId = null;
+  const update = () => {
+    frameId = null;
+    const guide = window.innerHeight * .53;
+    let active = 0;
+    cards.forEach((card, index) => {
+      if (card.getBoundingClientRect().top <= guide) active = index;
+    });
+    cards.forEach((card, index) => card.classList.toggle('is-active', index === active));
+  };
+  const requestUpdate = () => {
+    if (frameId === null) frameId = requestAnimationFrame(update);
+  };
+  const observer = new IntersectionObserver(entries => {
+    if (entries.some(entry => entry.isIntersecting)) requestUpdate();
+  }, { rootMargin: '70% 0px 70% 0px' });
+
+  observer.observe(section);
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate, { passive: true });
+  requestUpdate();
+}
+
 function initLayout() {
   const headerContainer = document.getElementById('header-slot');
   const footerContainer = document.getElementById('footer-slot');
@@ -1652,6 +1818,13 @@ function initAnimations() {
   initHeroScrollAnimation();
   initSoftwareBuildBento();
   initSoftwareScaleStack();
+  initSmmChallengesStack();
+  initSmmPlatformReadMore();
+  initSmmHeroReadMore();
+  initSmmHeroVisualHeight();
+  initPersonalBrandingHeroReadMore();
+  initPersonalBrandingServiceReadMore();
+  initPersonalBrandingRecognitionScroll();
   initApplicationEcosystem();
   initApplicationComparison();
   initApplicationResponsiveShowcase();
